@@ -1,8 +1,8 @@
 # define language and JDK version, we use JAVA 8 and tha code should pass both with Oracle JDK and OpenJDK
 language: java
 jdk:
-  - oraclejdk8
-#  - openjdk8
+  - oraclejdk10
+  - openjdk10
 # Define OS image for TravisCI to use: Ubuntu 14.04 LTS (Trusty Tahr)
 dist: trusty
 # The selected image is headless (without display server), but for GUI related tests it is required, so the X virtual
