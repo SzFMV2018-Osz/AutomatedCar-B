@@ -26,8 +26,8 @@ if ENV["TRAVIS_EVENT_TYPE"] != "cron" then
     exit true
 end
 
-# run only on one of the environments (oraclejdk8 and openjdk8)
-if ENV["TRAVIS_JDK_VERSION"] != "oraclejdk8" then
+# run only on one of the environments (oraclejdk10 and openjdk10)
+if ENV["TRAVIS_JDK_VERSION"] != "oraclejdk10" then
     exit true
 end
 
@@ -41,7 +41,7 @@ def create_release
 end
 
 # set variables
-$owner = "SzFMV2018-Tavasz"
+$owner = "SzFMV2018-Osz"
 $repo = "AutomatedCar"
 $branch = "master"
 $tag = "nightly"
