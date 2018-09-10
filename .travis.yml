@@ -23,7 +23,9 @@ after_success:
   # this creates the report for Codacy's code coverage tracker
   #- java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
   # the actual testing and reporting
-  - mvn clean test jacoco:report coveralls:report
+  - mvn clean test jacoco:report coveralls:report cobertura:cobertura
+  # codecov reporting
+  - bash <(curl -s https://codecov.io/bash)
   # generate Javadoc
   - mvn javadoc:javadoc
   # publish Javadoc
