@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/SzFMV2018-Osz/AutomatedCar-B/branch/master/graph/badge.svg)](https://codecov.io/gh/SzFMV2018-Osz/AutomatedCar-B)
 [![API Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://szfmv2018-osz.github.io/AutomatedCar-B/javadoc/)
 [![forum](https://img.shields.io/badge/forum-Everyone-94B2E0.svg)](https://github.com/orgs/SzFMV2018-Osz/teams/everyone)[![forum](https://img.shields.io/badge/forum-Group%20B-91D8A9.svg)](https://github.com/orgs/SzFMV2018-Osz/teams/group-b)
-[![Slack](https://img.shields.io/badge/chat-on%20slack-4D394B.svg)](https://szfmv2018-osz.slack.com)
+[![Slack](https://img.shields.io/badge/chat-on%20slack-4D394B.svg)](https://szfmv2018-osz-b.slack.com)
 [![Handout](https://img.shields.io/badge/handout-wiki-yellow.svg)](https://szfmv2018-osz.github.io/handout/)
 
 
