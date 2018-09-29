@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.visualization;
 
+import hu.oe.nik.szfmv.common.Utils;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.function.ToDoubleBiFunction;
 
 /**
  * CourseDisplay is for providing a viewport to the virtual world where the simulation happens.
@@ -21,6 +23,7 @@ public class CourseDisplay extends JPanel {
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
+    private final double scaleMagicNumber = 0.5;
 
     /**
      * Initialize the course display
@@ -55,11 +58,24 @@ public class CourseDisplay extends JPanel {
             try {
                 // read file from resources
                 image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
-                g.drawImage(image, object.getX(), object.getY(), this); // see javadoc for more info on the parameters
+
+                //Set object height and width. Its not our task!
+                //Todo: delete this two line if T1 finished with WorldObject tasks.
+                object.setHeight(image.getHeight());
+                object.setWidth(image.getWidth());
+
+                g.drawImage(image, scaleObject(object.getX()), scaleObject(object.getY()),
+                        scaleObject(object.getWidth()), scaleObject(object.getHeight()), this); // see javadoc for more info on the parameters
             } catch (IOException e) {
                 LOGGER.error(e.getMessage());
             }
         }
+    }
+
+    //Scale object with a scaling magic number.
+    private int scaleObject(int unit)
+    {
+        return (int)(unit*scaleMagicNumber);
     }
 
     /**
