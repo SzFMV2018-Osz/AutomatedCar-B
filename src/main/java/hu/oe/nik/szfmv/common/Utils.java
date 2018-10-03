@@ -1,5 +1,17 @@
 package hu.oe.nik.szfmv.common;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.*;
+import java.util.List;
+
 public final class Utils {
 
     private static final int METER_PIXEL_RATIO = 50;
@@ -73,5 +85,16 @@ public final class Utils {
      */
     public static double radianToDegree(double rad) {
         return Math.toDegrees(rad);
+    }
+
+    public static Document xmlReader() throws ParserConfigurationException, IOException, SAXException {
+
+        File testWorldXml = new File("src/main/resources/test_world.xml");
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = dbFactory.newDocumentBuilder();
+        Document testWorld = documentBuilder.parse(testWorldXml);
+        testWorld.getDocumentElement().normalize();
+
+        return testWorld;
     }
 }
