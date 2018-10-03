@@ -55,10 +55,10 @@ public class Main {
 
                 // FIX FPS
                 cycle_length = cal.getTimeInMillis() - cycle_start;
-
                 // Szükséges késleltetési idő kiszámítása (eltelt idő * TARGET FPS)
                 CYCLE_PERIOD = (int)(1000 - (cycle_length * TARGET_FPS)) / TARGET_FPS;
                 System.out.println("FPS/TARGET FPS: " + (1000/CYCLE_PERIOD) + "/" + TARGET_FPS);
+                
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());
