@@ -1,11 +1,18 @@
 package hu.oe.nik.szfmv.automatedcar.bus.userinput;
 
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.Gear;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.PedalType;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IPedalEventHandler;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IShiftingEventHandler;
+import hu.oe.nik.szfmv.common.ConfigProvider;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.Date;
 
 public class KeyboardUserInputTest {
     @Rule
@@ -81,11 +88,52 @@ public class KeyboardUserInputTest {
         Assert.assertEquals(0, kui.getSteeringEventHandlers().size());
     }
 
+    @Test
+    public void testShiftingHandling(){
+        ShiftingHandlerFake fake=new ShiftingHandlerFake();
+        KeyboardUserInput kui=new KeyboardUserInput();
+        kui.subscribeShiftingEvents(fake);
+        Component dummy=new Component() {
+            @Override
+            public String getName() {
+                return super.getName();
+            }
+        };
+        int keyCode=ConfigProvider.provide().getLong("keyboard.gear_p").intValue();
+        KeyEvent e= new KeyEvent(dummy,0,new Date().getTime(),0,keyCode,KeyEvent.CHAR_UNDEFINED);
+
+        for(int i=0;i<3;i++)
+            kui.keyPressed(e);
+        kui.keyReleased(e);
+
+        Assert.assertEquals(1, fake.getCounter());
+        Assert.assertSame(fake.getGear(), Gear.P);
+    }
+
     class PedalHandlerDummy implements IPedalEventHandler
     {
         @Override
         public void onPedalPush() {}
         @Override
         public void onPedalRelease() {}
+    }
+
+    class ShiftingHandlerFake implements IShiftingEventHandler
+    {
+        private int counter=0;
+        private Gear gear=null;
+
+        public int getCounter(){
+            return counter;
+        }
+        public Gear getGear(){
+            return gear;
+        }
+
+        @Override
+        public void onShifting(Gear gear) {
+            this.counter++;
+            this.gear=gear;
+        }
     }
 }
