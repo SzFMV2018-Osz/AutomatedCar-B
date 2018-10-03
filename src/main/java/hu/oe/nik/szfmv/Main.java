@@ -22,6 +22,7 @@ public class Main {
     // Az aktuális renderelési és számítási ciklus hossza
     private static long cycle_length;
 
+    //Proba dlfaséjdf
     /**
      * Main entrypoint of the software
      *
