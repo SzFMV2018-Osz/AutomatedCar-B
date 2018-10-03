@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.automatedcar.engine;
 
-public class StandardCarEngine implements CarEngine {
+public class StandardCarEngineType implements CarEngineType {
 
     private final int gearCount;
     private final int maxRpm;
@@ -11,7 +11,7 @@ public class StandardCarEngine implements CarEngine {
     private final int torqueCurveStepSize;
     private final int backGearShiftRpm;
 
-    public StandardCarEngine() {
+    public StandardCarEngineType() {
 	this.gearCount = 6;
 	this.maxRpm = 6000;
 	this.gearShiftRpm = 3000;

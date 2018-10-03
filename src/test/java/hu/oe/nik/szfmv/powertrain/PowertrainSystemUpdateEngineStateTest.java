@@ -4,11 +4,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.internal.util.reflection.FieldSetter;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.engine.GearBox;
+import hu.oe.nik.szfmv.automatedcar.engine.StandardCarEngineType;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -18,13 +18,13 @@ public class PowertrainSystemUpdateEngineStateTest {
 
     private PowertrainSystem underTest;
 
-    @Mock
-    private VirtualFunctionBus virtualFunctionBus;
+    private GearBox gearBox;
 
     @Before
     public void setUp() throws Exception {
-	virtualFunctionBus = Mockito.mock(VirtualFunctionBus.class);
-	underTest = new PowertrainSystem(virtualFunctionBus);
+	underTest = new PowertrainSystem(new VirtualFunctionBus());
+	gearBox = new GearBox(new StandardCarEngineType());
+	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("gearBox"), gearBox);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class PowertrainSystemUpdateEngineStateTest {
     public void testUpdateRpmInSecondGear(final double carSpeed, final double wheelRadius, final int expectedRpm)
 	    throws Exception {
 	// GIVEN
-	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 2);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 2);
 	// WHEN
 	underTest.updateEngine(carSpeed / wheelRadius);
 	// THEN
@@ -54,7 +54,7 @@ public class PowertrainSystemUpdateEngineStateTest {
     public void testUpdateRpmInThirdGear(final double carSpeed, final double wheelRadius, final int expectedRpm)
 	    throws Exception {
 	// GIVEN
-	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 3);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 3);
 	// WHEN
 	underTest.updateEngine(carSpeed / wheelRadius);
 	// THEN
@@ -66,7 +66,7 @@ public class PowertrainSystemUpdateEngineStateTest {
     public void testUpdateRpmInFourthGear(final double carSpeed, final double wheelRadius, final int expectedRpm)
 	    throws Exception {
 	// GIVEN
-	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 4);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 4);
 	// WHEN
 	underTest.updateEngine(carSpeed / wheelRadius);
 	// THEN
@@ -78,7 +78,7 @@ public class PowertrainSystemUpdateEngineStateTest {
     public void testUpdateRpmInFifthGear(final double carSpeed, final double wheelRadius, final int expectedRpm)
 	    throws Exception {
 	// GIVEN
-	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 5);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 5);
 	// WHEN
 	underTest.updateEngine(carSpeed / wheelRadius);
 	// THEN
@@ -90,7 +90,7 @@ public class PowertrainSystemUpdateEngineStateTest {
     public void testUpdateRpmInSixthGear(final double carSpeed, final double wheelRadius, final int expectedRpm)
 	    throws Exception {
 	// GIVEN
-	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 6);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 6);
 	// WHEN
 	underTest.updateEngine(carSpeed / wheelRadius);
 	// THEN
@@ -109,7 +109,7 @@ public class PowertrainSystemUpdateEngineStateTest {
     @Test
     public void testUpdateRpmShouldShiftGearToThirdIfTheRpmIsOverTheLimit() throws Exception {
 	// GIVEN
-	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 2);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 2);
 	// WHEN
 	underTest.updateEngine(30 / 0.33);
 	// THEN
@@ -119,7 +119,7 @@ public class PowertrainSystemUpdateEngineStateTest {
     @Test
     public void testUpdateRpmShouldShiftGearToFourthIfTheRpmIsOverTheLimit() throws Exception {
 	// GIVEN
-	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 3);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 3);
 	// WHEN
 	underTest.updateEngine(30 / 0.33);
 	// THEN
@@ -129,7 +129,7 @@ public class PowertrainSystemUpdateEngineStateTest {
     @Test
     public void testUpdateRpmShouldShiftGearToFifthIfTheRpmIsOverTheLimit() throws Exception {
 	// GIVEN
-	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 4);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 4);
 	// WHEN
 	underTest.updateEngine(40 / 0.33);
 	// THEN
@@ -139,7 +139,7 @@ public class PowertrainSystemUpdateEngineStateTest {
     @Test
     public void testUpdateRpmShouldShiftGearToSixthIfTheRpmIsOverTheLimit() throws Exception {
 	// GIVEN
-	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 5);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 5);
 	// WHEN
 	underTest.updateEngine(50 / 0.33);
 	// THEN
@@ -149,7 +149,7 @@ public class PowertrainSystemUpdateEngineStateTest {
     @Test
     public void testUpdateRpmShouldShiftBackToFirstWhenTheRpmIsUnderTheLimit() throws Exception {
 	// GIVEN
-	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 2);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 2);
 	// WHEN
 	underTest.updateEngine(10 / 0.33);
 	// THEN
@@ -159,7 +159,7 @@ public class PowertrainSystemUpdateEngineStateTest {
     @Test
     public void testUpdateRpmShouldShiftBackToSecondWhenTheRpmIsUnderTheLimit() throws Exception {
 	// GIVEN
-	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 3);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 3);
 	// WHEN
 	underTest.updateEngine(10 / 0.33);
 	// THEN
@@ -169,7 +169,7 @@ public class PowertrainSystemUpdateEngineStateTest {
     @Test
     public void testUpdateRpmShouldShiftBackToThirdWhenTheRpmIsUnderTheLimit() throws Exception {
 	// GIVEN
-	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 4);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 4);
 	// WHEN
 	underTest.updateEngine(10 / 0.33);
 	// THEN
@@ -179,7 +179,7 @@ public class PowertrainSystemUpdateEngineStateTest {
     @Test
     public void testUpdateRpmShouldShiftBackToFourthWhenTheRpmIsUnderTheLimit() throws Exception {
 	// GIVEN
-	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 5);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 5);
 	// WHEN
 	underTest.updateEngine(10 / 0.33);
 	// THEN
@@ -189,7 +189,7 @@ public class PowertrainSystemUpdateEngineStateTest {
     @Test
     public void testUpdateRpmShouldShiftBackToFifthWhenTheRpmIsUnderTheLimit() throws Exception {
 	// GIVEN
-	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 6);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 6);
 	// WHEN
 	underTest.updateEngine(10 / 0.33);
 	// THEN
