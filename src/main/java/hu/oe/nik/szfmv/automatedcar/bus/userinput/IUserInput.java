@@ -6,7 +6,9 @@ import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IPedalEventHandl
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IShiftingEventHandler;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.ISteeringEventHandler;
 
-public interface IUserInput {
+import java.awt.event.KeyListener;
+
+public interface IUserInput extends KeyListener {
     /**
      * @throws UnsupportedOperationException if the given implementation does not support this pedal type.
      * @throws IllegalArgumentException if the given parameter is invalid.
