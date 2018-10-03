@@ -23,7 +23,7 @@ public class CourseDisplay extends JPanel {
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
-    private final double scaleMagicNumber = 0.5;
+    private final double SCALING_FACTOR = 0.5;
 
     /**
      * Initialize the course display
@@ -75,7 +75,7 @@ public class CourseDisplay extends JPanel {
     //Scale object with a scaling magic number.
     private int scaleObject(int unit)
     {
-        return (int)(unit*scaleMagicNumber);
+        return (int)(unit*SCALING_FACTOR);
     }
 
     /**
