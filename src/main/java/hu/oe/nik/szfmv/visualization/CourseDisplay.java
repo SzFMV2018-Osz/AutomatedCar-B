@@ -23,6 +23,7 @@ public class CourseDisplay extends JPanel {
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
+    //Magic Number -> Scalesing
     private final double SCALING_FACTOR = 0.5;
 
     /**
@@ -34,6 +35,7 @@ public class CourseDisplay extends JPanel {
         setBounds(0, 0, width, height);
         setBackground(new Color(backgroundColor));
     }
+
 
     /**
      * Draws the world to the course display

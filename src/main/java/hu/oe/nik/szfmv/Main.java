@@ -29,6 +29,7 @@ public class Main {
      */
     public static void main(String[] args) {
 
+
         // log the current debug mode in config
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
 
