@@ -39,7 +39,7 @@ public class AutomatedCar extends WorldObject {
      * Provides a sample method for modifying the position of the car.
      */
     public void drive() {
-	double wheelRotationRate = speedMetersPerSeconds / wheelRadius;
+	final double wheelRotationRate = speedMetersPerSeconds / wheelRadius;
 	powertrainSystem.updateEngine(wheelRotationRate);
 	virtualFunctionBus.loop();
 
@@ -52,8 +52,8 @@ public class AutomatedCar extends WorldObject {
      */
     private void calculatePositionAndOrientation() {
 	// TODO it is just a fake implementation
-	double speed = speedMetersPerSeconds;
-	double angularSpeed = steeringSystem.getAngularSpeed();
+	final double speed = speedMetersPerSeconds;
+	final double angularSpeed = steeringSystem.getAngularSpeed();
 
 	x += speed;
 	y = 0;

@@ -1,20 +1,21 @@
 package hu.oe.nik.szfmv.automatedcar.engine;
 
-public interface CarEngine {
+public class CarEngine {
 
-    int getTorqueCurveStepSize();
+    private CarEngineType engineType;
+    private int rpm;
 
-    int[] getTorqueCurve();
+    public CarEngine(final CarEngineType engineType) {
+	this.engineType = engineType;
+	rpm = 0;
+    }
 
-    double[] getGearRatios();
+    public int getRpm() {
+	return rpm;
+    }
 
-    int getGearCount();
-
-    int getMaxRpm();
-
-    int getGearShiftRpm();
-
-    int getBackGearShiftRpm();
-
-    double getGearDifferentialRatio();
+    public void updateRpm(final double wheelRotationRate, final int currentGear) {
+	rpm = (int) ((wheelRotationRate * engineType.getGearRatios()[currentGear]
+		* engineType.getGearDifferentialRatio() * 60) / (2 * Math.PI));
+    }
 }

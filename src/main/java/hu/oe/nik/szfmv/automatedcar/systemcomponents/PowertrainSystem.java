@@ -2,16 +2,18 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.engine.CarEngine;
-import hu.oe.nik.szfmv.automatedcar.engine.StandardCarEngine;
+import hu.oe.nik.szfmv.automatedcar.engine.CarEngineType;
+import hu.oe.nik.szfmv.automatedcar.engine.GearBox;
+import hu.oe.nik.szfmv.automatedcar.engine.StandardCarEngineType;
 
 /**
  * Powertrain system is responsible for the movement of the car.
  */
 public class PowertrainSystem extends SystemComponent {
 
-    private final CarEngine engine;
-    private int rpm;
-    private int currentGear;
+    private final CarEngineType engineType;
+    private CarEngine engine;
+    private GearBox gearBox;
 
     /**
      * Creates a powertrain system that connects the Virtual Function Bus
@@ -21,17 +23,17 @@ public class PowertrainSystem extends SystemComponent {
      */
     public PowertrainSystem(final VirtualFunctionBus virtualFunctionBus) {
 	super(virtualFunctionBus);
-	engine = new StandardCarEngine();
-	rpm = 0;
-	currentGear = 1;
+	engineType = new StandardCarEngineType();
+	engine = new CarEngine(engineType);
+	gearBox = new GearBox(engineType);
     }
 
     public int getRpm() {
-	return rpm;
+	return engine.getRpm();
     }
 
     public int getCurrentGear() {
-	return currentGear;
+	return gearBox.getCurrentGear();
     }
 
     @Override
@@ -41,25 +43,8 @@ public class PowertrainSystem extends SystemComponent {
 
     public void updateEngine(final double wheelRotationRate) {
 	if (wheelRotationRate >= 0) {
-	    updateEngineState(wheelRotationRate);
-	}
-    }
-
-    private void updateEngineState(final double wheelRotationRate) {
-	rpm = calculateRpm(wheelRotationRate);
-	updateGear();
-    }
-
-    private int calculateRpm(final double wheelRotationRate) {
-	return (int) ((wheelRotationRate * engine.getGearRatios()[currentGear] * engine.getGearDifferentialRatio() * 60)
-		/ (2 * Math.PI));
-    }
-
-    private void updateGear() {
-	if ((currentGear < engine.getGearCount()) && (rpm > engine.getGearShiftRpm())) {
-	    currentGear++;
-	} else if ((currentGear > 1) && (rpm < engine.getBackGearShiftRpm())) {
-	    currentGear--;
+	    engine.updateRpm(wheelRotationRate, gearBox.getCurrentGear());
+	    gearBox.updateGear(engine.getRpm());
 	}
     }
 }
