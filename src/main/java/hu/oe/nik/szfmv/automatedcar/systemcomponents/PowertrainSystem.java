@@ -35,8 +35,7 @@ public class PowertrainSystem extends SystemComponent {
         return gearBox.getCurrentGear();
     }
 
-    public TransmissionModes getCurrentAutomaticTransmissionModes()
-    {
+    public TransmissionModes getCurrentAutomaticTransmissionModes() {
         return gearBox.getTransmissionModes();
     }
 
@@ -46,10 +45,10 @@ public class PowertrainSystem extends SystemComponent {
     }
 
     public void updateEngine(final double wheelRotationRate) {
-	if (wheelRotationRate >= 0 && gearBox.getTransmissionModes().getCanItMove()) {
-	    engine.updateRpm(wheelRotationRate, gearBox.getCurrentGear());
-	    gearBox.updateGear(engine.getRpm());
-	}
+        if (wheelRotationRate >= 0 && gearBox.getTransmissionModes().getCanItMove()) {
+            engine.updateRpm(wheelRotationRate, gearBox.getCurrentGear());
+            gearBox.updateGear(engine.getRpm());
+        }
 
     }
 }
