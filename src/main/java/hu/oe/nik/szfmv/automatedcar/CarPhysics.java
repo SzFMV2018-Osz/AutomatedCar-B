@@ -4,7 +4,8 @@ package hu.oe.nik.szfmv.automatedcar;
  * Contains functions and constants to calculate
  * physical forces
  */
-public class CarPhysics {
+public class CarPhysics
+{
     private static double aeroDrag = 0.05;
 
     /**
@@ -12,10 +13,10 @@ public class CarPhysics {
      * @param vy the y component of the velocity vector
      * @return air resistance array of component values
      */
-    public static double[] CalcAirResistanceVector(double vx, double vy ){
+    public static double[] CalcAirResistanceVector(double vx, double vy) {
         double[] aDrag = new double[2];
 
-        if(vx != 0.0 || vy != 0.0)
+        if (vx != 0.0 || vy != 0.0)
         {
             double vLen = Math.sqrt(vx * vx + vy * vy);
 
