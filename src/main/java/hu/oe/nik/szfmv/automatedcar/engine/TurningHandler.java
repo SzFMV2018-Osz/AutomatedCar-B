@@ -28,7 +28,10 @@ public class TurningHandler {
 
 
     private double turningCircleCalculation(final int steeringWheelState) {
-        return (carAxisParams.getAxisLengthPixel() / Math.tan(Math.toRadians(steeringWheelState)) + carAxisParams.getCarWidthPixel()) / carAxisParams.getPixelToMeter();
+        return (carAxisParams.getAxisLengthPixel()
+                / Math.tan(Math.toRadians(steeringWheelState))
+                + carAxisParams.getCarWidthPixel())
+                / carAxisParams.getPixelToMeter();
     }
 
 
