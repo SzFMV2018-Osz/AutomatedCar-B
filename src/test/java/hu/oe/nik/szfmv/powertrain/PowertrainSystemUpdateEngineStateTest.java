@@ -1,17 +1,17 @@
 package hu.oe.nik.szfmv.powertrain;
 
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.engine.GearBox;
+import hu.oe.nik.szfmv.automatedcar.engine.StandardCarEngineType;
+import hu.oe.nik.szfmv.automatedcar.engine.TransmissionModes;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.internal.util.reflection.FieldSetter;
-
-import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.engine.GearBox;
-import hu.oe.nik.szfmv.automatedcar.engine.StandardCarEngineType;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
 
 @RunWith(JUnitParamsRunner.class)
 public class PowertrainSystemUpdateEngineStateTest {
@@ -20,11 +20,13 @@ public class PowertrainSystemUpdateEngineStateTest {
 
     private GearBox gearBox;
 
+
     @Before
     public void setUp() throws Exception {
 	underTest = new PowertrainSystem(new VirtualFunctionBus());
 	gearBox = new GearBox(new StandardCarEngineType());
 	FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("gearBox"), gearBox);
+	FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("transmissionModes"), TransmissionModes.Drive);
     }
 
     @Test
@@ -35,6 +37,20 @@ public class PowertrainSystemUpdateEngineStateTest {
 	underTest.updateEngine(carSpeed / wheelRadius);
 	// THEN
 	Assert.assertEquals(expectedRpm, underTest.getRpm());
+    }
+
+    @Test
+    @Parameters({ "0|0.33|0", "10|0.33|1475", "20|0.33|2951", "30|0.33|4427", "40|0.33|5903", "50|0.33|7379" })
+    public void testNeutralTransmissionMode(final double carSpeed, final double wheelRadius, final int expectedRpm)
+            throws Exception {
+        // GIVEN
+        FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("currentGear"), 2);
+        FieldSetter.setField(gearBox, gearBox.getClass().getDeclaredField("transmissionModes"), TransmissionModes.Neutral);
+        int actualRpm= (int)(carSpeed / wheelRadius);
+        // WHEN
+        underTest.updateEngine(actualRpm);
+        // THEN
+        Assert.assertEquals(0, underTest.getRpm());
     }
 
     @Test
