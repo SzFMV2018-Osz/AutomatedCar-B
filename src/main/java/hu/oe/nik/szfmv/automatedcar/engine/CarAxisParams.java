@@ -2,11 +2,11 @@ package hu.oe.nik.szfmv.automatedcar.engine;
 
 public interface CarAxisParams {
 
-    int getCarWidthPixel() ;
+    int getCarWidthPixel();
 
-   int getAxisLengthPixel();
+    int getAxisLengthPixel();
 
-   int getMaxTurningPercent();
+    int getMaxTurningPercent();
 
 
 }

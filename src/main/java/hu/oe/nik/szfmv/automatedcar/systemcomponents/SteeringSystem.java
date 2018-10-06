@@ -18,17 +18,16 @@ public class SteeringSystem extends SystemComponent {
      */
     public SteeringSystem(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
-        turningHandler=new TurningHandler();
+        turningHandler = new TurningHandler();
     }
 
     @Override
     public void loop() {
-    //TODO
+        //TODO
     }
 
-    public void updateAngularSpeed(final int steeringWheelState,final int speed)
-    {
-           angularSpeed = turningHandler.angularVelocityCalculation(steeringWheelState,speed);
+    public void updateAngularSpeed(final int steeringWheelState, final int speed) {
+        angularSpeed = turningHandler.angularVelocityCalculation(steeringWheelState, speed);
     }
 
     public double getAngularSpeed() {
