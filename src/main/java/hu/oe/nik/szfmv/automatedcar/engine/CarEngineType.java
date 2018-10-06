@@ -17,4 +17,6 @@ public interface CarEngineType {
     int getBackGearShiftRpm();
 
     double getGearDifferentialRatio();
+
+    double getTransmissionEffiency();
 }
