@@ -26,6 +26,11 @@ public class SteeringSystem extends SystemComponent {
         //TODO
     }
 
+    /**
+     * update angular speed
+     * @param steeringWheelState actual steering wheel state
+     * @param speed actual speed
+     */
     public void updateAngularSpeed(final int steeringWheelState, final int speed) {
         angularSpeed = turningHandler.angularVelocityCalculation(steeringWheelState, speed);
     }

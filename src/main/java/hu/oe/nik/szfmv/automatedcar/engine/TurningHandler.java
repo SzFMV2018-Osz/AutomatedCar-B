@@ -5,6 +5,9 @@ public class TurningHandler {
 
     CarAxisParams carAxisParams;
 
+    /**
+     * turning handler constructor inicialize car axis params
+     */
     public TurningHandler() {
         this.carAxisParams = new CarAxisParamsImpl();
     }
@@ -25,7 +28,7 @@ public class TurningHandler {
 
 
     private double turningCircleCalculation(final int steeringWheelState) {
-        return (carAxisParams.getAxisLengthPixel() / Math.tan(Math.toRadians(steeringWheelState)) + carAxisParams.getCarWidthPixel()) / 50;
+        return (carAxisParams.getAxisLengthPixel() / Math.tan(Math.toRadians(steeringWheelState)) + carAxisParams.getCarWidthPixel()) / carAxisParams.getPixelToMeter();
     }
 
 
