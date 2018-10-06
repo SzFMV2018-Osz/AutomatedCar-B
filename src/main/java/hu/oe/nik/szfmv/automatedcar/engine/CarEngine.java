@@ -6,16 +6,16 @@ public class CarEngine {
     private int rpm;
 
     public CarEngine(final CarEngineType engineType) {
-	this.engineType = engineType;
-	rpm = 0;
+        this.engineType = engineType;
+        rpm = 0;
     }
 
     public int getRpm() {
-	return rpm;
+        return rpm;
     }
 
     public void updateRpm(final double wheelRotationRate, final int currentGear) {
-	rpm = (int) ((wheelRotationRate * engineType.getGearRatios()[currentGear]
-		* engineType.getGearDifferentialRatio() * 60) / (2 * Math.PI));
+        rpm = (int) ((wheelRotationRate * engineType.getGearRatios()[currentGear]
+                * engineType.getGearDifferentialRatio() * 60) / (2 * Math.PI));
     }
 }

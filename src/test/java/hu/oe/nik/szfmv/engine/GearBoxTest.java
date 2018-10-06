@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.engine;
 
+import hu.oe.nik.szfmv.automatedcar.engine.exception.TransmissionModeChangeException;
+import hu.oe.nik.szfmv.automatedcar.engine.TransmissionModes;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -238,4 +240,101 @@ public class GearBoxTest {
 	// THEN
 	Assert.assertEquals(6, underTest.getCurrentGear());
     }
+
+    @Test
+    public void testDriveTransmissionModeHandlerDriveToReserveNotNullRPM() throws Exception {
+        // GIVEN
+        FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("transmissionModes"), TransmissionModes.Drive);
+        // WHEN
+        try {
+            underTest.changeTransmissionMode(TransmissionModes.Reverse,10);
+            Assert.assertTrue(false);
+        }
+        catch (TransmissionModeChangeException e)
+        {
+            Assert.assertTrue(true);
+            Assert.assertEquals(e.getCurrent(),TransmissionModes.Drive);
+            Assert.assertEquals(e.getNext(),TransmissionModes.Reverse);
+        }
+    }
+
+    @Test
+    public void testDriveTransmissionModeHandlerDriveToReserveNotOneGear() throws Exception {
+        // GIVEN
+        FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 5);
+        FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("transmissionModes"), TransmissionModes.Drive);
+        // WHEN
+        try {
+            underTest.changeTransmissionMode(TransmissionModes.Reverse,0);
+            Assert.assertTrue(false);
+        }
+        catch (TransmissionModeChangeException e)
+        {
+            Assert.assertTrue(true);
+            Assert.assertEquals(e.getCurrent(),TransmissionModes.Drive);
+            Assert.assertEquals(e.getNext(),TransmissionModes.Reverse);
+        }
+    }
+
+
+    @Test
+    public void testDriveTransmissionModeHandlerDriveToReserveWithNullRPM() throws Exception {
+        // GIVEN
+        FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("transmissionModes"), TransmissionModes.Drive);
+        // WHEN
+            underTest.changeTransmissionMode(TransmissionModes.Reverse,0);
+            Assert.assertEquals(underTest.getTransmissionModes(),TransmissionModes.Reverse);
+            Assert.assertEquals(underTest.getCurrentGear(),0);
+    }
+
+    @Test
+    public void testDriveTransmissionModeHandlerReserveToDriveNotNullRPM() throws Exception {
+        // GIVEN
+        FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("transmissionModes"), TransmissionModes.Reverse);
+        // WHEN
+        try {
+            underTest.changeTransmissionMode(TransmissionModes.Drive,10);
+            Assert.assertTrue(false);
+        }
+        catch (TransmissionModeChangeException e)
+        {
+            Assert.assertTrue(true);
+            Assert.assertEquals(e.getCurrent(),TransmissionModes.Reverse);
+            Assert.assertEquals(e.getNext(),TransmissionModes.Drive);
+        }
+    }
+
+
+  @Test
+    public void testDriveTransmissionModeHandlerReserveToDriveWithNullRPM() throws Exception {
+        // GIVEN
+        FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("transmissionModes"), TransmissionModes.Reverse);
+        // WHEN
+        underTest.changeTransmissionMode(TransmissionModes.Drive,0);
+        Assert.assertEquals(underTest.getTransmissionModes(),TransmissionModes.Drive);
+        Assert.assertEquals(underTest.getCurrentGear(),1);
+    }
+
+    @Test
+    public void testDriveTransmissionModeHandlerParkToDrive() throws Exception {
+        // GIVEN
+        FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("transmissionModes"), TransmissionModes.Park);
+        // WHEN
+        underTest.changeTransmissionMode(TransmissionModes.Drive,0);
+        Assert.assertEquals(underTest.getTransmissionModes(),TransmissionModes.Drive);
+        Assert.assertEquals(underTest.getCurrentGear(),1);
+    }
+
+    @Test
+    public void testDriveTransmissionModeHandlerNeutralToDrive() throws Exception {
+        // GIVEN
+        FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("transmissionModes"), TransmissionModes.Drive);
+        FieldSetter.setField(underTest, underTest.getClass().getDeclaredField("currentGear"), 5);
+        // WHEN
+        underTest.changeTransmissionMode(TransmissionModes.Neutral,2000);
+        Assert.assertEquals(underTest.getTransmissionModes(),TransmissionModes.Neutral);
+        Assert.assertEquals(underTest.getCurrentGear(),5);
+    }
+
+
 }
