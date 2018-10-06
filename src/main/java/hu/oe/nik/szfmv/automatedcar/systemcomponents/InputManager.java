@@ -6,7 +6,10 @@ import hu.oe.nik.szfmv.automatedcar.bus.userinput.IUserInput;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
 
-public class InputManager extends SystemComponent{
+/*
+ * InputManager is responsible for the transportation of the HMI inputs
+ */
+public class InputManager extends SystemComponent {
 
     private final IUserInput userInput = UserInputProvider.getUserInput(InputType.Keyboard);
 
@@ -15,7 +18,7 @@ public class InputManager extends SystemComponent{
     public InputManager(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
         this.indicationPacket = new IndicationPacket(userInput);
-        virtualFunctionBus.indicationPacket=this.indicationPacket;
+        virtualFunctionBus.indicationPacket = this.indicationPacket;
     }
 
     @Override
