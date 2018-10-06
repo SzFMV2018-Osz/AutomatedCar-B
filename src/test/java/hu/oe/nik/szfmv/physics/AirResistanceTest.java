@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.physics;
 
-import hu.oe.nik.szfmv.automatedcar.CarPhysics;
+import hu.oe.nik.szfmv.automatedcar.BrakingForces;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Assert;
@@ -17,7 +17,7 @@ public class AirResistanceTest {
         double[] expectedAirResist = {0.0, 0.0};
         double[] airResist;
         // WHEN
-        airResist = CarPhysics.calcAirResistanceVector(0.0, 0.0);
+        airResist = BrakingForces.calcAirResistanceVector(0.0, 0.0);
         // THEN
         Assert.assertEquals(expectedAirResist[0], airResist[0], 0.0);
         Assert.assertEquals(expectedAirResist[1], airResist[1], 0.0);
@@ -31,7 +31,7 @@ public class AirResistanceTest {
     {
         // GIVEN
         // WHEN
-        double[] airResist = CarPhysics.calcAirResistanceVector(vx, vy);
+        double[] airResist = BrakingForces.calcAirResistanceVector(vx, vy);
 
         double dot = airResist[0] * vx + airResist[1] * vy;
         double airResLen = Math.sqrt(airResist[0] * airResist[0] + airResist[1] * airResist[1]);
@@ -55,7 +55,7 @@ public class AirResistanceTest {
             // WHEN
             vx += 1;
 
-            double[] res = CarPhysics.calcAirResistanceVector(vx, 0.0);
+            double[] res = BrakingForces.calcAirResistanceVector(vx, 0.0);
 
             // THEN
             Assert.assertTrue(arx > res[0]);
