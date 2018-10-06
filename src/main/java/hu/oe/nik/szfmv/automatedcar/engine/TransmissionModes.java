@@ -5,6 +5,10 @@ public enum TransmissionModes {
 
     private final boolean canItMove;
 
+    /**
+     * transsmission mode constructor
+     * @param canItMove you accelerate if it is true
+     */
     TransmissionModes(final boolean canItMove) {
         this.canItMove = canItMove;
     }

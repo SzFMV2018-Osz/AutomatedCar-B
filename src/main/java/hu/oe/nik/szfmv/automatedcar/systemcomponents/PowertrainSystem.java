@@ -1,7 +1,12 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.engine.*;
+import hu.oe.nik.szfmv.automatedcar.engine.CarEngine;
+import hu.oe.nik.szfmv.automatedcar.engine.CarEngineType;
+import hu.oe.nik.szfmv.automatedcar.engine.GearBox;
+import hu.oe.nik.szfmv.automatedcar.engine.StandardCarEngineType;
+import hu.oe.nik.szfmv.automatedcar.engine.TransmissionModes;
+
 
 /**
  * Powertrain system is responsible for the movement of the car.

@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.engine;
 
-import hu.oe.nik.szfmv.automatedcar.engine.Exception.TransmissionModeChangeException;
+import hu.oe.nik.szfmv.automatedcar.engine.exception.TransmissionModeChangeException;
 import hu.oe.nik.szfmv.automatedcar.engine.TransmissionModes;
 import org.junit.Assert;
 import org.junit.Before;

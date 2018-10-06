@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.automatedcar.engine;
 
-import hu.oe.nik.szfmv.automatedcar.engine.Exception.TransmissionModeChangeException;
+import hu.oe.nik.szfmv.automatedcar.engine.exception.TransmissionModeChangeException;
 
 public class GearBox {
 
@@ -29,6 +29,12 @@ public class GearBox {
         }
     }
 
+    /**
+     * Change transmission mode if it is possible
+     * @param nextTransmissionMode nex transnmission mode
+     * @param rpm actual rmp
+     * @throws TransmissionModeChangeException if you want to change mode but it is impossible
+     */
     public void changeTransmissionMode(TransmissionModes nextTransmissionMode, final int rpm)
             throws TransmissionModeChangeException {
         if (nextTransmissionMode == TransmissionModes.Neutral) {
@@ -61,6 +67,5 @@ public class GearBox {
             this.currentGear = 1;
         }
     }
-
 
 }
