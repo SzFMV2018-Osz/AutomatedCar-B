@@ -12,53 +12,53 @@ public class StandardCarEngineType implements CarEngineType {
     private final int backGearShiftRpm;
 
     public StandardCarEngineType() {
-	this.gearCount = 6;
-	this.maxRpm = 6000;
-	this.gearShiftRpm = 3000;
-	this.gearDifferentialRatio = 3;
-	this.gearRatios = new double[] { 2.9, 2.6, 1.7, 1.3, 1, 0.7, 0.5 };
-	this.torqueCurve = new int[] { 400, 440, 460, 480, 470, 400 };
-	this.torqueCurveStepSize = 1000;
-	this.backGearShiftRpm = 1500;
+        this.gearCount = 6;
+        this.maxRpm = 6000;
+        this.gearShiftRpm = 3000;
+        this.gearDifferentialRatio = 3;
+        this.gearRatios = new double[]{2.9, 2.6, 1.7, 1.3, 1, 0.7, 0.5};
+        this.torqueCurve = new int[]{400, 440, 460, 480, 470, 400};
+        this.torqueCurveStepSize = 1000;
+        this.backGearShiftRpm = 1500;
     }
 
     @Override
     public int getGearCount() {
-	return gearCount;
+        return gearCount;
     }
 
     @Override
     public int getMaxRpm() {
-	return maxRpm;
+        return maxRpm;
     }
 
     @Override
     public int getGearShiftRpm() {
-	return gearShiftRpm;
+        return gearShiftRpm;
     }
 
     @Override
     public double getGearDifferentialRatio() {
-	return gearDifferentialRatio;
+        return gearDifferentialRatio;
     }
 
     @Override
     public double[] getGearRatios() {
-	return gearRatios;
+        return gearRatios;
     }
 
     @Override
     public int[] getTorqueCurve() {
-	return torqueCurve;
+        return torqueCurve;
     }
 
     @Override
     public int getTorqueCurveStepSize() {
-	return torqueCurveStepSize;
+        return torqueCurveStepSize;
     }
 
     @Override
     public int getBackGearShiftRpm() {
-	return backGearShiftRpm;
+        return backGearShiftRpm;
     }
 }
