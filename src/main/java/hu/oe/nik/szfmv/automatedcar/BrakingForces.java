@@ -4,7 +4,7 @@ package hu.oe.nik.szfmv.automatedcar;
  * Contains functions and constants to calculate
  * physical forces
  */
-public class CarPhysics {
+public class BrakingForces {
     private static double aeroDrag = 0.05;
 
     /**
