@@ -1,7 +1,6 @@
 package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
-import hu.oe.nik.szfmv.common.Utils;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
-import java.util.function.ToDoubleBiFunction;
 
 /**
  * CourseDisplay is for providing a viewport to the virtual world where the simulation happens.
@@ -42,7 +40,6 @@ public class CourseDisplay extends JPanel {
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
-    //Magic Number -> Scalesing
     private final double SCALING_FACTOR = 0.5;
 
     /**
@@ -55,7 +52,6 @@ public class CourseDisplay extends JPanel {
         setBackground(new Color(backgroundColor));
         cal = Calendar.getInstance();
     }
-
 
     /**
      * Draws the world to the course display
@@ -107,6 +103,7 @@ public class CourseDisplay extends JPanel {
     }
 
 
+    // TODO: ez alapjan csinaljuk meg a render fuggvenyeket
     /**
      * Inherited method that can paint on the JPanel.
      *
