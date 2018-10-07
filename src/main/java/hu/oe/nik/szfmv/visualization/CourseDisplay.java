@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.visualization;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.Utils;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
@@ -12,12 +13,30 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
 import java.util.function.ToDoubleBiFunction;
 
 /**
  * CourseDisplay is for providing a viewport to the virtual world where the simulation happens.
  */
 public class CourseDisplay extends JPanel {
+
+    // Ezek a valtozok tartalmazzak a kiinduloponttol valo elmozdulas mennyiseget
+    // ezeket is SCALELNI kell !!!
+    public int xOffset = 0;
+    public int yOffset = 0;
+
+    // Ezt az FPS-t szeretnénk tartani
+    public static final int TARGET_FPS = 24;
+    // Egy ciklus hossza
+    private static int CYCLE_PERIOD = 40;
+    // Az aktuális renderelési és számítási ciklus kezdetének időpontja
+    private static long cycle_start;
+    // Az aktuális renderelési és számítási ciklus hossza
+    private static long cycle_length;
+
+    private Calendar cal;
 
     private static final Logger LOGGER = LogManager.getLogger();
     private final int width = 770;
@@ -34,6 +53,7 @@ public class CourseDisplay extends JPanel {
         setLayout(null);
         setBounds(0, 0, width, height);
         setBackground(new Color(backgroundColor));
+        cal = Calendar.getInstance();
     }
 
 
@@ -43,8 +63,49 @@ public class CourseDisplay extends JPanel {
      * @param world {@link World} object that describes the virtual world
      */
     public void drawWorld(World world) {
-        paintComponent(getGraphics(), world);
+        //paintComponent(getGraphics(), world);
+
+        try {
+            // TODO
+            cycle_start = cal.getTimeInMillis();
+
+            // TODO: StaticList-et kapjon, de az  meg nincs
+            renderStaticObjects(world.getWorldObjects());
+
+            // TODO: DynamicList-et kapjon, de az meg nincs
+            //renderDynamicObjects(world.getDynamicObjects());
+
+            // TODO
+            //renderCar(world.getAutomatedCar());
+
+            // FIX FPS
+            cycle_length = cal.getTimeInMillis() - cycle_start;
+            // Szükséges késleltetési idő kiszámítása (eltelt idő * TARGET FPS)
+            CYCLE_PERIOD = (int)(1000 - (cycle_length * TARGET_FPS)) / TARGET_FPS;
+            System.out.println("FPS/TARGET FPS: " + (1000/CYCLE_PERIOD) + "/" + TARGET_FPS);
+
+            Thread.sleep(CYCLE_PERIOD);
+        } catch (InterruptedException e) {
+
+            LOGGER.error(e.getMessage());
+        }
     }
+
+    // Az altalunk iranyitott auto kirajzolasa
+    private void renderCar(AutomatedCar car){
+        // TODO
+    }
+
+    // A statikus elemek kirajzolasa
+    private void renderStaticObjects(java.util.List<WorldObject> staticObjects){
+        // TODO
+    }
+
+    // A dinamikus elemek kirajzolasa
+    private void renderDynamicObjects(List<WorldObject> dynamicObjects){
+        // TODO
+    }
+
 
     /**
      * Inherited method that can paint on the JPanel.
