@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -66,8 +68,9 @@ public class CourseDisplay extends JPanel {
                 object.setHeight(image.getHeight());
                 object.setWidth(image.getWidth());
 
-                g.drawImage(image, scaleObject(object.getX()), scaleObject(object.getY()),
-                        scaleObject(object.getWidth()), scaleObject(object.getHeight()), this); // see javadoc for more info on the parameters
+                g.drawImage(image, scaleObject(object.getX()), scaleObject(object.getY()),scaleObject(image.getWidth()),
+                        scaleObject(image.getHeight()), this);
+            // see javadoc for more info on the parameters
             } catch (IOException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -83,6 +86,15 @@ public class CourseDisplay extends JPanel {
     /**
      * Intended to use for refreshing the course display after redrawing the world
      */
+    private BufferedImage RotateTransform(BufferedImage img, WorldObject object)
+    {
+        AffineTransform tx = new AffineTransform();
+        tx.rotate(object.getRotation());
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        img = op.filter(img, null);
+        return img;
+    }
+
     public void refreshFrame() {
         invalidate();
         validate();
