@@ -11,4 +11,21 @@ public abstract class ParentObject {
         this.Transform = t;
     }
 
+    public Position GetPosition()
+    {
+        return this.Position;
+    }
+
+    public Transform GetTransform()
+    {
+        return  this.GetTransform();
+    }
+
+
+    public void SetPosition(Position p)
+    {
+        this.Position = p;
+    }
+
+    public void SetTransform(Transform t) { this.Transform  = t; }
 }

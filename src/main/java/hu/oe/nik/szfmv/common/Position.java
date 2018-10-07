@@ -2,8 +2,8 @@ package hu.oe.nik.szfmv.common;
 
 public class Position {
 
-    public int X;
-    public int Y;
+    private int X;
+    private int Y;
 
     public Position(int x, int y)
     {
@@ -19,5 +19,15 @@ public class Position {
     public void SetX(int x)
     {
         this.X = x;
+    }
+
+    public int GetY()
+    {
+        return this.Y;
+    }
+
+    public void SetY(int y)
+    {
+        this.Y = y;
     }
 }
