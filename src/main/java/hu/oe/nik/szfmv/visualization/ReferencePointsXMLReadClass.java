@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.visualization;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,9 +15,9 @@ import java.util.List;
 import javax.xml.parsers.*;
 
 public class ReferencePointsXMLReadClass {
-    private List<ReferencePointClass> ReferencesList = new ArrayList<>();
-
-    public void ReadXML4ReferencePoints() throws ParserConfigurationException, IOException, SAXException {
+    private static List<ReferencePointClass> ReferencesList = new ArrayList<>();
+    private static final Logger LOGGER = LogManager.getLogger();
+    private static void ReadXML4ReferencePoints() throws ParserConfigurationException, IOException, SAXException {
 
         File inputFile = new File("src\\main\\resources\\reference_points.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -31,15 +33,33 @@ public class ReferencePointsXMLReadClass {
                 ReferencePointClass RPC = new ReferencePointClass();
 
                 RPC.setName(eElement.getAttribute("name"));
-                RPC.setX(Integer.parseInt(eElement.getAttribute("x")));
-                RPC.setY(Integer.parseInt(eElement.getAttribute("y")));
+                RPC.setX(Integer.parseInt(((Element)(eElement.getElementsByTagName("Refpoint")
+                        .item(0))).getAttribute("x")));
+                RPC.setY(Integer.parseInt(((Element)(eElement.getElementsByTagName("Refpoint")
+                        .item(0))).getAttribute("y")));
 
                 ReferencesList.add(RPC);
             }
         }
     }
 
-    public Point CheckIsReferenceOrNot(String PictureName) {
+    public static Point CheckIsReferenceOrNot(String PictureName) {
+        if(ReferencesList.size() <0)
+        {
+            try
+            {
+                ReadXML4ReferencePoints();
+            }
+            catch (IOException e) {
+                LOGGER.error(e.getMessage());
+            }
+            catch (ParserConfigurationException e) {
+                LOGGER.error(e.getMessage());
+            }
+            catch (SAXException e) {
+                LOGGER.error(e.getMessage());
+            }
+        }
         for (ReferencePointClass act : ReferencesList) {
             if (act.getName() == PictureName) {
                 return new Point(act.getX(), act.getY());
