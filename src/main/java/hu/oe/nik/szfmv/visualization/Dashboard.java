@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.visualization;
 
+import hu.oe.nik.szfmv.common.DebugInfoContainer;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -23,4 +25,14 @@ public class Dashboard extends JPanel {
 
     }
 
+    public void drawDashboardDebugDisplay(DebugInfoContainer debugInfo) {
+        Graphics graphics = this.getGraphics();
+        super.paintComponent(graphics);
+
+        int firstRow = (int)Math.round(height * 0.9);
+        int firstColumn = (int)Math.round(width * 0.05);
+
+        graphics.drawString("debug:", firstColumn, firstRow);
+        graphics.drawString("x: " + debugInfo.getCarX() + " , y: " + debugInfo.getCarY(), firstColumn, firstRow + 20);
+    }
 }
