@@ -1,7 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets;
 
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyGearPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.Gear;
+import hu.oe.nik.szfmv.common.enums.Gear;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IShiftingEventHandler;
 
 import org.junit.Assert;
