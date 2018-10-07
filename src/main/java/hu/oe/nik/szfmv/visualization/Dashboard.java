@@ -33,6 +33,6 @@ public class Dashboard extends JPanel {
         int firstColumn = (int)Math.round(width * 0.05);
 
         graphics.drawString("debug:", firstColumn, firstRow);
-        graphics.drawString("x: " + debugInfo.getCarX() + " , y: " + debugInfo.getCarY(), firstColumn, firstRow + 20);
+        graphics.drawString("x: " + debugInfo.getCarX() + ", y: " + debugInfo.getCarY(), firstColumn, firstRow + 20);
     }
 }
