@@ -2,12 +2,14 @@ package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
 import hu.oe.nik.szfmv.environment.WorldObject;
 
 public class AutomatedCar extends WorldObject {
 
+    private InputManager inputManager;
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
@@ -22,6 +24,7 @@ public class AutomatedCar extends WorldObject {
     public AutomatedCar(int x, int y, String imageFileName) {
         super(x, y, imageFileName);
 
+        inputManager = new InputManager(virtualFunctionBus);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
 
