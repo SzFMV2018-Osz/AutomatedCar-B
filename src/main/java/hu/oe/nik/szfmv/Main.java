@@ -122,6 +122,11 @@ public class Main {
             obj.setRotation((float)Math.toDegrees(Utils.convertMatrixToRadians(m11,m12,m21,m22)));
 
             Point asd = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(obj.getImageFileName());
+
+            double x1 = asd.getX();
+            double y1 = asd.getY();
+
+
             obj.setRotPointX(asd.x);
             obj.setRotPointY(asd.y);
 

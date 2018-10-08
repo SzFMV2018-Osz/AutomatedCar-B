@@ -154,7 +154,7 @@ public class CourseDisplay extends JPanel {
 
     // TODO: ez alapjan csinaljuk meg a render fuggvenyeket
     protected void paintComponent(Graphics g, WorldObject object) {
-        super.paintComponent(g);
+        //super.paintComponent(g);
 
         // draw objects
         BufferedImage image;
