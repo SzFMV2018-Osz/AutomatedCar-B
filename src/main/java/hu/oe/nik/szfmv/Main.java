@@ -53,9 +53,7 @@ public class Main {
         car.setRotation((float)(Math.PI/4));
         /////////////////////////////////
 
-        // add car to the world
-        WorldObject road = new WorldObject(0, 0, "2_crossroad_2.png");
-        w.addObjectToWorld(road);
+
 
         // create gui
         Gui gui = new Gui();
@@ -63,10 +61,16 @@ public class Main {
 
         /// ASDASDASDASD
         loadRoads();
-
         for (WorldObject r: roads) {
             w.addObjectToWorld(r);
         }
+
+        // add car to the world
+        WorldObject road = new WorldObject(0, 0, "2_crossroad_2.png");
+        w.addObjectToWorld(road);
+
+        WorldObject road2 = new WorldObject(20, 20, "2_crossroad_2.png");
+        w.addObjectToWorld(road2);
 
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w);
@@ -77,38 +81,6 @@ public class Main {
             gui.getCourseDisplay().drawWorld(w);
         }
     }
-
-    private static WorldObject getObject(Node node){
-        if(node.getNodeType() == Node.ELEMENT_NODE) {
-            Element element = (Element) node;
-
-            int x = Integer.parseInt(((Element)(element.getElementsByTagName("Position")
-                    .item(0))).getAttribute("x"));
-
-            int y = Integer.parseInt(((Element)(element.getElementsByTagName("Position")
-                    .item(0))).getAttribute("y"));
-
-            WorldObject obj = new WorldObject(x, y, element.getAttribute("type")+".png");
-
-            double m11 = Double.parseDouble(((Element)(element.getElementsByTagName("Transform")
-                    .item(0))).getAttribute("m11"));
-            double m12 = Double.parseDouble(((Element)(element.getElementsByTagName("Transform")
-                    .item(0))).getAttribute("m12"));
-            double m21 = Double.parseDouble(((Element)(element.getElementsByTagName("Transform")
-                    .item(0))).getAttribute("m21"));
-            double m22 = Double.parseDouble(((Element)(element.getElementsByTagName("Transform")
-                    .item(0))).getAttribute("m22"));
-            obj.setRotation((float)Math.toDegrees(Utils.convertMatrixToRadians(m11,m12,m21,m22)));
-
-            Point asd = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(obj.getImageFileName());
-            obj.setRotPointX(asd.x);
-            obj.setRotPointY(asd.y);
-
-            return obj;
-        }
-        return null;
-    }
-
 
     private static void loadRoads(){
         String filePath = "src\\main\\resources\\lane_keeping_test_world.xml";
@@ -131,4 +103,36 @@ public class Main {
             e1.printStackTrace();
         }
     }
+
+    private static WorldObject getObject(Node node){
+        if(node.getNodeType() == Node.ELEMENT_NODE) {
+            Element element = (Element) node;
+
+            int x = Integer.parseInt(((Element)(element.getElementsByTagName("Position")
+                    .item(0))).getAttribute("x")) ;
+
+            int y = Integer.parseInt(((Element)(element.getElementsByTagName("Position")
+                    .item(0))).getAttribute("y")) ;
+
+            WorldObject obj = new WorldObject(x, y, element.getAttribute("type")+".png");
+
+            double m11 = Double.parseDouble(((Element)(element.getElementsByTagName("Transform")
+                    .item(0))).getAttribute("m11"));
+            double m12 = Double.parseDouble(((Element)(element.getElementsByTagName("Transform")
+                    .item(0))).getAttribute("m12"));
+            double m21 = Double.parseDouble(((Element)(element.getElementsByTagName("Transform")
+                    .item(0))).getAttribute("m21"));
+            double m22 = Double.parseDouble(((Element)(element.getElementsByTagName("Transform")
+                    .item(0))).getAttribute("m22"));
+            obj.setRotation((float)Math.toDegrees(Utils.convertMatrixToRadians(m11,m12,m21,m22)));
+
+            Point asd = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(obj.getImageFileName());
+            obj.setRotPointX(asd.x);
+            obj.setRotPointY(asd.y);
+
+            return obj;
+        }
+        return null;
+    }
+
 }

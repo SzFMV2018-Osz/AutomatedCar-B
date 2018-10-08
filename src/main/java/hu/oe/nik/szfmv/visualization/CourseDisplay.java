@@ -48,7 +48,7 @@ public class CourseDisplay extends JPanel {
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
-    private final double SCALING_FACTOR = 0.1;
+    private final double SCALING_FACTOR = 0.5;
 
     private int f = 0;
 
@@ -89,6 +89,7 @@ public class CourseDisplay extends JPanel {
 
             // TODO: StaticList-et kapjon, de az  meg nincs
             renderStaticObjects(world.getWorldObjects(), screenBuffer);
+            System.out.println("SIZE: " + world.getWorldObjects().size());
 
             // TODO: DynamicList-et kapjon, de az meg nincs
             //renderDynamicObjects(world.getDynamicObjects(), screenBuffer);
@@ -129,9 +130,6 @@ public class CourseDisplay extends JPanel {
     private void renderCar(AutomatedCar car, Graphics buffer){
         BufferedImage image;
 
-        this.xOffset = -car.getX();
-        this.yOffset = car.getY();
-
         try {
             // Ezt nem jobb lenne eltarolni mar az inicializalaskor?
             image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
@@ -142,15 +140,14 @@ public class CourseDisplay extends JPanel {
             int imageHeight = scaleObject(image.getHeight());
 
 
-            buffer.drawImage(image, width / 2 - imageWidth/2, height / 2 - imageHeight/2, imageWidth,
-                    imageHeight, this);
+            //buffer.drawImage(image, width / 2 - imageWidth/2, height / 2 - imageHeight/2, imageWidth,
+              //      imageHeight, this);
 
             AffineTransform at = AffineTransform.getTranslateInstance( width / 2 - imageWidth/2, height / 2 - imageHeight/2);
             at.rotate(Math.toRadians(f), 0,0);//imageWidth /2, imageHeight / 2);
             Graphics2D g2d = (Graphics2D) buffer;
             at.scale(SCALING_FACTOR, SCALING_FACTOR);
             g2d.drawImage(image, at, null);
-
 
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
@@ -159,7 +156,7 @@ public class CourseDisplay extends JPanel {
 
     // TODO: ez alapjan csinaljuk meg a render fuggvenyeket
     protected void paintComponent(Graphics g, WorldObject object) {
-        super.paintComponent(g);
+        //super.paintComponent(g);
 
         // draw objects
         BufferedImage image;
@@ -172,9 +169,23 @@ public class CourseDisplay extends JPanel {
             //object.setHeight(image.getHeight());
             //object.setWidth(image.getWidth());
 
-            g.drawImage(image, scaleObject(object.getX() + xOffset) + width / 2 , scaleObject(object.getY() + yOffset) + height/2, scaleObject(image.getWidth()),
-                    scaleObject(image.getHeight()), this);
+            int imageWidth = scaleObject(image.getWidth());
+            int imageHeight = scaleObject(image.getHeight());
 
+            AffineTransform at = AffineTransform.getTranslateInstance( scaleObject(object.getX() + xOffset) + width / 2,
+                    scaleObject(object.getY() + yOffset) + height/2);
+            at.rotate(Math.toRadians(object.getRotation()),
+                    scaleObject(object.getRotPointX()),
+                    scaleObject(object.getRotPointY()));//imageWidth /2, imageHeight / 2);
+            Graphics2D g2d = (Graphics2D) g;
+            at.scale(SCALING_FACTOR, SCALING_FACTOR);
+            g2d.drawImage(image, at, null);
+
+
+
+
+            //g.drawImage(image, , scaleObject(image.getWidth()),
+              //      scaleObject(image.getHeight()), this);
 
         } catch (IOException e) {
             LOGGER.error(e.getMessage());

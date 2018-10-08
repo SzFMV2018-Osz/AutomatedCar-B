@@ -2,7 +2,7 @@ package hu.oe.nik.szfmv.common;
 
 public final class Utils {
 
-    private static final int METER_PIXEL_RATIO = 50;
+    public static final int METER_PIXEL_RATIO = 50;
 
     /**
      * Converts the length defined in pixels to meters according the rule of 350 pixel = 7 meters.
