@@ -76,7 +76,7 @@ public class CourseDisplay extends JPanel {
             //renderDynamicObjects(world.getDynamicObjects());
 
             // TODO
-            //renderCar(world.getAutomatedCar());
+            renderCar(world.getAutomatedCar());
 
             // FIX FPS
             cycle_length = cal.getTimeInMillis() - cycle_start;
@@ -113,11 +113,14 @@ public class CourseDisplay extends JPanel {
         try {
             // Ezt nem jobb lenne eltarolni mar az inicializalaskor?
             image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
-            //car.setHeight(image.getHeight());
-            //car.setWidth(image.getWidth());
+            car.setHeight(image.getHeight());
+            car.setWidth(image.getWidth());
 
-            g.drawImage(image, width / 2, height / 2,scaleObject(image.getWidth()),
-                    scaleObject(image.getHeight()), this);
+            int imageWidth = scaleObject(image.getWidth());
+            int imageHeight = scaleObject(image.getHeight());
+
+            g.drawImage(image, width / 2 - imageWidth/2, height / 2 - imageHeight/2, imageWidth,
+                    imageHeight, this);
 
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
