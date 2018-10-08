@@ -63,7 +63,7 @@ public class CourseDisplay extends JPanel {
      * @param world {@link World} object that describes the virtual world
      */
     public void drawWorld(World world) {
-        //paintComponent(getGraphics(), world);
+        paintComponent(getGraphics(), world);
 
         try {
             // TODO
@@ -122,7 +122,7 @@ public class CourseDisplay extends JPanel {
             try {
                 // read file from resources
                 image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
-
+                image= RotateTransform(image,object);
                 //Set object height and width. Its not our task!
                 //Todo: delete this two line if T1 finished with WorldObject tasks.
                 object.setHeight(image.getHeight());
@@ -149,7 +149,8 @@ public class CourseDisplay extends JPanel {
     private BufferedImage RotateTransform(BufferedImage img, WorldObject object)
     {
         AffineTransform tx = new AffineTransform();
-        tx.rotate(object.getRotation());
+        Point refPoint = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(object.getImageFileName());
+        tx.rotate(object.getRotation(), refPoint.x, refPoint.y);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         img = op.filter(img, null);
         return img;
