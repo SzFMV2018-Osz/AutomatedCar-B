@@ -8,6 +8,10 @@ public class PedalBar extends JPanel {
 
     /**
      * Draws a progressbar for the pedals
+     * @param offsetX position x on board
+     * @param offsetY position y on board
+     * @param labelHeight label's height
+     * @return progressbar design for the pedal
      */
     public JProgressBar getPedalProgressBar(int offsetX, int offsetY, int labelHeight) {
         JProgressBar progressBar = new JProgressBar(MIN_PEDAL_VALUE, MAX_PEDAL_VALUE);
@@ -25,6 +29,10 @@ public class PedalBar extends JPanel {
 
     /**
      * Label for the progressbar
+     * @param offsetX position x on board
+     * @param offsetY position y on board
+     * @param label label's string value
+     * @return label for the pedal
      */
     public JLabel getPedalProgressBarLabel(int offsetX, int offsetY, String label) {
         JLabel breakLabel = new JLabel(label);
@@ -40,7 +48,9 @@ public class PedalBar extends JPanel {
 
     /**
      * Sets the value of the bar
-     */
+     * @param progressBar the bar that we want to change
+     * @param value the new value of the bar
+p    */
     public void setProgress(JProgressBar progressBar, int value) {
         if (value >= MIN_PEDAL_VALUE && value <= MAX_PEDAL_VALUE) {
             progressBar.setValue(value);
