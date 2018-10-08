@@ -119,11 +119,11 @@ public class CourseDisplay extends JPanel {
             image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
             car.setHeight(image.getHeight());
             car.setWidth(image.getWidth());
-
+            image = RotateTransform(image,car);
             int imageWidth = scaleObject(image.getWidth());
             int imageHeight = scaleObject(image.getHeight());
 
-            g.drawImage(image, width / 2 - imageWidth/2, height / 2 - imageHeight/2, imageWidth,
+            g.drawImage(image, width / 2 - imageWidth/2, height / 2 - imageWidth/2, imageWidth,
                     imageHeight, this);
 
         } catch (IOException e) {
@@ -164,9 +164,25 @@ public class CourseDisplay extends JPanel {
         AffineTransform tx = new AffineTransform();
         Point refPoint = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(object.getImageFileName());
         tx.rotate(object.getRotation(), refPoint.x, refPoint.y);
+        Point translate = getTranslateUnit(new Point(img.getWidth(),0), new Point(0,img.getHeight()),
+                new Point(img.getWidth(),img.getHeight()),object.getRotation());
+        tx.translate(translate.x, translate.y);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         img = op.filter(img, null);
         return img;
+    }
+
+    private Point getTranslateUnit(Point JF, Point BA, Point JA, float rotation)
+    {
+        Point JFn = new Point((int)(JF.x*Math.cos(rotation)- JF.y*Math.sin(rotation)),
+                (int)(JF.y*Math.cos(rotation) + JF.x*Math.sin(rotation)));
+        Point BAn = new Point((int)(BA.x*Math.cos(rotation) - BA.y*Math.sin(rotation) ),
+                (int)(BA.y*Math.cos(rotation) + BA.x*Math.sin(rotation)));
+        Point JAn= new Point((int)(JA.x*Math.cos(rotation)- JA.y*Math.sin(rotation)),
+                (int)(JA.y*Math.cos(rotation) + JA.x*Math.sin(rotation)));
+        int minX = Math.min(Math.min(JFn.x,BAn.x),JAn.x);
+        int minY = Math.min(Math.min(JFn.y,BAn.y),JAn.y);
+        return new Point((minX*-1), (minY));
     }
 
     public void refreshFrame() {
