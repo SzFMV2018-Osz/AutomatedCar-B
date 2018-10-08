@@ -25,6 +25,9 @@ public class CourseDisplay extends JPanel {
 
     // Ezek a valtozok tartalmazzak a kiinduloponttol valo elmozdulas mennyiseget
     // ezeket is SCALELNI kell !!!
+
+    // TODO: lehet hogy ezeket float vagy double-re kellene atalakitani, hogy ne csak egesz pixellel mozduljon el a kep
+    // TODO: ha tul lassan mozog az auto es tul messzirol nezzuk (kulonben szaggat)
     public int xOffset = 0;
     public int yOffset = 0;
 
@@ -72,14 +75,28 @@ public class CourseDisplay extends JPanel {
             // TODO
             cycle_start = cal.getTimeInMillis();
 
+            xOffset = -world.getAutomatedCar().getX();
+            yOffset = world.getAutomatedCar().getY();
+
+            /*
+             * létrehozunk egy másodlagos buffert, amire egyesevél felrajzoljuk
+             * az elemeket, majd ha minden felkerült rá, ezt a képet rajzoljuk át
+             * a fő grafikai elemünkre, így megszüntetve az elemek remegését
+             */
+            Graphics g = getGraphics();
+            Image offscreen = createImage(width, height);
+            Graphics screenBuffer = offscreen.getGraphics();
+
             // TODO: StaticList-et kapjon, de az  meg nincs
-            renderStaticObjects(world.getWorldObjects());
+            renderStaticObjects(world.getWorldObjects(), screenBuffer);
 
             // TODO: DynamicList-et kapjon, de az meg nincs
-            //renderDynamicObjects(world.getDynamicObjects());
+            //renderDynamicObjects(world.getDynamicObjects(), screenBuffer);
 
-            // TODO
-            renderCar(world.getAutomatedCar());
+            renderCar(world.getAutomatedCar(), screenBuffer);
+
+            // buffer kirajzolasa az kepernyore
+            g.drawImage(offscreen, 0, 0,this);
 
             // FIX FPS
             cycle_length = cal.getTimeInMillis() - cycle_start;
@@ -95,23 +112,21 @@ public class CourseDisplay extends JPanel {
     }
 
     // A statikus elemek kirajzolasa
-    private void renderStaticObjects(java.util.List<WorldObject> staticObjects){
+    private void renderStaticObjects(java.util.List<WorldObject> staticObjects, Graphics buffer){
         // TODO
         for (WorldObject object: staticObjects) {
-            paintComponent(getGraphics(), object);
+            paintComponent(buffer, object);
         }
     }
 
     // A dinamikus elemek kirajzolasa
-    private void renderDynamicObjects(List<WorldObject> dynamicObjects){
+    private void renderDynamicObjects(List<WorldObject> dynamicObjects, Graphics buffer){
         // TODO
-
+        
     }
 
     // Az altalunk iranyitott auto kirajzolasa
-    private void renderCar(AutomatedCar car){
-        // TODO
-        Graphics g = getGraphics();
+    private void renderCar(AutomatedCar car, Graphics buffer){
         BufferedImage image;
 
         this.xOffset = -car.getX();
@@ -122,14 +137,17 @@ public class CourseDisplay extends JPanel {
             image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
             car.setHeight(image.getHeight());
             car.setWidth(image.getWidth());
-            //image = rotateTransform(image,car);
+
             int imageWidth = scaleObject(image.getWidth());
             int imageHeight = scaleObject(image.getHeight());
 
 
+            buffer.drawImage(image, width / 2 - imageWidth/2, height / 2 - imageHeight/2, imageWidth,
+                    imageHeight, this);
+
             AffineTransform at = AffineTransform.getTranslateInstance( width / 2 - imageWidth/2, height / 2 - imageHeight/2);
             at.rotate(Math.toRadians(f), 0,0);//imageWidth /2, imageHeight / 2);
-            Graphics2D g2d = (Graphics2D) g;
+            Graphics2D g2d = (Graphics2D) buffer;
             at.scale(SCALING_FACTOR, SCALING_FACTOR);
             g2d.drawImage(image, at, null);
 
@@ -154,7 +172,7 @@ public class CourseDisplay extends JPanel {
             //object.setHeight(image.getHeight());
             //object.setWidth(image.getWidth());
 
-            g.drawImage(image, scaleObject(object.getX() + xOffset), scaleObject(object.getY() + yOffset), scaleObject(image.getWidth()),
+            g.drawImage(image, scaleObject(object.getX() + xOffset) + width / 2 , scaleObject(object.getY() + yOffset) + height/2, scaleObject(image.getWidth()),
                     scaleObject(image.getHeight()), this);
 
 
@@ -169,43 +187,13 @@ public class CourseDisplay extends JPanel {
     /**
      * Intended to use for refreshing the course display after redrawing the world
      */
-    private BufferedImage rotateTransform(BufferedImage img, WorldObject object)
+    private BufferedImage RotateTransform(BufferedImage img, WorldObject object)
     {
         AffineTransform tx = new AffineTransform();
-        Point refPoint = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(object.getImageFileName());
-        tx.rotate(object.getRotation(), refPoint.x, refPoint.y);
-        Point translate = getTranslateUnit(new Point(img.getWidth(),0), new Point(0,img.getHeight()),
-                new Point(img.getWidth(),img.getHeight()),object.getRotation());
-        tx.translate(translate.x, translate.y);
+        tx.rotate(object.getRotation());
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         img = op.filter(img, null);
         return img;
-    }
-
-    private BufferedImage rotateImage(BufferedImage image ){
-        BufferedImage img = image;
-        int x = img.getWidth() / 2;
-        int y = img.getHeight() / 2;
-        AffineTransform at = AffineTransform.getTranslateInstance(x, y);
-
-        at.rotate(Math.toRadians(45));
-
-
-
-        return img;
-    }
-
-    private Point getTranslateUnit(Point JF, Point BA, Point JA, float rotation)
-    {
-        Point JFn = new Point((int)(JF.x*Math.cos(rotation)- JF.y*Math.sin(rotation)),
-                (int)(JF.y*Math.cos(rotation) + JF.x*Math.sin(rotation)));
-        Point BAn = new Point((int)(BA.x*Math.cos(rotation) - BA.y*Math.sin(rotation) ),
-                (int)(BA.y*Math.cos(rotation) + BA.x*Math.sin(rotation)));
-        Point JAn= new Point((int)(JA.x*Math.cos(rotation)- JA.y*Math.sin(rotation)),
-                (int)(JA.y*Math.cos(rotation) + JA.x*Math.sin(rotation)));
-        int minX = Math.min(Math.min(JFn.x,BAn.x),JAn.x);
-        int minY = Math.min(Math.min(JFn.y,BAn.y),JAn.y);
-        return new Point((minX*-1), (minY));
     }
 
     public void refreshFrame() {

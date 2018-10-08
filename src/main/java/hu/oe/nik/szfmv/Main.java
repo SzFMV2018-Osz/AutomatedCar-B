@@ -48,13 +48,13 @@ public class Main {
         // create an automated car
 
         // AUTOMATED CAR RENDERING TESZT
-        AutomatedCar car = new AutomatedCar(20, 20, "car_2_white.png");
+        AutomatedCar car = new AutomatedCar(0, 0, "car_2_white.png");
         w.setAutomatedCar(car);
         car.setRotation((float)(Math.PI/4));
         /////////////////////////////////
 
         // add car to the world
-        WorldObject road = new WorldObject(20, 20, "2_crossroad_2.png");
+        WorldObject road = new WorldObject(0, 0, "2_crossroad_2.png");
         w.addObjectToWorld(road);
 
         // create gui
