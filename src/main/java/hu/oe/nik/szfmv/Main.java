@@ -53,8 +53,6 @@ public class Main {
         car.setRotation((float)(Math.PI/4));
         /////////////////////////////////
 
-
-
         // create gui
         Gui gui = new Gui();
 
@@ -65,12 +63,9 @@ public class Main {
             w.addObjectToWorld(r);
         }
 
-        // add car to the world
-        WorldObject road = new WorldObject(0, 0, "2_crossroad_2.png");
-        w.addObjectToWorld(road);
-
-        WorldObject road2 = new WorldObject(20, 20, "2_crossroad_2.png");
-        w.addObjectToWorld(road2);
+        // add teszt road to the world
+        //WorldObject road = new WorldObject(0, 0, "2_crossroad_2.png");
+        //w.addObjectToWorld(road);
 
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w);
@@ -129,6 +124,8 @@ public class Main {
             Point asd = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(obj.getImageFileName());
             obj.setRotPointX(asd.x);
             obj.setRotPointY(asd.y);
+
+            System.out.println(obj.getImageFileName() + ": " + " pos: "+ obj.getX() + ", " + obj.getY() + "rot p: " + asd + ", " + " rot: " + obj.getRotation());
 
             return obj;
         }

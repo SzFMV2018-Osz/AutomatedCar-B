@@ -48,7 +48,7 @@ public class CourseDisplay extends JPanel {
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
-    private final double SCALING_FACTOR = 0.5;
+    private final double SCALING_FACTOR = 0.2;
 
     private int f = 0;
 
@@ -69,7 +69,6 @@ public class CourseDisplay extends JPanel {
      * @param world {@link World} object that describes the virtual world
      */
     public void drawWorld(World world) {
-        //paintComponent(getGraphics(), world);
         f += 5;
         try {
             // TODO
@@ -89,7 +88,6 @@ public class CourseDisplay extends JPanel {
 
             // TODO: StaticList-et kapjon, de az  meg nincs
             renderStaticObjects(world.getWorldObjects(), screenBuffer);
-            System.out.println("SIZE: " + world.getWorldObjects().size());
 
             // TODO: DynamicList-et kapjon, de az meg nincs
             //renderDynamicObjects(world.getDynamicObjects(), screenBuffer);
@@ -103,7 +101,7 @@ public class CourseDisplay extends JPanel {
             cycle_length = cal.getTimeInMillis() - cycle_start;
             // Szükséges késleltetési idő kiszámítása (eltelt idő * TARGET FPS)
             CYCLE_PERIOD = (int)(1000 - (cycle_length * TARGET_FPS)) / TARGET_FPS;
-            System.out.println("FPS/TARGET FPS: " + (1000/CYCLE_PERIOD) + "/" + TARGET_FPS);
+            //System.out.println("FPS/TARGET FPS: " + (1000/CYCLE_PERIOD) + "/" + TARGET_FPS);
 
             Thread.sleep(CYCLE_PERIOD);
         } catch (InterruptedException e) {
@@ -156,7 +154,7 @@ public class CourseDisplay extends JPanel {
 
     // TODO: ez alapjan csinaljuk meg a render fuggvenyeket
     protected void paintComponent(Graphics g, WorldObject object) {
-        //super.paintComponent(g);
+        super.paintComponent(g);
 
         // draw objects
         BufferedImage image;
@@ -169,19 +167,17 @@ public class CourseDisplay extends JPanel {
             //object.setHeight(image.getHeight());
             //object.setWidth(image.getWidth());
 
-            int imageWidth = scaleObject(image.getWidth());
-            int imageHeight = scaleObject(image.getHeight());
+            double imageWidth = scaleObject(image.getWidth());
+            double imageHeight = scaleObject(image.getHeight());
 
             AffineTransform at = AffineTransform.getTranslateInstance( scaleObject(object.getX() + xOffset) + width / 2,
                     scaleObject(object.getY() + yOffset) + height/2);
-            at.rotate(Math.toRadians(object.getRotation()),
+            at.rotate(Math.toRadians(-object.getRotation()),
                     scaleObject(object.getRotPointX()),
                     scaleObject(object.getRotPointY()));//imageWidth /2, imageHeight / 2);
             Graphics2D g2d = (Graphics2D) g;
             at.scale(SCALING_FACTOR, SCALING_FACTOR);
             g2d.drawImage(image, at, null);
-
-
 
 
             //g.drawImage(image, , scaleObject(image.getWidth()),
