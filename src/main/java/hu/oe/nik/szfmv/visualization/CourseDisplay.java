@@ -34,6 +34,8 @@ public class CourseDisplay extends JPanel {
     // Az aktuális renderelési és számítási ciklus hossza
     private static long cycle_length;
 
+    // asdasd
+
     private Calendar cal;
 
     private static final Logger LOGGER = LogManager.getLogger();
