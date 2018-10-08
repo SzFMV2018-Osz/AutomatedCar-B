@@ -111,7 +111,7 @@ public class CourseDisplay extends JPanel {
         BufferedImage image;
 
         this.xOffset = -car.getX();
-        this.yOffset = -car.getY();
+        this.yOffset = car.getY();
 
         try {
             // Ezt nem jobb lenne eltarolni mar az inicializalaskor?
