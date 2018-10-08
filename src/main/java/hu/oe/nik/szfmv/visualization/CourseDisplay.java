@@ -76,7 +76,7 @@ public class CourseDisplay extends JPanel {
             //renderDynamicObjects(world.getDynamicObjects());
 
             // TODO
-            //renderCar(world.getAutomatedCar());
+            renderCar(world.getAutomatedCar());
 
             // FIX FPS
             cycle_length = cal.getTimeInMillis() - cycle_start;
@@ -91,14 +91,12 @@ public class CourseDisplay extends JPanel {
         }
     }
 
-    // Az altalunk iranyitott auto kirajzolasa
-    private void renderCar(AutomatedCar car){
-        // TODO
-    }
-
     // A statikus elemek kirajzolasa
     private void renderStaticObjects(java.util.List<WorldObject> staticObjects){
         // TODO
+        for (WorldObject object: staticObjects) {
+            paintComponent(getGraphics(), object);
+        }
     }
 
     // A dinamikus elemek kirajzolasa
@@ -107,42 +105,56 @@ public class CourseDisplay extends JPanel {
         
     }
 
+    // Az altalunk iranyitott auto kirajzolasa
+    private void renderCar(AutomatedCar car){
+        // TODO
+        Graphics g = getGraphics();
+        BufferedImage image;
+
+        this.xOffset = -car.getX();
+        this.yOffset = car.getY();
+
+        try {
+            // Ezt nem jobb lenne eltarolni mar az inicializalaskor?
+            image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
+            car.setHeight(image.getHeight());
+            car.setWidth(image.getWidth());
+
+            int imageWidth = scaleObject(image.getWidth());
+            int imageHeight = scaleObject(image.getHeight());
+
+            g.drawImage(image, width / 2 - imageWidth/2, height / 2 - imageHeight/2, imageWidth,
+                    imageHeight, this);
+
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
 
     // TODO: ez alapjan csinaljuk meg a render fuggvenyeket
-    /**
-     * Inherited method that can paint on the JPanel.
-     *
-     * @param g     {@link Graphics} object that can draw to the canvas
-     * @param world {@link World} object that describes the virtual world
-     */
-    protected void paintComponent(Graphics g, World world) {
+    protected void paintComponent(Graphics g, WorldObject object) {
         super.paintComponent(g);
-        for (WorldObject object : world.getWorldObjects()) {
-            // draw objects
-            BufferedImage image;
-            try {
-                // read file from resources
-                image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
 
-                //Set object height and width. Its not our task!
-                //Todo: delete this two line if T1 finished with WorldObject tasks.
-                object.setHeight(image.getHeight());
-                object.setWidth(image.getWidth());
+        // draw objects
+        BufferedImage image;
+        try {
+            // read file from resources
+            image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
 
-                g.drawImage(image, scaleObject(object.getX()), scaleObject(object.getY()),scaleObject(image.getWidth()),
-                        scaleObject(image.getHeight()), this);
-            // see javadoc for more info on the parameters
-            } catch (IOException e) {
-                LOGGER.error(e.getMessage());
-            }
+            //Set object height and width. Its not our task!
+            //Todo: delete this two line if T1 finished with WorldObject tasks.
+            //object.setHeight(image.getHeight());
+            //object.setWidth(image.getWidth());
+
+            g.drawImage(image, scaleObject(object.getX() + xOffset), scaleObject(object.getY() + yOffset), scaleObject(image.getWidth()),
+                    scaleObject(image.getHeight()), this);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
         }
     }
 
     //Scale object with a scaling magic number.
-    private int scaleObject(int unit)
-    {
-        return (int)(unit*SCALING_FACTOR);
-    }
+    private int scaleObject(int unit) { return (int)(unit*SCALING_FACTOR); }
 
     /**
      * Intended to use for refreshing the course display after redrawing the world
