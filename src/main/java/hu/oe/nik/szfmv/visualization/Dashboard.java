@@ -16,6 +16,7 @@ public class Dashboard extends JPanel {
 
     private final double debugSectionXRatio = 0.05;
     private final double debugSectionYRatio = 0.9;
+    private final int debugSectionRowSize = 20;
 
     /**
      * Initialize the dashboard
@@ -42,7 +43,7 @@ public class Dashboard extends JPanel {
         int rowWithOffset = firstRow;
 
         graphics.drawString("debug:", firstColumn, rowWithOffset);
-        rowWithOffset += 20;
+        rowWithOffset += debugSectionRowSize;
         graphics.drawString("x: " + debugInfo.getCarX() + ", y: " + debugInfo.getCarY(), firstColumn, rowWithOffset);
     }
 }
