@@ -110,6 +110,9 @@ public class CourseDisplay extends JPanel {
         Graphics g = getGraphics();
         BufferedImage image;
 
+        this.xOffset = -car.getX();
+        this.yOffset = -car.getY();
+
         try {
             // Ezt nem jobb lenne eltarolni mar az inicializalaskor?
             image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
