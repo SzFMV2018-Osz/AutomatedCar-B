@@ -1,5 +1,4 @@
-package hu.oe.nik.szfmv.visualization.Elements;
-
+package hu.oe.nik.szfmv.visualization.elements;
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,6 +6,9 @@ public class PedalBar extends JPanel {
     private static final int MIN_PEDAL_VALUE = 0;
     private static final int MAX_PEDAL_VALUE = 100;
 
+    /**
+     * Draws a progressbar for the pedals
+     */
     public JProgressBar getPedalProgressBar(int offsetX, int offsetY, int labelHeight) {
         JProgressBar progressBar = new JProgressBar(MIN_PEDAL_VALUE, MAX_PEDAL_VALUE);
         Insets insets = getInsets();
@@ -21,6 +23,9 @@ public class PedalBar extends JPanel {
         return progressBar;
     }
 
+    /**
+     * Label for the progressbar
+     */
     public JLabel getPedalProgressBarLabel(int offsetX, int offsetY, String label) {
         JLabel breakLabel = new JLabel(label);
         Insets insets = getInsets();
@@ -33,6 +38,9 @@ public class PedalBar extends JPanel {
         return breakLabel;
     }
 
+    /**
+     * Sets the value of the bar
+     */
     public void setProgress(JProgressBar progressBar, int value) {
         if (value >= MIN_PEDAL_VALUE && value <= MAX_PEDAL_VALUE) {
             progressBar.setValue(value);

@@ -1,5 +1,5 @@
 package hu.oe.nik.szfmv.visualization;
-import hu.oe.nik.szfmv.visualization.Elements.PedalBar;
+import hu.oe.nik.szfmv.visualization.elements.PedalBar;
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,10 +13,10 @@ public class Dashboard extends JPanel {
     private final int backgroundColor = 0x888888;
 
     private PedalBar bPB = new PedalBar();
-    private JLabel brakePedalLabel = bPB.getPedalProgressBarLabel(40,290,"Brake pedal");
-    private JProgressBar brakePedalBar = bPB.getPedalProgressBar(40,290, brakePedalLabel.getHeight());
-    private JLabel gasPedalLabel = bPB.getPedalProgressBarLabel(40,260,"Gas pedal");
-    private JProgressBar gasPedalBar = bPB.getPedalProgressBar(40,260, gasPedalLabel.getHeight());
+    private JLabel brakePedalLabel = bPB.getPedalProgressBarLabel(40, 290, "Brake pedal");
+    private JProgressBar brakePedalBar = bPB.getPedalProgressBar(40, 290, brakePedalLabel.getHeight());
+    private JLabel gasPedalLabel = bPB.getPedalProgressBarLabel(40, 260, "Gas pedal");
+    private JProgressBar gasPedalBar = bPB.getPedalProgressBar(40, 260, gasPedalLabel.getHeight());
 
     /**
      * Initialize the dashboard
