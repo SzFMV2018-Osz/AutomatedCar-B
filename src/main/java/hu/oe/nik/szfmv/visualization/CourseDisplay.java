@@ -91,11 +91,6 @@ public class CourseDisplay extends JPanel {
         }
     }
 
-    // Az altalunk iranyitott auto kirajzolasa
-    private void renderCar(AutomatedCar car){
-        // TODO
-    }
-
     // A statikus elemek kirajzolasa
     private void renderStaticObjects(java.util.List<WorldObject> staticObjects){
         // TODO
@@ -106,6 +101,24 @@ public class CourseDisplay extends JPanel {
         // TODO
     }
 
+    // Az altalunk iranyitott auto kirajzolasa
+    private void renderCar(AutomatedCar car){
+        // TODO
+        Graphics g = getGraphics();
+        BufferedImage image;
+
+        try {
+            image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
+            //car.setHeight(image.getHeight());
+            //car.setWidth(image.getWidth());
+
+            g.drawImage(image, scaleObject(car.getX()), scaleObject(car.getY()),scaleObject(image.getWidth()),
+                    scaleObject(image.getHeight()), this);
+
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
 
     // TODO: ez alapjan csinaljuk meg a render fuggvenyeket
     /**
