@@ -34,7 +34,7 @@ public class CourseDisplay extends JPanel {
     // Az aktuális renderelési és számítási ciklus hossza
     private static long cycle_length;
 
-    // asdasd
+    // asdasd asdasdasd asdas 3
 
     private Calendar cal;
 
