@@ -69,14 +69,28 @@ public class CourseDisplay extends JPanel {
             // TODO
             cycle_start = cal.getTimeInMillis();
 
+            xOffset = -world.getAutomatedCar().getX();
+            yOffset = world.getAutomatedCar().getY();
+
+            /*
+             * létrehozunk egy másodlagos buffert, amire egyesevél felrajzoljuk
+             * az elemeket, majd ha minden felkerült rá, ezt a képet rajzoljuk át
+             * a fő grafikai elemünkre, így megszüntetve az elemek remegését
+             */
+            Graphics g = getGraphics();
+            Image offscreen = createImage(width, height);
+            Graphics screenBuffer = offscreen.getGraphics();
+
             // TODO: StaticList-et kapjon, de az  meg nincs
-            renderStaticObjects(world.getWorldObjects());
+            renderStaticObjects(world.getWorldObjects(), screenBuffer);
 
             // TODO: DynamicList-et kapjon, de az meg nincs
-            //renderDynamicObjects(world.getDynamicObjects());
+            //renderDynamicObjects(world.getDynamicObjects(), screenBuffer);
 
-            // TODO
-            renderCar(world.getAutomatedCar());
+            renderCar(world.getAutomatedCar(), screenBuffer);
+
+            // buffer kirajzolasa az kepernyore
+            g.drawImage(offscreen, 0, 0,this);
 
             // FIX FPS
             cycle_length = cal.getTimeInMillis() - cycle_start;
@@ -102,7 +116,7 @@ public class CourseDisplay extends JPanel {
     // A dinamikus elemek kirajzolasa
     private void renderDynamicObjects(List<WorldObject> dynamicObjects){
         // TODO
-
+        
     }
 
     // Az altalunk iranyitott auto kirajzolasa
@@ -123,6 +137,7 @@ public class CourseDisplay extends JPanel {
             int imageWidth = scaleObject(image.getWidth());
             int imageHeight = scaleObject(image.getHeight());
 
+            buffer.drawImage(image, width / 2 - imageWidth/2, height / 2 - imageHeight/2, imageWidth,
             g.drawImage(image, width / 2 - imageWidth/2, height / 2 - imageWidth/2, imageWidth,
                     imageHeight, this);
 
@@ -146,7 +161,7 @@ public class CourseDisplay extends JPanel {
             //Todo: delete this two line if T1 finished with WorldObject tasks.
             //object.setHeight(image.getHeight());
             //object.setWidth(image.getWidth());
-            image = RotateTransform(image,object);
+
             g.drawImage(image, scaleObject(object.getX() + xOffset), scaleObject(object.getY() + yOffset), scaleObject(image.getWidth()),
                     scaleObject(image.getHeight()), this);
         } catch (IOException e) {
