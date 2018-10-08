@@ -13,7 +13,7 @@ public class AutomatedCar extends WorldObject {
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
     private final double speedMetersPerSeconds;
 
-    private final double wheelRadius;
+    private final double wheelRadius = 0.33;
 
     /**
      * Constructor of the AutomatedCar class
@@ -29,8 +29,6 @@ public class AutomatedCar extends WorldObject {
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         speedMetersPerSeconds = 0;
-
-        wheelRadius = 0.33;
 
         new Driver(virtualFunctionBus);
     }

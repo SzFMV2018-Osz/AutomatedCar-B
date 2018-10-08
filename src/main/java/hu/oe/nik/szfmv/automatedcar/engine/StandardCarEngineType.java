@@ -2,70 +2,58 @@ package hu.oe.nik.szfmv.automatedcar.engine;
 
 public class StandardCarEngineType implements CarEngineType {
 
-    private final int gearCount;
-    private final int maxRpm;
-    private final int gearShiftRpm;
-    private final double gearDifferentialRatio;
-    private final double[] gearRatios;
-    private final int[] torqueCurve;
-    private final int torqueCurveStepSize;
-    private final int backGearShiftRpm;
-    private double transmissionEffiency;
-
-    public StandardCarEngineType() {
-	this.gearCount = 6;
-	this.maxRpm = 6000;
-	this.gearShiftRpm = 3000;
-	this.gearDifferentialRatio = 3;
-	this.gearRatios = new double[] { 2.9, 2.6, 1.7, 1.3, 1, 0.7, 0.5 };
-	this.torqueCurve = new int[] { 400, 440, 460, 480, 470, 400 };
-	this.torqueCurveStepSize = 1000;
-	this.backGearShiftRpm = 1500;
-	this.transmissionEffiency = 0.7;
-    }
+    private final int gearCount = 6;
+    private final int maxRpm = 6000;
+    private final int gearShiftRpm = 3000;
+    private final double gearDifferentialRatio = 3;
+    private final double[] gearRatios = new double[] { 2.9, 2.6, 1.7, 1.3, 1, 0.7, 0.5 };
+    private final int[] torqueCurve = new int[] { 400, 440, 460, 480, 470, 400 };
+    private final int torqueCurveStepSize = 1000;
+    private final int backGearShiftRpm = 1500;
+    private double transmissionEffiency = 0.7;
 
     @Override
     public int getGearCount() {
-	return gearCount;
+        return gearCount;
     }
 
     @Override
     public int getMaxRpm() {
-	return maxRpm;
+        return maxRpm;
     }
 
     @Override
     public int getGearShiftRpm() {
-	return gearShiftRpm;
+        return gearShiftRpm;
     }
 
     @Override
     public double getGearDifferentialRatio() {
-	return gearDifferentialRatio;
+        return gearDifferentialRatio;
     }
 
     @Override
     public double[] getGearRatios() {
-	return gearRatios;
+        return gearRatios;
     }
 
     @Override
     public int[] getTorqueCurve() {
-	return torqueCurve;
+        return torqueCurve;
     }
 
     @Override
     public int getTorqueCurveStepSize() {
-	return torqueCurveStepSize;
+        return torqueCurveStepSize;
     }
 
     @Override
     public int getBackGearShiftRpm() {
-	return backGearShiftRpm;
+        return backGearShiftRpm;
     }
 
     @Override
     public double getTransmissionEffiency() {
-	return transmissionEffiency;
+        return transmissionEffiency;
     }
 }
