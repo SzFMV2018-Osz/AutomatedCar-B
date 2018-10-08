@@ -1,12 +1,17 @@
 package hu.oe.nik.szfmv.environment;
 
+import java.awt.image.BufferedImage;
+
 public class WorldObject {
     protected int x;
     protected int y;
     protected int width;
     protected int height;
+    protected int rotPointX = 0;
+    protected int rotPointY = 0;
     protected float rotation = 0f;
     protected String imageFileName;
+    protected BufferedImage image;
 
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
@@ -19,6 +24,22 @@ public class WorldObject {
         this.x = x;
         this.y = y;
         this.imageFileName = imageFileName;
+    }
+
+    public int getRotPointX() {
+        return rotPointX;
+    }
+
+    public void setRotPointX(int rotPointX) {
+        this.rotPointX = rotPointX;
+    }
+
+    public int getRotPointY() {
+        return rotPointY;
+    }
+
+    public void setRotPointY(int rotPointY) {
+        this.rotPointY = rotPointY;
     }
 
     public int getX() {

@@ -44,7 +44,7 @@ public class ReferencePointsXMLReadClass {
     }
 
     public static Point CheckIsReferenceOrNot(String PictureName) {
-        if(ReferencesList.size() <0)
+        if(ReferencesList.size() <= 0)
         {
             try
             {
@@ -61,11 +61,10 @@ public class ReferencePointsXMLReadClass {
             }
         }
         for (ReferencePointClass act : ReferencesList) {
-            if (act.getName() == PictureName) {
+            if (act.getName().equals(PictureName)) {
                 return new Point(act.getX(), act.getY());
             }
         }
         return new Point(0, 0);
     }
 }
-

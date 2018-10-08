@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.visualization;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
+import javafx.scene.transform.Affine;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,7 +45,9 @@ public class CourseDisplay extends JPanel {
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
-    private final double SCALING_FACTOR = 0.5;
+    private final double SCALING_FACTOR = 0.1;
+
+    private int f = 0;
 
     /**
      * Initialize the course display
@@ -64,7 +67,7 @@ public class CourseDisplay extends JPanel {
      */
     public void drawWorld(World world) {
         //paintComponent(getGraphics(), world);
-
+        f += 5;
         try {
             // TODO
             cycle_start = cal.getTimeInMillis();
@@ -119,12 +122,17 @@ public class CourseDisplay extends JPanel {
             image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
             car.setHeight(image.getHeight());
             car.setWidth(image.getWidth());
-            image = RotateTransform(image,car);
+            //image = rotateTransform(image,car);
             int imageWidth = scaleObject(image.getWidth());
             int imageHeight = scaleObject(image.getHeight());
 
-            g.drawImage(image, width / 2 - imageWidth/2, height / 2 - imageWidth/2, imageWidth,
-                    imageHeight, this);
+
+            AffineTransform at = AffineTransform.getTranslateInstance( width / 2 - imageWidth/2, height / 2 - imageHeight/2);
+            at.rotate(Math.toRadians(f), 0,0);//imageWidth /2, imageHeight / 2);
+            Graphics2D g2d = (Graphics2D) g;
+            at.scale(SCALING_FACTOR, SCALING_FACTOR);
+            g2d.drawImage(image, at, null);
+
 
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
@@ -148,6 +156,8 @@ public class CourseDisplay extends JPanel {
 
             g.drawImage(image, scaleObject(object.getX() + xOffset), scaleObject(object.getY() + yOffset), scaleObject(image.getWidth()),
                     scaleObject(image.getHeight()), this);
+
+
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
@@ -159,7 +169,7 @@ public class CourseDisplay extends JPanel {
     /**
      * Intended to use for refreshing the course display after redrawing the world
      */
-    private BufferedImage RotateTransform(BufferedImage img, WorldObject object)
+    private BufferedImage rotateTransform(BufferedImage img, WorldObject object)
     {
         AffineTransform tx = new AffineTransform();
         Point refPoint = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(object.getImageFileName());
@@ -169,6 +179,19 @@ public class CourseDisplay extends JPanel {
         tx.translate(translate.x, translate.y);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         img = op.filter(img, null);
+        return img;
+    }
+
+    private BufferedImage rotateImage(BufferedImage image ){
+        BufferedImage img = image;
+        int x = img.getWidth() / 2;
+        int y = img.getHeight() / 2;
+        AffineTransform at = AffineTransform.getTranslateInstance(x, y);
+
+        at.rotate(Math.toRadians(45));
+
+
+
         return img;
     }
 
