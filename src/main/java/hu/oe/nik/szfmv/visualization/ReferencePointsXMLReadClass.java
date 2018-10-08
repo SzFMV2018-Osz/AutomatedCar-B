@@ -44,7 +44,7 @@ public class ReferencePointsXMLReadClass {
     }
 
     public static Point CheckIsReferenceOrNot(String PictureName) {
-        if(ReferencesList.size() <0)
+        if(ReferencesList.size() <= 0)
         {
             try
             {
