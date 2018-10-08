@@ -24,6 +24,9 @@ public class CourseDisplay extends JPanel {
 
     // Ezek a valtozok tartalmazzak a kiinduloponttol valo elmozdulas mennyiseget
     // ezeket is SCALELNI kell !!!
+
+    // TODO: lehet hogy ezeket float vagy double-re kellene atalakitani, hogy ne csak egesz pixellel mozduljon el a kep
+    // TODO: ha tul lassan mozog az auto es tul messzirol nezzuk (kulonben szaggat)
     public int xOffset = 0;
     public int yOffset = 0;
 
@@ -68,6 +71,9 @@ public class CourseDisplay extends JPanel {
         try {
             // TODO
             cycle_start = cal.getTimeInMillis();
+
+            xOffset = -world.getAutomatedCar().getX();
+            yOffset = world.getAutomatedCar().getY();
 
             /*
              * létrehozunk egy másodlagos buffert, amire egyesevél felrajzoljuk
@@ -120,9 +126,6 @@ public class CourseDisplay extends JPanel {
     private void renderCar(AutomatedCar car, Graphics buffer){
         BufferedImage image;
 
-        this.xOffset = -car.getX();
-        this.yOffset = car.getY();
-
         try {
             // Ezt nem jobb lenne eltarolni mar az inicializalaskor?
             image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
@@ -155,7 +158,7 @@ public class CourseDisplay extends JPanel {
             //object.setHeight(image.getHeight());
             //object.setWidth(image.getWidth());
 
-            g.drawImage(image, scaleObject(object.getX() + xOffset), scaleObject(object.getY() + yOffset), scaleObject(image.getWidth()),
+            g.drawImage(image, scaleObject(object.getX() + xOffset) + width / 2 , scaleObject(object.getY() + yOffset) + height/2, scaleObject(image.getWidth()),
                     scaleObject(image.getHeight()), this);
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
