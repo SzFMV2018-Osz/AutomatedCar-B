@@ -14,6 +14,9 @@ public class Dashboard extends JPanel {
     private final int height = 700;
     private final int backgroundColor = 0x888888;
 
+    private final double debugSectionXRatio = 0.05;
+    private final double debugSectionYRatio = 0.9;
+
     /**
      * Initialize the dashboard
      */
@@ -25,14 +28,21 @@ public class Dashboard extends JPanel {
 
     }
 
+    /**
+     * Draws the debug section of the dashboard
+     * @param debugInfo - object containing values to display for debug purposes
+     */
     public void drawDashboardDebugDisplay(DebugInfoContainer debugInfo) {
         Graphics graphics = this.getGraphics();
         super.paintComponent(graphics);
 
-        int firstRow = (int)Math.round(height * 0.9);
-        int firstColumn = (int)Math.round(width * 0.05);
+        int firstColumn = (int)Math.round(width * debugSectionXRatio);
+        int firstRow = (int)Math.round(height * debugSectionYRatio);
 
-        graphics.drawString("debug:", firstColumn, firstRow);
-        graphics.drawString("x: " + debugInfo.getCarX() + ", y: " + debugInfo.getCarY(), firstColumn, firstRow + 20);
+        int rowWithOffset = firstRow;
+
+        graphics.drawString("debug:", firstColumn, rowWithOffset);
+        rowWithOffset += 20;
+        graphics.drawString("x: " + debugInfo.getCarX() + ", y: " + debugInfo.getCarY(), firstColumn, rowWithOffset);
     }
 }

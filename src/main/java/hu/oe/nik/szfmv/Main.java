@@ -46,15 +46,19 @@ public class Main {
                 car.drive();
                 gui.getCourseDisplay().drawWorld(w);
 
-                if (debugInfoIsEnabled) {
-                    DebugInfoContainer debugInformation = new DebugInfoContainer(car.getX(), car.getY());
-                    gui.getDashboard().drawDashboardDebugDisplay(debugInformation);
-                }
+                debugDisplayer(debugInfoIsEnabled , car, gui);
 
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());
             }
+        }
+    }
+
+    private static void debugDisplayer(boolean debugInfoIsEnabled, AutomatedCar car, Gui gui) {
+        if (debugInfoIsEnabled) {
+            DebugInfoContainer debugInfoContainer = new DebugInfoContainer(car.getX(), car.getY());
+            gui.getDashboard().drawDashboardDebugDisplay(debugInfoContainer);
         }
     }
 }
