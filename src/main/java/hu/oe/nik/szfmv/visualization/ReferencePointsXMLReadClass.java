@@ -61,7 +61,7 @@ public class ReferencePointsXMLReadClass {
             }
         }
         for (ReferencePointClass act : ReferencesList) {
-            if (act.getName() == PictureName) {
+            if (act.getName().equals(PictureName)) {
                 return new Point(act.getX(), act.getY());
             }
         }

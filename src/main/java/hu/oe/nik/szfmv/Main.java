@@ -33,7 +33,8 @@ public class Main {
         /////////////////////////////////
 
         // add car to the world
-        WorldObject road = new WorldObject(20, 20, "2_crossroad_2.png");
+        WorldObject road = new WorldObject(20, 20, "road_2lane_45right.png");
+        road.setRotation((float)(Math.PI*0.6));
         w.addObjectToWorld(road);
 
         // create gui

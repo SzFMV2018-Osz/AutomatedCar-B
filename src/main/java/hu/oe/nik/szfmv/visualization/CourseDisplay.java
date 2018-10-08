@@ -129,6 +129,7 @@ public class CourseDisplay extends JPanel {
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
+        car.setRotation((float)Math.toRadians((Math.toDegrees(car.getRotation())+3)));
     }
 
     // TODO: ez alapjan csinaljuk meg a render fuggvenyeket
@@ -163,8 +164,8 @@ public class CourseDisplay extends JPanel {
     {
         AffineTransform tx = new AffineTransform();
         Point refPoint = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(object.getImageFileName());
-        Point translate = getTranslateUnit(new Point(img.getWidth(),0), new Point(0,img.getHeight()),
-                new Point(img.getWidth(),img.getHeight()),object.getRotation());
+        Point translate = getTranslateUnit(new Point(0,0),new Point(img.getWidth(),0), new Point(0,img.getHeight()),
+                new Point(img.getWidth(),img.getHeight()),refPoint,object.getRotation());
         tx.translate(translate.x,translate.y);
         tx.rotate(object.getRotation(), refPoint.x, refPoint.y);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
@@ -172,16 +173,18 @@ public class CourseDisplay extends JPanel {
         return img;
     }
 
-    private Point getTranslateUnit(Point JF, Point BA, Point JA, float rotation)
+    private Point getTranslateUnit(Point BF, Point JF, Point BA, Point JA, Point refPoint, float rotation)
     {
-        Point JFn = new Point((int)(JF.x*Math.cos(rotation)- JF.y*Math.sin(rotation)),
-                (int)(JF.y*Math.cos(rotation) + JF.x*Math.sin(rotation)));
-        Point BAn = new Point((int)(BA.x*Math.cos(rotation) - BA.y*Math.sin(rotation) ),
-                (int)(BA.y*Math.cos(rotation) + BA.x*Math.sin(rotation)));
-        Point JAn= new Point((int)(JA.x*Math.cos(rotation)- JA.y*Math.sin(rotation)),
-                (int)(JA.y*Math.cos(rotation) + JA.x*Math.sin(rotation)));
-        int minX = Math.min(Math.min(JFn.x,BAn.x),JAn.x);
-        int minY = Math.min(Math.min(JFn.y,BAn.y),JAn.y);
+        Point BFn = new Point((int)((BF.x-refPoint.x)*Math.cos(rotation)- (BF.y-refPoint.y)*Math.sin(rotation))+refPoint.x,
+                (int)((BF.y-refPoint.y)*Math.cos(rotation) + (BF.x-refPoint.x)*Math.sin(rotation))+refPoint.y);
+        Point JFn = new Point((int)((JF.x-refPoint.x)*Math.cos(rotation)- (JF.y-refPoint.y)*Math.sin(rotation))+refPoint.x,
+                (int)((JF.y-refPoint.y)*Math.cos(rotation) + (JF.x-refPoint.x)*Math.sin(rotation))+refPoint.y);
+        Point BAn = new Point((int)((BA.x-refPoint.x)*Math.cos(rotation)- (BA.y-refPoint.y)*Math.sin(rotation))+refPoint.x,
+                (int)((BA.y-refPoint.y)*Math.cos(rotation) + (BA.x-refPoint.x)*Math.sin(rotation))+refPoint.y);
+        Point JAn = new Point((int)((JA.x-refPoint.x)*Math.cos(rotation)- (JA.y-refPoint.y)*Math.sin(rotation))+refPoint.x,
+                (int)((JA.y-refPoint.y)*Math.cos(rotation) + (JA.x-refPoint.x)*Math.sin(rotation))+refPoint.y);
+        int minX = Math.min(Math.min(Math.min(JFn.x,BAn.x),JAn.x),BFn.x);
+        int minY = Math.min(Math.min(Math.min(JFn.y,BAn.y),JAn.y),BFn.y);
         if(minX > 0) minX = 0;
         if(minY > 0) minY = 0;
         return new Point((-minX), (-minY));
