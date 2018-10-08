@@ -104,6 +104,7 @@ public class CourseDisplay extends JPanel {
     // A dinamikus elemek kirajzolasa
     private void renderDynamicObjects(List<WorldObject> dynamicObjects){
         // TODO
+        
     }
 
 
