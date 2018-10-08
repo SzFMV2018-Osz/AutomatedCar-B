@@ -146,7 +146,7 @@ public class CourseDisplay extends JPanel {
             //Todo: delete this two line if T1 finished with WorldObject tasks.
             //object.setHeight(image.getHeight());
             //object.setWidth(image.getWidth());
-
+            image = RotateTransform(image,object);
             g.drawImage(image, scaleObject(object.getX() + xOffset), scaleObject(object.getY() + yOffset), scaleObject(image.getWidth()),
                     scaleObject(image.getHeight()), this);
         } catch (IOException e) {
@@ -185,8 +185,8 @@ public class CourseDisplay extends JPanel {
                 (int)((JA.y-refPoint.y)*Math.cos(rotation) + (JA.x-refPoint.x)*Math.sin(rotation))+refPoint.y);
         int minX = Math.min(Math.min(Math.min(JFn.x,BAn.x),JAn.x),BFn.x);
         int minY = Math.min(Math.min(Math.min(JFn.y,BAn.y),JAn.y),BFn.y);
-        if(minX > 0) minX = 0;
-        if(minY > 0) minY = 0;
+        //if(refPoint.x==0 && minX > 0) minX = 0;
+        //if(refPoint.y==0 && minY > 0) minY = 0;
         return new Point((-minX), (-minY));
     }
 
