@@ -29,7 +29,7 @@ public class Main {
         // AUTOMATED CAR RENDERING TESZT
         AutomatedCar car = new AutomatedCar(20, 20, "car_2_white.png");
         w.setAutomatedCar(car);
-        car.setRotation((float)(Math.PI/2));
+        car.setRotation((float)(Math.PI*1.7));
         /////////////////////////////////
 
         // add car to the world

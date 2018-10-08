@@ -163,10 +163,10 @@ public class CourseDisplay extends JPanel {
     {
         AffineTransform tx = new AffineTransform();
         Point refPoint = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(object.getImageFileName());
-        tx.rotate(object.getRotation(), refPoint.x, refPoint.y);
         Point translate = getTranslateUnit(new Point(img.getWidth(),0), new Point(0,img.getHeight()),
                 new Point(img.getWidth(),img.getHeight()),object.getRotation());
-        tx.translate(translate.x, translate.y);
+        tx.translate(translate.x,translate.y);
+        tx.rotate(object.getRotation(), refPoint.x, refPoint.y);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         img = op.filter(img, null);
         return img;
@@ -182,7 +182,9 @@ public class CourseDisplay extends JPanel {
                 (int)(JA.y*Math.cos(rotation) + JA.x*Math.sin(rotation)));
         int minX = Math.min(Math.min(JFn.x,BAn.x),JAn.x);
         int minY = Math.min(Math.min(JFn.y,BAn.y),JAn.y);
-        return new Point((minX*-1), (minY));
+        if(minX > 0) minX = 0;
+        if(minY > 0) minY = 0;
+        return new Point((-minX), (-minY));
     }
 
     public void refreshFrame() {
