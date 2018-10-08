@@ -25,9 +25,15 @@ public class Main {
         // create the world
         World w = new World(800, 600);
         // create an automated car
+
+        // AUTOMATED CAR RENDERING TESZT
         AutomatedCar car = new AutomatedCar(20, 20, "car_2_white.png");
+        w.setAutomatedCar(car);
+        /////////////////////////////////
+
         // add car to the world
-        w.addObjectToWorld(car);
+        WorldObject road = new WorldObject(20, 20, "2_crossroad_2.png");
+        w.addObjectToWorld(road);
 
         // create gui
         Gui gui = new Gui();
