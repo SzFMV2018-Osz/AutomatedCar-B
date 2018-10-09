@@ -120,7 +120,6 @@ public final class Utils {
             if(objectNode.getNodeType() == Node.ELEMENT_NODE){
                 objectElement = (Element) objectNode;
                 type = objectElement.getAttribute("type");
-                //System.out.println("Type: " + objectElement.getAttribute("type"));
                 NodeList childNodes = objectElement.getChildNodes();
 
                 for(int j = 0; j < childNodes.getLength(); j++) {
