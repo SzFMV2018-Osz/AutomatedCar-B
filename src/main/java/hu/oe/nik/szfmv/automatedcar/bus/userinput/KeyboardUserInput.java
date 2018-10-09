@@ -156,18 +156,18 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
     private void onPedalPush(PedalType p){
 
         if(p == PedalType.Gas)
-            gasPedalEventHandlers.forEach(IPedalEventHandler::onPedalPush);
+            gasPedalEventHandlers.forEach(IPedalEventHandler::onGasPedalPush);
         else if(p == PedalType.Brake)
-            brakePedalEventHandlers.forEach(IPedalEventHandler::onPedalPush);
+            brakePedalEventHandlers.forEach(IPedalEventHandler::onBrakePedalPush);
         else
             throw new UnsupportedOperationException("There isn't event handling support for this pedal type: "+p.name());
     }
     private void onPedalRelease(PedalType p){
 
         if(p == PedalType.Gas)
-            gasPedalEventHandlers.forEach(IPedalEventHandler::onPedalRelease);
+            gasPedalEventHandlers.forEach(IPedalEventHandler::onGasPedalRelease);
         else if(p== PedalType.Brake)
-            brakePedalEventHandlers.forEach(IPedalEventHandler::onPedalRelease);
+            brakePedalEventHandlers.forEach(IPedalEventHandler::onBrakePedalRelease);
         else
             throw new UnsupportedOperationException("There isn't event handling support for this pedal type: "+p.name());
     }

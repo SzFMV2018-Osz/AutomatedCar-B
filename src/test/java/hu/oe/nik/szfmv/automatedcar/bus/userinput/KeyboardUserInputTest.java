@@ -113,9 +113,13 @@ public class KeyboardUserInputTest {
     class PedalHandlerDummy implements IPedalEventHandler
     {
         @Override
-        public void onPedalPush() {}
+        public void onGasPedalPush() {}
         @Override
-        public void onPedalRelease() {}
+        public void onGasPedalRelease() {}
+        @Override
+        public void onBrakePedalPush() {}
+        @Override
+        public void onBrakePedalRelease() {}
     }
 
     class ShiftingHandlerFake implements IShiftingEventHandler
