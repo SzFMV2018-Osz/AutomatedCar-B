@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.visualization;
-import hu.oe.nik.szfmv.visualization.elements.*;
+import hu.oe.nik.szfmv.visualization.elements.PedalBar;
+import hu.oe.nik.szfmv.visualization.elements.CircleCalculator;
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,12 +12,11 @@ public class Dashboard extends JPanel {
     public enum MeterTypes {
         SPEED, RPM
     }
-
+    public int speed;
+    public int rpm;
     private final int width = 250;
     private final int height = 700;
     private final int backgroundColor = 0x888888;
-    public int speed;
-    public int rpm;
 
     private final Point brakePedal = new Point(40, 290);
     private final Point gasPedal = new Point(40, 260);
@@ -30,8 +30,8 @@ public class Dashboard extends JPanel {
     private JLabel gasPedalLabel = bPB.getPedalProgressBarLabel(gasPedal.x, gasPedal.y, "Gas pedal");
     private JProgressBar gasPedalBar = bPB.getPedalProgressBar(gasPedal.x, gasPedal.y, gasPedalLabel.getHeight());
 
-    private CircleCalculator speedMeter = new CircleCalculator(this, MeterTypes.SPEED, new Point(115,0));
-    private CircleCalculator rpmMeter = new CircleCalculator(this, MeterTypes.RPM, new Point(0,0));
+    private CircleCalculator speedMeter = new CircleCalculator(this, MeterTypes.SPEED, new Point(115, 0));
+    private CircleCalculator rpmMeter = new CircleCalculator(this, MeterTypes.RPM, new Point(0, 0));
 
     /**
      * Initialize the dashboard
@@ -45,8 +45,8 @@ public class Dashboard extends JPanel {
         //Speed and RPM initialized with 0 rpm and km/h value
         rpm = 0;
         speed = 0;
-        CreateCircleMeter(speedMeter);
-        CreateCircleMeter(rpmMeter);
+        createCircleMeter(speedMeter);
+        createCircleMeter(rpmMeter);
 
         add(brakePedalLabel);
         add(brakePedalBar);
@@ -58,7 +58,7 @@ public class Dashboard extends JPanel {
      * Creates and adds meter to the dashboard
      * @param meter position x on board
      */
-    private void CreateCircleMeter(CircleCalculator meter) {
+    private void createCircleMeter(CircleCalculator meter) {
         meter.setBounds(meter.getPosition().x, meter.getPosition().y, 115, 115);
         meter.setVisible(true);
         add(meter);
