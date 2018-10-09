@@ -78,7 +78,7 @@ public class CourseDisplay extends JPanel {
              * az elemeket, majd ha minden felkerült rá, ezt a képet rajzoljuk át
              * a fő grafikai elemünkre, így megszüntetve az elemek remegését
              */
-            super.paintComponent(g);
+            //super.paintComponent(g);
 
             Image offscreen = createImage(width, height);
             Graphics screenBuffer = offscreen.getGraphics();
@@ -155,10 +155,14 @@ public class CourseDisplay extends JPanel {
             double imageWidth = scaleObject(image.getWidth());
             double imageHeight = scaleObject(image.getHeight());
 
-            int imagePositionX = scaleObject(object.getX() + xOffset) + height/2;
+            int imagePositionX = scaleObject( object.getX() + xOffset) + height/2;
             int imagePositionY = scaleObject(object.getY() + yOffset) + height/2;
 
-            AffineTransform at = AffineTransform.getTranslateInstance( imagePositionX, imagePositionY);
+            AffineTransform at = new AffineTransform();
+            at.setToTranslation( imagePositionX, imagePositionY);// AffineTransform.getTranslateInstance( imagePositionX, imagePositionY);
+
+            // A forgatasi pontot veszi eltolasi pontnak is????
+            at.translate(-object.getRotPointX() *SCALING_FACTOR, - object.getRotPointY()*SCALING_FACTOR);
 
             // Kep elforgatasa a megfelelo pontnal
             at.rotate(Math.toRadians(-object.getRotation()),

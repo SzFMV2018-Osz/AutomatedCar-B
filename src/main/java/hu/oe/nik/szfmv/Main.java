@@ -45,7 +45,7 @@ public class Main {
         World w = new World(800, 600);
 
         // AUTOMATED CAR RENDERING TESZT
-        AutomatedCar car = new AutomatedCar(0, 0, "car_2_white.png");
+        AutomatedCar car = new AutomatedCar(1800, -700, "car_2_white.png");
         w.setAutomatedCar(car);
         car.setRotation((float)(Math.PI/4));
         /////////////////////////////////
