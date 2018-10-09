@@ -22,7 +22,7 @@ public class PedalBar extends JPanel {
 
         progressBar.setStringPainted(true);
         progressBar.setVisible(true);
-        progressBar.setValue(0);
+        progressBar.setValue(MIN_PEDAL_VALUE);
 
         return progressBar;
     }
@@ -49,11 +49,13 @@ public class PedalBar extends JPanel {
     /**
      * Sets the value of the bar
      * @param progressBar the bar that we want to change
-     * @param value the new value of the bar
+     * @param value the new value of the bar, must be between 0 and 100
 p    */
     public void setProgress(JProgressBar progressBar, int value) {
         if (value >= MIN_PEDAL_VALUE && value <= MAX_PEDAL_VALUE) {
             progressBar.setValue(value);
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 }
