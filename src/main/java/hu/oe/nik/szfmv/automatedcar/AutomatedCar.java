@@ -13,7 +13,7 @@ public class AutomatedCar extends WorldObject {
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
     private final double speedMetersPerSeconds;
 
-    private final double wheelRadius;
+    private final double wheelRadius = 0.33;
 
     /**
      * Constructor of the AutomatedCar class
@@ -24,26 +24,23 @@ public class AutomatedCar extends WorldObject {
      *                      course display
      */
     public AutomatedCar(final int x, final int y, final String imageFileName) {
-	super(x, y, imageFileName);
+        super(x, y, imageFileName);
 
-	powertrainSystem = new PowertrainSystem(virtualFunctionBus);
-	steeringSystem = new SteeringSystem(virtualFunctionBus);
-	speedMetersPerSeconds = 0;
+        powertrainSystem = new PowertrainSystem(virtualFunctionBus);
+        steeringSystem = new SteeringSystem(virtualFunctionBus);
+        speedMetersPerSeconds = 0;
 
-	wheelRadius = 0.33;
-
-	new Driver(virtualFunctionBus);
+        new Driver(virtualFunctionBus);
     }
 
     /**
      * Provides a sample method for modifying the position of the car.
      */
     public void drive() {
-	final double wheelRotationRate = speedMetersPerSeconds / wheelRadius;
-	powertrainSystem.updateEngine(wheelRotationRate);
-	virtualFunctionBus.loop();
-
-	calculatePositionAndOrientation();
+        final double wheelRotationRate = speedMetersPerSeconds / wheelRadius;
+        powertrainSystem.updateEngine(wheelRotationRate);
+        virtualFunctionBus.loop();
+        calculatePositionAndOrientation();
     }
 
     /**
@@ -51,13 +48,13 @@ public class AutomatedCar extends WorldObject {
      * powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
-	// TODO it is just a fake implementation
-	final double speed = speedMetersPerSeconds;
-	final double angularSpeed = steeringSystem.getAngularSpeed();
+        // TODO it is just a fake implementation
+        final double speed = speedMetersPerSeconds;
+        final double angularSpeed = steeringSystem.getAngularSpeed();
 
-	x += speed;
-	y = 0;
+        x += speed;
+        y = 0;
 
-	rotation += angularSpeed;
+        rotation += angularSpeed;
     }
 }

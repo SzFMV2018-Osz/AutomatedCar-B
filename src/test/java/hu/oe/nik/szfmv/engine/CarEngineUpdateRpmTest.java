@@ -11,7 +11,7 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
 @RunWith(JUnitParamsRunner.class)
-public class CarEngineTest {
+public class CarEngineUpdateRpmTest {
 
     private CarEngine underTest;
 
