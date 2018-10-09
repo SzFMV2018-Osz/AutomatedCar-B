@@ -1,7 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.bus.userinput;
 
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.Direction;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.Gear;
+import hu.oe.nik.szfmv.common.enums.Gear;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.PedalType;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IIndicationEventHandler;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IPedalEventHandler;
