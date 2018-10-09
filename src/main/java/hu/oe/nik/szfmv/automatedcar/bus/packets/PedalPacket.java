@@ -30,51 +30,51 @@ public class PedalPacket implements IReadonlyPedalPacket, IPedalEventHandler {
         this.input = input;
         this.input.subscribePedalEvents(this, PedalType.Gas);
         this.input.subscribePedalEvents(this, PedalType.Brake);
-        gasPedalPosition = 0;
-        gasPedalPositionSnapshot = 0;
-        brakePedalPosition = 0;
-        brakePedalPositionSnapshot = 0;
+        this.gasPedalPosition = 0;
+        this.gasPedalPositionSnapshot = 0;
+        this.brakePedalPosition = 0;
+        this.brakePedalPositionSnapshot = 0;
     }
 
     @Override
     public int getGasPedalPosition() {
-        return gasPedalPositionSnapshot;
+        return this.gasPedalPositionSnapshot;
     }
 
     @Override
     public int getBrakePedalPosition() {
-        return brakePedalPositionSnapshot;
+        return this.brakePedalPositionSnapshot;
     }
 
     @Override
     public void onGasPedalPush() {
-        if(gasPedalPosition + GAS_PEDAL_POSITION_DELTA <= PEDAL_MAX_POSITION)
-            gasPedalPosition += GAS_PEDAL_POSITION_DELTA;
+        if(this.gasPedalPosition + this.GAS_PEDAL_POSITION_DELTA <= this.PEDAL_MAX_POSITION)
+            this.gasPedalPosition += this.GAS_PEDAL_POSITION_DELTA;
     }
 
     @Override
     public void onGasPedalRelease() {
-        if(gasPedalPosition - GAS_PEDAL_POSITION_DELTA >= PEDAL_MIN_POSITION)
-            gasPedalPosition -= GAS_PEDAL_POSITION_DELTA;
+        if(this.gasPedalPosition - this.GAS_PEDAL_POSITION_DELTA >= this.PEDAL_MIN_POSITION)
+            this.gasPedalPosition -= this.GAS_PEDAL_POSITION_DELTA;
     }
 
     @Override
     public void onBrakePedalPush() {
-        if(brakePedalPosition + BRAKE_PEDAL_POSITION_DELTA <= PEDAL_MAX_POSITION)
-            brakePedalPosition += BRAKE_PEDAL_POSITION_DELTA;
+        if(this.brakePedalPosition + this.BRAKE_PEDAL_POSITION_DELTA <= this.PEDAL_MAX_POSITION)
+            this.brakePedalPosition += this.BRAKE_PEDAL_POSITION_DELTA;
     }
 
     @Override
     public void onBrakePedalRelease() {
-        if(brakePedalPosition - BRAKE_PEDAL_POSITION_DELTA >= PEDAL_MIN_POSITION)
-            brakePedalPosition -= BRAKE_PEDAL_POSITION_DELTA;
+        if(this.brakePedalPosition - this.BRAKE_PEDAL_POSITION_DELTA >= this.PEDAL_MIN_POSITION)
+            this.brakePedalPosition -= this.BRAKE_PEDAL_POSITION_DELTA;
     }
 
     /**
      * Refresh the pedal state and ensure that its value will be the same until the next call of this function
      */
     public void createSnapshot() {
-        gasPedalPositionSnapshot = gasPedalPosition;
-        brakePedalPositionSnapshot = brakePedalPosition;
+        this.gasPedalPositionSnapshot = this.gasPedalPosition;
+        this.brakePedalPositionSnapshot = this.brakePedalPosition;
     }
 }
