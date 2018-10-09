@@ -54,4 +54,15 @@ public class BrakeForceTest {
         Assert.assertEquals(brakeForce[0], -vx, 0.01);
         Assert.assertEquals(brakeForce[1], -vy, 0.01);
     }
+    @Test
+    @Parameters({"0.2|0.3", "0.4|0.3"})
+    public void RollingResistanceTest(final double vx, final double vy){
+        //GIVEN
+        //WHEN
+        double [] rResistance=BrakingForces.calcRollingResistanceVector(vx,vy);
+        //THEN
+
+        Assert.assertEquals(rResistance[0], -vx, 0.01);
+        Assert.assertEquals(rResistance[1], -vy, 0.01);
+    }
 }
