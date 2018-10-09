@@ -8,7 +8,7 @@ public class BrakingForces {
     private static double aeroDrag = 0.05;
     private static double maxBrakeForce = 0.5;
     private static double breakPedalPercentageMultiplyer = 0.01;
-    private static double frictionFactor = 30*aeroDrag;
+    private static double frictionFactor = 30 * aeroDrag;
 
     /**
      * @param vx the x component of the velocity vector
