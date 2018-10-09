@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.automatedcar.bus;
 
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyGearPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyIndicationPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlySteeringPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.ReadOnlySamplePacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 
@@ -19,7 +20,7 @@ public class VirtualFunctionBus {
     public ReadOnlySamplePacket samplePacket;
     public IReadonlyIndicationPacket indicationPacket;
     public IReadonlyGearPacket gearPacket;
-
+    public IReadonlySteeringPacket steeringWheelPacket;
     private List<SystemComponent> components = new ArrayList<>();
 
     /**
@@ -37,6 +38,7 @@ public class VirtualFunctionBus {
     public void loop() {
         for (SystemComponent comp : components) {
             comp.loop();
+
         }
     }
 }
