@@ -7,6 +7,7 @@ public class BrakingForces {
     private static double aeroDrag = 0.05;
     private static double maxBrakeForce = 0.5;
     private static double breakPedalPercentageMultiplyer = 0.01;
+    private static double frictionFactor = 30 * aeroDrag;
 
     /**
      * @param vx the x component of the velocity vector
@@ -56,5 +57,21 @@ public class BrakingForces {
         }
 
         return brakeForce;
+    }
+    
+    /**
+     * @param vx the x component of the velocity vector
+     * @param vy the y component of the velocity vector
+     * @return array of rolling resistance vector component values
+     */
+    public  static double[] calcRollingResistanceVector(double vx, double vy) {
+        double [] rResistance = new double[2];
+
+        if (vx != 0.0 || vy != 0.0) {
+            rResistance[0] = vx * (-frictionFactor);
+            rResistance[1] = vy * (-frictionFactor);
+        }
+
+        return  rResistance;
     }
 }
