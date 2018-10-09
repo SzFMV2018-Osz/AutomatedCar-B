@@ -5,3 +5,16 @@
 
 [virtualFunctionBus]
     debug = false
+
+#https://docs.oracle.com/javase/7/docs/api/constant-values.html#java.awt.event.KeyEvent
+[keyboard]
+    gas = 38 #VK_UP
+    brake = 40 #VK_DOWN
+    steer_left = 37 #VK_LEFT
+    steer_right = 39 #VK_RIGHT
+    indicate_left = 48 #VK_0
+    indicate_right = 49 #VK_1
+    gear_d = 68 #VK_D
+    gear_n = 78 #VK_N
+    gear_p = 80 #VK_P
+    gear_r = 82 #VK_R
