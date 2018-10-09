@@ -37,4 +37,8 @@ public class UtilsTest {
 
     @Test
     public void testXmlReader() throws IOException, SAXException, ParserConfigurationException { assertEquals(null, Utils.xmlReader(), THRESHOLD);}
-    }
+
+    @Test
+    public void getDataFromDocument() { assertEquals(null, Utils.getDataFromDocument(null), THRESHOLD);}
+}
+

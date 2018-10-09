@@ -25,7 +25,7 @@ public class Main {
 
         // log the current debug mode in config
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
-
+        Utils.getDataFromDocument(Utils.xmlReader());
         // create the world
         World w = new World(800, 600);
         // create an automated car
@@ -38,7 +38,6 @@ public class Main {
 
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w);
-        Utils.xmlReader();
 
         while (true) {
             try {
