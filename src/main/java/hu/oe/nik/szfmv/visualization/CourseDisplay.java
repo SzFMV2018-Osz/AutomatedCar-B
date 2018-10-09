@@ -22,17 +22,15 @@ import java.util.List;
  * CourseDisplay is for providing a viewport to the virtual world where the simulation happens.
  */
 public class CourseDisplay extends JPanel {
-
     // Ezek a valtozok tartalmazzak a kiinduloponttol valo elmozdulas mennyiseget
     // ezeket is SCALELNI kell !!!
-
     // TODO: lehet hogy ezeket float vagy double-re kellene atalakitani, hogy ne csak egesz pixellel mozduljon el a kep
     // TODO: ha tul lassan mozog az auto es tul messzirol nezzuk (kulonben szaggat)
     public int xOffset = 0;
     public int yOffset = 0;
 
     // Ezt az FPS-t szeretnénk tartani
-    public static final int TARGET_FPS = 24;
+    private static final int TARGET_FPS = 24;
     // Egy ciklus hossza
     private static int CYCLE_PERIOD = 40;
     // Az aktuális renderelési és számítási ciklus kezdetének időpontja
@@ -40,16 +38,14 @@ public class CourseDisplay extends JPanel {
     // Az aktuális renderelési és számítási ciklus hossza
     private static long cycle_length;
 
-    // asdasd asdasdasd asdas 3
-
     private Calendar cal;
-
     private static final Logger LOGGER = LogManager.getLogger();
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
     private final double SCALING_FACTOR = 0.2;
 
+    // segédszámláló auto forgas teszteleshez, TODO: torolni
     private int f = 0;
 
     /**
@@ -72,8 +68,8 @@ public class CourseDisplay extends JPanel {
         f += 5;
         try {
             // TODO
+            Graphics g = getGraphics();
             cycle_start = cal.getTimeInMillis();
-
             xOffset = -world.getAutomatedCar().getX();
             yOffset = world.getAutomatedCar().getY();
 
@@ -82,7 +78,8 @@ public class CourseDisplay extends JPanel {
              * az elemeket, majd ha minden felkerült rá, ezt a képet rajzoljuk át
              * a fő grafikai elemünkre, így megszüntetve az elemek remegését
              */
-            Graphics g = getGraphics();
+            super.paintComponent(g);
+
             Image offscreen = createImage(width, height);
             Graphics screenBuffer = offscreen.getGraphics();
 
@@ -137,10 +134,6 @@ public class CourseDisplay extends JPanel {
             int imageWidth = scaleObject(image.getWidth());
             int imageHeight = scaleObject(image.getHeight());
 
-
-            //buffer.drawImage(image, width / 2 - imageWidth/2, height / 2 - imageHeight/2, imageWidth,
-              //      imageHeight, this);
-
             AffineTransform at = AffineTransform.getTranslateInstance( width / 2 - imageWidth/2, height / 2 - imageHeight/2);
             at.rotate(Math.toRadians(f), 0,0);//imageWidth /2, imageHeight / 2);
             Graphics2D g2d = (Graphics2D) buffer;
@@ -154,34 +147,29 @@ public class CourseDisplay extends JPanel {
 
     // TODO: ez alapjan csinaljuk meg a render fuggvenyeket
     protected void paintComponent(Graphics g, WorldObject object) {
-        //super.paintComponent(g);
-
-        // draw objects
         BufferedImage image;
         try {
             // read file from resources
             image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
 
-            //Set object height and width. Its not our task!
-            //Todo: delete this two line if T1 finished with WorldObject tasks.
-            //object.setHeight(image.getHeight());
-            //object.setWidth(image.getWidth());
-
             double imageWidth = scaleObject(image.getWidth());
             double imageHeight = scaleObject(image.getHeight());
 
-            AffineTransform at = AffineTransform.getTranslateInstance( scaleObject(object.getX() + xOffset) + width / 2,
-                    scaleObject(object.getY() + yOffset) + height/2);
+            int imagePositionX = scaleObject(object.getX() + xOffset) + height/2;
+            int imagePositionY = scaleObject(object.getY() + yOffset) + height/2;
+
+            AffineTransform at = AffineTransform.getTranslateInstance( imagePositionX, imagePositionY);
+
+            // Kep elforgatasa a megfelelo pontnal
             at.rotate(Math.toRadians(-object.getRotation()),
                     scaleObject(object.getRotPointX()),
                     scaleObject(object.getRotPointY()));//imageWidth /2, imageHeight / 2);
-            Graphics2D g2d = (Graphics2D) g;
+
+            // Kep atmeretezese
             at.scale(SCALING_FACTOR, SCALING_FACTOR);
+
+            Graphics2D g2d = (Graphics2D) g;
             g2d.drawImage(image, at, null);
-
-
-            //g.drawImage(image, , scaleObject(image.getWidth()),
-              //      scaleObject(image.getHeight()), this);
 
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
