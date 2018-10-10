@@ -1,9 +1,12 @@
 package hu.oe.nik.szfmv.automatedcar.engine;
 
 public class CarEngine {
+    private final int gearRatioMultiplyer = 60;
+    private final int throttlePositionDivider = 100;
 
     private CarEngineType engineType;
     private int rpm;
+
 
     /**
      * @param engineType the type of the engine
@@ -23,7 +26,7 @@ public class CarEngine {
      */
     public void updateRpm(final double wheelRotationRate, final int currentGear) {
         rpm = (int) ((wheelRotationRate * engineType.getGearRatios()[currentGear]
-                * engineType.getGearDifferentialRatio() * 60) / (2 * Math.PI));
+                * engineType.getGearDifferentialRatio() * gearRatioMultiplyer) / (2 * Math.PI));
     }
 
     /**
@@ -31,7 +34,7 @@ public class CarEngine {
      * @return the engine torque that the motor produces
      */
     public double calculateEngineTorque(final int throttlePosition) {
-        return ((double) throttlePosition / 100) * lookupMaxTorque();
+        return ((double) throttlePosition / throttlePositionDivider) * lookupMaxTorque();
     }
 
     private double lookupMaxTorque() {

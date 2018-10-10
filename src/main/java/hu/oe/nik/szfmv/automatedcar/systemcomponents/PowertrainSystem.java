@@ -49,6 +49,9 @@ public class PowertrainSystem extends SystemComponent {
 
     }
 
+    /**
+     * @param wheelRotationRate the current wheel rotation rate
+     */
     public void updateEngine(final double wheelRotationRate) {
         if (wheelRotationRate >= 0 && gearBox.getTransmissionModes().getCanItMove()) {
             engine.updateRpm(wheelRotationRate, gearBox.getCurrentGear());

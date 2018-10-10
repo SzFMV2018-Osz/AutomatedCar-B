@@ -48,7 +48,6 @@ public class AutomatedCar extends WorldObject {
      * powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
-        // TODO it is just a fake implementation
         final double speed = speedMetersPerSeconds;
         final double angularSpeed = steeringSystem.getAngularSpeed();
 

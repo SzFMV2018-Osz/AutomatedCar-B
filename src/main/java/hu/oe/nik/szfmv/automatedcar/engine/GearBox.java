@@ -8,6 +8,9 @@ public class GearBox {
     private int currentGear;
     private TransmissionModes transmissionModes;
 
+    /**
+     * @param engineType the type of the engine
+     */
     public GearBox(final CarEngineType engineType) {
         this.engineType = engineType;
         currentGear = 1;
@@ -21,6 +24,9 @@ public class GearBox {
         return currentGear;
     }
 
+    /**
+     * @param rpm the rpm
+     */
     public void updateGear(final int rpm) {
         if ((currentGear < engineType.getGearCount()) && (rpm > engineType.getGearShiftRpm())) {
             currentGear++;
