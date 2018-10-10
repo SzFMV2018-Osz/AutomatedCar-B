@@ -1,66 +1,105 @@
 package hu.oe.nik.szfmv.environment;
 
 
-
-
 public class StaticObject extends WorldObject {
     public enum TypeEnum {
-        TREE, ROADSIGN_PARKING_RIGHT, ROADSIGN_SPEED_40, ROADSIGN_SPEED_50, ROADSIGN_SPEED_60, ROADSIGN_PRIORITY_STOP, BOUNDARY, BOLLARD, CROSSROAD, GARAGE, CROSSWALK, PARKING_SPACE_PARALELL, ROAD_2LANE_STRAIGHT,
-        ROAD_2LANE_90RIGHT, ROAD_2LANE_45RIGHT,ROAD_2LANE_TJUNCTIONLEFT, ROAD_2LANE_TJUNCTIONRIGHT, PARKING_90
+        TREE, ROADSIGN_PARKING_RIGHT, ROADSIGN_SPEED_40, ROADSIGN_SPEED_50, ROADSIGN_SPEED_60, ROADSIGN_PRIORITY_STOP,
+        BOUNDARY, BOLLARD, CROSSROAD, GARAGE, CROSSWALK, PARKING_SPACE_PARALELL, ROAD_2LANE_STRAIGHT,
+        ROAD_2LANE_90RIGHT, ROAD_2LANE_45RIGHT, ROAD_2LANE_TJUNCTIONLEFT, ROAD_2LANE_TJUNCTIONRIGHT, PARKING_90
     }
 
-    private TypeEnum Type;
-    private boolean Collidable;
+    private TypeEnum type;
+    private boolean collidable;
 
-
+    /**
+     * @param x             x koordináta
+     * @param y             x koordináta
+     * @param imageFileName kép neve
+     * @param type          typus
+     */
     public StaticObject(int x, int y, String imageFileName, String type) {
         super(x, y, imageFileName);
-        switch (type)
-        {
-            case "tree": this.Type = TypeEnum.TREE; this.Collidable = true;
+        switch (type) {
+            case "tree":
+                this.type = TypeEnum.TREE;
+                this.collidable = true;
                 break;
-            case "road_2lane_straight": this.Type = TypeEnum.ROAD_2LANE_STRAIGHT; this.Collidable = false;
+            case "road_2lane_straight":
+                this.type = TypeEnum.ROAD_2LANE_STRAIGHT;
+                this.collidable = false;
                 break;
-            case "road_2lane_90right": this.Type = TypeEnum.ROAD_2LANE_90RIGHT; this.Collidable = false;
+            case "road_2lane_90right":
+                this.type = TypeEnum.ROAD_2LANE_90RIGHT;
+                this.collidable = false;
                 break;
-            case "road_2lane_45right": this.Type = TypeEnum.ROAD_2LANE_45RIGHT; this.Collidable = false;
+            case "road_2lane_45right":
+                this.type = TypeEnum.ROAD_2LANE_45RIGHT;
+                this.collidable = false;
                 break;
-            case "road_2lane_tjunctionleft": this.Type = TypeEnum.ROAD_2LANE_TJUNCTIONLEFT; this.Collidable = false;
+            case "road_2lane_tjunctionleft":
+                this.type = TypeEnum.ROAD_2LANE_TJUNCTIONLEFT;
+                this.collidable = false;
                 break;
-            case "road_2lane_tjunctionright": this.Type = TypeEnum.ROAD_2LANE_TJUNCTIONRIGHT; this.Collidable = false;
+            case "road_2lane_tjunctionright":
+                this.type = TypeEnum.ROAD_2LANE_TJUNCTIONRIGHT;
+                this.collidable = false;
                 break;
-            case "parking_space_parallel": this.Type = TypeEnum.PARKING_SPACE_PARALELL; this.Collidable = false;
+            case "parking_space_parallel":
+                this.type = TypeEnum.PARKING_SPACE_PARALELL;
+                this.collidable = false;
                 break;
-            case "roadsign_speed_50": this.Type = TypeEnum.ROADSIGN_SPEED_50; this.Collidable = true;
+            case "roadsign_speed_50":
+                this.type = TypeEnum.ROADSIGN_SPEED_50;
+                this.collidable = true;
                 break;
-            case "roadsign_speed_60": this.Type = TypeEnum.ROADSIGN_SPEED_60; this.Collidable = true;
+            case "roadsign_speed_60":
+                this.type = TypeEnum.ROADSIGN_SPEED_60;
+                this.collidable = true;
                 break;
-            case "roadsign_speed_40": this.Type = TypeEnum.ROADSIGN_SPEED_40; this.Collidable = true;
+            case "roadsign_speed_40":
+                this.type = TypeEnum.ROADSIGN_SPEED_40;
+                this.collidable = true;
                 break;
-            case "roadsign_priority_stop": this.Type = TypeEnum.ROADSIGN_PRIORITY_STOP; this.Collidable = true;
+            case "roadsign_priority_stop":
+                this.type = TypeEnum.ROADSIGN_PRIORITY_STOP;
+                this.collidable = true;
                 break;
-            case "roadsign_parking_right": this.Type = TypeEnum.ROADSIGN_PARKING_RIGHT; this.Collidable = true;
+            case "roadsign_parking_right":
+                this.type = TypeEnum.ROADSIGN_PARKING_RIGHT;
+                this.collidable = true;
                 break;
-            case "crosswalk": this.Type = TypeEnum.CROSSWALK; this.Collidable = false;
+            case "crosswalk":
+                this.type = TypeEnum.CROSSWALK;
+                this.collidable = false;
                 break;
-            case "parking_90": this.Type = TypeEnum.PARKING_90; this.Collidable = false;
+            case "parking_90":
+                this.type = TypeEnum.PARKING_90;
+                this.collidable = false;
                 break;
-            case "boundary": this.Type = TypeEnum.BOUNDARY; this.Collidable = true;
+            case "boundary":
+                this.type = TypeEnum.BOUNDARY;
+                this.collidable = true;
                 break;
-            case "bollard": this.Type = TypeEnum.BOLLARD; this.Collidable = true;
+            case "bollard":
+                this.type = TypeEnum.BOLLARD;
+                this.collidable = true;
                 break;
-            case "crossroad": this.Type = TypeEnum.CROSSROAD; this.Collidable = false;
+            case "crossroad":
+                this.type = TypeEnum.CROSSROAD;
+                this.collidable = false;
                 break;
-            case "garage": this.Type = TypeEnum.GARAGE; this.Collidable = true;
+            case "garage":
+                this.type = TypeEnum.GARAGE;
+                this.collidable = true;
                 break;
 
-            default: this.Type = null; this.Collidable = false;
+            default:
+                this.type = null;
+                this.collidable = false;
                 break;
         }
 
     }
-
-
 
 
     @Override
@@ -124,26 +163,21 @@ public class StaticObject extends WorldObject {
     }
 
 
-    public TypeEnum GetType()
-    {
-        return this.Type;
+    public TypeEnum getType() {
+        return this.type;
     }
 
-    public void SetType (TypeEnum Type)
-    {
-        this.Type = Type;
+    public void setType(TypeEnum type) {
+        this.type = type;
     }
 
-    public boolean GetCollidable()
-    {
-        return  this.Collidable;
+    public boolean getCollidable() {
+        return this.collidable;
     }
 
-    public void SetCollidable(boolean collidable)
-    {
-        this.Collidable = collidable;
+    public void setCollidable(boolean collidable) {
+        this.collidable = collidable;
     }
-
 
 
 }

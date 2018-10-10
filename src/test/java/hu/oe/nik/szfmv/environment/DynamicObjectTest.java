@@ -17,13 +17,13 @@ public class DynamicObjectTest {
 
     @Test
     public void getType() {
-        assertEquals(DynamicObject.TypeEnumDynamic.CAR, dc.GetType());
+        assertEquals(DynamicObject.TypeEnumDynamic.CAR, dc.getType());
     }
 
     @Test
     public void setType() {
-        dc.SetType(DynamicObject.TypeEnumDynamic.BICYCLE);
-        assertEquals(DynamicObject.TypeEnumDynamic.BICYCLE, dc.GetType());
+        dc.setType(DynamicObject.TypeEnumDynamic.BICYCLE);
+        assertEquals(DynamicObject.TypeEnumDynamic.BICYCLE, dc.getType());
     }
 
     @Test

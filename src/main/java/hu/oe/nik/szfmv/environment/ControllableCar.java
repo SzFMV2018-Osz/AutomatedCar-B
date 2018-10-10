@@ -2,24 +2,30 @@ package hu.oe.nik.szfmv.environment;
 
 public class ControllableCar extends DynamicObject {
 
-
+    /**
+     *
+     * @param x x koordináta
+     * @param y y koordináta
+     * @param imageFileName kép neve
+     * @param type typus
+     */
     public ControllableCar(int x, int y, String imageFileName, String type) {
         super(x, y, imageFileName, type);
     }
 
     @Override
-    public void Move() {
-        super.Move();
+    public void move() {
+        super.move();
     }
 
     @Override
-    public TypeEnumDynamic GetType() {
-        return super.GetType();
+    public TypeEnumDynamic getType() {
+        return super.getType();
     }
 
     @Override
-    public void SetType(TypeEnumDynamic Type) {
-        super.SetType(Type);
+    public void setType(TypeEnumDynamic type) {
+        super.setType(type);
     }
 
     @Override

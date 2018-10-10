@@ -81,24 +81,24 @@ public class StaticObjectTest {
 
     @Test
     public void getType() {
-        assertEquals(StaticObject.TypeEnum.TREE, so.GetType());
+        assertEquals(StaticObject.TypeEnum.TREE, so.getType());
 
     }
 
     @Test
     public void setType() {
-        so.SetType(StaticObject.TypeEnum.ROAD_2LANE_45RIGHT);
-        assertEquals(StaticObject.TypeEnum.ROAD_2LANE_45RIGHT, so.GetType());
+        so.setType(StaticObject.TypeEnum.ROAD_2LANE_45RIGHT);
+        assertEquals(StaticObject.TypeEnum.ROAD_2LANE_45RIGHT, so.getType());
     }
 
     @Test
     public void getCollidable() {
-        assertEquals(true, so.GetCollidable());
+        assertEquals(true, so.getCollidable());
     }
 
     @Test
     public void setCollidable() {
-        so.SetCollidable(false);
-        assertEquals(false, so.GetCollidable());
+        so.setCollidable(false);
+        assertEquals(false, so.getCollidable());
     }
 }

@@ -32,9 +32,19 @@ public class World {
     public void addObjectToWorld(WorldObject o) {
         worldObjects.add(o);
     }
+
+    /**
+     *
+     * @param o hozzáadandó objektum
+     */
     public void addObjectToStatic(StaticObject o) {
         staticObjects.add(o);
     }
+
+    /**
+     *
+     * @param o hozzáadandó objektum
+     */
     public void addObjectToDynamic(DynamicObject o) {
         dynamicObjects.add(o);
     }
