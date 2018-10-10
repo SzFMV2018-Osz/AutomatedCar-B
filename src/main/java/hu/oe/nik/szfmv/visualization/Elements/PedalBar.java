@@ -3,7 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PedalBar extends JPanel {
-    private static final int MIN_PEDAL_VALUE = 0, MAX_PEDAL_VALUE = 100;
+    private static final int MIN_PEDAL_VALUE = 0;
+    private static final int MAX_PEDAL_VALUE = 100;
 
     /**
      * Draws a progressbar for the pedals
@@ -16,7 +17,7 @@ public class PedalBar extends JPanel {
         JProgressBar progressBar = new JProgressBar(MIN_PEDAL_VALUE, MAX_PEDAL_VALUE);
         Insets insets = getInsets();
 
-        progressBar.setBounds(insets.left + offsetX, insets.top + offsetY + labelHeight, 161, 16);
+        progressBar.setBounds(insets.left + offsetX, insets.top + offsetY + labelHeight, 160, 15);
 
         progressBar.setStringPainted(true);
         progressBar.setVisible(true);

@@ -11,10 +11,16 @@ import java.awt.*;
  */
 public class Dashboard extends JPanel {
 
+    /**
+     * Speed or RPM meter
+     */
     public enum MeterTypes {
         SPEED, RPM
     }
 
+    /**
+     * Left or right sided index
+     */
     public enum IndexTypes {
         LEFT, RIGHT
     }

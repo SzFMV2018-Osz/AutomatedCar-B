@@ -80,7 +80,7 @@ public class CircleCalculator extends JPanel {
 
         //values on the diameter
         g.setColor(Color.BLACK);
-        g.setFont(g.getFont().deriveFont(Font.PLAIN, 9));
+        g.setFont(g.getFont().deriveFont(Font.BOLD, 9));
         for (int i = 110; i <= 250; i++) {
             int x = 50 + (int) (43 * Math.sin(i * Math.PI / 90));
             int y = 60 - (int) (43 * Math.cos(i * Math.PI / 90));
