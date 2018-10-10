@@ -25,7 +25,7 @@ public class Main {
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
 
         // debug info toggle for future modularity
-        boolean debugInfoIsEnabled = true;
+        boolean debugInfoIsEnabled = ConfigProvider.provide().getBoolean("dashboard.debug");
 
         // create the world
         World w = new World(800, 600);

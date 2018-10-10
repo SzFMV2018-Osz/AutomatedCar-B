@@ -6,6 +6,9 @@
 [virtualFunctionBus]
     debug = false
 
+[dashboard]
+    debug = true
+
 #https://docs.oracle.com/javase/7/docs/api/constant-values.html#java.awt.event.KeyEvent
 [keyboard]
     gas = 38 #VK_UP
