@@ -88,7 +88,7 @@ public class IndexArrow extends JPanel {
 
         //fill the background
         g.setColor(new Color(0x888888));
-        g.fillRect(0, 0, 50, 30);
+        g.fillRect(0, 0, 51, 31);
 
         //check sides and draws arrow
         if (type == Dashboard.IndexTypes.RIGHT) {

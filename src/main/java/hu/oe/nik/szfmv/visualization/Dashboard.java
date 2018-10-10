@@ -97,7 +97,7 @@ public class Dashboard extends JPanel {
      * @param index index that we want to add the dashboard
      */
     private void createIndex(IndexArrow index) {
-        index.setBounds(index.getPosition().x, index.getPosition().y, 50, 30);
+        index.setBounds(index.getPosition().x, index.getPosition().y, 51, 31);
         add(index);
     }
 }
