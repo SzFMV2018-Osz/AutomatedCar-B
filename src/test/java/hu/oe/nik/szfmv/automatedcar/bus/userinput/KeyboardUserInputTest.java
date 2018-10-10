@@ -114,7 +114,6 @@ public class KeyboardUserInputTest {
     {
         @Override
         public void onPedalPush() {}
-        @Override
         public void onPedalRelease() {}
     }
 
