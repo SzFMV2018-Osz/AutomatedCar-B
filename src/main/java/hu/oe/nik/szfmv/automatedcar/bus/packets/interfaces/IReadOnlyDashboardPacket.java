@@ -1,7 +1,19 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces;
 
+import hu.oe.nik.szfmv.common.enums.Gear;
+
 public interface IReadOnlyDashboardPacket {
-    public int getAutomatedCarX();
-    public int getAutomatedCarY();
-    public int getSteeringWheelValue();
+    int getAutomatedCarX();
+
+    int getAutomatedCarY();
+
+    int getSteeringWheelValue();
+
+    Gear getCurrentGear();
+
+    int getIndicatorDirection();
+
+    int getGasPedalPosition();
+
+    int getBrakePedalPosition();
 }

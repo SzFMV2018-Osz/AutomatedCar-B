@@ -1,21 +1,25 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets;
 
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
+import hu.oe.nik.szfmv.common.enums.Gear;
 
 public class DashboardPacket implements IReadOnlyDashboardPacket {
+
     private int automatedCarX;
     private int automatedCarY;
     private int steeringWheelValue;
-
-    public DashboardPacket(){
-        this.automatedCarX = 0;
-        this.automatedCarY = 0;
-        this.steeringWheelValue = 0;
-    }
+    private Gear currentGear;
+    private int indicatorDirection;
+    private int gasPedalPosition;
+    private int brakePedalPosition;
 
     @Override
     public int getAutomatedCarX() {
         return automatedCarX;
+    }
+
+    public void setAutomatedCarX(int automatedCarX) {
+        this.automatedCarX = automatedCarX;
     }
 
     @Override
@@ -23,8 +27,52 @@ public class DashboardPacket implements IReadOnlyDashboardPacket {
         return automatedCarY;
     }
 
+    public void setAutomatedCarY(int automatedCarY) {
+        this.automatedCarY = automatedCarY;
+    }
+
     @Override
     public int getSteeringWheelValue() {
         return steeringWheelValue;
+    }
+
+    public void setSteeringWheelValue(int steeringWheelValue) {
+        this.steeringWheelValue = steeringWheelValue;
+    }
+
+    @Override
+    public Gear getCurrentGear() {
+        return currentGear;
+    }
+
+    public void setCurrentGear(Gear currentGear) {
+        this.currentGear = currentGear;
+    }
+
+    @Override
+    public int getIndicatorDirection() {
+        return indicatorDirection;
+    }
+
+    public void setIndicatorDirection(int indicatorDirection) {
+        this.indicatorDirection = indicatorDirection;
+    }
+
+    @Override
+    public int getGasPedalPosition() {
+        return gasPedalPosition;
+    }
+
+    public void setGasPedalPosition(int gasPedalPosition) {
+        this.gasPedalPosition = gasPedalPosition;
+    }
+
+    @Override
+    public int getBrakePedalPosition() {
+        return brakePedalPosition;
+    }
+
+    public void setBrakePedalPosition(int brakePedalPosition) {
+        this.brakePedalPosition = brakePedalPosition;
     }
 }
