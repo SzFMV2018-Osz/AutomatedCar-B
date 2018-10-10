@@ -38,7 +38,6 @@ public class Main {
 
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w);
-        Utils.xmlReader();
 
         while (true) {
             try {
