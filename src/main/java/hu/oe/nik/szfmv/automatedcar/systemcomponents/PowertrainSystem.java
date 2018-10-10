@@ -13,7 +13,7 @@ import hu.oe.nik.szfmv.automatedcar.engine.TransmissionModes;
  */
 public class PowertrainSystem extends SystemComponent {
 
-
+    private PowertrainPacket powertrainPacket;
     private final CarEngineType engineType;
     private CarEngine engine;
     private GearBox gearBox;
@@ -25,8 +25,12 @@ public class PowertrainSystem extends SystemComponent {
      * @param virtualFunctionBus {@link VirtualFunctionBus} used to connect
      *                           {@link SystemComponent}s
      */
-    public PowertrainSystem(final VirtualFunctionBus virtualFunctionBus) {
+    public PowertrainSystem(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
+
+        powertrainPacket = new PowertrainPacket();
+        virtualFunctionBus.powertrainPacket = powertrainPacket;
+
         engineType = new StandardCarEngineType();
         engine = new CarEngine(engineType);
         gearBox = new GearBox(engineType);
@@ -46,7 +50,13 @@ public class PowertrainSystem extends SystemComponent {
 
     @Override
     public void loop() {
+        // GET INPUT
 
+        // PROCESS INPUT
+
+        // UPDATE OUT PACKET
+        powertrainPacket.setRpm(getRpm());
+        powertrainPacket.setGear(getCurrentGear());
     }
 
     /**
