@@ -14,6 +14,7 @@ public class GearBox {
     public GearBox(final CarEngineType engineType) {
         this.engineType = engineType;
         currentGear = 1;
+        transmissionModes = TransmissionModes.Neutral;
     }
 
     public TransmissionModes getTransmissionModes() {
@@ -37,9 +38,11 @@ public class GearBox {
 
     /**
      * Change transmission mode if it is possible
+     * 
      * @param nextTransmissionMode nex transnmission mode
-     * @param rpm actual rmp
-     * @throws TransmissionModeChangeException if you want to change mode but it is impossible
+     * @param rpm                  actual rmp
+     * @throws TransmissionModeChangeException if you want to change mode but it is
+     *                                         impossible
      */
     public void changeTransmissionMode(TransmissionModes nextTransmissionMode, final int rpm)
             throws TransmissionModeChangeException {
@@ -56,7 +59,7 @@ public class GearBox {
 
     private void reserveTransmissionModeHandler(TransmissionModes nextTransmissionModes, final int rpm)
             throws TransmissionModeChangeException {
-        if (getCurrentGear() != 1 || rpm != 0) {
+        if ((getCurrentGear() != 1) || (rpm != 0)) {
             throw new TransmissionModeChangeException(transmissionModes, nextTransmissionModes);
         } else {
             this.transmissionModes = nextTransmissionModes;
