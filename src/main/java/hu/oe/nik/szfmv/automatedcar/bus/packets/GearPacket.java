@@ -38,7 +38,7 @@ public class GearPacket implements IReadonlyGearPacket, IShiftingEventHandler {
     }
 
     /**
-     * Refresh the indicator state and ensure that its value will be the same until the next call of this function
+     * Refresh the gear state and ensure that its value will be the same until the next call of this function
      */
     public void createSnapshot() {
 
