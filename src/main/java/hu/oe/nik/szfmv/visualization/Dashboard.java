@@ -15,9 +15,9 @@ public class Dashboard extends JPanel {
     private final int height = 700;
     private final int backgroundColor = 0x888888;
 
-    private final double debugSectionXRatio = 0.05;
-    private final double debugSectionYRatio = 0.9;
+    private final Point debugSectionPosition = new Point(10, 630);
     private final int debugSectionRowSize = 20;
+
     private final Point brakePedal = new Point(40, 290);
     private final Point gasPedal = new Point(40, 260);
   
@@ -51,16 +51,13 @@ public class Dashboard extends JPanel {
      * @param debugInfo - object containing values to display for debug purposes
      */
     public void drawDashboardDebugDisplay(DebugInfoContainer debugInfo) {
-        Graphics graphics = this.getGraphics();
-        super.paintComponent(graphics);
+        Graphics g = this.getGraphics();
+        super.paintComponent(g);
 
-        int firstColumn = (int)Math.round(width * debugSectionXRatio);
-        int firstRow = (int)Math.round(height * debugSectionYRatio);
+        int currentRow = debugSectionPosition.y;
 
-        int rowWithOffset = firstRow;
-
-        graphics.drawString("debug:", firstColumn, rowWithOffset);
-        rowWithOffset += debugSectionRowSize;
-        graphics.drawString("x: " + debugInfo.getCarX() + ", y: " + debugInfo.getCarY(), firstColumn, rowWithOffset);
+        g.drawString("debug:", debugSectionPosition.x, currentRow);
+        currentRow += debugSectionRowSize;
+        g.drawString("x: " + debugInfo.getCarX() + ", y: " + debugInfo.getCarY(), debugSectionPosition.x, currentRow);
     }
 }
