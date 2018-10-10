@@ -1,13 +1,11 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets;
 
-import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IGraduallyChangeable;
-
 import java.time.Clock;
 
 /**
  * This class is responsible for the determination of the changeable variable's current value
  */
-public class GraduallyChangeable implements IGraduallyChangeable {
+public class GraduallyChangeable {
 
     private static Clock clock = Clock.systemUTC();
 
@@ -34,6 +32,22 @@ public class GraduallyChangeable implements IGraduallyChangeable {
     }
 
     /**
+     * Initializes a new instance for a task with following parameters and starts it.
+     *
+     * @param from         - the starting value
+     * @param to           - the target value
+     * @param milliseconds - the time of the transition
+     * @return The instance which has been created by this method.
+     */
+    public static GraduallyChangeable startNew(int from, int to, int milliseconds) {
+
+        GraduallyChangeable gc = new GraduallyChangeable(from, to, milliseconds);
+        gc.start();
+
+        return gc;
+    }
+
+    /**
      * Changes the clock which is used by the instances to get the current time.
      *
      * @param c - clock object
@@ -54,17 +68,6 @@ public class GraduallyChangeable implements IGraduallyChangeable {
      *
      * @return the current state of the variable in the time of the method call
      */
-    @Override
-    public void startNew(int from, int to, int milliseconds) {
-        this.from = from;
-        this.to = to;
-        this.milliseconds = milliseconds;
-        this.isDecreasing = isDecreasing(from, to);
-
-        this.startedAt = clock.millis();
-    }
-
-    @Override
     public int getCurrentValue() {
         if (isDecreasing) {
             return from - determineChange();
