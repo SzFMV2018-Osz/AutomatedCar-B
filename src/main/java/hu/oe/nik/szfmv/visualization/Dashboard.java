@@ -1,4 +1,5 @@
 package hu.oe.nik.szfmv.visualization;
+import hu.oe.nik.szfmv.common.enums.Gear;
 import hu.oe.nik.szfmv.visualization.elements.PedalBar;
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,10 @@ public class Dashboard extends JPanel {
     private final int width = 250;
     private final int height = 700;
     private final int backgroundColor = 0x888888;
+    private final int gearLabelPosX = 90;
+    private final int gearLabelPosY = 200;
+    private final int gearLabelWidth = 50;
+    private final int gearLabelHeight = 30;
 
     private final Point brakePedal = new Point(40, 290);
     private final Point gasPedal = new Point(40, 260);
@@ -23,6 +28,7 @@ public class Dashboard extends JPanel {
     );
     private JLabel gasPedalLabel = bPB.getPedalProgressBarLabel(gasPedal.x, gasPedal.y, "Gas pedal");
     private JProgressBar gasPedalBar = bPB.getPedalProgressBar(gasPedal.x, gasPedal.y, gasPedalLabel.getHeight());
+    private JLabel gearLabel;
 
     /**
      * Initialize the dashboard
@@ -37,5 +43,17 @@ public class Dashboard extends JPanel {
         add(brakePedalBar);
         add(gasPedalLabel);
         add(gasPedalBar);
+        initGearLabel();
+    }
+
+    private void initGearLabel(){
+        gearLabel = new JLabel();
+        gearLabel.setBounds(gearLabelPosX, gearLabelPosY, gearLabelWidth, gearLabelHeight);
+        setGearLabelText(Gear.N);
+        add(gearLabel);
+    }
+
+    private void setGearLabelText(Gear gear){
+        gearLabel.setText("Gear: " + gear);
     }
 }
