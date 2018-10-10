@@ -1,15 +1,12 @@
 package hu.oe.nik.szfmv.common;
-
 import org.junit.Test;
-import org.xml.sax.SAXException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-import javax.swing.text.Document;
-import javax.xml.parsers.ParserConfigurationException;
-
-import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+
 
 public class UtilsTest {
 
@@ -36,5 +33,25 @@ public class UtilsTest {
     }
 
     @Test
-    public void testXmlReader() throws IOException, SAXException, ParserConfigurationException { assertEquals(null, Utils.xmlReader(), THRESHOLD);}
+    public void testXmlReader() {
+        Document d = null;
+        assertEquals(d,Utils.xmlReader(""));}
+
+    @Test
+    public void getDataFromDocument() {
+        Document d = null;
+        assertEquals(new ArrayList<>(),Utils.getDataFromDocument(d));
     }
+
+    @Test
+    public void createTransformMatrix() {
+        Element e = null;
+        assertEquals(new double[2][2], Utils.createTransformMatrix(e));
+    }
+
+    @Test
+    public void getSceneFromDocument() {
+        Document d = null;
+        assertEquals(null,Utils.getSceneFromDocument(d));
+    }
+}
