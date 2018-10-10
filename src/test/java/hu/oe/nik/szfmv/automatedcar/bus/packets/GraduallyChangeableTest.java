@@ -22,19 +22,6 @@ public class GraduallyChangeableTest {
     @RunWith(Parameterized.class)
     public static class ParameterizedPart {
 
-        @Parameterized.Parameter
-        public int pClockStart;
-        @Parameterized.Parameter(1)
-        public int pFrom;
-        @Parameterized.Parameter(2)
-        public int pTo;
-        @Parameterized.Parameter(3)
-        public int pMilliseconds;
-        @Parameterized.Parameter(4)
-        public int pCallTime;
-        @Parameterized.Parameter(5)
-        public int pExpected;
-
         @Parameterized.Parameters
         public static Collection<Object[]> data() {
 
@@ -65,13 +52,30 @@ public class GraduallyChangeableTest {
             return all;
         }
 
+        @Parameterized.Parameter
+        public int pClockStart;
+
+        @Parameterized.Parameter(1)
+        public int pFrom;
+
+        @Parameterized.Parameter(2)
+        public int pTo;
+
+        @Parameterized.Parameter(3)
+        public int pMilliseconds;
+
+        @Parameterized.Parameter(4)
+        public int pCallTime;
+
+        @Parameterized.Parameter(5)
+        public int pExpected;
+
         @Test
         public void Test() {
             // ARRANGE
             ClockMock c = new ClockMock(pClockStart);
             GraduallyChangeable.setClock(c);
-            var gc = new GraduallyChangeable();
-            gc.startNew(pFrom, pTo, pMilliseconds);
+            var gc = GraduallyChangeable.startNew(pFrom, pTo, pMilliseconds);
             c.millisToReturn = pCallTime;
             GraduallyChangeable.setClock(c);
 
@@ -79,18 +83,24 @@ public class GraduallyChangeableTest {
             int result = gc.getCurrentValue();
 
             // ASSERT
-            Assert.assertEquals(pExpected, result);
+            Assert.assertEquals(pExpected,result);
 
         }
     }
 
     public static class NonParameterizedPart {
+        @Test
+        public void InitByStaticMethod() {
+            GraduallyChangeable g1 = GraduallyChangeable.startNew(0, 1, 1);
+
+            Assert.assertNotNull(g1);
+        }
 
         @Test
         public void InitByConstructor() {
-            GraduallyChangeable g = new GraduallyChangeable();
+            GraduallyChangeable g2 = new GraduallyChangeable(0, 1, 1);
 
-            Assert.assertNotNull(g);
+            Assert.assertNotNull(g2);
         }
 
         @Test
@@ -105,18 +115,17 @@ public class GraduallyChangeableTest {
 
             ClockMock c = new ClockMock(pClockStart);
             GraduallyChangeable.setClock(c);
-            GraduallyChangeable gc = new GraduallyChangeable();
-            gc.startNew(pFrom, pTo, pMilliseconds);
+            GraduallyChangeable gc = GraduallyChangeable.startNew(pFrom,pTo,pMilliseconds);
             c.millisToReturn = pClockElapsed;
             GraduallyChangeable.setClock(c);
             Method m = GraduallyChangeable.class.getDeclaredMethod("getConvertedElapsedTime");
             m.setAccessible(true);
 
             // ACT
-            int result = (int) m.invoke(gc, null);
+            int result = (int)m.invoke(gc, null);
 
             // ASSERT
-            Assert.assertEquals(pClockElapsed - pClockStart, result);
+            Assert.assertEquals(pClockElapsed-pClockStart,result);
         }
 
         @Test
@@ -131,28 +140,27 @@ public class GraduallyChangeableTest {
 
             ClockMock c = new ClockMock(pClockStart);
             GraduallyChangeable.setClock(c);
-            GraduallyChangeable gc = new GraduallyChangeable();
-            gc.startNew(pFrom, pTo, pMilliseconds);
+            GraduallyChangeable gc = GraduallyChangeable.startNew(pFrom,pTo,pMilliseconds);
             c.millisToReturn = pClockElapsed;
             GraduallyChangeable.setClock(c);
             Method m = GraduallyChangeable.class.getDeclaredMethod("getConvertedElapsedTime");
             m.setAccessible(true);
 
             // ACT
-            int result = (int) m.invoke(gc, null);
+            int result = (int)m.invoke(gc, null);
 
             // ASSERT
-            Assert.assertEquals(pMilliseconds, result);
+            Assert.assertEquals(pMilliseconds,result);
         }
 
         public void RangeDetermination(int pFrom, int pTo, int expectedRange, int pMilliseconds) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
             // ASSERT
-            GraduallyChangeable gc = new GraduallyChangeable();
-            Method m = GraduallyChangeable.class.getDeclaredMethod("getRange", new Class[]{int.class, int.class});
+            GraduallyChangeable gc = new GraduallyChangeable(pFrom, pTo, pMilliseconds);
+            Method m = GraduallyChangeable.class.getDeclaredMethod("getRange", new Class[] { int.class, int.class } );
             m.setAccessible(true);
 
             // ACT
-            int result = (int) m.invoke(gc, new Object[]{pFrom, pTo});
+            int result = (int)m.invoke(gc,new Object[]{pFrom,pTo});
 
             // ASSERT
             Assert.assertEquals(expectedRange, result);
