@@ -67,6 +67,7 @@ public class Dashboard extends JPanel {
         bPB.setProgress(gasPedalBar, dbPacket.getGasPedalPosition());
         bPB.setProgress(brakePedalBar, dbPacket.getBrakePedalPosition());
         setGearLabelText(dbPacket.getCurrentGear());
+        indicateTo(dbPacket.getIndicatorDirection());
     }
 
     private void initGearLabel() {
@@ -78,6 +79,49 @@ public class Dashboard extends JPanel {
 
     private void setGearLabelText(Gear gear) {
         gearLabel.setText("Gear: " + gear);
+    }
+
+    private void indicateTo(int direction) {
+        switch (direction) {
+            case -1:
+                indicateLeft();
+                break;
+            case 0:
+                indicationStop();
+                break;
+            case 1:
+                indicateRight();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void indicateLeft() {
+        if (rightTurnSignal.hasStarted()) {
+            rightTurnSignal.stopIndex();
+        }
+        if (!leftTurnSignal.hasStarted()) {
+            leftTurnSignal.startIndex();
+        }
+    }
+
+    private void indicateRight() {
+        if (leftTurnSignal.hasStarted()) {
+            leftTurnSignal.stopIndex();
+        }
+        if (!rightTurnSignal.hasStarted()) {
+            rightTurnSignal.startIndex();
+        }
+    }
+
+    private void indicationStop() {
+        if (rightTurnSignal.hasStarted()) {
+            rightTurnSignal.stopIndex();
+        }
+        if (leftTurnSignal.hasStarted()) {
+            leftTurnSignal.stopIndex();
+        }
     }
 
     /**
