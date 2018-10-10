@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -24,8 +25,8 @@ public class CourseDisplay extends JPanel {
 
     // Ezek a valtozok tartalmazzak a kiinduloponttol valo elmozdulas mennyiseget
     // ezeket is SCALELNI kell !!!
-    public int xOffset = 0;
-    public int yOffset = 0;
+    private int xOffset = 0;
+    private int yOffset = 0;
 
     // Ezt az FPS-t szeretnénk tartani
     public static final int TARGET_FPS = 24;
@@ -44,7 +45,7 @@ public class CourseDisplay extends JPanel {
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
-    private final double SCALING_FACTOR = 0.5;
+    private final double SCALING_FACTOR = 0.20;
 
     /**
      * Initialize the course display
@@ -62,27 +63,31 @@ public class CourseDisplay extends JPanel {
      *
      * @param world {@link World} object that describes the virtual world
      */
+
     public void drawWorld(World world) {
+        Image offscreen = createImage(world.getWidth()*2, world.getHeight()*2);
+        Graphics screenBuffer = offscreen.getGraphics();
+        Graphics g = getGraphics();
+        super.paintComponent(screenBuffer);
+        ((Graphics2D)screenBuffer).setBackground(Color.getHSBColor(111,90,30));
+        screenBuffer.clearRect(0, 0, world.getWidth(), world.getHeight());
         //paintComponent(getGraphics(), world);
 
         try {
             // TODO
             cycle_start = cal.getTimeInMillis();
 
-            xOffset = -world.getAutomatedCar().getX();
-            yOffset = world.getAutomatedCar().getY();
+            xOffset = -(world.getAutomatedCar().getX());
+            yOffset = -(world.getAutomatedCar().getY());
 
             /*
              * létrehozunk egy másodlagos buffert, amire egyesevél felrajzoljuk
              * az elemeket, majd ha minden felkerült rá, ezt a képet rajzoljuk át
              * a fő grafikai elemünkre, így megszüntetve az elemek remegését
              */
-            Graphics g = getGraphics();
-            Image offscreen = createImage(width, height);
-            Graphics screenBuffer = offscreen.getGraphics();
 
             // TODO: StaticList-et kapjon, de az  meg nincs
-            renderStaticObjects(world.getWorldObjects(), screenBuffer);
+            renderStaticObjects(world.getWorldObjects(),screenBuffer);
 
             // TODO: DynamicList-et kapjon, de az meg nincs
             //renderDynamicObjects(world.getDynamicObjects(), screenBuffer);
@@ -106,10 +111,10 @@ public class CourseDisplay extends JPanel {
     }
 
     // A statikus elemek kirajzolasa
-    private void renderStaticObjects(java.util.List<WorldObject> staticObjects){
+    private void renderStaticObjects(java.util.List<WorldObject> staticObjects, Graphics screenBuffer){
         // TODO
         for (WorldObject object: staticObjects) {
-            paintComponent(getGraphics(), object);
+            paintComponent(screenBuffer, object);
         }
     }
 
@@ -120,25 +125,20 @@ public class CourseDisplay extends JPanel {
     }
 
     // Az altalunk iranyitott auto kirajzolasa
-    private void renderCar(AutomatedCar car){
+    private void renderCar(AutomatedCar car, Graphics screenBuffer){
         // TODO
-        Graphics g = getGraphics();
         BufferedImage image;
-
-        this.xOffset = -car.getX();
-        this.yOffset = car.getY();
 
         try {
             // Ezt nem jobb lenne eltarolni mar az inicializalaskor?
             image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
             car.setHeight(image.getHeight());
             car.setWidth(image.getWidth());
-            image = RotateTransform(image,car);
+            //image = RotateTransform(image,car);
             int imageWidth = scaleObject(image.getWidth());
             int imageHeight = scaleObject(image.getHeight());
 
-            buffer.drawImage(image, width / 2 - imageWidth/2, height / 2 - imageHeight/2, imageWidth,
-            g.drawImage(image, width / 2 - imageWidth/2, height / 2 - imageWidth/2, imageWidth,
+            screenBuffer.drawImage(image, width / 2 - imageWidth/2, height / 2 - imageWidth/2, imageWidth,
                     imageHeight, this);
 
         } catch (IOException e) {
@@ -149,7 +149,7 @@ public class CourseDisplay extends JPanel {
 
     // TODO: ez alapjan csinaljuk meg a render fuggvenyeket
     protected void paintComponent(Graphics g, WorldObject object) {
-        super.paintComponent(g);
+        //
 
         // draw objects
         BufferedImage image;
@@ -161,9 +161,28 @@ public class CourseDisplay extends JPanel {
             //Todo: delete this two line if T1 finished with WorldObject tasks.
             //object.setHeight(image.getHeight());
             //object.setWidth(image.getWidth());
+            //image = RotateTransform(image,object);
+            double imageWidth = scaleObject(image.getWidth());
+            double imageHeight = scaleObject(image.getHeight());
 
-            g.drawImage(image, scaleObject(object.getX() + xOffset), scaleObject(object.getY() + yOffset), scaleObject(image.getWidth()),
-                    scaleObject(image.getHeight()), this);
+            int imagePositionX = scaleObject( object.getX() + xOffset);
+            int imagePositionY = scaleObject(object.getY() + yOffset);
+            //g.drawImage(image, scaleObject(object.getX() + xOffset), scaleObject(object.getY() + yOffset), scaleObject(image.getWidth()),
+            AffineTransform at = new AffineTransform();
+            at.setToTranslation( imagePositionX, imagePositionY);// AffineTransform.getTranslateInstance( imagePositionX, imagePositionY);
+            Point refPoint = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(object.getImageFileName());
+            // A forgatasi pontot veszi eltolasi pontnak is????
+            at.translate(-refPoint.x*SCALING_FACTOR, -refPoint.y*SCALING_FACTOR);
+
+            // Kep elforgatasa a megfelelo pontnal
+            at.rotate(object.getRotation(), SCALING_FACTOR*refPoint.x, SCALING_FACTOR*refPoint.y); //imageWidth /2, imageHeight / 2);
+
+            // Kep atmeretezese
+            at.scale(SCALING_FACTOR, SCALING_FACTOR);
+
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.drawImage(image, at, null);
+
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
@@ -181,7 +200,7 @@ public class CourseDisplay extends JPanel {
         Point refPoint = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(object.getImageFileName());
         Point translate = getTranslateUnit(new Point(0,0),new Point(img.getWidth(),0), new Point(0,img.getHeight()),
                 new Point(img.getWidth(),img.getHeight()),refPoint,object.getRotation());
-        tx.translate(translate.x,translate.y);
+        tx.translate(translate.x, translate.y);
         tx.rotate(object.getRotation(), refPoint.x, refPoint.y);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         img = op.filter(img, null);
@@ -200,8 +219,8 @@ public class CourseDisplay extends JPanel {
                 (int)((JA.y-refPoint.y)*Math.cos(rotation) + (JA.x-refPoint.x)*Math.sin(rotation))+refPoint.y);
         int minX = Math.min(Math.min(Math.min(JFn.x,BAn.x),JAn.x),BFn.x);
         int minY = Math.min(Math.min(Math.min(JFn.y,BAn.y),JAn.y),BFn.y);
-        //if(refPoint.x==0 && minX > 0) minX = 0;
-        //if(refPoint.y==0 && minY > 0) minY = 0;
+        if(refPoint.x==0 && minX > 0) minX = 0;
+        if(refPoint.y==0 && minY > 0) minY = 0;
         return new Point((-minX), (-minY));
     }
 
