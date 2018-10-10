@@ -6,7 +6,7 @@ import hu.oe.nik.szfmv.visualization.Dashboard;
 public class CircleCalculator extends JPanel {
     private static final int diameter = 110;
     private int viewValue;
-    private int value;
+    private int value = 0;
     private Point position;
     private Dashboard.MeterTypes meterType;
     private Dashboard dashboard;
@@ -40,16 +40,17 @@ public class CircleCalculator extends JPanel {
      * Sets the meter's value, error if its lower than 0 or higher than 280 km/h or 9800 rpm
      * @param value speed or rpm
      */
-    public int setValue(int value) {
+    public void setValue(int value) {
         if(value <= viewValue * 140 && value  >= 0) {
             double scale = value / (viewValue * 10);
             double fractional = value % (viewValue * 10);
             int remnant = (int) (fractional / viewValue);
-            if(scale == 14) {
-                return 115 + (int) (scale * 10 -10) + remnant;
+            if (scale == 14) {
+                this.value = 115 + (int) (scale * 10 -10) + remnant;
             } else {
-                return  115 + (int) (scale * 10) + remnant;
+                this.value = 115 + (int) (scale * 10) + remnant;
             }
+            repaint();
         } else {
             throw new IllegalArgumentException();
         }
@@ -61,6 +62,10 @@ public class CircleCalculator extends JPanel {
      */
     @Override
     protected void paintComponent(Graphics g) {
+        //fill the background
+        g.setColor(new Color(0x888888));
+        g.fillRect(0, 0, 115, 115);
+
         //black circle
         g.setColor(Color.BLACK);
         g.fillOval(3, 3, diameter, diameter); // 125,125
@@ -75,20 +80,26 @@ public class CircleCalculator extends JPanel {
 
         //values on the diameter
         g.setColor(Color.BLACK);
-        g.setFont(g.getFont().deriveFont(Font.PLAIN, 9));
+        g.setFont(g.getFont().deriveFont(Font.BOLD, 9));
         for (int i = 110; i <= 250; i++) {
             int x = 50 + (int) (43 * Math.sin(i * Math.PI / 90));
             int y = 60 - (int) (43 * Math.cos(i * Math.PI / 90));
-            if ((i - 110) % 10 == 0) {
-                g.drawString(Integer.toString((i - 110) * viewValue), x, y);
+            if (meterType == Dashboard.MeterTypes.RPM) {
+                if ((i - 110) % 35 == 0) {
+                    g.drawString(Integer.toString((i - 110) * viewValue), x, y);
+                }
+            } else {
+                if ((i - 110) % 10 == 0) {
+                    g.drawString(Integer.toString((i - 110) * viewValue), x, y);
+                }
             }
         }
 
         //gets the speed or rpm
         if (meterType == Dashboard.MeterTypes.RPM) {
-            this.value = setValue(dashboard.rpm);
+            setValue(dashboard.rpm);
         } else {
-            this.value = setValue(dashboard.speed);
+            setValue(dashboard.speed);
         }
 
         //black line from the middle
@@ -101,9 +112,9 @@ public class CircleCalculator extends JPanel {
         g.setColor(Color.BLACK);
         g.setFont(g.getFont().deriveFont(Font.BOLD, 12));
         if (meterType == Dashboard.MeterTypes.RPM) {
-            g.drawString("rpm", diameter / 2 -5, diameter - 5);
+            g.drawString("rpm", diameter / 2 -8, diameter - 5);
         } else {
-            g.drawString("km/h", diameter / 2 -5, diameter - 5);
+            g.drawString("km/h", diameter / 2 -8, diameter - 5);
         }
     }
 }
