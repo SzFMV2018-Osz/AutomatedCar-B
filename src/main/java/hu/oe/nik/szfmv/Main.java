@@ -1,6 +1,8 @@
 package hu.oe.nik.szfmv;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
 import hu.oe.nik.szfmv.common.ConfigProvider;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.visualization.Gui;
@@ -30,6 +32,7 @@ public class Main {
 
         // create gui
         Gui gui = new Gui();
+        gui.addKeyListener(UserInputProvider.getUserInput(InputType.Keyboard));
 
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w);
