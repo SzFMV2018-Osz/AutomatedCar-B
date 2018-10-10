@@ -8,22 +8,27 @@ import hu.oe.nik.szfmv.environment.WorldObject;
 
 public class AutomatedCar extends WorldObject {
 
-    private PowertrainSystem powertrainSystem;
-    private SteeringSystem steeringSystem;
+    private final PowertrainSystem powertrainSystem;
+    private final SteeringSystem steeringSystem;
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
+    private final double speedMetersPerSeconds;
+
+    private final double wheelRadius = 0.33;
 
     /**
      * Constructor of the AutomatedCar class
      *
      * @param x             the initial x coordinate of the car
      * @param y             the initial y coordinate of the car
-     * @param imageFileName name of the image file used displaying the car on the course display
+     * @param imageFileName name of the image file used displaying the car on the
+     *                      course display
      */
-    public AutomatedCar(int x, int y, String imageFileName) {
+    public AutomatedCar(final int x, final int y, final String imageFileName) {
         super(x, y, imageFileName);
 
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
+        speedMetersPerSeconds = 0;
 
         new Driver(virtualFunctionBus);
     }
@@ -32,18 +37,19 @@ public class AutomatedCar extends WorldObject {
      * Provides a sample method for modifying the position of the car.
      */
     public void drive() {
+        final double wheelRotationRate = speedMetersPerSeconds / wheelRadius;
+        powertrainSystem.updateEngine(wheelRotationRate);
         virtualFunctionBus.loop();
-
         calculatePositionAndOrientation();
     }
 
     /**
-     * Calculates the new x and y coordinates of the {@link AutomatedCar} using the powertrain and the steering systems.
+     * Calculates the new x and y coordinates of the {@link AutomatedCar} using the
+     * powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
-        //TODO it is just a fake implementation
-        double speed = powertrainSystem.getSpeed();
-        double angularSpeed = steeringSystem.getAngularSpeed();
+        final double speed = speedMetersPerSeconds;
+        final double angularSpeed = steeringSystem.getAngularSpeed();
 
         x += speed;
         y = 0;
