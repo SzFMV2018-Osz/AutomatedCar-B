@@ -10,6 +10,7 @@ public class SteeringSystem extends SystemComponent {
     private double angularSpeed = 0;
     private TurningHandler turningHandler;
 
+    private SteeringPacket steeringPacket;
 
     /**
      * Creates a steering system that connects the Virtual Function Bus
@@ -19,10 +20,15 @@ public class SteeringSystem extends SystemComponent {
     public SteeringSystem(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
         turningHandler = new TurningHandler();
+
+        steeringPacket = new SteeringPacket();
+
+        virtualFunctionBus.steeringPacket = steeringPacket;
     }
 
     @Override
     public void loop() {
+        steeringPacket.setAngularSpeed(getAngularSpeed());
     }
 
     /**
