@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets;
 
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IGraduallyChangeable;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyPedalPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.IUserInput;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.PedalType;
@@ -10,71 +11,60 @@ import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IPedalEventHandl
  */
 public class PedalPacket implements IReadonlyPedalPacket, IPedalEventHandler {
 
-    private final IUserInput input;
-    private final int GAS_PEDAL_POSITION_DELTA = 2;
-    private final int BRAKE_PEDAL_POSITION_DELTA = 2;
-    private final int PEDAL_MAX_POSITION = 100;
-    private final int PEDAL_MIN_POSITION = 0;
+    public static final int PEDAL_MAX_POSITION = 100;
+    public static final int PEDAL_MIN_POSITION = 0;
 
-    private int gasPedalPosition;
-    private int gasPedalPositionSnapshot;
-    private int brakePedalPosition;
-    private int brakePedalPositionSnapshot;
+    private IUserInput input;
+    private IGraduallyChangeable pedalPosition;
+    private int pedalPositionSnapshot;
+    private int speedInMilliseconds;
 
     /**
-     * Constructor of PedalPacket class.
      *
-     * @param input Input manager.
+     * @param graduallyChangeable represents the gradually changeable value of the pedal.
+     * @param input InputManager.
+     * @param pedalType Type of the pedal.
      */
-    public PedalPacket(IUserInput input) {
+    public PedalPacket(IGraduallyChangeable graduallyChangeable, IUserInput input, PedalType pedalType, int speedInMilliseconds) {
         this.input = input;
-        this.input.subscribePedalEvents(this, PedalType.Gas);
-        this.input.subscribePedalEvents(this, PedalType.Brake);
-        this.gasPedalPosition = 0;
-        this.gasPedalPositionSnapshot = 0;
-        this.brakePedalPosition = 0;
-        this.brakePedalPositionSnapshot = 0;
+        this.input.subscribePedalEvents(this, pedalType);
+        this.pedalPosition = graduallyChangeable;
+        this.pedalPositionSnapshot = 0;
+        this.speedInMilliseconds = speedInMilliseconds;
+        this.pedalPosition.startNew(PEDAL_MIN_POSITION, PEDAL_MIN_POSITION, this.speedInMilliseconds);
     }
 
     @Override
-    public int getGasPedalPosition() {
-        return this.gasPedalPositionSnapshot;
+    public int getPedalPosition() {
+        return this.pedalPositionSnapshot;
     }
 
     @Override
-    public int getBrakePedalPosition() {
-        return this.brakePedalPositionSnapshot;
+    public void onPedalPush() {
+        int from = pedalPositionSnapshot;
+        int to = PEDAL_MAX_POSITION;
+        this.pedalPosition.startNew(from, to, requiredMilliseconds(from, to));
     }
 
     @Override
-    public void onGasPedalPush() {
-        if(this.gasPedalPosition + this.GAS_PEDAL_POSITION_DELTA <= this.PEDAL_MAX_POSITION)
-            this.gasPedalPosition += this.GAS_PEDAL_POSITION_DELTA;
-    }
-
-    @Override
-    public void onGasPedalRelease() {
-        if(this.gasPedalPosition - this.GAS_PEDAL_POSITION_DELTA >= this.PEDAL_MIN_POSITION)
-            this.gasPedalPosition -= this.GAS_PEDAL_POSITION_DELTA;
-    }
-
-    @Override
-    public void onBrakePedalPush() {
-        if(this.brakePedalPosition + this.BRAKE_PEDAL_POSITION_DELTA <= this.PEDAL_MAX_POSITION)
-            this.brakePedalPosition += this.BRAKE_PEDAL_POSITION_DELTA;
-    }
-
-    @Override
-    public void onBrakePedalRelease() {
-        if(this.brakePedalPosition - this.BRAKE_PEDAL_POSITION_DELTA >= this.PEDAL_MIN_POSITION)
-            this.brakePedalPosition -= this.BRAKE_PEDAL_POSITION_DELTA;
+    public void onPedalRelease() {
+        int from = pedalPositionSnapshot;
+        int to = PEDAL_MIN_POSITION;
+        this.pedalPosition.startNew(from, to, requiredMilliseconds(from, to));
     }
 
     /**
      * Refresh the pedal state and ensure that its value will be the same until the next call of this function
      */
-    public void createSnapshot() {
-        this.gasPedalPositionSnapshot = this.gasPedalPosition;
-        this.brakePedalPositionSnapshot = this.brakePedalPosition;
+    public void createSnapshot(){
+        this.pedalPositionSnapshot = this.pedalPosition.getCurrentValue();
+    }
+
+    private int requiredMilliseconds(int from, int to) {
+        return (int) ((distanceBetween(from, to) / (float) distanceBetween(PEDAL_MIN_POSITION, PEDAL_MAX_POSITION)) * this.speedInMilliseconds);
+    }
+
+    private int distanceBetween(int a, int b) {
+        return Math.max(a, b) - Math.min(a, b);
     }
 }

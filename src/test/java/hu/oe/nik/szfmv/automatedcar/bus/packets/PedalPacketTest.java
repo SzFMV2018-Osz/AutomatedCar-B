@@ -1,6 +1,8 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets;
 
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyPedalPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.PedalType;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,64 +10,55 @@ public class PedalPacketTest {
 
     @Test
     public void initialize(){
-        IReadonlyPedalPacket pedalPacket = new PedalPacket(new UserInputDummy());
+        IReadonlyPedalPacket pedalPacket = new PedalPacket(
+                new GraduallyChangeableDummy(),
+                new UserInputDummy(),
+                PedalType.Gas,
+                InputManager.GAS_PEDAL_TIME_IN_MILLISECS);
 
-        int expectedGasPedalPosition = 0;
-        int expectedBrakePedalPosition = 0;
+        int expectedPedalPosition = 0;
 
-        Assert.assertEquals(expectedGasPedalPosition, pedalPacket.getGasPedalPosition());
-        Assert.assertEquals(expectedBrakePedalPosition, pedalPacket.getBrakePedalPosition());
+        Assert.assertEquals(expectedPedalPosition, pedalPacket.getPedalPosition());
     }
 
     @Test
-    public void pushGasPedal(){
-        PedalPacket pedalPacket = new PedalPacket(new UserInputDummy());
+    public void onPushPedal(){
+        GraduallyChangeableMock mock = new GraduallyChangeableMock();
 
-        int expectedGasPedalPosition = 2;
+        PedalPacket pedalPacket = new PedalPacket(
+                mock,
+                new UserInputDummy(),
+                PedalType.Gas,
+                InputManager.GAS_PEDAL_TIME_IN_MILLISECS);
 
-        pedalPacket.onGasPedalPush();
+        pedalPacket.onPedalPush();
+        mock.currentValue = PedalPacket.PEDAL_MAX_POSITION;
         pedalPacket.createSnapshot();
 
-        Assert.assertEquals(expectedGasPedalPosition, pedalPacket.getGasPedalPosition());
+        Assert.assertEquals(PedalPacket.PEDAL_MIN_POSITION, mock.from);
+        Assert.assertEquals(PedalPacket.PEDAL_MAX_POSITION, mock.to);
+        Assert.assertEquals(InputManager.GAS_PEDAL_TIME_IN_MILLISECS, mock.milliseconds);
+        Assert.assertEquals(PedalPacket.PEDAL_MAX_POSITION, pedalPacket.getPedalPosition());
+
     }
 
     @Test
     public void releaseGasPedal(){
-        PedalPacket pedalPacket = new PedalPacket(new UserInputDummy());
+        GraduallyChangeableMock mock = new GraduallyChangeableMock();
 
-        int expectedGasPedalPosition = 2;
+        PedalPacket pedalPacket = new PedalPacket(
+                mock,
+                new UserInputDummy(),
+                PedalType.Gas,
+                InputManager.GAS_PEDAL_TIME_IN_MILLISECS);
 
-        pedalPacket.onGasPedalPush();
-        pedalPacket.onGasPedalPush();
-        pedalPacket.onGasPedalRelease();
+        mock.currentValue = PedalPacket.PEDAL_MAX_POSITION / 2;
         pedalPacket.createSnapshot();
 
-        Assert.assertEquals(expectedGasPedalPosition, pedalPacket.getGasPedalPosition());
-    }
+        pedalPacket.onPedalRelease();
 
-    @Test
-    public void pushBrakePedal(){
-        PedalPacket pedalPacket = new PedalPacket(new UserInputDummy());
-
-        int expectedBrakePedalPosition = 2;
-
-        pedalPacket.onBrakePedalPush();
-        pedalPacket.createSnapshot();
-
-        Assert.assertEquals(expectedBrakePedalPosition, pedalPacket.getBrakePedalPosition());
-    }
-
-    @Test
-    public void releaseBrakePedal(){
-        PedalPacket pedalPacket = new PedalPacket(new UserInputDummy());
-
-        int expectedBrakePedalPosition = 2;
-
-        pedalPacket.onBrakePedalPush();
-        pedalPacket.onBrakePedalPush();
-        pedalPacket.onBrakePedalRelease();
-        pedalPacket.createSnapshot();
-
-        Assert.assertEquals(expectedBrakePedalPosition, pedalPacket.getBrakePedalPosition());
+        Assert.assertEquals(PedalPacket.PEDAL_MAX_POSITION / 2, mock.from);
+        Assert.assertEquals(PedalPacket.PEDAL_MIN_POSITION, mock.to);
+        Assert.assertEquals(InputManager.GAS_PEDAL_TIME_IN_MILLISECS / 2, mock.milliseconds);
     }
 }
