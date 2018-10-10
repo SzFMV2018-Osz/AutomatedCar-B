@@ -79,8 +79,14 @@ public class CircleCalculator extends JPanel {
         for (int i = 110; i <= 250; i++) {
             int x = 50 + (int) (43 * Math.sin(i * Math.PI / 90));
             int y = 60 - (int) (43 * Math.cos(i * Math.PI / 90));
-            if ((i - 110) % 10 == 0) {
-                g.drawString(Integer.toString((i - 110) * viewValue), x, y);
+            if (meterType == Dashboard.MeterTypes.RPM) {
+                if ((i - 110) % 35 == 0) {
+                    g.drawString(Integer.toString((i - 110) * viewValue), x, y);
+                }
+            } else {
+                if ((i - 110) % 10 == 0) {
+                    g.drawString(Integer.toString((i - 110) * viewValue), x, y);
+                }
             }
         }
 
@@ -101,9 +107,9 @@ public class CircleCalculator extends JPanel {
         g.setColor(Color.BLACK);
         g.setFont(g.getFont().deriveFont(Font.BOLD, 12));
         if (meterType == Dashboard.MeterTypes.RPM) {
-            g.drawString("rpm", diameter / 2 -5, diameter - 5);
+            g.drawString("rpm", diameter / 2 -8, diameter - 5);
         } else {
-            g.drawString("km/h", diameter / 2 -5, diameter - 5);
+            g.drawString("km/h", diameter / 2 -8, diameter - 5);
         }
     }
 }

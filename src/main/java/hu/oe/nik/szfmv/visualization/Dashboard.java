@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.visualization;
 import hu.oe.nik.szfmv.common.enums.Gear;
 import hu.oe.nik.szfmv.visualization.elements.PedalBar;
 import hu.oe.nik.szfmv.visualization.elements.CircleCalculator;
+import hu.oe.nik.szfmv.visualization.elements.IndexArrow;
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,13 +14,18 @@ public class Dashboard extends JPanel {
     public enum MeterTypes {
         SPEED, RPM
     }
+
+    public enum IndexTypes {
+        LEFT, RIGHT
+    }
+
     public int speed;
     public int rpm;
     private final int width = 250;
     private final int height = 700;
     private final int backgroundColor = 0x888888;
-    private final int gearLabelPosX = 90;
-    private final int gearLabelPosY = 200;
+    private final int gearLabelPosX = 100;
+    private final int gearLabelPosY = 130;
     private final int gearLabelWidth = 50;
     private final int gearLabelHeight = 30;
 
@@ -39,6 +45,9 @@ public class Dashboard extends JPanel {
     private CircleCalculator speedMeter = new CircleCalculator(this, MeterTypes.SPEED, new Point(115, 0));
     private CircleCalculator rpmMeter = new CircleCalculator(this, MeterTypes.RPM, new Point(0, 0));
 
+    private IndexArrow leftTurnSignal = new IndexArrow(IndexTypes.LEFT, new Point(40, 130));
+    private IndexArrow rightTurnSignal = new IndexArrow(IndexTypes.RIGHT, new Point(160, 130));
+
     /**
      * Initialize the dashboard
      */
@@ -53,7 +62,8 @@ public class Dashboard extends JPanel {
         speed = 0;
         createCircleMeter(speedMeter);
         createCircleMeter(rpmMeter);
-
+        createIndex(leftTurnSignal);
+        createIndex(rightTurnSignal);
         add(brakePedalLabel);
         add(brakePedalBar);
         add(gasPedalLabel);
@@ -80,5 +90,14 @@ public class Dashboard extends JPanel {
         meter.setBounds(meter.getPosition().x, meter.getPosition().y, 115, 115);
         meter.setVisible(true);
         add(meter);
+    }
+
+    /**
+     * Sets position and adds index to the dashboard
+     * @param index index that we want to add the dashboard
+     */
+    private void createIndex(IndexArrow index) {
+        index.setBounds(index.getPosition().x, index.getPosition().y, 50, 30);
+        add(index);
     }
 }

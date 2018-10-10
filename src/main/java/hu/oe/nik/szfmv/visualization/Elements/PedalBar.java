@@ -17,8 +17,7 @@ public class PedalBar extends JPanel {
         JProgressBar progressBar = new JProgressBar(MIN_PEDAL_VALUE, MAX_PEDAL_VALUE);
         Insets insets = getInsets();
 
-        Dimension size = progressBar.getPreferredSize();
-        progressBar.setBounds(insets.left + offsetX, insets.top + offsetY + labelHeight, size.width, size.height);
+        progressBar.setBounds(insets.left + offsetX, insets.top + offsetY + labelHeight, 160,15);
 
         progressBar.setStringPainted(true);
         progressBar.setVisible(true);
