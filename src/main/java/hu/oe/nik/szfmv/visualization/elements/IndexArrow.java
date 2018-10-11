@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.visualization.elements;
+
 import hu.oe.nik.szfmv.visualization.Dashboard;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Timer;
@@ -14,6 +16,14 @@ public class IndexArrow extends JPanel {
     private boolean hasStarted = false;
 
     /**
+     * Constructor with index side type, and position on the board
+     */
+    public IndexArrow(Dashboard.IndexTypes type, Point position) {
+        this.type = type;
+        this.position = position;
+    }
+
+    /**
      * Gives the index's position on the dashboard back
      */
     public Point getPosition() {
@@ -21,7 +31,15 @@ public class IndexArrow extends JPanel {
     }
 
     /**
+     * @return true if this index arrow is active
+     */
+    public boolean hasStarted() {
+        return this.hasStarted;
+    }
+
+    /**
      * Sets the arrow fill color
+     *
      * @param color the new color
      */
     private void changeIndexColor(Color color) {
@@ -33,7 +51,7 @@ public class IndexArrow extends JPanel {
      * Only the stop method stops it
      */
     public void startIndex() {
-        if(this.hasStarted == true) {
+        if (this.hasStarted == true) {
             this.timer.cancel();
             this.timer.purge();
             secondPassed = 0;
@@ -46,7 +64,7 @@ public class IndexArrow extends JPanel {
         this.timer = new Timer();
         TimerTask task = new TimerTask() {
             public void run() {
-                if(secondPassed % 2 == 0) {
+                if (secondPassed % 2 == 0) {
                     changeIndexColor(color.WHITE);
                 } else {
                     changeIndexColor(color.YELLOW);
@@ -55,14 +73,14 @@ public class IndexArrow extends JPanel {
                 repaint();
             }
         };
-        this.timer.scheduleAtFixedRate(task,0, 500);
+        this.timer.scheduleAtFixedRate(task, 0, 500);
     }
 
     /**
      * Stops the flashing
      */
     public void stopIndex() {
-        if(this.hasStarted == true) {
+        if (this.hasStarted == true) {
             this.timer.cancel();
             this.timer.purge();
             secondPassed = 0;
@@ -70,14 +88,6 @@ public class IndexArrow extends JPanel {
             repaint();
             this.hasStarted = false;
         }
-    }
-
-    /**
-     * Constructor with index side type, and position on the board
-     */
-    public IndexArrow(Dashboard.IndexTypes type, Point position) {
-        this.type = type;
-        this.position = position;
     }
 
     /**
@@ -92,19 +102,19 @@ public class IndexArrow extends JPanel {
 
         //check sides and draws arrow
         if (type == Dashboard.IndexTypes.RIGHT) {
-            int[] x = new int[] { 0, 30, 30, 40, 30,
-                    30, 0 };
-            int[] y = new int[] { 10, 10, 0, 14, 28,
-                    18, 18 };
+            int[] x = new int[]{0, 30, 30, 40, 30,
+                    30, 0};
+            int[] y = new int[]{10, 10, 0, 14, 28,
+                    18, 18};
             g.setColor(Color.BLACK);
             g.drawPolygon(x, y, 7);
             g.setColor(color);
             g.fillPolygon(x, y, 7);
         } else {
-            int[] x = new int[] { 0, 10, 10, 40, 40,
-                    10, 10 };
-            int[] y = new int[] { 14, 0, 10, 10, 18,
-                    18, 28 };
+            int[] x = new int[]{0, 10, 10, 40, 40,
+                    10, 10};
+            int[] y = new int[]{14, 0, 10, 10, 18,
+                    18, 28};
             g.setColor(Color.BLACK);
             g.drawPolygon(x, y, 7);
             g.setColor(color);

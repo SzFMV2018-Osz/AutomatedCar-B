@@ -120,7 +120,8 @@ public class GraduallyChangeableTest {
         }
 
         @Test
-        public void ElapsedTimeOverLimit() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        public void ElapsedTimeOverLimit() throws NoSuchMethodException, InvocationTargetException,
+                IllegalAccessException {
 
             // ARRANGE
             int pFrom = 0;
@@ -145,7 +146,8 @@ public class GraduallyChangeableTest {
             Assert.assertEquals(pMilliseconds, result);
         }
 
-        public void RangeDetermination(int pFrom, int pTo, int expectedRange, int pMilliseconds) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        public void RangeDetermination(int pFrom, int pTo, int expectedRange, int pMilliseconds) throws
+                NoSuchMethodException, InvocationTargetException, IllegalAccessException {
             // ASSERT
             GraduallyChangeable gc = new GraduallyChangeable();
             Method m = GraduallyChangeable.class.getDeclaredMethod("getRange", new Class[]{int.class, int.class});
@@ -159,7 +161,8 @@ public class GraduallyChangeableTest {
         }
 
         @Test
-        public void RangeDetermination_Increasing() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        public void RangeDetermination_Increasing() throws NoSuchMethodException, InvocationTargetException,
+                IllegalAccessException {
             int pFrom = 0;
             int pTo = 10;
             int expectedRange = 10;
@@ -169,7 +172,8 @@ public class GraduallyChangeableTest {
         }
 
         @Test
-        public void RangeDetermination_Decreasing() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        public void RangeDetermination_Decreasing() throws NoSuchMethodException, InvocationTargetException,
+                IllegalAccessException {
 
             int pFrom = 50;
             int pTo = 10;
@@ -180,7 +184,8 @@ public class GraduallyChangeableTest {
         }
 
         @Test
-        public void RangeDetermination_NegativePositive() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        public void RangeDetermination_NegativePositive() throws NoSuchMethodException, InvocationTargetException,
+                IllegalAccessException {
             int pFrom = -20;
             int pTo = 30;
             int expectedRange = 50;
@@ -190,7 +195,8 @@ public class GraduallyChangeableTest {
         }
 
         @Test
-        public void RangeDetermination_NegativeNegative() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        public void RangeDetermination_NegativeNegative() throws NoSuchMethodException, InvocationTargetException,
+                IllegalAccessException {
             int pFrom = 50;
             int pTo = 10;
             int expectedRange = 40;
@@ -199,6 +205,33 @@ public class GraduallyChangeableTest {
             RangeDetermination(pFrom, pTo, expectedRange, pMilliseconds);
         }
 
+        @Test
+        public void DetermineChange_Zero() throws NoSuchMethodException, InvocationTargetException,
+                IllegalAccessException {
+            GraduallyChangeable gc = new GraduallyChangeable();
+            gc.startNew(0, 0, 0);
+            Method m = GraduallyChangeable.class.getDeclaredMethod("determineChange", new Class[]{});
+            m.setAccessible(true);
+
+            int res = (int) m.invoke(gc, new Object[]{});
+
+            Assert.assertEquals(0, res);
+        }
+
+        @Test
+        public void DetermineChange() throws NoSuchMethodException, InvocationTargetException,
+                IllegalAccessException {
+            GraduallyChangeable.setClock(new ClockMock(0));
+            GraduallyChangeable gc = new GraduallyChangeable();
+            gc.startNew(0, 500, 1000);
+            GraduallyChangeable.setClock(new ClockMock(500));
+            Method m = GraduallyChangeable.class.getDeclaredMethod("determineChange", new Class[]{});
+            m.setAccessible(true);
+
+            int res = (int) m.invoke(gc, new Object[]{});
+
+            Assert.assertEquals(250, res);
+        }
     }
 }
 

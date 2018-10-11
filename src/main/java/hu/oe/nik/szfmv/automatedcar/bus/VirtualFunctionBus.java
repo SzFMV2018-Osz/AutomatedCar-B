@@ -24,6 +24,7 @@ public class VirtualFunctionBus {
     public IReadonlySteeringPacket steeringWheelPacket;
     public IReadonlyPedalPacket gasPedalPacket;
     public IReadonlyPedalPacket brakePedalPacket;
+
     private List<SystemComponent> components = new ArrayList<>();
 
     /**

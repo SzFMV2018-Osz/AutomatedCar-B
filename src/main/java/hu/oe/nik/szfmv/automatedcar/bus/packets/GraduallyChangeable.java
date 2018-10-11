@@ -62,6 +62,9 @@ public class GraduallyChangeable implements IGraduallyChangeable {
     }
 
     private int determineChange() {
+        if (milliseconds == 0) {
+            return getRange(from, to);
+        }
         return (getRange(from, to) * getConvertedElapsedTime()) / milliseconds;
     }
 }
