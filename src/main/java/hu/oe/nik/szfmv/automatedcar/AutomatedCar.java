@@ -1,18 +1,18 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.DashboardPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.environment.WorldObject;
 
 public class AutomatedCar extends WorldObject {
 
+    private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
     private InputManager inputManager;
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
-    private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
+    private DashboardManager dashboardManager;
 
     /**
      * Constructor of the AutomatedCar class
@@ -27,6 +27,7 @@ public class AutomatedCar extends WorldObject {
         inputManager = new InputManager(virtualFunctionBus);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
+        dashboardManager = new DashboardManager(virtualFunctionBus);
 
         new Driver(virtualFunctionBus);
     }
@@ -38,6 +39,14 @@ public class AutomatedCar extends WorldObject {
         virtualFunctionBus.loop();
 
         calculatePositionAndOrientation();
+    }
+
+    public IReadOnlyDashboardPacket getDashboardInfo() {
+        DashboardPacket packet = dashboardManager.getDashboardPacket();
+        packet.setAutomatedCarX(x);
+        packet.setAutomatedCarY(y);
+
+        return packet;
     }
 
     /**
