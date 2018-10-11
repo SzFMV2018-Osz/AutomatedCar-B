@@ -45,7 +45,7 @@ public class CourseDisplay extends JPanel {
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
-    private final double SCALING_FACTOR = 0.20;
+    private final double SCALING_FACTOR = 0.25;
 
     /**
      * Initialize the course display
