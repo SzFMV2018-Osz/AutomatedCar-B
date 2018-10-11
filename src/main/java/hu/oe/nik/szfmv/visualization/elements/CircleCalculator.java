@@ -135,6 +135,7 @@ public class CircleCalculator extends JPanel {
         g.setFont(g.getFont().deriveFont(Font.BOLD, 12));
         if (meterType == Dashboard.MeterTypes.RPM) {
             g.drawString("rpm", diameter / 2 -8, diameter - 5);
+            g.drawString("x1000", diameter / 2 -12, diameter - 20);
         } else {
             g.drawString("km/h", diameter / 2 -8, diameter - 5);
         }
