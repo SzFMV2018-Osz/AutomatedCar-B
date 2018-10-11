@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv.automatedcar.engine;
+package hu.oe.nik.szfmv.automatedcar;
 
 /**
  * Contains functions and constants to calculate physical forces
