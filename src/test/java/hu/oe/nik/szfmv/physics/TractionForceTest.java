@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import hu.oe.nik.szfmv.automatedcar.engine.TractionForce;
+import hu.oe.nik.szfmv.automatedcar.TractionForce;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
