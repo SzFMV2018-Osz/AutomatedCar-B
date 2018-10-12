@@ -46,7 +46,7 @@ public class Main {
                 car.drive();
                 gui.getCourseDisplay().drawWorld(w);
               
-                debugDisplayer(debugInfoIsEnabled , car, gui);
+                //debugDisplayer(debugInfoIsEnabled , car, gui);
 
                 gui.getDashboard().display(car.getDashboardInfo());
               
