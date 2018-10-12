@@ -76,14 +76,17 @@ public class Dashboard extends JPanel {
         add(positionLabel);
     }
 
-    public void display(IReadOnlyDashboardPacket dbPacket) {
+    public void display(IReadOnlyDashboardPacket dbPacket, boolean debugInfoIsEnabled) {
         bPB.setProgress(gasPedalBar, dbPacket.getGasPedalPosition());
         bPB.setProgress(brakePedalBar, dbPacket.getBrakePedalPosition());
         setGearLabelText(dbPacket.getCurrentGear());
         indicateTo(dbPacket.getIndicatorDirection());
 
-        setSteeringLabelText(dbPacket.getSteeringWheelValue());
-        setPositionLabelText(dbPacket.getAutomatedCarX(), dbPacket.getAutomatedCarY());
+        if (debugInfoIsEnabled) {
+            setSteeringLabelText(dbPacket.getSteeringWheelValue());
+            setPositionLabelText(dbPacket.getAutomatedCarX(), dbPacket.getAutomatedCarY());
+        }
+
     }
 
     private void initGearLabel() {

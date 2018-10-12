@@ -189,7 +189,7 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
         return true;
     }
     private void removeKey(int code){
-        this.holdKeys.remove(this.holdKeys.indexOf(code));
+        this.holdKeys.remove(code);
     }
     private void handleFilteredKeyEvent(KeyEvent e){
         if (e.getKeyCode() == GAS)

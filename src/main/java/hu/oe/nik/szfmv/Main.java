@@ -46,7 +46,7 @@ public class Main {
                 car.drive();
 
                 gui.getCourseDisplay().drawWorld(w);
-                gui.getDashboard().display(car.getDashboardInfo());
+                gui.getDashboard().display(car.getDashboardInfo(), debugInfoIsEnabled);
 
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {

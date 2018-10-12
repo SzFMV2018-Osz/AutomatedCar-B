@@ -36,6 +36,13 @@ public class DebugSection extends JPanel {
         return ", y: ";
     }
 
+    /**
+     * Creates and returns a JLabel with the specified parameters
+     *
+     * @param text - text for the label
+     * @param rowOffset - determines the y coordinate for the label
+     * @return - returns the created JLabel
+     */
     public JLabel getDebugLabel(String text, int rowOffset) {
         JLabel debugLabel = new JLabel(text);
 
@@ -44,11 +51,20 @@ public class DebugSection extends JPanel {
         return debugLabel;
     }
 
+    /**
+     * Actualises the bounds and text color for the given JLabel
+     *
+     * @param label - the modifiable JLabel's reference
+     * @param rowOffset - determines the y coordinate for the label
+     */
     public void setupLabel(JLabel label, int rowOffset) {
         Insets insets = getInsets();
         Dimension labelSize = label.getPreferredSize();
 
-        label.setBounds(sectionPositionX + insets.left , sectionPositionY + insets.top + rowOffset, labelSize.width, labelSize.height);
+        int boundsX = sectionPositionX + insets.left;
+        int boundsY = sectionPositionY + insets.top + rowOffset;
+
+        label.setBounds(boundsX, boundsY, labelSize.width, labelSize.height);
         label.setForeground(Color.black);
     }
 }

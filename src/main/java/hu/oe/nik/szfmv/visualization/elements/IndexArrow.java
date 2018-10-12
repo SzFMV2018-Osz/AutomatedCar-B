@@ -65,9 +65,9 @@ public class IndexArrow extends JPanel {
         TimerTask task = new TimerTask() {
             public void run() {
                 if (secondPassed % 2 == 0) {
-                    changeIndexColor(color.WHITE);
+                    changeIndexColor(Color.WHITE);
                 } else {
-                    changeIndexColor(color.YELLOW);
+                    changeIndexColor(Color.YELLOW);
                 }
                 secondPassed++;
                 repaint();

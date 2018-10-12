@@ -150,7 +150,7 @@ public class GraduallyChangeableTest {
                 NoSuchMethodException, InvocationTargetException, IllegalAccessException {
             // ASSERT
             GraduallyChangeable gc = new GraduallyChangeable();
-            Method m = GraduallyChangeable.class.getDeclaredMethod("getRange", new Class[]{int.class, int.class});
+            Method m = GraduallyChangeable.class.getDeclaredMethod("getRange", int.class, int.class);
             m.setAccessible(true);
 
             // ACT
@@ -210,7 +210,7 @@ public class GraduallyChangeableTest {
                 IllegalAccessException {
             GraduallyChangeable gc = new GraduallyChangeable();
             gc.startNew(0, 0, 0);
-            Method m = GraduallyChangeable.class.getDeclaredMethod("determineChange", new Class[]{});
+            Method m = GraduallyChangeable.class.getDeclaredMethod("determineChange");
             m.setAccessible(true);
 
             int res = (int) m.invoke(gc, new Object[]{});
@@ -225,7 +225,7 @@ public class GraduallyChangeableTest {
             GraduallyChangeable gc = new GraduallyChangeable();
             gc.startNew(0, 500, 1000);
             GraduallyChangeable.setClock(new ClockMock(500));
-            Method m = GraduallyChangeable.class.getDeclaredMethod("determineChange", new Class[]{});
+            Method m = GraduallyChangeable.class.getDeclaredMethod("determineChange");
             m.setAccessible(true);
 
             int res = (int) m.invoke(gc, new Object[]{});
