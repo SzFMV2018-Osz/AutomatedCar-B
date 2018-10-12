@@ -19,7 +19,7 @@ public class Dashboard extends JPanel {
     private final int backgroundColor = 0x888888;
     private final int gearLabelPosX = 100;
     private final int gearLabelPosY = 130;
-    private final int gearLabelWidth = 50;
+    private final int gearLabelWidth = 70;
     private final int gearLabelHeight = 30;
     private final Point brakePedal = new Point(40, 290);
     private final Point gasPedal = new Point(40, 260);
@@ -37,8 +37,8 @@ public class Dashboard extends JPanel {
     private JLabel gearLabel;
     private CircleCalculator speedMeter = new CircleCalculator(this, MeterTypes.SPEED, new Point(115, 0));
     private CircleCalculator rpmMeter = new CircleCalculator(this, MeterTypes.RPM, new Point(0, 0));
-    private IndexArrow leftTurnSignal = new IndexArrow(IndexTypes.LEFT, new Point(40, 130));
-    private IndexArrow rightTurnSignal = new IndexArrow(IndexTypes.RIGHT, new Point(160, 130));
+    private IndexArrow leftTurnSignal = new IndexArrow(IndexTypes.LEFT, new Point(20, 130));
+    private IndexArrow rightTurnSignal = new IndexArrow(IndexTypes.RIGHT, new Point(180, 130));
 
     /**
      * Initialize the dashboard
