@@ -44,23 +44,14 @@ public class Main {
         while (true) {
             try {
                 car.drive();
-                gui.getCourseDisplay().drawWorld(w);
-              
-                //debugDisplayer(debugInfoIsEnabled , car, gui);
 
+                gui.getCourseDisplay().drawWorld(w);
                 gui.getDashboard().display(car.getDashboardInfo());
-              
+
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());
             }
-        }
-    }
-
-    private static void debugDisplayer(boolean debugInfoIsEnabled, AutomatedCar car, Gui gui) {
-        if (debugInfoIsEnabled) {
-            DebugInfoContainer debugInfoContainer = new DebugInfoContainer(car.getX(), car.getY());
-            gui.getDashboard().drawDashboardDebugDisplay(debugInfoContainer);
         }
     }
 }

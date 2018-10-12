@@ -43,6 +43,8 @@ public class AutomatedCar extends WorldObject {
 
     public IReadOnlyDashboardPacket getDashboardInfo() {
         DashboardPacket packet = dashboardManager.getDashboardPacket();
+
+        packet.setSteeringWheelValue(virtualFunctionBus.steeringWheelPacket.getSteeringWheelPosition());
         packet.setAutomatedCarX(x);
         packet.setAutomatedCarY(y);
 

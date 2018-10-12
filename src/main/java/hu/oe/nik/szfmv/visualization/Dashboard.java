@@ -1,8 +1,8 @@
 package hu.oe.nik.szfmv.visualization;
 
-import hu.oe.nik.szfmv.common.DebugInfoContainer;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
 import hu.oe.nik.szfmv.common.enums.Gear;
+import hu.oe.nik.szfmv.visualization.elements.DebugSection;
 import hu.oe.nik.szfmv.visualization.elements.CircleCalculator;
 import hu.oe.nik.szfmv.visualization.elements.IndexArrow;
 import hu.oe.nik.szfmv.visualization.elements.PedalBar;
@@ -22,9 +22,6 @@ public class Dashboard extends JPanel {
     private final int gearLabelPosY = 130;
     private final int gearLabelWidth = 50;
     private final int gearLabelHeight = 30;
-  
-    private final Point debugSectionPosition = new Point(10, 630);
-    private final int debugSectionRowSize = 20;
 
     private final Point brakePedal = new Point(40, 290);
     private final Point gasPedal = new Point(40, 260);
@@ -47,6 +44,11 @@ public class Dashboard extends JPanel {
     private IndexArrow leftTurnSignal = new IndexArrow(IndexTypes.LEFT, new Point(40, 130));
     private IndexArrow rightTurnSignal = new IndexArrow(IndexTypes.RIGHT, new Point(160, 130));
 
+    private DebugSection debugSection = new DebugSection();
+    private JLabel debugLabel = debugSection.getDebugLabel(debugSection.getMainDebugText(), debugSection.getMainDebugOffset());
+    private JLabel steeringWheelLabel = debugSection.getDebugLabel(debugSection.getSteeringDebugText(), debugSection.getSteeringDebugOffset());
+    private JLabel positionLabel = debugSection.getDebugLabel(debugSection.getPositionTextX() + 0 + debugSection.getPositionTextY() + 0, debugSection.getPositionDebugOffset());
+
     /**
      * Initialize the dashboard
      */
@@ -68,6 +70,10 @@ public class Dashboard extends JPanel {
         add(gasPedalLabel);
         add(gasPedalBar);
         initGearLabel();
+
+        add(debugLabel);
+        add(steeringWheelLabel);
+        add(positionLabel);
     }
 
     public void display(IReadOnlyDashboardPacket dbPacket) {
@@ -75,6 +81,9 @@ public class Dashboard extends JPanel {
         bPB.setProgress(brakePedalBar, dbPacket.getBrakePedalPosition());
         setGearLabelText(dbPacket.getCurrentGear());
         indicateTo(dbPacket.getIndicatorDirection());
+
+        setSteeringLabelText(dbPacket.getSteeringWheelValue());
+        setPositionLabelText(dbPacket.getAutomatedCarX(), dbPacket.getAutomatedCarY());
     }
 
     private void initGearLabel() {
@@ -86,6 +95,21 @@ public class Dashboard extends JPanel {
 
     private void setGearLabelText(Gear gear) {
         gearLabel.setText("Gear: " + gear);
+    }
+
+    private void setSteeringLabelText(int value) {
+        if (value > 0) {
+            steeringWheelLabel.setText(debugSection.getSteeringDebugText() + "+" + value);
+        } else {
+            steeringWheelLabel.setText(debugSection.getSteeringDebugText() + value);
+        }
+
+        debugSection.setupLabel(steeringWheelLabel, debugSection.getSteeringDebugOffset());
+    }
+    private void setPositionLabelText(int x, int y) {
+        positionLabel.setText(debugSection.getPositionTextX() + x + debugSection.getPositionTextY() + y);
+
+        debugSection.setupLabel(positionLabel, debugSection.getPositionDebugOffset());
     }
 
     private void indicateTo(int direction) {
@@ -140,21 +164,6 @@ public class Dashboard extends JPanel {
         meter.setBounds(meter.getPosition().x, meter.getPosition().y, 115, 115);
         meter.setVisible(true);
         add(meter);
-    }
-  
-    /**
-     * Draws the debug section of the dashboard
-     * @param debugInfo - object containing values to display for debug purposes
-     */
-    public void drawDashboardDebugDisplay(DebugInfoContainer debugInfo) {
-        Graphics g = this.getGraphics();
-        super.paintComponent(g);
-
-        int currentRow = debugSectionPosition.y;
-
-        g.drawString("debug:", debugSectionPosition.x, currentRow);
-        currentRow += debugSectionRowSize;
-        g.drawString("x: " + debugInfo.getCarX() + ", y: " + debugInfo.getCarY(), debugSectionPosition.x, currentRow);
     }
 
     /**
