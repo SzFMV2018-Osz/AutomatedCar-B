@@ -17,11 +17,11 @@ public class DebugSection extends JPanel {
         return sectionRowSize * mainDebugOffset;
     }
 
-    public int getSteeringDebugOffset() {
+    private int getSteeringDebugOffset() {
         return sectionRowSize * steeringDebugOffset;
     }
 
-    public int getPositionDebugOffset() {
+    private int getPositionDebugOffset() {
         return sectionRowSize * positionDebugOffset;
     }
 
@@ -29,15 +29,15 @@ public class DebugSection extends JPanel {
         return "debug:";
     }
 
-    public String getSteeringDebugText() {
+    private String getSteeringDebugText() {
         return "steering wheel: ";
     }
 
-    public String getPositionTextX() {
+    private String getPositionTextX() {
         return "x: ";
     }
 
-    public String getPositionTextY() {
+    private String getPositionTextY() {
         return ", y: ";
     }
 
@@ -48,39 +48,12 @@ public class DebugSection extends JPanel {
      * @param rowOffset - determines the y coordinate for the label
      * @return - returns the created JLabel
      */
-    private JLabel getDebugLabel(String text, int rowOffset) {
+    private JLabel getDebugSectionLabel(String text, int rowOffset) {
         JLabel debugLabel = new JLabel(text);
 
-        setupLabel(debugLabel, rowOffset);
+        setupDebugSectionLabel(debugLabel, rowOffset);
 
         return debugLabel;
-    }
-
-    /**
-     * Generates a main debug label
-     *
-     * @return - returns the configured label object
-     */
-    public JLabel initialiseDebugLabel() {
-        return getDebugLabel(getMainDebugText(), getMainDebugOffset());
-    }
-
-    /**
-     * Generates a steering wheel debug label
-     *
-     * @return - returns the configured label object
-     */
-    public JLabel initialiseSteeringWheelLabel() {
-        return getDebugLabel(getSteeringDebugText(), getSteeringDebugOffset());
-    }
-
-    /**
-     * Generates a position debug label
-     *
-     * @return - returns the configured label object
-     */
-    public JLabel initialisePositionLabel() {
-        return getDebugLabel(getPositionTextX() + 0 + getPositionTextY() + 0, getPositionDebugOffset());
     }
 
     /**
@@ -89,7 +62,7 @@ public class DebugSection extends JPanel {
      * @param label     - the modifiable JLabel's reference
      * @param rowOffset - determines the y coordinate for the label
      */
-    public void setupLabel(JLabel label, int rowOffset) {
+    private void setupDebugSectionLabel(JLabel label, int rowOffset) {
         Insets insets = getInsets();
         Dimension labelSize = label.getPreferredSize();
 
@@ -98,5 +71,61 @@ public class DebugSection extends JPanel {
 
         label.setBounds(boundsX, boundsY, labelSize.width, labelSize.height);
         label.setForeground(Color.black);
+    }
+
+    /**
+     * Generates a main debug label
+     *
+     * @return - returns the configured label object
+     */
+    public JLabel initialiseDebugLabel() {
+        return getDebugSectionLabel(getMainDebugText(), getMainDebugOffset());
+    }
+
+    /**
+     * Generates a steering wheel debug label
+     *
+     * @return - returns the configured label object
+     */
+    public JLabel initialiseSteeringWheelLabel() {
+        return getDebugSectionLabel(getSteeringDebugText(), getSteeringDebugOffset());
+    }
+
+    /**
+     * Generates a position debug label
+     *
+     * @return - returns the configured label object
+     */
+    public JLabel initialisePositionLabel() {
+        return getDebugSectionLabel(getPositionTextX() + 0 + getPositionTextY() + 0, getPositionDebugOffset());
+    }
+
+    /**
+     * Refreshes the steering wheel position label
+     *
+     * @param steeringWheelLabel - the modifiable JLabel
+     * @param value - the new steering wheel value
+     */
+    public void setSteeringLabelText(JLabel steeringWheelLabel, int value) {
+        if (value > 0) {
+            steeringWheelLabel.setText(getSteeringDebugText() + "+" + value);
+        } else {
+            steeringWheelLabel.setText(getSteeringDebugText() + value);
+        }
+
+        setupDebugSectionLabel(steeringWheelLabel, getSteeringDebugOffset());
+    }
+
+    /**
+     * Refreshes the position label
+     *
+     * @param positionLabel - the modifiable JLabel
+     * @param x - the car's x position
+     * @param y - the car's y position
+     */
+    public void setPositionLabelText(JLabel positionLabel, int x, int y) {
+        positionLabel.setText(getPositionTextX() + x + getPositionTextY() + y);
+
+        setupDebugSectionLabel(positionLabel, getPositionDebugOffset());
     }
 }

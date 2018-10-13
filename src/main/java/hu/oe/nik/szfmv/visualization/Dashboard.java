@@ -94,14 +94,14 @@ public class Dashboard extends JPanel {
         setGearLabelText(dbPacket.getCurrentGear());
         indicateTo(dbPacket.getIndicatorDirection());
 
-        debugSectionLabelToggle(debugInfoIsEnabled);
+        checkDebugSectionVisibility(debugInfoIsEnabled);
         if (debugInfoIsEnabled) {
-            setSteeringLabelText(dbPacket.getSteeringWheelValue());
-            setPositionLabelText(dbPacket.getAutomatedCarX(), dbPacket.getAutomatedCarY());
+            debugSection.setSteeringLabelText(steeringWheelLabel, dbPacket.getSteeringWheelValue());
+            debugSection.setPositionLabelText(positionLabel, dbPacket.getAutomatedCarX(), dbPacket.getAutomatedCarY());
         }
     }
 
-    private void debugSectionLabelToggle(boolean debugInfoIsEnabled) {
+    private void checkDebugSectionVisibility(boolean debugInfoIsEnabled) {
         if (!debugInfoIsEnabled && debugSectionIsVisible) {
             debugLabel.setVisible(false);
             steeringWheelLabel.setVisible(false);
@@ -126,22 +126,6 @@ public class Dashboard extends JPanel {
 
     private void setGearLabelText(Gear gear) {
         gearLabel.setText("Gear: " + gear);
-    }
-
-    private void setSteeringLabelText(int value) {
-        if (value > 0) {
-            steeringWheelLabel.setText(debugSection.getSteeringDebugText() + "+" + value);
-        } else {
-            steeringWheelLabel.setText(debugSection.getSteeringDebugText() + value);
-        }
-
-        debugSection.setupLabel(steeringWheelLabel, debugSection.getSteeringDebugOffset());
-    }
-
-    private void setPositionLabelText(int x, int y) {
-        positionLabel.setText(debugSection.getPositionTextX() + x + debugSection.getPositionTextY() + y);
-
-        debugSection.setupLabel(positionLabel, debugSection.getPositionDebugOffset());
     }
 
     private void indicateTo(int direction) {
