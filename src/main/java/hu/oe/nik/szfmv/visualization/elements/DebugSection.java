@@ -16,9 +16,11 @@ public class DebugSection extends JPanel {
     public int getMainDebugOffset() {
         return sectionRowSize * mainDebugOffset;
     }
+
     public int getSteeringDebugOffset() {
         return sectionRowSize * steeringDebugOffset;
     }
+
     public int getPositionDebugOffset() {
         return sectionRowSize * positionDebugOffset;
     }
@@ -26,12 +28,15 @@ public class DebugSection extends JPanel {
     public String getMainDebugText() {
         return "debug:";
     }
+
     public String getSteeringDebugText() {
         return "steering wheel: ";
     }
+
     public String getPositionTextX() {
         return "x: ";
     }
+
     public String getPositionTextY() {
         return ", y: ";
     }
@@ -39,7 +44,7 @@ public class DebugSection extends JPanel {
     /**
      * Creates and returns a JLabel with the specified parameters
      *
-     * @param text - text for the label
+     * @param text      - text for the label
      * @param rowOffset - determines the y coordinate for the label
      * @return - returns the created JLabel
      */
@@ -52,9 +57,36 @@ public class DebugSection extends JPanel {
     }
 
     /**
+     * Generates a main debug label
+     *
+     * @return - returns the configured label object
+     */
+    public JLabel initialiseDebugLabel() {
+        return getDebugLabel(getMainDebugText(), getMainDebugOffset());
+    }
+
+    /**
+     * Generates a steering wheel debug label
+     *
+     * @return - returns the configured label object
+     */
+    public JLabel initialiseSteeringWheelLabel() {
+        return getDebugLabel(getSteeringDebugText(), getSteeringDebugOffset());
+    }
+
+    /**
+     * Generates a position debug label
+     *
+     * @return - returns the configured label object
+     */
+    public JLabel initialisePositionLabel() {
+        return getDebugLabel(getPositionTextX() + 0 + getPositionTextY() + 0, getPositionDebugOffset());
+    }
+
+    /**
      * Actualises the bounds and text color for the given JLabel
      *
-     * @param label - the modifiable JLabel's reference
+     * @param label     - the modifiable JLabel's reference
      * @param rowOffset - determines the y coordinate for the label
      */
     public void setupLabel(JLabel label, int rowOffset) {

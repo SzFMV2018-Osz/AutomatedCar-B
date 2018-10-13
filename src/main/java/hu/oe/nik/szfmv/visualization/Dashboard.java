@@ -14,20 +14,25 @@ import java.awt.*;
  * Dashboard shows the state of the ego car, thus helps in debugging.
  */
 public class Dashboard extends JPanel {
+    public int speed;
+    public int rpm;
 
     private final int width = 250;
     private final int height = 700;
+    private final int boundsX = 770;
+    private final int boundsY = 0;
     private final int backgroundColor = 0x888888;
     private final int gearLabelPosX = 100;
     private final int gearLabelPosY = 130;
     private final int gearLabelWidth = 50;
     private final int gearLabelHeight = 30;
+    private final int circleMeterWidth = 115;
+    private final int circleMeterHeight = 115;
+    private final int indexWidth = 51;
+    private final int indexHeight = 31;
 
     private final Point brakePedal = new Point(40, 290);
     private final Point gasPedal = new Point(40, 260);
-
-    public int speed;
-    public int rpm;
 
     private PedalBar bPB = new PedalBar();
     private JLabel brakePedalLabel = bPB.getPedalProgressBarLabel(brakePedal.x, brakePedal.y, "Brake pedal");
@@ -46,9 +51,9 @@ public class Dashboard extends JPanel {
 
     private boolean debugSectionIsVisible = true;
     private DebugSection debugSection = new DebugSection();
-    private JLabel debugLabel = debugSection.getDebugLabel(debugSection.getMainDebugText(), debugSection.getMainDebugOffset());
-    private JLabel steeringWheelLabel = debugSection.getDebugLabel(debugSection.getSteeringDebugText(), debugSection.getSteeringDebugOffset());
-    private JLabel positionLabel = debugSection.getDebugLabel(debugSection.getPositionTextX() + 0 + debugSection.getPositionTextY() + 0, debugSection.getPositionDebugOffset());
+    private JLabel debugLabel = debugSection.initialiseDebugLabel();
+    private JLabel steeringWheelLabel = debugSection.initialiseSteeringWheelLabel();
+    private JLabel positionLabel = debugSection.initialisePositionLabel();
 
     /**
      * Initialize the dashboard
@@ -57,7 +62,7 @@ public class Dashboard extends JPanel {
         // Not using any layout manager, but fixed coordinates
         setLayout(null);
         setBackground(new Color(backgroundColor));
-        setBounds(770, 0, width, height);
+        setBounds(boundsX, boundsY, width, height);
 
         //Speed and RPM initialized with 0 rpm and km/h value
         rpm = 0;
@@ -77,6 +82,12 @@ public class Dashboard extends JPanel {
         add(positionLabel);
     }
 
+    /**
+     * Method gets called 'every tick' to display the dashboard portion of the application
+     *
+     * @param dbPacket - object containing readable info for the dashboard
+     * @param debugInfoIsEnabled - toggle for the debug section's display
+     */
     public void display(IReadOnlyDashboardPacket dbPacket, boolean debugInfoIsEnabled) {
         bPB.setProgress(gasPedalBar, dbPacket.getGasPedalPosition());
         bPB.setProgress(brakePedalBar, dbPacket.getBrakePedalPosition());
@@ -182,7 +193,7 @@ public class Dashboard extends JPanel {
      * @param meter position x on board
      */
     private void createCircleMeter(CircleCalculator meter) {
-        meter.setBounds(meter.getPosition().x, meter.getPosition().y, 115, 115);
+        meter.setBounds(meter.getPosition().x, meter.getPosition().y, circleMeterWidth, circleMeterHeight);
         meter.setVisible(true);
         add(meter);
     }
@@ -193,7 +204,7 @@ public class Dashboard extends JPanel {
      * @param index index that we want to add the dashboard
      */
     private void createIndex(IndexArrow index) {
-        index.setBounds(index.getPosition().x, index.getPosition().y, 51, 31);
+        index.setBounds(index.getPosition().x, index.getPosition().y, indexWidth, indexHeight);
         add(index);
     }
 
