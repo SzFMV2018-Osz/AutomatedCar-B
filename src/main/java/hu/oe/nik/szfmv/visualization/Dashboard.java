@@ -2,8 +2,8 @@ package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
 import hu.oe.nik.szfmv.common.enums.Gear;
-import hu.oe.nik.szfmv.visualization.elements.DebugSection;
 import hu.oe.nik.szfmv.visualization.elements.CircleCalculator;
+import hu.oe.nik.szfmv.visualization.elements.DebugSection;
 import hu.oe.nik.szfmv.visualization.elements.IndexArrow;
 import hu.oe.nik.szfmv.visualization.elements.PedalBar;
 
@@ -44,6 +44,7 @@ public class Dashboard extends JPanel {
     private IndexArrow leftTurnSignal = new IndexArrow(IndexTypes.LEFT, new Point(40, 130));
     private IndexArrow rightTurnSignal = new IndexArrow(IndexTypes.RIGHT, new Point(160, 130));
 
+    private boolean debugSectionIsVisible = true;
     private DebugSection debugSection = new DebugSection();
     private JLabel debugLabel = debugSection.getDebugLabel(debugSection.getMainDebugText(), debugSection.getMainDebugOffset());
     private JLabel steeringWheelLabel = debugSection.getDebugLabel(debugSection.getSteeringDebugText(), debugSection.getSteeringDebugOffset());
@@ -82,13 +83,27 @@ public class Dashboard extends JPanel {
         setGearLabelText(dbPacket.getCurrentGear());
         indicateTo(dbPacket.getIndicatorDirection());
 
+        debugSectionLabelToggle(debugInfoIsEnabled);
         if (debugInfoIsEnabled) {
             setSteeringLabelText(dbPacket.getSteeringWheelValue());
             setPositionLabelText(dbPacket.getAutomatedCarX(), dbPacket.getAutomatedCarY());
-        }// else {
-         //this.
-        //}
+        }
+    }
 
+    private void debugSectionLabelToggle(boolean debugInfoIsEnabled) {
+        if ((debugInfoIsEnabled == false) && debugSectionIsVisible) {
+            debugLabel.setVisible(false);
+            steeringWheelLabel.setVisible(false);
+            positionLabel.setVisible(false);
+
+            debugSectionIsVisible = false;
+        } else if (debugInfoIsEnabled && (debugSectionIsVisible == false)) {
+            debugLabel.setVisible(true);
+            steeringWheelLabel.setVisible(true);
+            positionLabel.setVisible(true);
+
+            debugSectionIsVisible = true;
+        }
     }
 
     private void initGearLabel() {
@@ -111,6 +126,7 @@ public class Dashboard extends JPanel {
 
         debugSection.setupLabel(steeringWheelLabel, debugSection.getSteeringDebugOffset());
     }
+
     private void setPositionLabelText(int x, int y) {
         positionLabel.setText(debugSection.getPositionTextX() + x + debugSection.getPositionTextY() + y);
 
