@@ -1,7 +1,6 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.DashboardPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.DashboardManager;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
@@ -40,24 +39,20 @@ public class AutomatedCar extends WorldObject {
      * Provides a sample method for modifying the position of the car.
      */
     public void drive() {
+        dashboardManager.actualisePosition(x, y);
+
         virtualFunctionBus.loop();
 
         calculatePositionAndOrientation();
     }
 
     /**
-     * Provides an interface for the dashboard, as it also needs the x, y positions of the car
+     * Return dashboard data to caller
      *
      * @return - returns the packet containing the necessary information
      */
     public IReadOnlyDashboardPacket getDashboardInfo() {
-        DashboardPacket packet = dashboardManager.getDashboardPacket();
-
-        packet.setAutomatedCarX(x);
-        packet.setAutomatedCarY(y);
-        packet.setSteeringWheelValue(dashboardManager.getDashboardPacket().getSteeringWheelValue());
-
-        return packet;
+        return dashboardManager.getDashboardPacket();
     }
 
     /**
