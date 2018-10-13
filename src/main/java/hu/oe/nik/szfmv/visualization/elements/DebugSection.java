@@ -13,7 +13,7 @@ public class DebugSection extends JPanel {
     private final int steeringDebugOffset = 1;
     private final int positionDebugOffset = 2;
 
-    public int getMainDebugOffset() {
+    private int getMainDebugOffset() {
         return sectionRowSize * mainDebugOffset;
     }
 
@@ -25,7 +25,7 @@ public class DebugSection extends JPanel {
         return sectionRowSize * positionDebugOffset;
     }
 
-    public String getMainDebugText() {
+    private String getMainDebugText() {
         return "debug:";
     }
 
@@ -48,7 +48,7 @@ public class DebugSection extends JPanel {
      * @param rowOffset - determines the y coordinate for the label
      * @return - returns the created JLabel
      */
-    public JLabel getDebugLabel(String text, int rowOffset) {
+    private JLabel getDebugLabel(String text, int rowOffset) {
         JLabel debugLabel = new JLabel(text);
 
         setupLabel(debugLabel, rowOffset);

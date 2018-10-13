@@ -58,7 +58,7 @@ public class Dashboard extends JPanel {
     /**
      * Initialize the dashboard
      */
-    public Dashboard() {
+    Dashboard() {
         // Not using any layout manager, but fixed coordinates
         setLayout(null);
         setBackground(new Color(backgroundColor));
@@ -102,13 +102,13 @@ public class Dashboard extends JPanel {
     }
 
     private void debugSectionLabelToggle(boolean debugInfoIsEnabled) {
-        if ((debugInfoIsEnabled == false) && debugSectionIsVisible) {
+        if (!debugInfoIsEnabled && debugSectionIsVisible) {
             debugLabel.setVisible(false);
             steeringWheelLabel.setVisible(false);
             positionLabel.setVisible(false);
 
             debugSectionIsVisible = false;
-        } else if (debugInfoIsEnabled && (debugSectionIsVisible == false)) {
+        } else if (debugInfoIsEnabled && !debugSectionIsVisible) {
             debugLabel.setVisible(true);
             steeringWheelLabel.setVisible(true);
             positionLabel.setVisible(true);
