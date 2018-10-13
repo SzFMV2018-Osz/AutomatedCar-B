@@ -22,6 +22,8 @@ public class Main {
 
         // log the current debug mode in config
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
+        // debug section display toggle
+        boolean dashboardDebugIsEnabled = ConfigProvider.provide().getBoolean("dashboard.debug");
 
         // create the world
         World w = new World(800, 600);
@@ -40,8 +42,10 @@ public class Main {
         while (true) {
             try {
                 car.drive();
+
                 gui.getCourseDisplay().drawWorld(w);
-                gui.getDashboard().display(car.getDashboardInfo());
+                gui.getDashboard().display(car.getDashboardInfo(), dashboardDebugIsEnabled);
+
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());
