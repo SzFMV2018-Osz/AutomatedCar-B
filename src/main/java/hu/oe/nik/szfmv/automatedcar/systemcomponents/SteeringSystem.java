@@ -8,7 +8,6 @@ import hu.oe.nik.szfmv.automatedcar.engine.TurningHandler;
  * Steering system is responsible for the turning of the car.
  */
 public class SteeringSystem extends SystemComponent {
-    private double angularSpeed = 0;
     private TurningHandler turningHandler;
     private SteeringPacket steeringPacket;
 
@@ -26,19 +25,8 @@ public class SteeringSystem extends SystemComponent {
 
     @Override
     public void loop() {
-        steeringPacket.setAngularSpeed(getAngularSpeed());
+        steeringPacket.setAngularSpeed(turningHandler.angularVelocityCalculation(steeringPacket.getSteeringWheelState(), virtualFunctionBus.powertrainPacket.getSpeed()));
+        steeringPacket.setAngularVector(turningHandler.angularVector(steeringPacket.getAngularVector(), steeringPacket.getAngularSpeed()));
     }
 
-    /**
-     * update angular speed
-     * @param steeringWheelState actual steering wheel state
-     * @param speed actual speed
-     */
-    public void updateAngularSpeed(final int steeringWheelState, final int speed) {
-        angularSpeed = turningHandler.angularVelocityCalculation(steeringWheelState, speed);
-    }
-
-    public double getAngularSpeed() {
-        return this.angularSpeed;
-    }
 }

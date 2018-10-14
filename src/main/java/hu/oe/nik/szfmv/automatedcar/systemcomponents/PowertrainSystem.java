@@ -2,11 +2,7 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.PowerTrainPacketImpl;
-import hu.oe.nik.szfmv.automatedcar.engine.CarEngine;
-import hu.oe.nik.szfmv.automatedcar.engine.CarEngineType;
-import hu.oe.nik.szfmv.automatedcar.engine.GearBox;
-import hu.oe.nik.szfmv.automatedcar.engine.StandardCarEngineType;
-import hu.oe.nik.szfmv.automatedcar.engine.TransmissionModes;
+import hu.oe.nik.szfmv.automatedcar.engine.*;
 import hu.oe.nik.szfmv.automatedcar.engine.exception.TransmissionModeChangeException;
 
 
@@ -55,25 +51,21 @@ public class PowertrainSystem extends SystemComponent {
         // GET INPUT
         try {
             gearBox.changeTransmissionMode(powertrainPacket.getTransmissionMode(), powertrainPacket.getRpm());
-        } catch (TransmissionModeChangeException e){
+        } catch (TransmissionModeChangeException e) {
             //TODO Input team handle this
         }
-
         // PROCESS INPUT
 
+        if (gearBox.getTransmissionModes().getCanItMove()) {
+            powertrainPacket.setSpeed(engine.calcvulationVelocity(1, virtualFunctionBus.steeringPacket.getAngularVector(), powertrainPacket.getGear(), powertrainPacket.getSpeed(),
+                    powertrainPacket.getBrakePadelPosition(), powertrainPacket.getThrottlePosition()));
+            engine.updateRpm(powertrainPacket.getSpeed(), gearBox.getCurrentGear());
+            gearBox.updateGear(engine.getRpm());
+        }
         // UPDATE OUT PACKET
         powertrainPacket.setRpm(getRpm());
         powertrainPacket.setGear(getCurrentGear());
-    }
 
-    /**
-     * @param wheelRotationRate the current wheel rotation rate
-     */
-    public void updateEngine(final double wheelRotationRate) {
-        if (wheelRotationRate >= 0 && gearBox.getTransmissionModes().getCanItMove()) {
-            engine.updateRpm(wheelRotationRate, gearBox.getCurrentGear());
-            gearBox.updateGear(engine.getRpm());
-        }
 
     }
 }
