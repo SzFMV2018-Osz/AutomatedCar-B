@@ -13,8 +13,6 @@ public class AutomatedCar extends WorldObject {
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
     private final double speedMetersPerSeconds;
 
-    private final double wheelRadius = 0.33;
-
     /**
      * Constructor of the AutomatedCar class
      *
@@ -37,8 +35,6 @@ public class AutomatedCar extends WorldObject {
      * Provides a sample method for modifying the position of the car.
      */
     public void drive() {
-        final double wheelRotationRate = speedMetersPerSeconds / wheelRadius;
-        powertrainSystem.updateEngine(wheelRotationRate);
         virtualFunctionBus.loop();
         calculatePositionAndOrientation();
     }
@@ -48,12 +44,10 @@ public class AutomatedCar extends WorldObject {
      * powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
-        final double speed = speedMetersPerSeconds;
-        final double angularSpeed = steeringSystem.getAngularSpeed();
 
-        x += speed;
-        y = 0;
+        x += virtualFunctionBus.powertrainPacket.getSpeed() * virtualFunctionBus.steeringPacket.getAngularVector()[0];
+        y -= virtualFunctionBus.powertrainPacket.getSpeed() * virtualFunctionBus.steeringPacket.getAngularVector()[0];
 
-        rotation += angularSpeed;
+        rotation += virtualFunctionBus.steeringPacket.getAngularSpeed();
     }
 }
