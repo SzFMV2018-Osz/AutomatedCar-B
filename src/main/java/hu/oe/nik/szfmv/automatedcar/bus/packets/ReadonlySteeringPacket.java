@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv.automatedcar.systemcomponents;
+package hu.oe.nik.szfmv.automatedcar.bus.packets;
 
 public interface ReadonlySteeringPacket {
 

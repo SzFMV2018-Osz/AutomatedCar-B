@@ -1,11 +1,13 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.PowerTrainPacketImpl;
 import hu.oe.nik.szfmv.automatedcar.engine.CarEngine;
 import hu.oe.nik.szfmv.automatedcar.engine.CarEngineType;
 import hu.oe.nik.szfmv.automatedcar.engine.GearBox;
 import hu.oe.nik.szfmv.automatedcar.engine.StandardCarEngineType;
 import hu.oe.nik.szfmv.automatedcar.engine.TransmissionModes;
+import hu.oe.nik.szfmv.automatedcar.engine.exception.TransmissionModeChangeException;
 
 
 /**
@@ -13,8 +15,8 @@ import hu.oe.nik.szfmv.automatedcar.engine.TransmissionModes;
  */
 public class PowertrainSystem extends SystemComponent {
 
-    private PowertrainPacket powertrainPacket;
     private final CarEngineType engineType;
+    private PowerTrainPacketImpl powertrainPacket;
     private CarEngine engine;
     private GearBox gearBox;
 
@@ -28,7 +30,7 @@ public class PowertrainSystem extends SystemComponent {
     public PowertrainSystem(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
 
-        powertrainPacket = new PowertrainPacket();
+        powertrainPacket = new PowerTrainPacketImpl();
         virtualFunctionBus.powertrainPacket = powertrainPacket;
 
         engineType = new StandardCarEngineType();
@@ -51,6 +53,11 @@ public class PowertrainSystem extends SystemComponent {
     @Override
     public void loop() {
         // GET INPUT
+        try {
+            gearBox.changeTransmissionMode(powertrainPacket.getTransmissionMode(), powertrainPacket.getRpm());
+        } catch (TransmissionModeChangeException e){
+            //TODO Input team handle this
+        }
 
         // PROCESS INPUT
 
