@@ -20,7 +20,7 @@ public class PowertrainSystem extends SystemComponent {
     @Override
     public void loop() {
         int gasPedal = virtualFunctionBus.samplePacket.getGaspedalPosition();
-        speed = gasPedal * 0.8;
+        speed = gasPedal * 0.9;
         //TODO write this
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Scene height="3000" measureType="0" color="#ffffff" width="5120">
+<Scene height="3000" measureType="0" color="#ffaaff" width="5120">
   <Objects>
     <Object type="road_2lane_straight">
       <Position x="1700" y="144"/>
