@@ -18,14 +18,15 @@ public class SteeringSystem extends SystemComponent {
      */
     public SteeringSystem(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
-        turningHandler = new TurningHandler();
         steeringPacket = new SteeringPacket();
         virtualFunctionBus.steeringPacket = steeringPacket;
+        turningHandler = new TurningHandler();
     }
 
     @Override
     public void loop() {
         steeringPacket.setAngularSpeed(turningHandler.angularVelocityCalculation(steeringPacket.getSteeringWheelState(), virtualFunctionBus.powertrainPacket.getSpeed()));
+        System.out.println("Angular speed: "+steeringPacket.getAngularSpeed());
         steeringPacket.setAngularVector(turningHandler.angularVector(steeringPacket.getAngularVector(), steeringPacket.getAngularSpeed()));
     }
 
