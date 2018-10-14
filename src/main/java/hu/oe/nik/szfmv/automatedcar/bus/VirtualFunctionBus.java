@@ -1,7 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.ReadonlyPowertrainPacket;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.ReadonlySteeringPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlyPowertrainPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlySteeringPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 
 import java.util.ArrayList;

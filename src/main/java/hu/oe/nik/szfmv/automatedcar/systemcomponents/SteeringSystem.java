@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.SteeringPacket;
 import hu.oe.nik.szfmv.automatedcar.engine.TurningHandler;
 
 /**
@@ -9,7 +10,6 @@ import hu.oe.nik.szfmv.automatedcar.engine.TurningHandler;
 public class SteeringSystem extends SystemComponent {
     private double angularSpeed = 0;
     private TurningHandler turningHandler;
-
     private SteeringPacket steeringPacket;
 
     /**
@@ -20,9 +20,7 @@ public class SteeringSystem extends SystemComponent {
     public SteeringSystem(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
         turningHandler = new TurningHandler();
-
         steeringPacket = new SteeringPacket();
-
         virtualFunctionBus.steeringPacket = steeringPacket;
     }
 
