@@ -61,7 +61,7 @@ public class AutomatedCar extends Car {
     private void calculatePositionAndOrientation() {
 
         x += virtualFunctionBus.powertrainPacket.getSpeed() * virtualFunctionBus.steeringPacket.getAngularVector()[0];
-        y -= virtualFunctionBus.powertrainPacket.getSpeed() * virtualFunctionBus.steeringPacket.getAngularVector()[0];
+        y += virtualFunctionBus.powertrainPacket.getSpeed() * virtualFunctionBus.steeringPacket.getAngularVector()[1];
 
         rotation += virtualFunctionBus.steeringPacket.getAngularSpeed();
     }
