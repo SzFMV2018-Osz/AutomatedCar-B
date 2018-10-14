@@ -11,7 +11,6 @@ public class AutomatedCar extends WorldObject {
     private final PowertrainSystem powertrainSystem;
     private final SteeringSystem steeringSystem;
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
-    private final double speedMetersPerSeconds;
 
     /**
      * Constructor of the AutomatedCar class
@@ -25,9 +24,7 @@ public class AutomatedCar extends WorldObject {
         super(x, y, imageFileName);
 
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
-        steeringSystem = new SteeringSystem(virtualFunctionBus);
-        speedMetersPerSeconds = 0;
-
+        steeringSystem =new SteeringSystem(virtualFunctionBus);
         new Driver(virtualFunctionBus);
     }
 
