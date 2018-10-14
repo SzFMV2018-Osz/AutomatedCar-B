@@ -26,7 +26,7 @@ public class CircleCalculator extends JPanel {
      */
     public CircleCalculator(Dashboard dashboard, Dashboard.MeterTypes type, Point position) {
         if(type == Dashboard.MeterTypes.RPM) {
-            viewValue = 70;
+            viewValue = 200;
         } else {
             viewValue = 2;
         }
@@ -41,18 +41,34 @@ public class CircleCalculator extends JPanel {
      * @param value speed or rpm
      */
     public void setValue(int value) {
-        if(value <= viewValue * 140 && value  >= 0) {
-            double scale = value / (viewValue * 10);
-            double fractional = value % (viewValue * 10);
-            int remnant = (int) (fractional / viewValue);
-            if (scale == 14) {
-                this.value = 115 + (int) (scale * 10 -10) + remnant;
+        if(meterType == Dashboard.MeterTypes.RPM) {
+            if (value <= viewValue * 50 && value  >= 0) {
+                double scale = value / (viewValue * 10);
+                double fractional = value % (viewValue * 10);
+                int remnant = (int) (fractional / viewValue);
+                if (scale == 14) {
+                    this.value = 115 + (int) (scale * 26 - 26) + remnant;
+                } else {
+                    this.value = 115 + (int) (scale * 26) + remnant;
+                }
+                repaint();
             } else {
-                this.value = 115 + (int) (scale * 10) + remnant;
+                throw new IllegalArgumentException();
             }
-            repaint();
         } else {
-            throw new IllegalArgumentException();
+            if (value <= viewValue * 140 && value  >= 0) {
+                double scale = value / (viewValue * 10);
+                double fractional = value % (viewValue * 10);
+                int remnant = (int) (fractional / viewValue);
+                if (scale == 14) {
+                    this.value = 115 + (int) (scale * 10 -10) + remnant;
+                } else {
+                    this.value = 115 + (int) (scale * 10) + remnant;
+                }
+                repaint();
+            } else {
+                throw new IllegalArgumentException();
+            }
         }
     }
 
@@ -81,14 +97,20 @@ public class CircleCalculator extends JPanel {
         //values on the diameter
         g.setColor(Color.BLACK);
         g.setFont(g.getFont().deriveFont(Font.BOLD, 9));
-        for (int i = 110; i <= 250; i++) {
-            int x = 50 + (int) (43 * Math.sin(i * Math.PI / 90));
-            int y = 60 - (int) (43 * Math.cos(i * Math.PI / 90));
-            if (meterType == Dashboard.MeterTypes.RPM) {
-                if ((i - 110) % 35 == 0) {
-                    g.drawString(Integer.toString((i - 110) * viewValue), x, y);
+        if (meterType == Dashboard.MeterTypes.RPM) {
+            int number = 0;
+            for (int i = 110; i <= 250; i = i + 14) {
+                int x = 55 + (int) (43 * Math.sin(i * Math.PI / 90));
+                int y = 60 - (int) (43 * Math.cos(i * Math.PI / 90));
+                if ((i - 110) % 28 == 0) {
+                    g.drawString(Integer.toString(number), x, y);
+                    number += 2;
                 }
-            } else {
+            }
+        } else {
+            for (int i = 110; i <= 250; i++) {
+                int x = 50 + (int) (43 * Math.sin(i * Math.PI / 90));
+                int y = 60 - (int) (43 * Math.cos(i * Math.PI / 90));
                 if ((i - 110) % 10 == 0) {
                     g.drawString(Integer.toString((i - 110) * viewValue), x, y);
                 }
@@ -113,6 +135,7 @@ public class CircleCalculator extends JPanel {
         g.setFont(g.getFont().deriveFont(Font.BOLD, 12));
         if (meterType == Dashboard.MeterTypes.RPM) {
             g.drawString("rpm", diameter / 2 -8, diameter - 5);
+            g.drawString("x1000", diameter / 2 -12, diameter - 20);
         } else {
             g.drawString("km/h", diameter / 2 -8, diameter - 5);
         }
