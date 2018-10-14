@@ -20,8 +20,6 @@ public class AutomatedCar extends Car {
 
     private final double speedMetersPerSeconds;
 
-    private final double wheelRadius = 0.33;
-
     /**
      * Constructor of the AutomatedCar class
      *
@@ -48,8 +46,6 @@ public class AutomatedCar extends Car {
      */
     public void drive() {
         dashboardManager.actualisePosition(x, y);
-        final double wheelRotationRate = speedMetersPerSeconds / wheelRadius;
-        powertrainSystem.updateEngine(wheelRotationRate);
         virtualFunctionBus.loop();
         calculatePositionAndOrientation();
     }
@@ -68,12 +64,10 @@ public class AutomatedCar extends Car {
      * powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
-        final double speed = speedMetersPerSeconds;
-        final double angularSpeed = steeringSystem.getAngularSpeed();
 
-        x += speed;
-        y = 0;
+        x += virtualFunctionBus.powertrainPacket.getSpeed() * virtualFunctionBus.steeringPacket.getAngularVector()[0];
+        y -= virtualFunctionBus.powertrainPacket.getSpeed() * virtualFunctionBus.steeringPacket.getAngularVector()[0];
 
-        rotation += angularSpeed;
+        rotation += virtualFunctionBus.steeringPacket.getAngularSpeed();
     }
 }
