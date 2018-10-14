@@ -3,15 +3,14 @@ package hu.oe.nik.szfmv.automatedcar.bus.packets;
 public class SteeringPacket implements ReadonlySteeringPacket {
 
     private double angularSpeed;
-
-
     private double[] angularVector;
     private int steeringWheelState;
 
     public SteeringPacket() {
         this.angularSpeed = 0;
-        this.angularVector[0] = 0;
-        this.angularVector[1] = 1;
+        this.angularVector=new double[2];
+        this.angularVector[0] = 1;
+        this.angularVector[1] = 0;
         this.steeringWheelState = 0;
     }
 
