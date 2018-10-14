@@ -14,8 +14,9 @@ public class TurningHandler {
 
     /**
      * Calculate new angular velocity(/speed)
+     *
      * @param steeringWheelState steering wheel state [-60,60]
-     * @param speed car actual speed
+     * @param speed              car actual speed
      * @return current angular velocity
      */
     public double angularVelocityCalculation(final int steeringWheelState, int speed) {
@@ -32,6 +33,12 @@ public class TurningHandler {
                 / Math.tan(Math.toRadians(steeringWheelState))
                 + carAxisParams.getCarWidthPixel())
                 / carAxisParams.getPixelToMeter();
+    }
+
+    public double[] angularVector(double[] currentAngularVector, double angularVelocity) {
+        currentAngularVector[0] = currentAngularVector[0] * Math.cos(angularVelocity);
+        currentAngularVector[1] = currentAngularVector[1] * Math.sin(angularVelocity);
+        return currentAngularVector;
     }
 
 
