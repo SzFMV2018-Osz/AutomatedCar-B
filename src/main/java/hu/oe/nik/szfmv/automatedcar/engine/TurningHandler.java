@@ -36,9 +36,10 @@ public class TurningHandler {
     }
 
     public double[] angularVector(double[] currentAngularVector, double angularVelocity) {
-        currentAngularVector[0] = currentAngularVector[0] * Math.cos(angularVelocity);
-        currentAngularVector[1] = currentAngularVector[1] * Math.sin(angularVelocity);
-        return currentAngularVector;
+        double[] newAngularVector=new double[2];
+        newAngularVector[0] = currentAngularVector[0] * Math.cos(angularVelocity)-currentAngularVector[1] * Math.sin(angularVelocity);
+        newAngularVector[1] = currentAngularVector[0] * Math.sin(angularVelocity)+currentAngularVector[1] * Math.cos(angularVelocity);
+        return newAngularVector;
     }
 
 
