@@ -60,7 +60,7 @@ public class PowertrainSystem extends SystemComponent {
     {
         if (virtualFunctionBus.powertrainPacket.getTransmissionMode().getCanItMove()) {
             //TODO FRAME KI MOCKOLVA
-            powertrainPacket.setSpeed(engine.calcvulationVelocity(0.42, virtualFunctionBus.steeringPacket.getAngularVector(), powertrainPacket.getGear(), powertrainPacket.getSpeed(),
+            powertrainPacket.setSpeed(engine.calculationVelocity(0.42, virtualFunctionBus.steeringPacket.getAngularVector(), powertrainPacket.getGear(), powertrainPacket.getSpeed(),
                     powertrainPacket.getBrakePadelPosition(), powertrainPacket.getThrottlePosition()));
             engine.updateRpm((int) Math.round(powertrainPacket.getSpeed()), gearBox.getCurrentGear());
             gearBox.updateGear(engine.getRpm());
