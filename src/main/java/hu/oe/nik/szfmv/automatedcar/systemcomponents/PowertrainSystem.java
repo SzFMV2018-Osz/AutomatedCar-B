@@ -42,30 +42,45 @@ public class PowertrainSystem extends SystemComponent {
         return gearBox.getCurrentGear();
     }
 
-    public TransmissionModes getCurrentAutomaticTransmissionModes() {
-        return gearBox.getTransmissionModes();
-    }
-
     @Override
     public void loop() {
         // GET INPUT
+        transmissionChange();
+        // PROCESS INPUT
+       updateEngine();
+        // UPDATE OUT PACKET
+        updateBusProperties();
+
+        System.out.println("speed:" + powertrainPacket.getSpeed());
+        System.out.println("rpm:" + powertrainPacket.getRpm());
+        System.out.println("Vector X:" + virtualFunctionBus.steeringPacket.getAngularVector()[0] + " Vector Y:" + virtualFunctionBus.steeringPacket.getAngularVector()[1]);
+    }
+
+    private void updateEngine()
+    {
+        if (virtualFunctionBus.powertrainPacket.getTransmissionMode().getCanItMove()) {
+            //TODO FRAME KI MOCKOLVA
+            powertrainPacket.setSpeed(engine.calcvulationVelocity(0.42, virtualFunctionBus.steeringPacket.getAngularVector(), powertrainPacket.getGear(), powertrainPacket.getSpeed(),
+                    powertrainPacket.getBrakePadelPosition(), powertrainPacket.getThrottlePosition()));
+            engine.updateRpm((int) Math.round(powertrainPacket.getSpeed()), gearBox.getCurrentGear());
+            gearBox.updateGear(engine.getRpm());
+        }
+    }
+
+    private void transmissionChange()
+    {
         try {
             gearBox.changeTransmissionMode(powertrainPacket.getTransmissionMode(), powertrainPacket.getRpm());
         } catch (TransmissionModeChangeException e) {
             //TODO Input team handle this
         }
-        // PROCESS INPUT
+    }
 
-        if (gearBox.getTransmissionModes().getCanItMove()) {
-            powertrainPacket.setSpeed(engine.calcvulationVelocity(1, virtualFunctionBus.steeringPacket.getAngularVector(), powertrainPacket.getGear(), powertrainPacket.getSpeed(),
-                    powertrainPacket.getBrakePadelPosition(), powertrainPacket.getThrottlePosition()));
-            engine.updateRpm(powertrainPacket.getSpeed(), gearBox.getCurrentGear());
-            gearBox.updateGear(engine.getRpm());
-        }
-        // UPDATE OUT PACKET
+    private void updateBusProperties()
+    {
         powertrainPacket.setRpm(getRpm());
         powertrainPacket.setGear(getCurrentGear());
-
-
     }
+
+
 }
