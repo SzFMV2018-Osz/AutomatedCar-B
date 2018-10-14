@@ -80,7 +80,7 @@ public class CarEngine {
                 * engineType.getTransmissionEffiency();
     }
 
-    public int calcvulationVelocity(int time, double[] orientationVector, int gear, int actualSpeed, int breakPedal, int throttlePosition) {
+    public double calcvulationVelocity(double time, double[] orientationVector, int gear, double actualSpeed, int breakPedal, int throttlePosition) {
         double[] speedVector = calcSpeedVector(orientationVector, actualSpeed);
         List<double[]> forces = new ArrayList<>();
         forces.add(TractionForce.calculateTractionForce(orientationVector, calculateDriveTorque(throttlePosition, gear), engineType.getWheelRadius()));
@@ -88,29 +88,29 @@ public class CarEngine {
         forces.add(BrakingForces.calcBrakeForceVector(speedVector[0], speedVector[1], breakPedal));
         forces.add(BrakingForces.calcRollingResistanceVector(speedVector[0], speedVector[1]));
 
-        //TODO need weight this is mock now (500kg)!!!! unit(KG)
-        return actualSpeed + 1 * sumForces(forces) / 500;
+        //TODO need weight this is mock now (1500kg)!!!! unit(KG)
+        return actualSpeed + ((time * sumForces(forces)) / 1500) ;
 
     }
 
 
-    private double[] calcSpeedVector(double[] orientationVector, int actualSpeed) {
+    private double[] calcSpeedVector(double[] orientationVector, double actualSpeed) {
         double[] speedVector = new double[2];
         speedVector[0] = actualSpeed * orientationVector[0];
         speedVector[1] = actualSpeed * orientationVector[1];
         return speedVector;
     }
 
-    private int sumForces(List<double[]> forces) {
-        int sumForce = 0;
+    private double sumForces(List<double[]> forces) {
+        double sumForce = 0;
         for (double[] force : forces) {
-            sumForce += calcVector(force);
+            sumForce += calcVectorLength(force);
         }
         return sumForce;
     }
 
 
-    private int calcVector(double[] vector) {
+    private int calcVectorLength(double[] vector) {
         return (int) (Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1]));
     }
 

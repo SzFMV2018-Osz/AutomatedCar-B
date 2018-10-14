@@ -19,7 +19,7 @@ public class TurningHandler {
      * @param speed              car actual speed
      * @return current angular velocity
      */
-    public double angularVelocityCalculation(final int steeringWheelState, int speed) {
+    public double angularVelocityCalculation(final int steeringWheelState, double speed) {
         if (steeringWheelState == 0) {
             return 0;
         } else {
