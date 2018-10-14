@@ -18,8 +18,6 @@ public class AutomatedCar extends Car {
     private SteeringSystem steeringSystem;
     private DashboardManager dashboardManager;
 
-    private final double speedMetersPerSeconds;
-
     /**
      * Constructor of the AutomatedCar class
      *
@@ -33,11 +31,8 @@ public class AutomatedCar extends Car {
 
         inputManager = new InputManager(virtualFunctionBus);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
-        steeringSystem = new SteeringSystem(virtualFunctionBus);
         dashboardManager = new DashboardManager(virtualFunctionBus);
-
-        speedMetersPerSeconds = 0;
-
+        steeringSystem = new SteeringSystem(virtualFunctionBus);
         new Driver(virtualFunctionBus);
     }
 
