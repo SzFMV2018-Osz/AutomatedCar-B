@@ -20,7 +20,7 @@ public interface ReadonlyPowertrainPacket {
     /**
      * @return with actual car speed
      */
-    int getSpeed();
+    double getSpeed();
 
     /**
      * @return with current transmission mode
