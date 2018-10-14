@@ -6,6 +6,7 @@ import hu.oe.nik.szfmv.automatedcar.engine.TransmissionModes;
  * The interface that connects the Powertrain system with the Virtual bus
  */
 public interface ReadonlyPowertrainPacket {
+
     /**
      * @return get the current RPM
      */
@@ -17,14 +18,23 @@ public interface ReadonlyPowertrainPacket {
     int getGear();
 
     /**
-     * @return return with actual car speed
+     * @return with actual car speed
      */
     int getSpeed();
 
     /**
-     * @return return with current transmission mode
+     * @return with current transmission mode
      */
     TransmissionModes getTransmissionMode();
 
+    /**
+     * @return with break pedal position
+     */
+    int getBrakePadelPosition();
+
+    /**
+     * @return with accelerator position
+     */
+    int getThrottlePosition();
 
 }
