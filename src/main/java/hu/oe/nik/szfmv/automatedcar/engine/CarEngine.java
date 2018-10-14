@@ -1,8 +1,12 @@
 package hu.oe.nik.szfmv.automatedcar.engine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CarEngine {
     private final int gearRatioMultiplyer = 60;
     private final int throttlePositionDivider = 100;
+
 
     private CarEngineType engineType;
     private int rpm;
@@ -20,12 +24,15 @@ public class CarEngine {
         return rpm;
     }
 
+    private double getWheelrotationRate(int speed) {
+        return speed / engineType.getWheelRadius();
+    }
+
     /**
-     * @param wheelRotationRate the rotation rate of the wheel
-     * @param currentGear       the current gear
+     * @param currentGear the current gear
      */
-    public void updateRpm(final double wheelRotationRate, final int currentGear) {
-        rpm = (int) ((wheelRotationRate * engineType.getGearRatios()[currentGear]
+    public void updateRpm(int speed, final int currentGear) {
+        rpm = (int) ((getWheelrotationRate(speed) * engineType.getGearRatios()[currentGear]
                 * engineType.getGearDifferentialRatio() * gearRatioMultiplyer) / (2 * Math.PI));
     }
 
@@ -72,4 +79,39 @@ public class CarEngine {
         return engineTorque * engineType.getGearRatios()[currentGear] * engineType.getGearDifferentialRatio()
                 * engineType.getTransmissionEffiency();
     }
+
+    public int calcvulationVelocity(int time, double[] orientationVector, int gear, int actualSpeed, int breakPedal, int throttlePosition) {
+        double[] speedVector = calcSpeedVector(orientationVector, actualSpeed);
+        List<double[]> forces = new ArrayList<>();
+        forces.add(TractionForce.calculateTractionForce(orientationVector, calculateDriveTorque(throttlePosition, gear), engineType.getWheelRadius()));
+        forces.add(BrakingForces.calcAirResistanceVector(speedVector[0], speedVector[1]));
+        forces.add(BrakingForces.calcBrakeForceVector(speedVector[0], speedVector[1], breakPedal));
+        forces.add(BrakingForces.calcRollingResistanceVector(speedVector[0], speedVector[1]));
+
+        //TODO need weight this is mock now (500kg)!!!! unit(KG)
+        return actualSpeed + 1 * sumForces(forces) / 500;
+
+    }
+
+
+    private double[] calcSpeedVector(double[] orientationVector, int actualSpeed) {
+        double[] speedVector = new double[2];
+        speedVector[0] = actualSpeed * orientationVector[0];
+        speedVector[1] = actualSpeed * orientationVector[1];
+        return speedVector;
+    }
+
+    private int sumForces(List<double[]> forces) {
+        int sumForce = 0;
+        for (double[] force : forces) {
+            sumForce += calcVector(force);
+        }
+        return sumForce;
+    }
+
+
+    private int calcVector(double[] vector) {
+        return (int) (Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1]));
+    }
+
 }
