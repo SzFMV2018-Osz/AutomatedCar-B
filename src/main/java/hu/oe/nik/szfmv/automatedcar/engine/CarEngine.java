@@ -80,7 +80,7 @@ public class CarEngine {
                 * engineType.getTransmissionEffiency();
     }
 
-    public double calcvulationVelocity(double time, double[] orientationVector, int gear, double actualSpeed, int breakPedal, int throttlePosition) {
+    public double calculationVelocity(double time, double[] orientationVector, int gear, double actualSpeed, int breakPedal, int throttlePosition) {
         double[] speedVector = calcSpeedVector(orientationVector, actualSpeed);
         List<double[]> forces = new ArrayList<>();
         forces.add(TractionForce.calculateTractionForce(orientationVector, calculateDriveTorque(throttlePosition, gear), engineType.getWheelRadius()));
