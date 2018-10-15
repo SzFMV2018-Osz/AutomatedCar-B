@@ -8,6 +8,11 @@ public class DashboardManager extends SystemComponent {
 
     private DashboardPacket dashboardPacket;
 
+    /**
+     * Constructor for the dashboard manager
+     *
+     * @param virtualFunctionBus - the bus object to link with
+     */
     public DashboardManager(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
 
@@ -27,5 +32,16 @@ public class DashboardManager extends SystemComponent {
         dashboardPacket.setCurrentGear(virtualFunctionBus.gearPacket.getCurrentGear());
         dashboardPacket.setIndicatorDirection(virtualFunctionBus.indicationPacket.getIndicatorDirection());
         dashboardPacket.setSteeringWheelValue(virtualFunctionBus.steeringWheelPacket.getSteeringWheelPosition());
+    }
+
+    /**
+     * Fetches the automated car's x and y coordinates to be displayed on the dashboard
+     *
+     * @param x - the automated car's x coordinate
+     * @param y - the automated car's y coordinate
+     */
+    public void actualisePosition(int x, int y) {
+        dashboardPacket.setAutomatedCarX(x);
+        dashboardPacket.setAutomatedCarY(y);
     }
 }
