@@ -15,6 +15,10 @@ public class IndicationPacket implements IReadonlyIndicationPacket, IIndicationE
     private int indicatorDirection;
     private int indicatorDirectionSnapshot;
 
+    /**
+     *Constructor of IndicationPacket class.
+     * @param input - UserInput.
+     */
     public IndicationPacket(IUserInput input) {
         this.input = input;
         this.input.subscribeIndicationEvents(this);
@@ -42,7 +46,7 @@ public class IndicationPacket implements IReadonlyIndicationPacket, IIndicationE
         }
     }
 
-    /*
+    /**
      * Refresh the indicator state and ensure that its value will be the same until the next call of this function
      */
     public void createSnapshot() {
@@ -52,8 +56,7 @@ public class IndicationPacket implements IReadonlyIndicationPacket, IIndicationE
     private void handleRightSign() {
         if (this.indicatorDirection == 1) {
             this.setIndicatorDirection(0);
-        }
-        else {
+        } else {
             this.setIndicatorDirection(1);
         }
     }
@@ -61,8 +64,7 @@ public class IndicationPacket implements IReadonlyIndicationPacket, IIndicationE
     private void handleLeftSign() {
         if (this.indicatorDirection == -1) {
             this.setIndicatorDirection(0);
-        }
-        else {
+        } else {
             this.setIndicatorDirection(-1);
         }
     }

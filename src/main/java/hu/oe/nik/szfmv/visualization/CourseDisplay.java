@@ -2,15 +2,17 @@ package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 /**
  * CourseDisplay is for providing a viewport to the virtual world where the simulation happens.
@@ -23,7 +25,7 @@ public class CourseDisplay extends JPanel {
     private final int backgroundColor = 0xEEEEEE;
 
     /**
-     * Initialize the course display
+     * Initialize the course display.
      */
     public CourseDisplay() {
         // Not using any layout manager, but fixed coordinates
@@ -33,7 +35,7 @@ public class CourseDisplay extends JPanel {
     }
 
     /**
-     * Draws the world to the course display
+     * Draws the world to the course display.
      *
      * @param world {@link World} object that describes the virtual world
      */
@@ -63,7 +65,7 @@ public class CourseDisplay extends JPanel {
     }
 
     /**
-     * Intended to use for refreshing the course display after redrawing the world
+     * Intended to use for refreshing the course display after redrawing the world.
      */
     public void refreshFrame() {
         invalidate();

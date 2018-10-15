@@ -9,7 +9,7 @@ public class SteeringSystem extends SystemComponent {
     private double angularSpeed = 0;
 
     /**
-     * Creates a steering system that connects the Virtual Function Bus
+     * Creates a steering system that connects the Virtual Function Bus.
      *
      * @param virtualFunctionBus {@link VirtualFunctionBus} used to connect {@link SystemComponent}s
      */

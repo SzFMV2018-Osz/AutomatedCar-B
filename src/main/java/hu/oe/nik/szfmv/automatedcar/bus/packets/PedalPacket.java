@@ -20,10 +20,10 @@ public class PedalPacket implements IReadonlyPedalPacket, IPedalEventHandler {
     private int speedInMilliseconds;
 
     /**
-     *
-     * @param graduallyChangeable represents the gradually changeable value of the pedal.
-     * @param input InputManager.
-     * @param pedalType Type of the pedal.
+     * Constructor of PedalPacket class.
+     * @param graduallyChangeable - represents the gradually changeable value of the pedal.
+     * @param input - InputManager.
+     * @param pedalType - Type of the pedal.
      */
     public PedalPacket(IGraduallyChangeable graduallyChangeable, IUserInput input, PedalType pedalType, int speedInMilliseconds) {
         this.input = input;
@@ -54,9 +54,9 @@ public class PedalPacket implements IReadonlyPedalPacket, IPedalEventHandler {
     }
 
     /**
-     * Refresh the pedal state and ensure that its value will be the same until the next call of this function
+     * Refresh the pedal state and ensure that its value will be the same until the next call of this function.
      */
-    public void createSnapshot(){
+    public void createSnapshot() {
         this.pedalPositionSnapshot = this.pedalPosition.getCurrentValue();
     }
 

@@ -5,7 +5,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IGraduallyChangeable;
 import java.time.Clock;
 
 /**
- * This class is responsible for the determination of the changeable variable's current value
+ * This class is responsible for the determination of the changeable variable's current value.
  */
 public class GraduallyChangeable implements IGraduallyChangeable {
 
