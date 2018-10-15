@@ -45,7 +45,7 @@ public class CourseDisplay extends JPanel {
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
-    private final double SCALING_FACTOR = 0.25;
+    private final double SCALING_FACTOR = 0.5;
 
     /**
      * Initialize the course display
@@ -136,7 +136,7 @@ public class CourseDisplay extends JPanel {
             int imageWidth = scaleObject(image.getWidth());
             int imageHeight = scaleObject(image.getHeight());
 
-            screenBuffer.drawImage(image, width / 2 - imageWidth / 2, height / 2 - imageWidth / 2, imageWidth,
+            screenBuffer.drawImage(image, width / 2 - imageWidth / 2, height / 2 - imageHeight / 2, imageWidth,
                     imageHeight, this);
 
         } catch (IOException e) {
@@ -165,8 +165,7 @@ public class CourseDisplay extends JPanel {
             at.rotate(object.getRotation(), SCALING_FACTOR * refPoint.x, SCALING_FACTOR * refPoint.y); //imageWidth /2, imageHeight / 2);
 
             // Kep atmeretezese
-            at.scale(SCALING_FACTOR, SCALING_FACTOR);
-
+            at.scale(modifyScaleFactorFor(image.getWidth()), modifyScaleFactorFor(image.getHeight()));
             Graphics2D g2d = (Graphics2D) g;
             g2d.drawImage(image, at, null);
 
@@ -177,7 +176,14 @@ public class CourseDisplay extends JPanel {
 
     //Scale object with a scaling magic number.
     private int scaleObject(int unit) {
-        return (int) (unit * SCALING_FACTOR);
+        return (int) (unit * modifyScaleFactorFor(unit));
+    }
+
+    private double modifyScaleFactorFor(int current)
+    {
+        double roundedScale= Math.round(current*SCALING_FACTOR);
+        double modifiedScaleFactor = roundedScale/current;
+        return modifiedScaleFactor;
     }
 
 
