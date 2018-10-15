@@ -1,9 +1,12 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.DashboardPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.DashboardManager;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.environment.WorldObject;
 
 public class AutomatedCar extends WorldObject {
@@ -36,24 +39,27 @@ public class AutomatedCar extends WorldObject {
      * Provides a sample method for modifying the position of the car.
      */
     public void drive() {
+        dashboardManager.actualisePosition(x, y);
+
         virtualFunctionBus.loop();
 
         calculatePositionAndOrientation();
     }
 
+    /**
+     * Return dashboard data to caller
+     *
+     * @return - returns the packet containing the necessary information
+     */
     public IReadOnlyDashboardPacket getDashboardInfo() {
-        DashboardPacket packet = dashboardManager.getDashboardPacket();
-        packet.setAutomatedCarX(x);
-        packet.setAutomatedCarY(y);
-
-        return packet;
+        return dashboardManager.getDashboardPacket();
     }
 
     /**
      * Calculates the new x and y coordinates of the {@link AutomatedCar} using the powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
-        //TODO it is just a fake implementation
+        // fake implementation
         double speed = powertrainSystem.getSpeed();
         double angularSpeed = steeringSystem.getAngularSpeed();
 
