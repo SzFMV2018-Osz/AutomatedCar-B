@@ -46,7 +46,14 @@ public class GearBox {
      */
     public void changeTransmissionMode(TransmissionModes nextTransmissionMode, final int rpm)
             throws TransmissionModeChangeException {
-        if (nextTransmissionMode == TransmissionModes.Neutral) {
+        if (nextTransmissionMode != transmissionModes){
+           TransmissionModeChangeDetection(transmissionModes,rpm);
+        }
+    }
+
+    private void TransmissionModeChangeDetection(TransmissionModes nextTransmissionMode, final int rpm) throws TransmissionModeChangeException
+    {
+       if (nextTransmissionMode == TransmissionModes.Neutral) {
             this.transmissionModes = nextTransmissionMode;
         } else if (TransmissionModes.Drive == transmissionModes) {
             reserveTransmissionModeHandler(nextTransmissionMode, rpm);

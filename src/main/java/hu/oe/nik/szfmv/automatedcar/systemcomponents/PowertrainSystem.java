@@ -47,7 +47,7 @@ public class PowertrainSystem extends SystemComponent {
         // GET INPUT
         transmissionChange();
         // PROCESS INPUT
-       updateEngine();
+        updateEngine();
         // UPDATE OUT PACKET
         updateBusProperties();
 
@@ -60,10 +60,19 @@ public class PowertrainSystem extends SystemComponent {
     {
         if (virtualFunctionBus.powertrainPacket.getTransmissionMode().getCanItMove()) {
             //TODO FRAME KI MOCKOLVA
+           detectMoveDirection();
+        }
+        engine.updateRpm((int) Math.round(powertrainPacket.getSpeed()), gearBox.getCurrentGear());
+        gearBox.updateGear(engine.getRpm());
+    }
+
+    private void detectMoveDirection(){
+        if (powertrainPacket.getTransmissionMode()==TransmissionModes.Drive)
             powertrainPacket.setSpeed(engine.calculationVelocity(0.42, virtualFunctionBus.steeringPacket.getAngularVector(), powertrainPacket.getGear(), powertrainPacket.getSpeed(),
                     powertrainPacket.getBrakePadelPosition(), powertrainPacket.getThrottlePosition()));
-            engine.updateRpm((int) Math.round(powertrainPacket.getSpeed()), gearBox.getCurrentGear());
-            gearBox.updateGear(engine.getRpm());
+        else if (powertrainPacket.getTransmissionMode()==TransmissionModes.Reverse) {
+            powertrainPacket.setSpeed(-engine.calculationVelocity(0.42, virtualFunctionBus.steeringPacket.getAngularVector(), powertrainPacket.getGear(), powertrainPacket.getSpeed(),
+                    powertrainPacket.getBrakePadelPosition(), powertrainPacket.getThrottlePosition()));
         }
     }
 
@@ -73,6 +82,10 @@ public class PowertrainSystem extends SystemComponent {
             gearBox.changeTransmissionMode(powertrainPacket.getTransmissionMode(), powertrainPacket.getRpm());
         } catch (TransmissionModeChangeException e) {
             //TODO Input team handle this
+        }finally {
+            if (gearBox.getTransmissionModes()!=powertrainPacket.getTransmissionMode()) {
+                powertrainPacket.setTransmissionMode(gearBox.getTransmissionModes());
+            }
         }
     }
 
