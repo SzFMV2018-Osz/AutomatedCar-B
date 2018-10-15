@@ -22,11 +22,6 @@ import java.util.List;
  */
 public class CourseDisplay extends JPanel {
 
-    // Ezek a valtozok tartalmazzak a kiinduloponttol valo elmozdulas mennyiseget
-    // ezeket is SCALELNI kell !!!
-    private int xOffset = 0;
-    private int yOffset = 0;
-
     // Ezt az FPS-t szeretnénk tartani
     private static final int TARGET_FPS = 24;
     // Egy ciklus hossza
@@ -42,7 +37,7 @@ public class CourseDisplay extends JPanel {
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
-    private final double SCALING_FACTOR = 0.4;
+    private final double SCALING_FACTOR = 0.25;
 
     /**
      * Initialize the course display
@@ -62,7 +57,7 @@ public class CourseDisplay extends JPanel {
      */
 
     public void drawWorld(World world) {
-        Image offscreen = createImage(world.getWidth()*2, world.getHeight()*2);
+        Image offscreen = createImage(world.getWidth(), world.getHeight());
         Graphics screenBuffer = offscreen.getGraphics();
         super.paintComponent(screenBuffer);
         ((Graphics2D)screenBuffer).setBackground(getBackground());
@@ -73,9 +68,6 @@ public class CourseDisplay extends JPanel {
             // TODO
             cycle_start = cal.getTimeInMillis();
 
-            xOffset = -(world.getAutomatedCar().getX());
-            yOffset = -(world.getAutomatedCar().getY());
-
             /*
              * létrehozunk egy másodlagos buffert, amire egyesevél felrajzoljuk
              * az elemeket, majd ha minden felkerült rá, ezt a képet rajzoljuk át
@@ -83,10 +75,10 @@ public class CourseDisplay extends JPanel {
              */
 
             // TODO: StaticList-et kapjon, de az  meg nincs
-            renderStaticObjects(world.getWorldObjects(), screenBuffer);
+            renderStaticObjects(world.getWorldObjects(), screenBuffer, world.getAutomatedCar());
 
             // TODO: DynamicList-et kapjon, de az meg nincs
-            //renderDynamicObjects(world.getDynamicObjects(), screenBuffer);
+            //renderDynamicObjects(world.getDynamicObjects(), screenBuffer, world.getAutomatedCar());
 
             renderCar(world.getAutomatedCar(), screenBuffer);
 
@@ -94,12 +86,12 @@ public class CourseDisplay extends JPanel {
             getGraphics().drawImage(offscreen, 0, 0,null);
 
             // FIX FPS
-            //cycle_length = cal.getTimeInMillis() - cycle_start;
+            cycle_length = cal.getTimeInMillis() - cycle_start;
             // Szükséges késleltetési idő kiszámítása (eltelt idő * TARGET FPS)
-            //CYCLE_PERIOD = (int)(1000 - (cycle_length * TARGET_FPS)) / TARGET_FPS;
-            //System.out.println("FPS/TARGET FPS: " + (1000/CYCLE_PERIOD) + "/" + TARGET_FPS);
+            CYCLE_PERIOD = (int)(1000 - (cycle_length * TARGET_FPS)) / TARGET_FPS;
+            System.out.println("FPS/TARGET FPS: " + (1000/CYCLE_PERIOD) + "/" + TARGET_FPS);
 
-            Thread.sleep(TARGET_FPS);
+            Thread.sleep(CYCLE_PERIOD);
         } catch (InterruptedException e) {
 
             LOGGER.error(e.getMessage());
@@ -107,18 +99,18 @@ public class CourseDisplay extends JPanel {
     }
 
     // A statikus elemek kirajzolasa
-    private void renderStaticObjects(java.util.List<WorldObject> staticObjects, Graphics screenBuffer){
+    private void renderStaticObjects(java.util.List<WorldObject> staticObjects, Graphics screenBuffer, AutomatedCar car){
         // TODO
         for (WorldObject object: staticObjects) {
-            paintComponent(screenBuffer, object);
+            paintComponent(screenBuffer, object, car);
         }
     }
 
     // A dinamikus elemek kirajzolasa
-    private void renderDynamicObjects(List<WorldObject> dynamicObjects, Graphics screenBuffer){
+    private void renderDynamicObjects(List<WorldObject> dynamicObjects, Graphics screenBuffer, AutomatedCar car){
         // TODO
         for (WorldObject object: dynamicObjects) {
-            paintComponent(screenBuffer, object);
+            paintComponent(screenBuffer, object, car);
         }
     }
     //eleg egyszer letrehozni
@@ -132,14 +124,14 @@ public class CourseDisplay extends JPanel {
             {
                 // Ezt nem jobb lenne eltarolni mar az inicializalaskor?
                 carImage = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
-                car.setHeight(carImage.getHeight());
-                car.setWidth(carImage.getWidth());
+                //car.setHeight(carImage.getHeight());
+                //car.setWidth(carImage.getWidth());
             }
             //carImage = RotateTransform(image,car);
             int imageWidth = scaleObject(carImage.getWidth());
             int imageHeight = scaleObject(carImage.getHeight());
 
-            screenBuffer.drawImage(carImage, width / 2 - imageWidth/2, height / 2 - imageWidth/2, imageWidth,
+            screenBuffer.drawImage(carImage, width / 2 - imageWidth, height / 2 - imageHeight, imageWidth,
                     imageHeight, this);
 
         } catch (IOException e) {
@@ -149,14 +141,14 @@ public class CourseDisplay extends JPanel {
     }
 
     // TODO: ez alapjan csinaljuk meg a render fuggvenyeket
-    protected void paintComponent(Graphics g, WorldObject object) {
+    protected void paintComponent(Graphics g, WorldObject object, AutomatedCar car) {
         // draw objects
         BufferedImage image;
         try {
             // read file from resources
             image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
-            int imagePositionX = scaleObject(object.getX() + xOffset);
-            int imagePositionY = scaleObject(object.getY() + yOffset);
+            int imagePositionX = scaleObject(object.getX()) + (int)getOffsetX(car) * 4;
+            int imagePositionY = scaleObject(object.getY()) + (int)getOffsetY(car);
             //g.drawImage(image, scaleObject(object.getX() + xOffset), scaleObject(object.getY() + yOffset), scaleObject(image.getWidth()),
             AffineTransform at = new AffineTransform();
             at.setToTranslation( imagePositionX, imagePositionY);// AffineTransform.getTranslateInstance( imagePositionX, imagePositionY);
@@ -214,14 +206,14 @@ public class CourseDisplay extends JPanel {
         return new Point((-minX), (-minY));
     }
 
-    private double getOffsetX(WorldObject object, AutomatedCar car)
+    private double getOffsetX(AutomatedCar car)
     {
-        return scaleObject(object.getWidth()) / 2 - car.getX() - car.getWidth() / 2;
+        return car.getX() - car.getWidth() / 2;
     }
 
-    private double getOffsetY(WorldObject object, AutomatedCar car)
+    private double getOffsetY(AutomatedCar car)
     {
-        return scaleObject(object.getHeight()) / 2 - car.getY() - car.getHeight() / 2;
+        return car.getY() - car.getHeight() / 2;
     }
 
     public void refreshFrame() {
