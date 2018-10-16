@@ -19,7 +19,7 @@ public class ReferencePointsXMLReadClass {
     private static final Logger LOGGER = LogManager.getLogger();
     private static void ReadXML4ReferencePoints() throws ParserConfigurationException, IOException, SAXException {
 
-        File inputFile = new File("src\\main\\resources\\reference_points.xml");
+        File inputFile = new File(ClassLoader.getSystemResource("reference_points.xml").getFile());
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(inputFile);
