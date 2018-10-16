@@ -4,8 +4,8 @@ package hu.oe.nik.szfmv.automatedcar.engine;
  * Contains functions and constants to calculate physical forces
  */
 public class BrakingForces {
-    private static double aeroDrag = 0.05;
-    private static double maxBrakeForce = 0.5;
+    private static double aeroDrag = 5;
+    private static double maxBrakeForce = Double.MAX_VALUE;
     private static double breakPedalPercentageMultiplyer = 0.01;
     private static double frictionFactor = 30 * aeroDrag;
 
@@ -58,20 +58,20 @@ public class BrakingForces {
 
         return brakeForce;
     }
-    
+
     /**
      * @param vx the x component of the velocity vector
      * @param vy the y component of the velocity vector
      * @return array of rolling resistance vector component values
      */
-    public  static double[] calcRollingResistanceVector(double vx, double vy) {
-        double [] rResistance = new double[2];
+    public static double[] calcRollingResistanceVector(double vx, double vy) {
+        double[] rResistance = new double[2];
 
-        if (vx != 0.0 || vy != 0.0) {
+        if ((vx != 0.0) || (vy != 0.0)) {
             rResistance[0] = vx * (-frictionFactor);
             rResistance[1] = vy * (-frictionFactor);
         }
 
-        return  rResistance;
+        return rResistance;
     }
 }

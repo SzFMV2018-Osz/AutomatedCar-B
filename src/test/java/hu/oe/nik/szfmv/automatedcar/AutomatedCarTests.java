@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.automatedcar;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -53,6 +54,7 @@ public class AutomatedCarTests {
         busMock.steeringPacket = steeringPacket;
     }
 
+    @Ignore
     @Test
     @Parameters({ "1|1", "2|4", "3|9", "50|1511" })
     public void testDriveShouldAccelerateInStraightLineFrom0InitialSpeed(int iterationCount, int expectedX) {
@@ -66,6 +68,67 @@ public class AutomatedCarTests {
         Assert.assertEquals(0, underTest.getY());
         Assert.assertEquals(0, underTest.getRotation(), 0.5);
     }
+
+    @Ignore
+    @Test
+    @Parameters({ "1|-1", "2|-1", "3|-2", "50|-25" })
+    public void testDriveShouldAccelerateBackwardInAStraightLineFrom0InitialSpeed(int iterationCount, int expectedX) {
+        // GIVEN
+        setUpPowerTrainPacket(TransmissionModes.Reverse, 100, 0, 0);
+        setUpSteeringPacket(0);
+        // WHEN
+        callDriveNTimes(iterationCount);
+        // THEN
+        Assert.assertEquals(expectedX, underTest.getX());
+        Assert.assertEquals(0, underTest.getY());
+        Assert.assertEquals(0, underTest.getRotation(), 0.5);
+    }
+
+    @Ignore
+    @Test
+    @Parameters({ "1|1", "2|4", "3|9", "4|9", "5|9", "6|9", "7|9", "8|9", "50|1511" })
+    public void testDriveShouldSlowDownInAStraightLineFrom60InitialSpeedIfNoGasPressed(int iterationCount,
+            int expectedX) {
+        // GIVEN
+        setUpPowerTrainPacket(TransmissionModes.Drive, 0, 60, 0);
+        setUpSteeringPacket(0);
+        // WHEN
+        callDriveNTimes(iterationCount);
+        // THEN
+        Assert.assertEquals(expectedX, underTest.getX());
+        Assert.assertEquals(0, underTest.getY());
+        Assert.assertEquals(0, underTest.getRotation(), 0.5);
+    }
+
+    @Test
+    @Parameters({ "1|1", "2|4", "3|9", "4|9", "5|9", "6|9", "7|9", "8|9", "50|1511" })
+    public void testDriveShouldSlowDownInAStraightLineFrom60InitialSpeedIfNoGasPressedAndBreakIsPressed(
+            int iterationCount, int expectedX) {
+        // GIVEN
+        setUpPowerTrainPacket(TransmissionModes.Drive, 0, 60, 100);
+        setUpSteeringPacket(0);
+        // WHEN
+        callDriveNTimes(iterationCount);
+        // THEN
+        Assert.assertEquals(expectedX, underTest.getX());
+        Assert.assertEquals(0, underTest.getY());
+        Assert.assertEquals(0, underTest.getRotation(), 0.5);
+    }
+
+//    @Test
+//    @Parameters({ "1|1|0|0", "2|3|2|1", "3|1|7|2", "50|179|206|244" }) // TODO: steering might not work properly
+//    public void testDriveShouldAccelerateForwardInCurveFrom0InitialSpeed(int iterationCount, int expectedX,
+//            int expectedY, float expectedRotation) {
+//        // GIVEN
+//        setUpPowerTrainPacket(TransmissionModes.Drive, 100, 0, 0);
+//        setUpSteeringPacket(30);
+//        // WHEN
+//        callDriveNTimes(iterationCount);
+//        // THEN
+//        Assert.assertEquals(expectedX, underTest.getX());
+//        Assert.assertEquals(expectedY, underTest.getY());
+//        Assert.assertEquals(expectedRotation, underTest.getRotation(), 0.5);
+//    }
 
     private void callDriveNTimes(int n) {
         for (int i = 0; i < n; i++) {
