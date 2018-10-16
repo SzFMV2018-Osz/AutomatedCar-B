@@ -108,7 +108,7 @@ public class Main {
             obj.setRotation((float)Math.toDegrees(Utils.convertMatrixToRadians(m11,m12,m21,m22)));
             obj.setRotation((float)Math.toRadians(-obj.getRotation()));
 
-            Point asd = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(obj.getImageFileName());
+            Point asd = ReferencePointsXMLReadClass.checkIsReferenceOrNot(obj.getImageFileName());
 
             return obj;
         }

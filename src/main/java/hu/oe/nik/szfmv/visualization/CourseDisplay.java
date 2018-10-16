@@ -17,32 +17,63 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * CourseDisplay is for providing a viewport to the virtual world where the simulation happens.
+ * CourseDisplay is for providing a viewport
+ * to the virtual world where the simulation happens.
  */
 public class CourseDisplay extends JPanel {
 
+    /**
+     * Integer.
+     */
     private int xOffset = 0;
+    /**
+     * Integer.
+     */
     private int yOffset = 0;
 
-    // This is the fps we want to hold
+    /**
+     * Integer.
+     */
     public static final int TARGET_FPS = 24;
-    // This is the length of a cycle
+    /**
+     * Integer.
+     */
     private static double CYCLE_PERIOD = 40;
-    // This is the start time of current rendering and calculating cycle
+    /**
+     * Integer.
+     */
     private static long cycle_start;
-    // This is the length of the current rendering and calculating cycle
+    /**
+     * Integer.
+     */
     private static long cycle_length;
-
+    /**
+     * Calendar.
+     */
     private Calendar cal;
-
+    /**
+     * Logger.
+     */
     private static final Logger LOGGER = LogManager.getLogger();
+    /**
+     * Integer.
+     */
     private final int width = 770;
+    /**
+     * Integer.
+     */
     private final int height = 700;
+    /**
+     * Integer.
+     */
     private final int backgroundColor = 0xEEEEEE;
-    private final double SCALING_FACTOR = 0.1;
+    /**
+     * double.
+     */
+    private final double SCALING_FACTOR = 1;
 
     /**
-     * Initialize the course display
+     * Initialize the course display.
      */
     public CourseDisplay() {
         setLayout(null);
@@ -52,12 +83,12 @@ public class CourseDisplay extends JPanel {
     }
 
     /**
-     * Draws the world to the course display
+     * Draws the world to the course display.
      *
      * @param world {@link World} object that describes the virtual world
      */
 
-    public void drawWorld(World world) {
+    public void drawWorld(final World world) {
         Image offscreen = createImage(world.getWidth(), world.getHeight());
         Graphics screenBuffer = offscreen.getGraphics();
         Graphics g = getGraphics();
@@ -68,15 +99,16 @@ public class CourseDisplay extends JPanel {
         try {
             cycle_start = cal.getTimeInMillis();
 
-            xOffset = width / 2 - scaleObject(world.getAutomatedCar().getX() - world.getAutomatedCar().getWidth() / 2);
-            yOffset = height / 2 - scaleObject(world.getAutomatedCar().getY() - world.getAutomatedCar().getHeight() / 2);
+            xOffset = width / 2 - scaleObject(world.getAutomatedCar()
+                    .getX() - world.getAutomatedCar().getWidth() / 2);
+            yOffset = height / 2 - scaleObject(world.getAutomatedCar()
+                    .getY() - world.getAutomatedCar().getHeight() / 2);
 
-            /*
+            /**
              * Let's create a secondary buffer on we paint the objects each by each,
              * and when everything is painted, we draw this screen onto the main graphic element
              * to avoid the vibration-effect of the objects
              */
-
             // TODO: Get a staticObjectList, but we do not have it yet, so at here we load all the worldObjects
             renderStaticObjects(world.getWorldObjects(), screenBuffer);
 
@@ -144,7 +176,7 @@ public class CourseDisplay extends JPanel {
         int imagePositionY = scaleObject(object.getY()) + yOffset;
         AffineTransform at = new AffineTransform();
         at.setToTranslation(imagePositionX, imagePositionY);
-        Point refPoint = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(object.getImageFileName());
+        Point refPoint = ReferencePointsXMLReadClass.checkIsReferenceOrNot(object.getImageFileName());
         at.translate(-refPoint.x * SCALING_FACTOR, -refPoint.y * SCALING_FACTOR);
 
         at.rotate(object.getRotation(), SCALING_FACTOR * refPoint.x, SCALING_FACTOR * refPoint.y);

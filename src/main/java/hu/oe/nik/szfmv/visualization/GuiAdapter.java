@@ -3,6 +3,9 @@ package hu.oe.nik.szfmv.visualization;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Class.
+ */
 public class GuiAdapter extends WindowAdapter {
 
     /**
@@ -10,7 +13,7 @@ public class GuiAdapter extends WindowAdapter {
      *
      * @param e is a {@WindowEvent}
      */
-    public void windowClosing(WindowEvent e) {
+    public void windowClosing(final WindowEvent e) {
         // Other things can be done here before the termination.
         System.exit(0);
     }

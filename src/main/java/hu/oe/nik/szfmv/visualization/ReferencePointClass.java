@@ -1,31 +1,67 @@
 package hu.oe.nik.szfmv.visualization;
 
+/**
+ * Class.
+ */
 public class ReferencePointClass {
-    private String Name;
+    /**
+     * Name string.
+     */
+    private String name;
+    /**
+     * Name string.
+     */
     private int x;
+    /**
+     * Name string.
+     */
     private int y;
-
+    /**
+     * Name string.
+     * @return name
+     * @see String
+     * */
     public String getName() {
-        return Name;
+        return name;
     }
-
-    public void setName(String name) {
-        Name = name;
+    /**
+     * Name string.
+     * @param nameParam name
+     * @see String
+     * */
+    public void setName(final String nameParam) {
+        name = nameParam;
     }
-
+    /**
+     * Name string.
+     * @return x
+     * @see String
+     * */
     public int getX() {
         return x;
     }
-
-    public void setX(int x) {
-        this.x = x;
+    /**
+     * Name string.
+     * @param xParam x
+     * @see String
+     * */
+    public void setX(final int xParam) {
+        this.x = xParam;
     }
-
+    /**
+     * Name string.
+     * @return name
+     * @see String
+     * */
     public int getY() {
         return y;
     }
-
-    public void setY(int y) {
-        this.y = y;
+    /**
+     * Name string.
+     * @param yParam y
+     * @see String
+     * */
+    public void setY(final int yParam) {
+        this.y = yParam;
     }
 }
