@@ -5,13 +5,11 @@ import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,8 +21,6 @@ import java.util.List;
  */
 public class CourseDisplay extends JPanel {
 
-    // Ezek a valtozok tartalmazzak a kiinduloponttol valo elmozdulas mennyiseget
-    // ezeket is SCALELNI kell !!!
     private int xOffset = 0;
     private int yOffset = 0;
 
@@ -76,8 +72,8 @@ public class CourseDisplay extends JPanel {
             // TODO
             cycle_start = cal.getTimeInMillis();
 
-            xOffset = -(world.getAutomatedCar().getX());
-            yOffset = -(world.getAutomatedCar().getY());
+            xOffset = width/2 - scaleObject(world.getAutomatedCar().getX() - world.getAutomatedCar().getWidth() / 2);
+            yOffset = height/2 - scaleObject(world.getAutomatedCar().getY() - world.getAutomatedCar().getHeight() / 2);
 
             /*
              * létrehozunk egy másodlagos buffert, amire egyesevél felrajzoljuk
@@ -129,18 +125,11 @@ public class CourseDisplay extends JPanel {
         try {
             // Ezt nem jobb lenne eltarolni mar az inicializalaskor?
             image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
-            car.setHeight(image.getHeight());
-            car.setWidth(image.getWidth());
             int imageWidth = scaleObject(image.getWidth());
             int imageHeight = scaleObject(image.getHeight());
-            AffineTransform at = new AffineTransform();
-            at.setToTranslation(width / 2 - imageWidth / 2, height / 2 - imageWidth / 2);
-            // Kep elforgatasa a megfelelo pontnal
-            at.rotate(car.getRotation(), 0, 0);
-            // Kep atmeretezese
-            at.scale(SCALING_FACTOR, SCALING_FACTOR);
-            Graphics2D g2d = (Graphics2D) screenBuffer;
-            g2d.drawImage(image, at, null);
+
+            screenBuffer.drawImage(image, width / 2 - imageWidth / 2, height / 2 - imageHeight / 2, imageWidth,
+                    imageHeight, this);
 
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
@@ -156,8 +145,8 @@ public class CourseDisplay extends JPanel {
         try {
             // read file from resources
             image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
-            int imagePositionX = scaleObject(object.getX() + xOffset);
-            int imagePositionY = scaleObject(object.getY() + yOffset);
+            int imagePositionX = scaleObject(object.getX()) + xOffset;
+            int imagePositionY = scaleObject(object.getY()) + yOffset;
             AffineTransform at = new AffineTransform();
             at.setToTranslation(imagePositionX, imagePositionY);
             Point refPoint = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(object.getImageFileName());
