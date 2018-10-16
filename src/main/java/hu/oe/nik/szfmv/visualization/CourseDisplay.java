@@ -27,13 +27,11 @@ public class CourseDisplay extends JPanel {
     // Ezt az FPS-t szeretnénk tartani
     public static final int TARGET_FPS = 24;
     // Egy ciklus hossza
-    private static int CYCLE_PERIOD = 40;
+    private static double CYCLE_PERIOD = 40;
     // Az aktuális renderelési és számítási ciklus kezdetének időpontja
     private static long cycle_start;
     // Az aktuális renderelési és számítási ciklus hossza
     private static long cycle_length;
-
-    // asdasd asdasdasd asdas 3
 
     private Calendar cal;
 
@@ -41,13 +39,12 @@ public class CourseDisplay extends JPanel {
     private final int width = 770;
     private final int height = 700;
     private final int backgroundColor = 0xEEEEEE;
-    private final double SCALING_FACTOR = 0.5;
+    private final double SCALING_FACTOR = 0.1;
 
     /**
      * Initialize the course display
      */
     public CourseDisplay() {
-        // Not using any layout manager, but fixed coordinates
         setLayout(null);
         setBounds(0, 0, width, height);
         setBackground(new Color(backgroundColor));
@@ -72,7 +69,7 @@ public class CourseDisplay extends JPanel {
             // TODO
             cycle_start = cal.getTimeInMillis();
 
-            xOffset = width/2 - scaleObject(world.getAutomatedCar().getX() - world.getAutomatedCar().getWidth() / 2);
+            xOffset =  width/2 - scaleObject(world.getAutomatedCar().getX() - world.getAutomatedCar().getWidth() / 2);
             yOffset = height/2 - scaleObject(world.getAutomatedCar().getY() - world.getAutomatedCar().getHeight() / 2);
 
             /*
@@ -95,10 +92,11 @@ public class CourseDisplay extends JPanel {
             // FIX FPS
             cycle_length = cal.getTimeInMillis() - cycle_start;
             // Szükséges késleltetési idő kiszámítása (eltelt idő * TARGET FPS)
-            CYCLE_PERIOD = (int) (1000 - (cycle_length * TARGET_FPS)) / TARGET_FPS;
-            System.out.println("FPS/TARGET FPS: " + (1000 / CYCLE_PERIOD) + "/" + TARGET_FPS);
+            CYCLE_PERIOD = 1000 / TARGET_FPS - cycle_length;
+            if (CYCLE_PERIOD < 0) CYCLE_PERIOD = 0;
+            System.out.printf("FPS/TARGET FPS: %.2f / %d \n", (1000 / CYCLE_PERIOD), TARGET_FPS);
 
-            Thread.sleep(CYCLE_PERIOD);
+            Thread.sleep(Math.round(CYCLE_PERIOD));
         } catch (InterruptedException e) {
             LOGGER.error(e.getMessage());
         }
@@ -116,7 +114,6 @@ public class CourseDisplay extends JPanel {
         for (WorldObject object : dynamicObjects) {
             paintComponent(screenBuffer, object);
         }
-
     }
 
     // Az altalunk iranyitott auto kirajzolasa
@@ -138,31 +135,25 @@ public class CourseDisplay extends JPanel {
 
     // TODO: ez alapjan csinaljuk meg a render fuggvenyeket
     protected void paintComponent(Graphics g, WorldObject object) {
-        //
-
         // draw objects
-        BufferedImage image;
-        try {
-            // read file from resources
-            image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
-            int imagePositionX = scaleObject(object.getX()) + xOffset;
-            int imagePositionY = scaleObject(object.getY()) + yOffset;
-            AffineTransform at = new AffineTransform();
-            at.setToTranslation(imagePositionX, imagePositionY);
-            Point refPoint = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(object.getImageFileName());
-            at.translate(-refPoint.x * SCALING_FACTOR, -refPoint.y * SCALING_FACTOR);
+        BufferedImage image = object.getImage();
 
-            // Kep elforgatasa a megfelelo pontnal
-            at.rotate(object.getRotation(), SCALING_FACTOR * refPoint.x, SCALING_FACTOR * refPoint.y);
+        // read file from resources
+        //ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
+        int imagePositionX = scaleObject(object.getX()) + xOffset;
+        int imagePositionY = scaleObject(object.getY()) + yOffset;
+        AffineTransform at = new AffineTransform();
+        at.setToTranslation(imagePositionX, imagePositionY);
+        Point refPoint = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(object.getImageFileName());
+        at.translate(-refPoint.x * SCALING_FACTOR, -refPoint.y * SCALING_FACTOR);
 
-            // Kep atmeretezese
-            at.scale(modifyScaleFactorFor(image.getWidth()), modifyScaleFactorFor(image.getHeight()));
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.drawImage(image, at, null);
+        // Kep elforgatasa a megfelelo pontnal
+        at.rotate(object.getRotation(), SCALING_FACTOR * refPoint.x, SCALING_FACTOR * refPoint.y);
 
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage());
-        }
+        // Kep atmeretezese
+        at.scale(modifyScaleFactorFor(image.getWidth()), modifyScaleFactorFor(image.getHeight()));
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.drawImage(image, at, null);
     }
 
     //Scale object with a scaling magic number.
@@ -176,7 +167,6 @@ public class CourseDisplay extends JPanel {
         double modifiedScaleFactor = roundedScale/current;
         return modifiedScaleFactor;
     }
-
 
     public void refreshFrame() {
         invalidate();

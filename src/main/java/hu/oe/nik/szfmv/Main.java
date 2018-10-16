@@ -39,21 +39,11 @@ public class Main {
 
         // create the world
         World w = new World(800, 600);
-        // create an automated car
 
-        // AUTOMATED CAR RENDERING TESZT
+        // create an automated car
         AutomatedCar car = new AutomatedCar(70, 200, "car_2_white.png");
         w.setAutomatedCar(car);
-        /////////////////////////////////
 
-        // add car to the world
-//        WorldObject road = new WorldObject(0, 150, "road_2lane_45right.png");
-//        road.setRotation((float)(Math.PI*0.6));
-//        w.addObjectToWorld(road);
-//
-//        WorldObject asd = new WorldObject(1500, 50, "road_2lane_tjunctionleft.png");
-//        road.setRotation((float)(Math.PI*1.3));
-//        w.addObjectToWorld(asd);
         loadRoads();
         w.setWorldObjects(roads);
         w.setHeight(3000);
