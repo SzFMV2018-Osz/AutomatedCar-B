@@ -69,8 +69,8 @@ public class CourseDisplay extends JPanel {
             // TODO
             cycle_start = cal.getTimeInMillis();
 
-            xOffset =  width/2 - scaleObject(world.getAutomatedCar().getX() - world.getAutomatedCar().getWidth() / 2);
-            yOffset = height/2 - scaleObject(world.getAutomatedCar().getY() - world.getAutomatedCar().getHeight() / 2);
+            xOffset = width / 2 - scaleObject(world.getAutomatedCar().getX() - world.getAutomatedCar().getWidth() / 2);
+            yOffset = height / 2 - scaleObject(world.getAutomatedCar().getY() - world.getAutomatedCar().getHeight() / 2);
 
             /*
              * létrehozunk egy másodlagos buffert, amire egyesevél felrajzoljuk
@@ -126,7 +126,7 @@ public class CourseDisplay extends JPanel {
             int imageHeight = scaleObject(image.getHeight());
 
             AffineTransform at = new AffineTransform();
-            at.setToTranslation(width / 2 - imageWidth / 2, height / 2 - imageWidth / 2);
+            at.setToTranslation(width / 2 - imageWidth / 2, height / 2 - imageHeight / 2);
             // Kep elforgatasa a megfelelo pontnal
             at.rotate(car.getRotation(), 0, 0);
             // Kep atmeretezese
@@ -167,10 +167,9 @@ public class CourseDisplay extends JPanel {
         return (int) (unit * modifyScaleFactorFor(unit));
     }
 
-    private double modifyScaleFactorFor(int current)
-    {
-        double roundedScale= Math.round(current*SCALING_FACTOR);
-        double modifiedScaleFactor = roundedScale/current;
+    private double modifyScaleFactorFor(int current) {
+        double roundedScale = Math.round(current * SCALING_FACTOR);
+        double modifiedScaleFactor = roundedScale / current;
         return modifiedScaleFactor;
     }
 
