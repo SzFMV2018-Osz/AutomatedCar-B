@@ -2,7 +2,7 @@ package hu.oe.nik.szfmv.environment.worldobjectclasses;
 
 import hu.oe.nik.szfmv.environment.WorldObject;
 
-public class NonCollidable extends WorldObject {
+public abstract class NonCollidable extends WorldObject {
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
      *

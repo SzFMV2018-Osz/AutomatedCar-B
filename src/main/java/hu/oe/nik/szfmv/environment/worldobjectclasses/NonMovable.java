@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.environment.worldobjectclasses;
 
-public class NonMovable extends Collidable {
+public abstract class NonMovable extends Collidable {
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
      *

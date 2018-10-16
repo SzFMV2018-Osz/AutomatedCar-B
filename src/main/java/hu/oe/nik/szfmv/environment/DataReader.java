@@ -8,7 +8,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,7 +18,9 @@ import java.util.List;
 
 public class DataReader {
     /**
-     * @return a Document object that contains the content of the test_world.xml
+     *
+     * @param path The path of the xml file
+     * @return Document object that contains the whole content of the xml file.
      */
     public static Document xmlReader(String path) {
 
@@ -41,7 +42,6 @@ public class DataReader {
                 e.printStackTrace();
             }
             testWorld.getDocumentElement().normalize();
-
             return testWorld;
         }
         return null;
@@ -75,14 +75,20 @@ public class DataReader {
                         }
                     }
                 }
+                WorldObject worldObject = createObjectFromType(x, y, type);
+                worldObject.setRotation((float) Utils.convertMatrixToRadians(matrix));
+                worldObjects.add(worldObject);
             }
-            WorldObject worldObject = createObjectFromType(x,y,type);
-            worldObject.setRotation((float) Utils.convertMatrixToRadians(matrix));
-            worldObjects.add(worldObject);
         }
         return worldObjects;
     }
 
+    /**
+     * @param x    x parameter for the WorldObject object
+     * @param y    y parameter for the WorldObject object
+     * @param type type parameter for the WorldObject object
+     * @return WorldObject object
+     */
     public static WorldObject createObjectFromType(int x, int y, String type) {
         WorldObject worldObject;
         String originalType = type;
@@ -91,35 +97,34 @@ public class DataReader {
         }
         switch (type) {
             case "car":
-                worldObject = new AutomatedCar(x, y, originalType+"png");
+                worldObject = new AutomatedCar(x, y, originalType + ".png");
                 break;
             case "man":
-                worldObject = new Human(x, y, originalType+"png");
+                worldObject = new Human(x, y, originalType + ".png");
                 break;
             case "woman":
-                worldObject = new Human(x, y, originalType+"png");
+                worldObject = new Human(x, y, originalType + ".png");
                 break;
             case "tree":
-                worldObject = new Tree(x, y, originalType+"png");
+                worldObject = new Tree(x, y, originalType + ".png");
                 break;
             case "roadsign":
-                worldObject = new RoadSign(x, y, originalType+"png");
+                worldObject = new RoadSign(x, y, originalType + ".png");
                 break;
             case "road":
-                worldObject = new Road(x, y, originalType+"png");
+                worldObject = new Road(x, y, originalType + ".png");
                 break;
             case "parking":
-                worldObject = new ParkingSpot(x, y, originalType+"png");
+                worldObject = new ParkingSpot(x, y, originalType + ".png");
                 break;
             case "crosswalk":
-                worldObject = new Crosswalk(x, y, originalType+"png");
+                worldObject = new Crosswalk(x, y, originalType + ".png");
                 break;
             default:
                 worldObject = null;
         }
         return worldObject;
     }
-
 
     /**
      * @param doc contains the whole content of the xml
@@ -146,9 +151,9 @@ public class DataReader {
                             matrix = createTransformMatrix((Element) childNodes.item(j));
                         }
                     }
+                    xmlObjects.add(new XmlObject(x, y, type, matrix));
                 }
             }
-            xmlObjects.add(new XmlObject(x, y, type, matrix));
         }
         return xmlObjects;
     }

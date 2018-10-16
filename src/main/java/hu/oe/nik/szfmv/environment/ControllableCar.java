@@ -1,31 +1,19 @@
 package hu.oe.nik.szfmv.environment;
 
-public class ControllableCar extends DynamicObject {
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
+
+public class ControllableCar extends Car {
+
 
     /**
+     * Creates an object of the virtual world on the given coordinates with the given image.
      *
-     * @param x x koordináta
-     * @param y y koordináta
-     * @param imageFileName kép neve
-     * @param type typus
+     * @param x             the initial x coordinate of the object
+     * @param y             the initial y coordinate of the object
+     * @param imageFileName the filename of the image representing the object in the virtual world
      */
-    public ControllableCar(int x, int y, String imageFileName, String type) {
-        super(x, y, imageFileName, type);
-    }
-
-    @Override
-    public void move() {
-        super.move();
-    }
-
-    @Override
-    public TypeEnumDynamic getType() {
-        return super.getType();
-    }
-
-    @Override
-    public void setType(TypeEnumDynamic type) {
-        super.setType(type);
+    public ControllableCar(int x, int y, String imageFileName) {
+        super(x, y, imageFileName);
     }
 
     @Override
