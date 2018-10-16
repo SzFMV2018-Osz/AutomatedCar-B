@@ -7,6 +7,10 @@ public class Driver extends SystemComponent {
 
     private final SamplePacket samplePacket;
 
+    /**
+     * Constructor of Driver class.
+     * @param virtualFunctionBus -  virtual function bus
+     */
     public Driver(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
         samplePacket = new SamplePacket();

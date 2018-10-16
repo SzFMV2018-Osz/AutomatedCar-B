@@ -1,10 +1,11 @@
 package hu.oe.nik.szfmv.visualization.elements;
-import javax.swing.*;
-import java.awt.*;
+
 import hu.oe.nik.szfmv.visualization.Dashboard;
+import java.awt.*;
+import javax.swing.*;
 
 public class CircleCalculator extends JPanel {
-    private static final int diameter = 110;
+    private static final int DIAMETER = 110;
     private int viewValue;
     private int value = 0;
     private Point position;
@@ -12,20 +13,13 @@ public class CircleCalculator extends JPanel {
     private Dashboard dashboard;
 
     /**
-     * The meter's position on the dashboard
-     */
-    public Point getPosition() {
-        return this.position;
-    }
-
-    /**
-     * Constructor for the meter
+     * Constructor for the meter.
      * @param dashboard parent dashboard
      * @param type meter type, rpm or speed
      * @param position position on dashboard
      */
     public CircleCalculator(Dashboard dashboard, Dashboard.MeterTypes type, Point position) {
-        if(type == Dashboard.MeterTypes.RPM) {
+        if (type == Dashboard.MeterTypes.RPM) {
             viewValue = 200;
         } else {
             viewValue = 2;
@@ -37,11 +31,19 @@ public class CircleCalculator extends JPanel {
     }
 
     /**
-     * Sets the meter's value, error if its lower than 0 or higher than 280 km/h or 9800 rpm
+     * The meter's position on the dashboard.
+     * @return position on dashboard
+     */
+    public Point getPosition() {
+        return this.position;
+    }
+
+    /**
+     * Sets the meter's value, error if its lower than 0 or higher than 280 km/h or 9800 rpm.
      * @param value speed or rpm
      */
     public void setValue(int value) {
-        if(meterType == Dashboard.MeterTypes.RPM) {
+        if (meterType == Dashboard.MeterTypes.RPM) {
             if (value <= viewValue * 50 && value  >= 0) {
                 double scale = value / (viewValue * 10);
                 double fractional = value % (viewValue * 10);
@@ -61,7 +63,7 @@ public class CircleCalculator extends JPanel {
                 double fractional = value % (viewValue * 10);
                 int remnant = (int) (fractional / viewValue);
                 if (scale == 14) {
-                    this.value = 115 + (int) (scale * 10 -10) + remnant;
+                    this.value = 115 + (int) (scale * 10 - 10) + remnant;
                 } else {
                     this.value = 115 + (int) (scale * 10) + remnant;
                 }
@@ -73,7 +75,7 @@ public class CircleCalculator extends JPanel {
     }
 
     /**
-     * Magic, paints on the dashboard
+     * Magic, paints on the dashboard.
      * @param g random java thing
      */
     @Override
@@ -84,17 +86,17 @@ public class CircleCalculator extends JPanel {
 
         //black circle
         g.setColor(Color.BLACK);
-        g.fillOval(3, 3, diameter, diameter); // 125,125
+        g.fillOval(3, 3, DIAMETER, DIAMETER); // 125,125
 
         //inner white circle
         g.setColor(Color.WHITE);
-        g.fillOval(6, 6, diameter - 6, diameter - 6);
+        g.fillOval(6, 6, DIAMETER - 6, DIAMETER - 6);
 
         //black point on the middle
         g.setColor(Color.BLACK);
-        g.fillOval(diameter / 2 + 3, diameter / 2 + 3, 5, 5);
+        g.fillOval(DIAMETER / 2 + 3, DIAMETER / 2 + 3, 5, 5);
 
-        //values on the diameter
+        //values on the DIAMETER
         g.setColor(Color.BLACK);
         g.setFont(g.getFont().deriveFont(Font.BOLD, 9));
         if (meterType == Dashboard.MeterTypes.RPM) {
@@ -128,16 +130,16 @@ public class CircleCalculator extends JPanel {
         int initX = 55 + (int) (45 * Math.sin(value * Math.PI / 90));
         int initY = 65 - (int) (45 * Math.cos(value * Math.PI / 90));
         g.setColor(Color.BLACK);
-        g.drawLine(diameter / 2 + 5, diameter / 2 + 5, initX, initY);
+        g.drawLine(DIAMETER / 2 + 5, DIAMETER / 2 + 5, initX, initY);
 
         //rpm or km/h at the bottom
         g.setColor(Color.BLACK);
         g.setFont(g.getFont().deriveFont(Font.BOLD, 12));
         if (meterType == Dashboard.MeterTypes.RPM) {
-            g.drawString("rpm", diameter / 2 -8, diameter - 5);
-            g.drawString("x1000", diameter / 2 -12, diameter - 20);
+            g.drawString("rpm", DIAMETER / 2 - 8, DIAMETER - 5);
+            g.drawString("x1000", DIAMETER / 2 - 12, DIAMETER - 20);
         } else {
-            g.drawString("km/h", diameter / 2 -8, diameter - 5);
+            g.drawString("km/h", DIAMETER / 2 - 8, DIAMETER - 5);
         }
     }
 }

@@ -14,7 +14,7 @@ public class Main {
     private static final int CYCLE_PERIOD = 40;
 
     /**
-     * Main entrypoint of the software
+     * Main entrypoint of the software.
      *
      * @param args command line arguments
      */

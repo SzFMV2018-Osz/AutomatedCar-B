@@ -3,12 +3,15 @@ package hu.oe.nik.szfmv.automatedcar;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.DashboardManager;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.environment.WorldObject;
 
+/**
+ * Automated car class.
+ */
 public class AutomatedCar extends WorldObject {
 
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
@@ -18,7 +21,7 @@ public class AutomatedCar extends WorldObject {
     private DashboardManager dashboardManager;
 
     /**
-     * Constructor of the AutomatedCar class
+     * Constructor of the AutomatedCar class.
      *
      * @param x             the initial x coordinate of the car
      * @param y             the initial y coordinate of the car
@@ -47,7 +50,7 @@ public class AutomatedCar extends WorldObject {
     }
 
     /**
-     * Return dashboard data to caller
+     * Return dashboard data to caller.
      *
      * @return - returns the packet containing the necessary information
      */
@@ -56,7 +59,8 @@ public class AutomatedCar extends WorldObject {
     }
 
     /**
-     * Calculates the new x and y coordinates of the {@link AutomatedCar} using the powertrain and the steering systems.
+     * Calculates the new x and y coordinates of the {@link AutomatedCar}
+     * using the powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
         // fake implementation

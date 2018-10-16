@@ -1,13 +1,17 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.*;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.GearPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.IndicationPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.PedalPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.SteeringWheelPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.GraduallyChangeable;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.IUserInput;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.PedalType;
 
-/*
+/**
  * InputManager is responsible for the transportation of the HMI inputs
  */
 public class InputManager extends SystemComponent {
@@ -22,6 +26,11 @@ public class InputManager extends SystemComponent {
     private final PedalPacket gasPedalPacket;
     private final PedalPacket brakePedalPacket;
 
+    /**
+     * Constructor of InputManager class.
+     *
+     * @param virtualFunctionBus - virtual function bus
+     */
     public InputManager(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
         this.indicationPacket = new IndicationPacket(userInput);

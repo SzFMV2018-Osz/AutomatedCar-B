@@ -28,7 +28,7 @@ public class VirtualFunctionBus {
     private List<SystemComponent> components = new ArrayList<>();
 
     /**
-     * Registers the provided {@link SystemComponent}
+     * Registers the provided {@link SystemComponent}.
      *
      * @param comp a class that implements @{link ISystemComponent}
      */

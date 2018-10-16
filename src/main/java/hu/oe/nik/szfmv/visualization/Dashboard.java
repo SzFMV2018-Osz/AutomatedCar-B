@@ -7,8 +7,8 @@ import hu.oe.nik.szfmv.visualization.elements.DebugSection;
 import hu.oe.nik.szfmv.visualization.elements.IndexArrow;
 import hu.oe.nik.szfmv.visualization.elements.PedalBar;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 /**
  * Dashboard shows the state of the ego car, thus helps in debugging.
@@ -35,14 +35,19 @@ public class Dashboard extends JPanel {
     private final Point gasPedal = new Point(40, 260);
 
     private PedalBar bPB = new PedalBar();
-    private JLabel brakePedalLabel = bPB.getPedalProgressBarLabel(brakePedal.x, brakePedal.y, "Brake pedal");
+    private JLabel brakePedalLabel = bPB.getPedalProgressBarLabel(
+            brakePedal.x,
+            brakePedal.y,
+            "Brake pedal");
     private JProgressBar brakePedalBar = bPB.getPedalProgressBar(
             brakePedal.x,
             brakePedal.y,
-            brakePedalLabel.getHeight()
-    );
+            brakePedalLabel.getHeight());
     private JLabel gasPedalLabel = bPB.getPedalProgressBarLabel(gasPedal.x, gasPedal.y, "Gas pedal");
-    private JProgressBar gasPedalBar = bPB.getPedalProgressBar(gasPedal.x, gasPedal.y, gasPedalLabel.getHeight());
+    private JProgressBar gasPedalBar = bPB.getPedalProgressBar(
+            gasPedal.x,
+            gasPedal.y,
+            gasPedalLabel.getHeight());
     private JLabel gearLabel;
     private CircleCalculator speedMeter = new CircleCalculator(this, MeterTypes.SPEED, new Point(115, 0));
     private CircleCalculator rpmMeter = new CircleCalculator(this, MeterTypes.RPM, new Point(0, 0));
@@ -56,7 +61,7 @@ public class Dashboard extends JPanel {
     private JLabel positionLabel = debugSection.initialisePositionLabel();
 
     /**
-     * Initialize the dashboard
+     * Initialize the dashboard.
      */
     Dashboard() {
         // Not using any layout manager, but fixed coordinates
@@ -83,7 +88,7 @@ public class Dashboard extends JPanel {
     }
 
     /**
-     * Method gets called 'every tick' to display the dashboard portion of the application
+     * Method gets called 'every tick' to display the dashboard portion of the application.
      *
      * @param dbPacket - object containing readable info for the dashboard
      * @param debugInfoIsEnabled - toggle for the debug section's display

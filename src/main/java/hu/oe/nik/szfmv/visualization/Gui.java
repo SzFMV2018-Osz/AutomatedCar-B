@@ -1,8 +1,7 @@
 package hu.oe.nik.szfmv.visualization;
 
-import javax.swing.*;
 import java.awt.*;
-
+import javax.swing.*;
 
 public class Gui extends JFrame {
 
@@ -14,7 +13,7 @@ public class Gui extends JFrame {
     private Dashboard dashboard;
 
     /**
-     * Initialize the GUI class
+     * Initialize the GUI class.
      */
     public Gui() {
         setTitle("AutomatedCar");

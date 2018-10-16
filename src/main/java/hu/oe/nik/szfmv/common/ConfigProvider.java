@@ -3,7 +3,8 @@ package hu.oe.nik.szfmv.common;
 import com.moandjiezana.toml.Toml;
 
 /**
- * ConfigProvider gives access to the <i>config.toml</i> configuration file, that can store configuration options such
+ * ConfigProvider gives access to the <i>config.toml</i> configuration file,
+ * that can store configuration options such
  * as debug mode or any other settings without recompiling the code.
  *
  * @author Gergő Pintér

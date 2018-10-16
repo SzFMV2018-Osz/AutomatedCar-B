@@ -6,6 +6,9 @@ import hu.oe.nik.szfmv.automatedcar.bus.userinput.IUserInput;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.Direction;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.ISteeringEventHandler;
 
+/**
+ * SteeringWheelPacket class.
+ */
 public class SteeringWheelPacket implements IReadonlySteeringPacket, ISteeringEventHandler {
 
     private static final int MIN_VALUE = -60;
@@ -17,6 +20,11 @@ public class SteeringWheelPacket implements IReadonlySteeringPacket, ISteeringEv
     private IUserInput userInput;
     private int steeringWheelPositionSnapshot;
 
+    /**
+     * Constructor of SteeringWheelPacket class.
+     * @param graduallyChangeable - GraduallyChangeable
+     * @param userInput - UserInput
+     */
     public SteeringWheelPacket(IGraduallyChangeable graduallyChangeable, IUserInput userInput) {
         this.steeringWheelPositionSnapshot = 0;
         this.userInput = userInput;
@@ -30,6 +38,9 @@ public class SteeringWheelPacket implements IReadonlySteeringPacket, ISteeringEv
         return steeringWheelPositionSnapshot;
     }
 
+    /**
+     * Refresh the steering wheel state and ensure that its value will be the same until the next call of this function.
+     */
     public void createSnapshot() {
         this.steeringWheelPositionSnapshot = steeringWheelPosition.getCurrentValue();
     }

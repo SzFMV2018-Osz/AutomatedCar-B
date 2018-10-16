@@ -9,7 +9,7 @@ public class PowertrainSystem extends SystemComponent {
     private double speed;
 
     /**
-     * Creates a powertrain system that connects the Virtual Function Bus
+     * Creates a powertrain system that connects the Virtual Function Bus.
      *
      * @param virtualFunctionBus {@link VirtualFunctionBus} used to connect {@link SystemComponent}s
      */

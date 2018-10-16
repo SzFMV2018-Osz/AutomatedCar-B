@@ -27,15 +27,20 @@ public class DashboardManager extends SystemComponent {
 
     @Override
     public void loop() {
-        dashboardPacket.setGasPedalPosition(virtualFunctionBus.gasPedalPacket.getPedalPosition());
-        dashboardPacket.setBrakePedalPosition(virtualFunctionBus.brakePedalPacket.getPedalPosition());
-        dashboardPacket.setCurrentGear(virtualFunctionBus.gearPacket.getCurrentGear());
-        dashboardPacket.setIndicatorDirection(virtualFunctionBus.indicationPacket.getIndicatorDirection());
-        dashboardPacket.setSteeringWheelValue(virtualFunctionBus.steeringWheelPacket.getSteeringWheelPosition());
+        dashboardPacket.
+                setGasPedalPosition(virtualFunctionBus.gasPedalPacket.getPedalPosition());
+        dashboardPacket.
+                setBrakePedalPosition(virtualFunctionBus.brakePedalPacket.getPedalPosition());
+        dashboardPacket.
+                setCurrentGear(virtualFunctionBus.gearPacket.getCurrentGear());
+        dashboardPacket.
+                setIndicatorDirection(virtualFunctionBus.indicationPacket.getIndicatorDirection());
+        dashboardPacket.
+                setSteeringWheelValue(virtualFunctionBus.steeringWheelPacket.getSteeringWheelPosition());
     }
 
     /**
-     * Fetches the automated car's x and y coordinates to be displayed on the dashboard
+     * Fetches the automated car's x and y coordinates to be displayed on the dashboard.
      *
      * @param x - the automated car's x coordinate
      * @param y - the automated car's y coordinate

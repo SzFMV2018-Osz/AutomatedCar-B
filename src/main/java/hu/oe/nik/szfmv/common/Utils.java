@@ -19,7 +19,7 @@ public final class Utils {
     // /src/main/java/hu/oe/nik/szfmv17t/environment/utils/XmlParser.java#L257
 
     /**
-     * Converts a 2x2 transformation matrix, read from the virtual world xml to radians
+     * Converts a 2x2 transformation matrix, read from the virtual world xml to radians.
      *
      * @param m11 first element of the 2x2 transformation matrix providing the angle of rotation
      * @param m12 second element of the 2x2 transformation matrix providing the angle of rotation
@@ -56,7 +56,7 @@ public final class Utils {
     }
 
     /**
-     * Converts a 2x2 transformation matrix, read from the virtual world xml to radians
+     * Converts a 2x2 transformation matrix, read from the virtual world xml to radians.
      *
      * @param matrix the 2x2 transformation matrix providing the angle of rotation
      * @return the rotation in radian
@@ -66,7 +66,7 @@ public final class Utils {
     }
 
     /**
-     * Converts radian to degree. It basically just a wrapper for Math.toDegrees()
+     * Converts radian to degree. It basically just a wrapper for Math.toDegrees().
      *
      * @param rad is the angle in radian
      * @return the angle in degree
