@@ -38,6 +38,9 @@ public class SteeringWheelPacket implements IReadonlySteeringPacket, ISteeringEv
         return steeringWheelPositionSnapshot;
     }
 
+    /**
+     * Refresh the steering wheel state and ensure that its value will be the same until the next call of this function.
+     */
     public void createSnapshot() {
         this.steeringWheelPositionSnapshot = steeringWheelPosition.getCurrentValue();
     }

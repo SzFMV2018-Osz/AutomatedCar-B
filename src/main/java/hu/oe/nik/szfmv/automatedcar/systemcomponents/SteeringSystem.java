@@ -19,7 +19,7 @@ public class SteeringSystem extends SystemComponent {
 
     @Override
     public void loop() {
-        // TODO
+
     }
 
     public double getAngularSpeed() {

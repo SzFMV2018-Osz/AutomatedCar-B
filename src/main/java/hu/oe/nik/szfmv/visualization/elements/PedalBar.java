@@ -1,13 +1,14 @@
 package hu.oe.nik.szfmv.visualization.elements;
-import javax.swing.*;
+
 import java.awt.*;
+import javax.swing.*;
 
 public class PedalBar extends JPanel {
     private static final int MIN_PEDAL_VALUE = 0;
     private static final int MAX_PEDAL_VALUE = 100;
 
     /**
-     * Draws a progressbar for the pedals
+     * Draws a progressbar for the pedals.
      * @param offsetX position x on board
      * @param offsetY position y on board
      * @param labelHeight label's height
@@ -27,7 +28,7 @@ public class PedalBar extends JPanel {
     }
 
     /**
-     * Label for the progressbar
+     * Label for the progressbar.
      * @param offsetX position x on board
      * @param offsetY position y on board
      * @param label label's string value
@@ -46,7 +47,7 @@ public class PedalBar extends JPanel {
     }
 
     /**
-     * Sets the value of the bar
+     * Sets the value of the bar.
      * @param progressBar the bar that we want to change
      * @param value the new value of the bar, must be between 0 and 100
 p    */

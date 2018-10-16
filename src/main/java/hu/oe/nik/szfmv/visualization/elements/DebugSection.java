@@ -1,7 +1,7 @@
 package hu.oe.nik.szfmv.visualization.elements;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class DebugSection extends JPanel {
     private final int sectionPositionX = 10;
@@ -42,7 +42,7 @@ public class DebugSection extends JPanel {
     }
 
     /**
-     * Creates and returns a JLabel with the specified parameters
+     * Creates and returns a JLabel with the specified parameters.
      *
      * @param text      - text for the label
      * @param rowOffset - determines the y coordinate for the label
@@ -57,7 +57,7 @@ public class DebugSection extends JPanel {
     }
 
     /**
-     * Actualises the bounds and text color for the given JLabel
+     * Actualises the bounds and text color for the given JLabel.
      *
      * @param label     - the modifiable JLabel's reference
      * @param rowOffset - determines the y coordinate for the label
@@ -74,7 +74,7 @@ public class DebugSection extends JPanel {
     }
 
     /**
-     * Generates a main debug label
+     * Generates a main debug label.
      *
      * @return - returns the configured label object
      */
@@ -83,7 +83,7 @@ public class DebugSection extends JPanel {
     }
 
     /**
-     * Generates a steering wheel debug label
+     * Generates a steering wheel debug label.
      *
      * @return - returns the configured label object
      */
@@ -92,7 +92,7 @@ public class DebugSection extends JPanel {
     }
 
     /**
-     * Generates a position debug label
+     * Generates a position debug label.
      *
      * @return - returns the configured label object
      */
@@ -101,7 +101,7 @@ public class DebugSection extends JPanel {
     }
 
     /**
-     * Refreshes the steering wheel position label
+     * Refreshes the steering wheel position label.
      *
      * @param steeringWheelLabel - the modifiable JLabel
      * @param value - the new steering wheel value
@@ -117,7 +117,7 @@ public class DebugSection extends JPanel {
     }
 
     /**
-     * Refreshes the position label
+     * Refreshes the position label.
      *
      * @param positionLabel - the modifiable JLabel
      * @param x - the car's x position

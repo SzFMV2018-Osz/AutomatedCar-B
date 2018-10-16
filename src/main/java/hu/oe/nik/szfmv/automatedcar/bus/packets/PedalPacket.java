@@ -22,8 +22,9 @@ public class PedalPacket implements IReadonlyPedalPacket, IPedalEventHandler {
     /**
      * Constructor of PedalPacket class.
      * @param graduallyChangeable - represents the gradually changeable value of the pedal.
-     * @param input - InputManager.
-     * @param pedalType - Type of the pedal.
+     * @param input - InputManager
+     * @param pedalType - Type of the pedal
+     * @param speedInMilliseconds - The speed in milliseconds
      */
     public PedalPacket(IGraduallyChangeable graduallyChangeable, IUserInput input, PedalType pedalType, int speedInMilliseconds) {
         this.input = input;

@@ -59,7 +59,7 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
         this.steeringEventHandlers = new ArrayList<>();
         this.indicationEventHandlers = new ArrayList<>();
 
-        this.holdKeys=new ArrayList<>();
+        this.holdKeys = new ArrayList<>();
     }
 
     public List<IPedalEventHandler> getGasPedalEventHandlers() {
@@ -119,7 +119,7 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
         argumentCheck(type);
         if (type == PedalType.Gas) {
             this.gasPedalEventHandlers.remove(handler);
-        } else if(type == PedalType.Brake) {
+        } else if (type == PedalType.Brake) {
             this.brakePedalEventHandlers.remove(handler);
         }
     }
@@ -140,13 +140,14 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) { }
 
     @Override
     public void keyPressed(KeyEvent e) {
 
-        if(!ensureKey(e.getKeyCode()))
+        if (!ensureKey(e.getKeyCode())) {
             handleFilteredKeyEvent(e);
+        }
     }
 
     @Override
@@ -165,7 +166,7 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
         removeKey(e.getKeyCode());
     }
 
-    private void onPedalPush(PedalType p){
+    private void onPedalPush(PedalType p) {
 
         if (p == PedalType.Gas) {
             gasPedalEventHandlers.forEach(IPedalEventHandler::onPedalPush);
@@ -176,7 +177,7 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
         }
     }
 
-    private void onPedalRelease(PedalType p){
+    private void onPedalRelease(PedalType p) {
 
         if (p == PedalType.Gas) {
             gasPedalEventHandlers.forEach(IPedalEventHandler::onPedalRelease);
@@ -187,30 +188,40 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
         }
     }
 
-    private void onSteering(Direction d){ this.steeringEventHandlers.forEach(handler -> handler.onSteering(d)); }
-    private void onSteeringRelease(){ this.steeringEventHandlers.forEach(ISteeringEventHandler::onSteeringReleased); }
-    private void onShifting(Gear g){ this.shiftingEventHandlers.forEach(handler -> handler.onShifting(g));
+    private void onSteering(Direction d) {
+        this.steeringEventHandlers.forEach(handler -> handler.onSteering(d));
     }
-    private void onIndication(Direction d) { this.indicationEventHandlers.forEach(handler -> handler.onIndication(d)); }
 
-    private void argumentCheck(Object o){
-        if ( o == null) {
+    private void onSteeringRelease() {
+        this.steeringEventHandlers.forEach(ISteeringEventHandler::onSteeringReleased);
+    }
+
+    private void onShifting(Gear g) {
+        this.shiftingEventHandlers.forEach(handler -> handler.onShifting(g));
+    }
+
+    private void onIndication(Direction d) {
+        this.indicationEventHandlers.forEach(handler -> handler.onIndication(d));
+    }
+
+    private void argumentCheck(Object o) {
+        if (o == null) {
             throw new IllegalArgumentException("The given argument cannot be null!");
         }
     }
 
-    private boolean ensureKey(int code){
+    private boolean ensureKey(int code) {
         if (!this.holdKeys.contains(code)) {
             this.holdKeys.add(code);
             return false;
         }
         return true;
     }
-    private void removeKey(int code){
+    private void removeKey(int code) {
         this.holdKeys.remove(this.holdKeys.indexOf(code));
     }
 
-    private void handleFilteredKeyEvent(KeyEvent e){
+    private void handleFilteredKeyEvent(KeyEvent e) {
         if (e.getKeyCode() == GAS) {
             this.onPedalPush(PedalType.Gas);
         } else if (e.getKeyCode() == BRAKE) {

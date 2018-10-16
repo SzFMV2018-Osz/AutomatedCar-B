@@ -2,11 +2,14 @@ package hu.oe.nik.szfmv.visualization.elements;
 
 import hu.oe.nik.szfmv.visualization.Dashboard;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Index arrow class for UI.
+ */
 public class IndexArrow extends JPanel {
     private Dashboard.IndexTypes type;
     private Color color = Color.WHITE;
@@ -16,7 +19,9 @@ public class IndexArrow extends JPanel {
     private boolean hasStarted = false;
 
     /**
-     * Constructor with index side type, and position on the board
+     * Constructor with index side type, and position on the board.
+     * @param type - type of the index
+     * @param position - position of the UI element
      */
     public IndexArrow(Dashboard.IndexTypes type, Point position) {
         this.type = type;
@@ -24,21 +29,22 @@ public class IndexArrow extends JPanel {
     }
 
     /**
-     * Gives the index's position on the dashboard back
+     * Gives the index's position on the dashboard back.
+     * @return the index's position on the dashboard back
      */
     public Point getPosition() {
         return this.position;
     }
 
     /**
-     * @return true if this index arrow is active
+     * @return true if this index arrow is active.
      */
     public boolean hasStarted() {
         return this.hasStarted;
     }
 
     /**
-     * Sets the arrow fill color
+     * Sets the arrow fill color.
      *
      * @param color the new color
      */
@@ -48,7 +54,7 @@ public class IndexArrow extends JPanel {
 
     /**
      * Sets the index's status on
-     * Only the stop method stops it
+     * Only the stop method stops it.
      */
     public void startIndex() {
         if (this.hasStarted == true) {
@@ -77,7 +83,7 @@ public class IndexArrow extends JPanel {
     }
 
     /**
-     * Stops the flashing
+     * Stops the flashing.
      */
     public void stopIndex() {
         if (this.hasStarted == true) {
@@ -91,7 +97,8 @@ public class IndexArrow extends JPanel {
     }
 
     /**
-     * Paints the arrow depends on the side
+     * Paints the arrow depends on the side.
+     * @param g - graphics to paint
      */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -102,19 +109,15 @@ public class IndexArrow extends JPanel {
 
         //check sides and draws arrow
         if (type == Dashboard.IndexTypes.RIGHT) {
-            int[] x = new int[]{0, 30, 30, 40, 30,
-                    30, 0};
-            int[] y = new int[]{10, 10, 0, 14, 28,
-                    18, 18};
+            int[] x = new int[]{0, 30, 30, 40, 30, 30, 0};
+            int[] y = new int[]{10, 10, 0, 14, 28, 18, 18};
             g.setColor(Color.BLACK);
             g.drawPolygon(x, y, 7);
             g.setColor(color);
             g.fillPolygon(x, y, 7);
         } else {
-            int[] x = new int[]{0, 10, 10, 40, 40,
-                    10, 10};
-            int[] y = new int[]{14, 0, 10, 10, 18,
-                    18, 28};
+            int[] x = new int[]{0, 10, 10, 40, 40, 10, 10};
+            int[] y = new int[]{14, 0, 10, 10, 18, 18, 28};
             g.setColor(Color.BLACK);
             g.drawPolygon(x, y, 7);
             g.setColor(color);
