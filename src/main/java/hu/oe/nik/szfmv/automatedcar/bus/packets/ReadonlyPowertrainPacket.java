@@ -18,11 +18,6 @@ public interface ReadonlyPowertrainPacket {
     int getGear();
 
     /**
-     * @return with actual car speed
-     */
-    double getSpeed();
-
-    /**
      * @return with current transmission mode
      */
     TransmissionModes getTransmissionMode();

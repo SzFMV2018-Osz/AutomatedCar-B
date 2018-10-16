@@ -6,7 +6,6 @@ public class PowerTrainPacketImpl implements ReadonlyPowertrainPacket {
 
     int rpm;
     int gear;
-    double speed;
     TransmissionModes transmissionMode;
     int brakePadelPosition;
     int throttlePosition;
@@ -14,7 +13,6 @@ public class PowerTrainPacketImpl implements ReadonlyPowertrainPacket {
     public PowerTrainPacketImpl() {
         rpm = 0;
         gear = 1;
-        speed = 0;
         brakePadelPosition = 0;
         throttlePosition = 0;
         transmissionMode = TransmissionModes.Park;
@@ -36,15 +34,6 @@ public class PowerTrainPacketImpl implements ReadonlyPowertrainPacket {
 
     public void setGear(int gear) {
         this.gear = gear;
-    }
-
-    @Override
-    public double getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(double speed) {
-        this.speed = speed;
     }
 
     @Override

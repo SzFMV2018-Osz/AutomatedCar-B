@@ -14,7 +14,8 @@ public class SteeringSystem extends SystemComponent {
     /**
      * Creates a steering system that connects the Virtual Function Bus
      *
-     * @param virtualFunctionBus {@link VirtualFunctionBus} used to connect {@link SystemComponent}s
+     * @param virtualFunctionBus {@link VirtualFunctionBus} used to connect
+     *                           {@link SystemComponent}s
      */
     public SteeringSystem(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
@@ -25,9 +26,11 @@ public class SteeringSystem extends SystemComponent {
 
     @Override
     public void loop() {
-        steeringPacket.setAngularSpeed(turningHandler.angularVelocityCalculation(steeringPacket.getSteeringWheelState(), virtualFunctionBus.powertrainPacket.getSpeed()));
-        System.out.println("Angular speed: "+steeringPacket.getAngularSpeed());
-        steeringPacket.setAngularVector(turningHandler.angularVector(steeringPacket.getAngularVector(), steeringPacket.getAngularSpeed()));
+        steeringPacket.setAngularSpeed(turningHandler.angularVelocityCalculation(steeringPacket.getSteeringWheelState(),
+                virtualFunctionBus.velocityPacket.getSpeed()));
+        System.out.println("Angular speed: " + steeringPacket.getAngularSpeed());
+        steeringPacket.setAngularVector(
+                turningHandler.angularVector(steeringPacket.getAngularVector(), steeringPacket.getAngularSpeed()));
     }
 
 }

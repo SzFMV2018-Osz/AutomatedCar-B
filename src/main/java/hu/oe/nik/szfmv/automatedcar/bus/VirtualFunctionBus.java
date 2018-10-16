@@ -7,19 +7,20 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlySteeringPack
 import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.ReadOnlySamplePacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.ReadonlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.ReadonlySteeringPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlyPowertrainPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlySteeringPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.ReadOnlySamplePacket;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlyPowertrainPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlySteeringPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlyVelocityPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.ReadOnlySamplePacket;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
+
 /**
- * This is the class for the Virtual Function Bus. Components are only
- * allowed to collect sensory data exclusively using the VFB. The VFB stores the
- * input and output signals, inputs only have setters, while outputs only have
- * getters respectively.
+ * This is the class for the Virtual Function Bus. Components are only allowed
+ * to collect sensory data exclusively using the VFB. The VFB stores the input
+ * and output signals, inputs only have setters, while outputs only have getters
+ * respectively.
  */
 public class VirtualFunctionBus {
 
@@ -33,6 +34,7 @@ public class VirtualFunctionBus {
     public ReadonlyPowertrainPacket powertrainPacket;
     public ReadonlySteeringPacket steeringPacket;
     public ReadOnlySamplePacket samplePacket;
+    public ReadonlyVelocityPacket velocityPacket;
 
     private List<SystemComponent> components = new ArrayList<>();
 
@@ -46,7 +48,8 @@ public class VirtualFunctionBus {
     }
 
     /**
-     * Calls cyclically the registered {@link SystemComponent}s once the virtual function bus has started.
+     * Calls cyclically the registered {@link SystemComponent}s once the virtual
+     * function bus has started.
      */
     public void loop() {
         for (SystemComponent comp : components) {
