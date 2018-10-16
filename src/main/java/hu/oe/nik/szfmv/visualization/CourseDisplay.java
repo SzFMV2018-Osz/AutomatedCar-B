@@ -121,9 +121,7 @@ public class CourseDisplay extends JPanel {
 
     // Az altalunk iranyitott auto kirajzolasa
     private void renderCar(AutomatedCar car, Graphics screenBuffer) {
-        // TODO
         BufferedImage image;
-
         try {
             // Ezt nem jobb lenne eltarolni mar az inicializalaskor?
             image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
@@ -136,7 +134,6 @@ public class CourseDisplay extends JPanel {
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
-        car.setRotation((float) Math.toRadians((Math.toDegrees(car.getRotation()) + 3)));
     }
 
     // TODO: ez alapjan csinaljuk meg a render fuggvenyeket
@@ -156,7 +153,7 @@ public class CourseDisplay extends JPanel {
             at.translate(-refPoint.x * SCALING_FACTOR, -refPoint.y * SCALING_FACTOR);
 
             // Kep elforgatasa a megfelelo pontnal
-            at.rotate(object.getRotation(), SCALING_FACTOR * refPoint.x, SCALING_FACTOR * refPoint.y); //imageWidth /2, imageHeight / 2);
+            at.rotate(object.getRotation(), SCALING_FACTOR * refPoint.x, SCALING_FACTOR * refPoint.y);
 
             // Kep atmeretezese
             at.scale(SCALING_FACTOR, SCALING_FACTOR);
