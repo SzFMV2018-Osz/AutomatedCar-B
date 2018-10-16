@@ -125,8 +125,14 @@ public class CourseDisplay extends JPanel {
             int imageWidth = scaleObject(image.getWidth());
             int imageHeight = scaleObject(image.getHeight());
 
-            screenBuffer.drawImage(image, width / 2 - imageWidth / 2, height / 2 - imageHeight / 2, imageWidth,
-                    imageHeight, this);
+            AffineTransform at = new AffineTransform();
+            at.setToTranslation(width / 2 - imageWidth / 2, height / 2 - imageWidth / 2);
+            // Kep elforgatasa a megfelelo pontnal
+            at.rotate(car.getRotation(), 0, 0);
+            // Kep atmeretezese
+            at.scale(SCALING_FACTOR, SCALING_FACTOR);
+            Graphics2D g2d = (Graphics2D) screenBuffer;
+            g2d.drawImage(image, at, null);
 
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
