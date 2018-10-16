@@ -7,10 +7,8 @@ public class CarEngine {
     private final int gearRatioMultiplyer = 60;
     private final int throttlePositionDivider = 100;
 
-
     private CarEngineType engineType;
     private int rpm;
-
 
     /**
      * @param engineType the type of the engine
@@ -53,12 +51,20 @@ public class CarEngine {
     }
 
     private double calculateMaxTorque() {
-        final int closestLookupPoint = (rpm / 1000) - 1;
+        int closestLookupPoint = getClosestLookupPoint();
         if (closestLookupPoint != (engineType.getTorqueCurve().length - 1)) {
             return linearInterpolarMaxTorque(closestLookupPoint);
         } else {
             return engineType.getTorqueCurve()[closestLookupPoint];
         }
+    }
+
+    private int getClosestLookupPoint() {
+        int closestLookupPoint = (rpm / 1000) - 1;
+        if (closestLookupPoint >= engineType.getTorqueCurve().length) {
+            closestLookupPoint = engineType.getTorqueCurve().length - 1;
+        }
+        return closestLookupPoint;
     }
 
     private double linearInterpolarMaxTorque(final int closestLookupPoint) {
@@ -80,19 +86,41 @@ public class CarEngine {
                 * engineType.getTransmissionEffiency();
     }
 
-    public double calculationVelocity(double time, double[] orientationVector, int gear, double actualSpeed, int breakPedal, int throttlePosition) {
+    public double calculationVelocity(double time, double[] orientationVector, int gear, double actualSpeed,
+            int breakPedal, int throttlePosition) {
         double[] speedVector = calcSpeedVector(orientationVector, actualSpeed);
-        List<double[]> forces = new ArrayList<>();
-        forces.add(TractionForce.calculateTractionForce(orientationVector, calculateDriveTorque(throttlePosition, gear), engineType.getWheelRadius()));
-        forces.add(BrakingForces.calcAirResistanceVector(speedVector[0], speedVector[1]));
-        forces.add(BrakingForces.calcBrakeForceVector(speedVector[0], speedVector[1], breakPedal));
-        forces.add(BrakingForces.calcRollingResistanceVector(speedVector[0], speedVector[1]));
-
-        //TODO need weight this is mock now (1500kg)!!!! unit(KG)
-        return actualSpeed + ((time * sumForces(forces)) / 1500) ;
-
+        double sumForce = calculateSummedForce(orientationVector, gear, breakPedal, throttlePosition, speedVector);
+        // TODO need weight this is mock now (1500kg)!!!! unit(KG)
+        return actualSpeed + ((time * sumForce) / 1500);
     }
 
+    private double calculateSummedForce(double[] orientationVector, int gear, int breakPedal, int throttlePosition,
+            double[] speedVector) {
+        double[] tractionForce = TractionForce.calculateTractionForce(orientationVector,
+                calculateDriveTorque(throttlePosition, gear), engineType.getWheelRadius());
+        double tractionForceLength = calcVectorLength(tractionForce);
+        double brakeForcesLength = calcuateBrakeForceLength(breakPedal, speedVector);
+        List<double[]> allForces = getBrakeForceList(breakPedal, speedVector);
+        allForces.add(tractionForce);
+        double sumForce = sumForces(allForces);
+        if (brakeForcesLength > tractionForceLength) {
+            sumForce *= -1;
+        }
+        return sumForce;
+    }
+
+    private double calcuateBrakeForceLength(int breakPedal, double[] speedVector) {
+        List<double[]> brakeForces = getBrakeForceList(breakPedal, speedVector);
+        return sumForces(brakeForces);
+    }
+
+    private List<double[]> getBrakeForceList(int breakPedal, double[] speedVector) {
+        List<double[]> brakeForces = new ArrayList<>();
+        brakeForces.add(BrakingForces.calcAirResistanceVector(speedVector[0], speedVector[1]));
+        brakeForces.add(BrakingForces.calcBrakeForceVector(speedVector[0], speedVector[1], breakPedal));
+        brakeForces.add(BrakingForces.calcRollingResistanceVector(speedVector[0], speedVector[1]));
+        return brakeForces;
+    }
 
     private double[] calcSpeedVector(double[] orientationVector, double actualSpeed) {
         double[] speedVector = new double[2];
@@ -102,16 +130,21 @@ public class CarEngine {
     }
 
     private double sumForces(List<double[]> forces) {
-        double sumForce = 0;
+//        double sumForce = 0;
+//        for (double[] force : forces) {
+//            sumForce += calcVectorLength(force);
+//        }
+//        return sumForce;
+        double[] summedForces = new double[] { 0, 0 };
         for (double[] force : forces) {
-            sumForce += calcVectorLength(force);
+            summedForces[0] += force[0];
+            summedForces[1] += force[1];
         }
-        return sumForce;
+        return calcVectorLength(summedForces);
     }
 
-
     private int calcVectorLength(double[] vector) {
-        return (int) (Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1]));
+        return (int) (Math.sqrt((vector[0] * vector[0]) + (vector[1] * vector[1])));
     }
 
 }
