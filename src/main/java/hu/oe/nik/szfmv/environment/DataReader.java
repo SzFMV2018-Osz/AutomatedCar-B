@@ -120,6 +120,9 @@ public class DataReader {
             case "crosswalk":
                 worldObject = new Crosswalk(x, y, originalType + ".png");
                 break;
+            case "bicycle":
+                worldObject = new Crosswalk(x, y, originalType + ".png");
+                break;
             default:
                 worldObject = null;
         }

@@ -39,7 +39,12 @@ public class Main {
         // create an automated car
         AutomatedCar car = new AutomatedCar(carPosX, carPosY, "car_2_white.png");
         // add car to the world
+
+
+
+
         List<XmlObject> xmlObjectList = DataReader.getDataFromXmlDocument(DataReader.xmlReader("src/main/resources/test_world.xml"));
+
 
         Gui gui = new Gui();
 
