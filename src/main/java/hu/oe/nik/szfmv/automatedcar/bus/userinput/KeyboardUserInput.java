@@ -19,16 +19,18 @@ import java.util.List;
  */
 public class KeyboardUserInput implements IUserInput, KeyListener {
 
-    private final int GAS;
-    private final int BRAKE;
-    private final int STEER_LEFT;
-    private final int STEER_RIGHT;
-    private final int INDICATE_LEFT;
-    private final int INDICATE_RIGHT;
-    private final int GEAR_R;
-    private final int GEAR_P;
-    private final int GEAR_N;
-    private final int GEAR_D;
+    private static final String UNSUPPORTEDEXCEPTIONMESSAGE = "There isn't event handling support for this pedal type:";
+
+    private final int gas;
+    private final int brake;
+    private final int steerLeft;
+    private final int steerRight;
+    private final int indicateLeft;
+    private final int indicateRight;
+    private final int gearR;
+    private final int gearP;
+    private final int gearN;
+    private final int gearD;
 
     private List<IPedalEventHandler> gasPedalEventHandlers;
     private List<IPedalEventHandler> brakePedalEventHandlers;
@@ -42,16 +44,16 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
      * Constructor of KeyboardUserInput class.
      */
     public KeyboardUserInput() {
-        this.GAS = ConfigProvider.provide().getLong("keyboard.gas").intValue();
-        this.BRAKE = ConfigProvider.provide().getLong("keyboard.brake").intValue();
-        this.STEER_LEFT = ConfigProvider.provide().getLong("keyboard.steer_left").intValue();
-        this.STEER_RIGHT = ConfigProvider.provide().getLong("keyboard.steer_right").intValue();
-        this.INDICATE_LEFT = ConfigProvider.provide().getLong("keyboard.indicate_left").intValue();
-        this.INDICATE_RIGHT = ConfigProvider.provide().getLong("keyboard.indicate_right").intValue();
-        this.GEAR_R = ConfigProvider.provide().getLong("keyboard.gear_r").intValue();
-        this.GEAR_P = ConfigProvider.provide().getLong("keyboard.gear_p").intValue();
-        this.GEAR_N = ConfigProvider.provide().getLong("keyboard.gear_n").intValue();
-        this.GEAR_D = ConfigProvider.provide().getLong("keyboard.gear_d").intValue();
+        this.gas = ConfigProvider.provide().getLong("keyboard.gas").intValue();
+        this.brake = ConfigProvider.provide().getLong("keyboard.brake").intValue();
+        this.steerLeft = ConfigProvider.provide().getLong("keyboard.steer_left").intValue();
+        this.steerRight = ConfigProvider.provide().getLong("keyboard.steer_right").intValue();
+        this.indicateLeft = ConfigProvider.provide().getLong("keyboard.indicate_left").intValue();
+        this.indicateRight = ConfigProvider.provide().getLong("keyboard.indicate_right").intValue();
+        this.gearR = ConfigProvider.provide().getLong("keyboard.gear_r").intValue();
+        this.gearP = ConfigProvider.provide().getLong("keyboard.gear_p").intValue();
+        this.gearN = ConfigProvider.provide().getLong("keyboard.gear_n").intValue();
+        this.gearD = ConfigProvider.provide().getLong("keyboard.gear_d").intValue();
 
         this.gasPedalEventHandlers = new ArrayList<>();
         this.brakePedalEventHandlers = new ArrayList<>();
@@ -92,7 +94,7 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
         } else if (type == PedalType.Brake) {
             this.brakePedalEventHandlers.add(handler);
         } else {
-            throw new UnsupportedOperationException("There isn't event handling support for this pedal type: " + type.name());
+            throw new UnsupportedOperationException(UNSUPPORTEDEXCEPTIONMESSAGE + type.name());
         }
     }
 
@@ -140,7 +142,8 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) { }
+    public void keyTyped(KeyEvent e) {
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -153,13 +156,13 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
-        if (e.getKeyCode() == GAS) {
+        if (e.getKeyCode() == gas) {
             this.onPedalRelease(PedalType.Gas);
-        } else if (e.getKeyCode() == BRAKE) {
+        } else if (e.getKeyCode() == brake) {
             this.onPedalRelease(PedalType.Brake);
-        } else if (e.getKeyCode() == STEER_LEFT) {
+        } else if (e.getKeyCode() == steerLeft) {
             this.onSteeringRelease();
-        } else if (e.getKeyCode() == STEER_RIGHT) {
+        } else if (e.getKeyCode() == steerRight) {
             this.onSteeringRelease();
         }
 
@@ -173,7 +176,7 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
         } else if (p == PedalType.Brake) {
             brakePedalEventHandlers.forEach(IPedalEventHandler::onPedalPush);
         } else {
-            throw new UnsupportedOperationException("There isn't event handling support for this pedal type: " + p.name());
+            throw new UnsupportedOperationException(UNSUPPORTEDEXCEPTIONMESSAGE + p.name());
         }
     }
 
@@ -184,7 +187,7 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
         } else if (p == PedalType.Brake) {
             brakePedalEventHandlers.forEach(IPedalEventHandler::onPedalRelease);
         } else {
-            throw new UnsupportedOperationException("There isn't event handling support for this pedal type: " + p.name());
+            throw new UnsupportedOperationException(UNSUPPORTEDEXCEPTIONMESSAGE + p.name());
         }
     }
 
@@ -217,30 +220,31 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
         }
         return true;
     }
+
     private void removeKey(int code) {
         this.holdKeys.remove(this.holdKeys.indexOf(code));
     }
 
     private void handleFilteredKeyEvent(KeyEvent e) {
-        if (e.getKeyCode() == GAS) {
+        if (e.getKeyCode() == gas) {
             this.onPedalPush(PedalType.Gas);
-        } else if (e.getKeyCode() == BRAKE) {
+        } else if (e.getKeyCode() == brake) {
             this.onPedalPush(PedalType.Brake);
-        } else if (e.getKeyCode() == STEER_LEFT) {
+        } else if (e.getKeyCode() == steerLeft) {
             this.onSteering(Direction.Left);
-        } else if (e.getKeyCode() == STEER_RIGHT) {
+        } else if (e.getKeyCode() == steerRight) {
             this.onSteering(Direction.Right);
-        } else if (e.getKeyCode() == INDICATE_LEFT) {
+        } else if (e.getKeyCode() == indicateLeft) {
             this.onIndication(Direction.Left);
-        } else if (e.getKeyCode() == INDICATE_RIGHT) {
+        } else if (e.getKeyCode() == indicateRight) {
             this.onIndication(Direction.Right);
-        } else if (e.getKeyCode() == GEAR_P) {
+        } else if (e.getKeyCode() == gearP) {
             this.onShifting(Gear.P);
-        } else if (e.getKeyCode() == GEAR_N) {
+        } else if (e.getKeyCode() == gearN) {
             this.onShifting(Gear.N);
-        } else if (e.getKeyCode() == GEAR_D) {
+        } else if (e.getKeyCode() == gearD) {
             this.onShifting(Gear.D);
-        } else if (e.getKeyCode() == GEAR_R) {
+        } else if (e.getKeyCode() == gearR) {
             this.onShifting(Gear.R);
         }
     }

@@ -1,16 +1,19 @@
 package hu.oe.nik.szfmv.visualization.elements;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 public class PedalBar extends JPanel {
     private static final int MIN_PEDAL_VALUE = 0;
     private static final int MAX_PEDAL_VALUE = 100;
+    private static final int BAR_WIDTH = 160;
+    private static final int BAR_HEIGHT = 15;
 
     /**
      * Draws a progressbar for the pedals.
-     * @param offsetX position x on board
-     * @param offsetY position y on board
+     *
+     * @param offsetX     position x on board
+     * @param offsetY     position y on board
      * @param labelHeight label's height
      * @return progressbar design for the pedal
      */
@@ -18,7 +21,7 @@ public class PedalBar extends JPanel {
         JProgressBar progressBar = new JProgressBar(MIN_PEDAL_VALUE, MAX_PEDAL_VALUE);
         Insets insets = getInsets();
 
-        progressBar.setBounds(insets.left + offsetX, insets.top + offsetY + labelHeight, 160, 15);
+        progressBar.setBounds(insets.left + offsetX, insets.top + offsetY + labelHeight, BAR_WIDTH, BAR_HEIGHT);
 
         progressBar.setStringPainted(true);
         progressBar.setVisible(true);
@@ -29,9 +32,10 @@ public class PedalBar extends JPanel {
 
     /**
      * Label for the progressbar.
+     *
      * @param offsetX position x on board
      * @param offsetY position y on board
-     * @param label label's string value
+     * @param label   label's string value
      * @return label for the pedal
      */
     public JLabel getPedalProgressBarLabel(int offsetX, int offsetY, String label) {
@@ -48,9 +52,11 @@ public class PedalBar extends JPanel {
 
     /**
      * Sets the value of the bar.
+     *
      * @param progressBar the bar that we want to change
-     * @param value the new value of the bar, must be between 0 and 100
-p    */
+     * @param value       the new value of the bar, must be between 0 and 100
+     *                    p
+     */
     public void setProgress(JProgressBar progressBar, int value) {
         if (value >= MIN_PEDAL_VALUE && value <= MAX_PEDAL_VALUE) {
             progressBar.setValue(value);
