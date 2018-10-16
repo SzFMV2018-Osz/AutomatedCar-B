@@ -24,13 +24,13 @@ public class CourseDisplay extends JPanel {
     private int xOffset = 0;
     private int yOffset = 0;
 
-    // Ezt az FPS-t szeretnénk tartani
+    // This is the fps we want to hold
     public static final int TARGET_FPS = 24;
-    // Egy ciklus hossza
+    // This is the length of a cycle
     private static double CYCLE_PERIOD = 40;
-    // Az aktuális renderelési és számítási ciklus kezdetének időpontja
+    // This is the start time of current rendering and calculating cycle
     private static long cycle_start;
-    // Az aktuális renderelési és számítási ciklus hossza
+    // This is the length of the current rendering and calculating cycle
     private static long cycle_length;
 
     private Calendar cal;
@@ -66,32 +66,31 @@ public class CourseDisplay extends JPanel {
         screenBuffer.clearRect(0, 0, world.getWidth(), world.getHeight());
 
         try {
-            // TODO
             cycle_start = cal.getTimeInMillis();
 
             xOffset = width / 2 - scaleObject(world.getAutomatedCar().getX() - world.getAutomatedCar().getWidth() / 2);
             yOffset = height / 2 - scaleObject(world.getAutomatedCar().getY() - world.getAutomatedCar().getHeight() / 2);
 
             /*
-             * létrehozunk egy másodlagos buffert, amire egyesevél felrajzoljuk
-             * az elemeket, majd ha minden felkerült rá, ezt a képet rajzoljuk át
-             * a fő grafikai elemünkre, így megszüntetve az elemek remegését
+             * Let's create a secondary buffer on we paint the objects each by each,
+             * and when everything is painted, we draw this screen onto the main graphic element
+             * to avoid the vibration-effect of the objects
              */
 
-            // TODO: StaticList-et kapjon, de az  meg nincs
+            // TODO: Get a staticObjectList, but we do not have it yet, so at here we load all the worldObjects
             renderStaticObjects(world.getWorldObjects(), screenBuffer);
 
-            // TODO: DynamicList-et kapjon, de az meg nincs
+            // TODO: Get a dynamicObjectList, but we do not have it yet
             //renderDynamicObjects(world.getDynamicObjects(), screenBuffer);
 
             renderCar(world.getAutomatedCar(), screenBuffer);
 
-            // buffer kirajzolasa az kepernyore
+            // draw the buffer on the screen
             g.drawImage(offscreen, 0, 0, this);
 
             // FIX FPS
             cycle_length = cal.getTimeInMillis() - cycle_start;
-            // Szükséges késleltetési idő kiszámítása (eltelt idő * TARGET FPS)
+            // Calculate necessary delay time (elapsed time * TARGET FPS)
             CYCLE_PERIOD = 1000 / TARGET_FPS - cycle_length;
             if (CYCLE_PERIOD < 0) CYCLE_PERIOD = 0;
             System.out.printf("FPS/TARGET FPS: %.2f / %d \n", (1000 / CYCLE_PERIOD), TARGET_FPS);
@@ -102,34 +101,31 @@ public class CourseDisplay extends JPanel {
         }
     }
 
-    // A statikus elemek kirajzolasa
+    // Draw static objects
     private void renderStaticObjects(java.util.List<WorldObject> staticObjects, Graphics screenBuffer) {
         for (WorldObject object : staticObjects) {
             paintComponent(screenBuffer, object);
         }
     }
 
-    // A dinamikus elemek kirajzolasa
+    // Draw dynamic objects, but it's not used yet since we do not have the proper input for that
     private void renderDynamicObjects(List<WorldObject> dynamicObjects, Graphics screenBuffer) {
         for (WorldObject object : dynamicObjects) {
             paintComponent(screenBuffer, object);
         }
     }
 
-    // Az altalunk iranyitott auto kirajzolasa
+    // Draw the main car
     private void renderCar(AutomatedCar car, Graphics screenBuffer) {
         BufferedImage image;
         try {
-            // Ezt nem jobb lenne eltarolni mar az inicializalaskor?
             image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
             int imageWidth = scaleObject(image.getWidth());
             int imageHeight = scaleObject(image.getHeight());
 
             AffineTransform at = new AffineTransform();
             at.setToTranslation(width / 2 - imageWidth / 2, height / 2 - imageHeight / 2);
-            // Kep elforgatasa a megfelelo pontnal
             at.rotate(car.getRotation(), 0, 0);
-            // Kep atmeretezese
             at.scale(SCALING_FACTOR, SCALING_FACTOR);
             Graphics2D g2d = (Graphics2D) screenBuffer;
             g2d.drawImage(image, at, null);
@@ -139,13 +135,11 @@ public class CourseDisplay extends JPanel {
         }
     }
 
-    // TODO: ez alapjan csinaljuk meg a render fuggvenyeket
+    // TODO: Create the separated render methods based on this one
     protected void paintComponent(Graphics g, WorldObject object) {
         // draw objects
         BufferedImage image = object.getImage();
 
-        // read file from resources
-        //ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
         int imagePositionX = scaleObject(object.getX()) + xOffset;
         int imagePositionY = scaleObject(object.getY()) + yOffset;
         AffineTransform at = new AffineTransform();
@@ -153,10 +147,8 @@ public class CourseDisplay extends JPanel {
         Point refPoint = ReferencePointsXMLReadClass.CheckIsReferenceOrNot(object.getImageFileName());
         at.translate(-refPoint.x * SCALING_FACTOR, -refPoint.y * SCALING_FACTOR);
 
-        // Kep elforgatasa a megfelelo pontnal
         at.rotate(object.getRotation(), SCALING_FACTOR * refPoint.x, SCALING_FACTOR * refPoint.y);
 
-        // Kep atmeretezese
         at.scale(modifyScaleFactorFor(image.getWidth()), modifyScaleFactorFor(image.getHeight()));
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(image, at, null);
