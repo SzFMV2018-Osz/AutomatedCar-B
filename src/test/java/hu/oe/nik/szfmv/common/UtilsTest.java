@@ -31,27 +31,4 @@ public class UtilsTest {
     public void testRadianToDegree() {
         assertEquals(45, Utils.radianToDegree(0.7853981633974484), THRESHOLD);
     }
-
-    @Test
-    public void testXmlReader() {
-        Document d = null;
-        assertEquals(d,Utils.xmlReader(""));}
-
-    @Test
-    public void getDataFromDocument() {
-        Document d = null;
-        assertEquals(new ArrayList<>(),Utils.getDataFromDocument(d));
-    }
-
-    @Test
-    public void createTransformMatrix() {
-        Element e = null;
-        assertEquals(new double[2][2], Utils.createTransformMatrix(e));
-    }
-
-    @Test
-    public void getSceneFromDocument() {
-        Document d = null;
-        assertEquals(null,Utils.getSceneFromDocument(d));
-    }
 }
