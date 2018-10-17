@@ -17,20 +17,27 @@ public class AutomatedCar extends WorldObject {
     private SteeringSystem steeringSystem;
     private DashboardManager dashboardManager;
 
+    private final double speedMetersPerSeconds;
+
+    private final double wheelRadius = 0.33;
+
     /**
      * Constructor of the AutomatedCar class
      *
      * @param x             the initial x coordinate of the car
      * @param y             the initial y coordinate of the car
-     * @param imageFileName name of the image file used displaying the car on the course display
+     * @param imageFileName name of the image file used displaying the car on the
+     *                      course display
      */
-    public AutomatedCar(int x, int y, String imageFileName) {
+    public AutomatedCar(final int x, final int y, final String imageFileName) {
         super(x, y, imageFileName);
 
         inputManager = new InputManager(virtualFunctionBus);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         dashboardManager = new DashboardManager(virtualFunctionBus);
+
+        speedMetersPerSeconds = 0;
 
         new Driver(virtualFunctionBus);
     }
@@ -40,9 +47,9 @@ public class AutomatedCar extends WorldObject {
      */
     public void drive() {
         dashboardManager.actualisePosition(x, y);
-
+        final double wheelRotationRate = speedMetersPerSeconds / wheelRadius;
+        powertrainSystem.updateEngine(wheelRotationRate);
         virtualFunctionBus.loop();
-
         calculatePositionAndOrientation();
     }
 
@@ -56,12 +63,12 @@ public class AutomatedCar extends WorldObject {
     }
 
     /**
-     * Calculates the new x and y coordinates of the {@link AutomatedCar} using the powertrain and the steering systems.
+     * Calculates the new x and y coordinates of the {@link AutomatedCar} using the
+     * powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
-        // fake implementation
-        double speed = powertrainSystem.getSpeed();
-        double angularSpeed = steeringSystem.getAngularSpeed();
+        final double speed = speedMetersPerSeconds;
+        final double angularSpeed = steeringSystem.getAngularSpeed();
 
         x += speed;
         y = 0;
