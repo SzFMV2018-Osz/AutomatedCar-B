@@ -23,11 +23,11 @@ import java.util.List;
 public class CourseDisplay extends JPanel {
 
     /**
-     * Integer.
+     * Integer for objects start position (x).
      */
     private int xOffset = 0;
     /**
-     * Integer.
+     * Integer for objects start position (y).
      */
     private int yOffset = 0;
 
