@@ -9,6 +9,7 @@ import hu.oe.nik.szfmv.visualization.Gui;
 import hu.oe.nik.szfmv.visualization.ReferencePointsXMLReadClass;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -27,12 +28,17 @@ public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    private static int worldWidth = 800;
+    private static int worldHeight = 600;
+    private static int carPosX = 20;
+    private static int carPosY = 20;
+
     /**
      * Main entrypoint of the software
      *
      * @param args command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
 
         // log the current debug mode in config
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
@@ -48,6 +54,7 @@ public class Main {
         //w.setWorldObjects(roads);
         w.setHeight(3000);
         w.setWidth(5120);
+
 
         // create gui
         Gui gui = new Gui();
