@@ -50,7 +50,7 @@ public class CalculateVelocityTest {
     }
 
     @Test
-    @Parameters({ "1|32", "2|31", "3|31", "4|31", "5|31", "6|30" })
+    @Parameters({ "1|32", "2|31", "3|31", "4|31", "5|30", "6|30" })
     public void testCalculateVelocityWithDifferentGears(int currentGear, double expected) {
         // GIVEN
         // WHEN
@@ -73,18 +73,7 @@ public class CalculateVelocityTest {
     }
 
     @Test
-    @Parameters({ "0|0", "15|0", "50|0", "100|0" })
-    public void testCalculateVelocityWithDifferentBreakValues(int breakPedal, double expected) {
-        // GIVEN
-        // WHEN
-        double actualSpeed = underTest.calculationVelocity(TIME_MOCK, ORIENTATION_MOCK, GEAR_MOCK, SPEED_MOCK,
-                breakPedal, 0);
-        // THEN
-        Assert.assertEquals(expected, actualSpeed, 0.5);
-    }
-
-    @Test
-    @Parameters({ "0|30", "15|31", "50|35", "100|39" })
+    @Parameters({ "0|30", "15|31", "50|34", "100|39" })
     public void testCalculateVelocityWithDifferentThrottleValues(int throttlePosition, double expected) {
         // GIVEN
         // WHEN

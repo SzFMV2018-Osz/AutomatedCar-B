@@ -4,8 +4,8 @@ package hu.oe.nik.szfmv.automatedcar.engine;
  * Contains functions and constants to calculate physical forces
  */
 public class BrakingForces {
-    private static double aeroDrag = 5;
-    private static double maxBrakeForce = Double.MAX_VALUE;
+    private static double aeroDrag = 0.05;
+    private static double maxBrakeForce = 0.5;
     private static double breakPedalPercentageMultiplyer = 0.01;
     private static double frictionFactor = 30 * aeroDrag;
 
@@ -39,7 +39,7 @@ public class BrakingForces {
         if ((brakePedal != 0) && ((vx != 0.0) || (vy != 0.0))) {
             // get the unit of the vector
             final double len = Math.sqrt((vx * vx) + (vy * vy));
-            final double[] vUnit = {vx / len, vy / len};
+            final double[] vUnit = { vx / len, vy / len };
 
             final double percentage = brakePedal * breakPedalPercentageMultiplyer;
 
