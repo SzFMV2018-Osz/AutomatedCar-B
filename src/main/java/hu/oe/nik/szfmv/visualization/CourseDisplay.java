@@ -201,24 +201,30 @@ public class CourseDisplay extends JPanel {
      */
     protected void paintComponent(final Graphics g, final WorldObject object) {
         // draw objects
-        BufferedImage image = object.getImage();
+        // ezt fogjuk majd hasznalni, amint a TeamB1 megadja ezt a funkciot
+        //BufferedImage image = object.getImage();
+        try {
+            BufferedImage image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
 
-        int imagePositionX = scaleObject(object.getX()) + xOffset;
-        int imagePositionY = scaleObject(object.getY()) + yOffset;
-        AffineTransform at = new AffineTransform();
-        at.setToTranslation(imagePositionX, imagePositionY);
-        Point refPoint = ReferencePointsXMLReadClass.
-                checkIsReferenceOrNot(object.getImageFileName());
-        at.translate(-refPoint.x * SCALING_FACTOR,
-                -refPoint.y * SCALING_FACTOR);
+            int imagePositionX = scaleObject(object.getX()) + xOffset;
+            int imagePositionY = scaleObject(object.getY()) + yOffset;
+            AffineTransform at = new AffineTransform();
+            at.setToTranslation(imagePositionX, imagePositionY);
+            Point refPoint = ReferencePointsXMLReadClass.
+                    checkIsReferenceOrNot(object.getImageFileName());
+            at.translate(-refPoint.x * SCALING_FACTOR,
+                    -refPoint.y * SCALING_FACTOR);
 
-        at.rotate(object.getRotation(), SCALING_FACTOR * refPoint.x,
-                SCALING_FACTOR * refPoint.y);
+            at.rotate(object.getRotation(), SCALING_FACTOR * refPoint.x,
+                    SCALING_FACTOR * refPoint.y);
 
-        at.scale(modifyScaleFactorFor(image.getWidth()),
-                modifyScaleFactorFor(image.getHeight()));
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(image, at, null);
+            at.scale(modifyScaleFactorFor(image.getWidth()),
+                    modifyScaleFactorFor(image.getHeight()));
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.drawImage(image, at, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
