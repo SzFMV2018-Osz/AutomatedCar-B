@@ -5,7 +5,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class XmlObjectTest {
-    XmlObject testObject = new XmlObject(3,3,"tree",)
 
     @Test
     public void getX() {
