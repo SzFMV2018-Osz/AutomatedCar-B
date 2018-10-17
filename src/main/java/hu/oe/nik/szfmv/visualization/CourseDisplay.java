@@ -38,15 +38,15 @@ public class CourseDisplay extends JPanel {
     /**
      * Double for get one cycle period during the run.
      */
-    private static double CYCLE_PERIOD = 40;
+    private static double cyclePeriodCONSTANST = 40;
     /**
      * Long for the started.
      */
-    private static long cycle_start;
+    private static long cycleStart;
     /**
      * Long for the lenght of a cycle.
      */
-    private static long cycle_length;
+    private static long cycleLength;
     /**
      * Calendar for the fps.
      */
@@ -70,7 +70,7 @@ public class CourseDisplay extends JPanel {
     /**
      * Double for set the scaling.
      */
-    private final double SCALING_FACTOR = 1;
+    private static final double SCALING_FACTOR = 1;
 
     /**
      * Initialize the course display.
@@ -97,7 +97,7 @@ public class CourseDisplay extends JPanel {
         screenBuffer.clearRect(0, 0, world.getWidth(), world.getHeight());
 
         try {
-            cycle_start = cal.getTimeInMillis();
+            cycleStart = cal.getTimeInMillis();
 
             xOffset = width / 2 - scaleObject(world.getAutomatedCar()
                     .getX() - world.getAutomatedCar().getWidth() / 2);
@@ -105,9 +105,11 @@ public class CourseDisplay extends JPanel {
                     .getY() - world.getAutomatedCar().getHeight() / 2);
 
             /**
-             * Let's create a secondary buffer on we paint the objects each by each,
-             * and when everything is painted, we draw this screen onto the main graphic element
-             * to avoid the vibration-effect of the objects
+             * Let's create a secondary buffer on we
+             * paint the objects each by each,
+             * and when everything is painted,
+             * we draw this screen onto the main graphic element
+             * to avoid the vibration-effect of the objects.
              */
             renderStaticObjects(world.getWorldObjects(), screenBuffer);
 
@@ -119,13 +121,16 @@ public class CourseDisplay extends JPanel {
             g.drawImage(offscreen, 0, 0, this);
 
             // FIX FPS
-            cycle_length = cal.getTimeInMillis() - cycle_start;
+            cycleLength = cal.getTimeInMillis() - cycleStart;
             // Calculate necessary delay time (elapsed time * TARGET FPS)
-            CYCLE_PERIOD = 1000 / TARGET_FPS - cycle_length;
-            if (CYCLE_PERIOD < 0) CYCLE_PERIOD = 0;
-            System.out.printf("FPS/TARGET FPS: %.2f / %d \n", (1000 / CYCLE_PERIOD), TARGET_FPS);
+            cyclePeriodCONSTANST = 1000 / TARGET_FPS - cycleLength;
+            if (cyclePeriodCONSTANST < 0) {
+                cyclePeriodCONSTANST = 0;
+            }
+            System.out.printf("FPS/TARGET FPS: %.2f / %d \n",
+                    (1000 / cyclePeriodCONSTANST), TARGET_FPS);
 
-            Thread.sleep(Math.round(CYCLE_PERIOD));
+            Thread.sleep(Math.round(cyclePeriodCONSTANST));
         } catch (InterruptedException e) {
             LOGGER.error(e.getMessage());
         }
@@ -133,10 +138,13 @@ public class CourseDisplay extends JPanel {
 
     /**
      * Draw static objects.
+     *
      * @param staticObjects static object list
-     * @param screenBuffer for stop vibration
+     * @param screenBuffer  for stop vibration
      */
-    private void renderStaticObjects(final java.util.List<WorldObject> staticObjects, final Graphics screenBuffer) {
+    private void renderStaticObjects(
+            final java.util.List<WorldObject> staticObjects,
+            final Graphics screenBuffer) {
         for (WorldObject object : staticObjects) {
             paintComponent(screenBuffer, object);
         }
@@ -145,10 +153,12 @@ public class CourseDisplay extends JPanel {
     /**
      * Draw dynamic objects, but it's not used yet
      * since we do not have the proper input for that.
+     *
      * @param dynamicObjects dynamic object list
-     * @param screenBuffer for stop vibration
+     * @param screenBuffer   for stop vibration
      */
-    private void renderDynamicObjects(final List<WorldObject> dynamicObjects, final Graphics screenBuffer) {
+    private void renderDynamicObjects(final List<WorldObject> dynamicObjects,
+                                      final Graphics screenBuffer) {
         for (WorldObject object : dynamicObjects) {
             paintComponent(screenBuffer, object);
         }
@@ -156,18 +166,22 @@ public class CourseDisplay extends JPanel {
 
     /**
      * Draw the main car.
-     * @param car main car
+     *
+     * @param car          main car
      * @param screenBuffer for stop vibration
      */
-    private void renderCar(final AutomatedCar car, final Graphics screenBuffer) {
+    private void renderCar(final AutomatedCar car,
+                           final Graphics screenBuffer) {
         BufferedImage image;
         try {
-            image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
+            image = ImageIO.read(new File(ClassLoader.
+                    getSystemResource(car.getImageFileName()).getFile()));
             int imageWidth = scaleObject(image.getWidth());
             int imageHeight = scaleObject(image.getHeight());
 
             AffineTransform at = new AffineTransform();
-            at.setToTranslation(width / 2 - imageWidth / 2, height / 2 - imageHeight / 2);
+            at.setToTranslation(width / 2 - imageWidth / 2,
+                    height / 2 - imageHeight / 2);
             at.rotate(car.getRotation(), 0, 0);
             at.scale(SCALING_FACTOR, SCALING_FACTOR);
             Graphics2D g2d = (Graphics2D) screenBuffer;
@@ -181,10 +195,11 @@ public class CourseDisplay extends JPanel {
     /**
      * Draw the objects on the right position
      * with the right translate and rotate.
-     * @param g the grafic for draw
+     *
+     * @param g      the grafic for draw
      * @param object Every object witch have to appear on the screen
      */
-    protected void paintComponent(Graphics g, WorldObject object) {
+    protected void paintComponent(final Graphics g, final WorldObject object) {
         // draw objects
         BufferedImage image = object.getImage();
 
@@ -192,32 +207,38 @@ public class CourseDisplay extends JPanel {
         int imagePositionY = scaleObject(object.getY()) + yOffset;
         AffineTransform at = new AffineTransform();
         at.setToTranslation(imagePositionX, imagePositionY);
-        Point refPoint = ReferencePointsXMLReadClass.checkIsReferenceOrNot(object.getImageFileName());
-        at.translate(-refPoint.x * SCALING_FACTOR, -refPoint.y * SCALING_FACTOR);
+        Point refPoint = ReferencePointsXMLReadClass.
+                checkIsReferenceOrNot(object.getImageFileName());
+        at.translate(-refPoint.x * SCALING_FACTOR,
+                -refPoint.y * SCALING_FACTOR);
 
-        at.rotate(object.getRotation(), SCALING_FACTOR * refPoint.x, SCALING_FACTOR * refPoint.y);
+        at.rotate(object.getRotation(), SCALING_FACTOR * refPoint.x,
+                SCALING_FACTOR * refPoint.y);
 
-        at.scale(modifyScaleFactorFor(image.getWidth()), modifyScaleFactorFor(image.getHeight()));
+        at.scale(modifyScaleFactorFor(image.getWidth()),
+                modifyScaleFactorFor(image.getHeight()));
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(image, at, null);
     }
 
     /**
      * Scale object with a scaling magic number.
+     *
      * @param unit scale number
      * @return the new scale number after modify
      */
     //
-    private int scaleObject(int unit) {
+    private int scaleObject(final int unit) {
         return (int) (unit * modifyScaleFactorFor(unit));
     }
 
     /**
      * Calculate new scale number for objects.
+     *
      * @param current the current scale number
      * @return the calculated new scale number
      */
-    private double modifyScaleFactorFor(int current) {
+    private double modifyScaleFactorFor(final int current) {
         double roundedScale = Math.round(current * SCALING_FACTOR);
         double modifiedScaleFactor = roundedScale / current;
         return modifiedScaleFactor;
