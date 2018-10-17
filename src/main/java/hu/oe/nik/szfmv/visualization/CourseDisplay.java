@@ -27,6 +27,10 @@ public class CourseDisplay extends JPanel {
      */
     public static final int TARGET_FPS = 24;
     /**
+     * Integer for the scaling.
+     */
+    public static final int SCALING_FACTOR = 1;
+    /**
      * Logger for exceptions.
      */
     private static final Logger LOGGER = LogManager.getLogger();
