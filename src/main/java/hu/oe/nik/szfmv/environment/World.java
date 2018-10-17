@@ -1,11 +1,12 @@
 package hu.oe.nik.szfmv.environment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class World {
-    private int width = 0;
-    private int height = 0;
+    private int width;
+    private int height;
     private List<WorldObject> worldObjects = new ArrayList<>();
 
 
@@ -18,7 +19,8 @@ public class World {
     public World(int width, int height) {
         this.width = width;
         this.height = height;
-        this.worldObjects = DataReader.getDataFromDocument(DataReader.xmlReader("src/main/resources/test_world.xml"));
+        this.worldObjects = DataReader.getDataFromDocument(DataReader.xmlReader(
+                "src" + File.separator + "main" + File.separator + "resources" + File.separator + "test_world.xml"));
     }
 
     /**
@@ -49,8 +51,6 @@ public class World {
     public void setHeight(int height) {
         this.height = height;
     }
-
-
 
 
 }
