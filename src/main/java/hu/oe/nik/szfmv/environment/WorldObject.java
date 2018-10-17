@@ -12,7 +12,7 @@ public class WorldObject {
     protected int height;
     protected float rotation = 0f;
     protected String imageFileName;
-    protected BufferedImage image;
+    //protected BufferedImage image;
 
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
@@ -27,11 +27,13 @@ public class WorldObject {
         this.imageFileName = imageFileName;
 
         // read file from resources
+        /*
         try {
             image = ImageIO.read(new File(ClassLoader.getSystemResource(imageFileName).getFile()));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
     }
 
     public int getX() {
@@ -82,7 +84,7 @@ public class WorldObject {
         this.imageFileName = imageFileName;
     }
 
-    public BufferedImage getImage() {
-        return image;
-    }
+    //public BufferedImage getImage() {
+    //    return image;
+    //}
 }
