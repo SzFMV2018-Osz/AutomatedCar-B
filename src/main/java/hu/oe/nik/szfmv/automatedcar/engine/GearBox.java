@@ -47,7 +47,7 @@ public class GearBox {
     public void changeTransmissionMode(TransmissionModes nextTransmissionMode, final int rpm)
             throws TransmissionModeChangeException {
         if (nextTransmissionMode != transmissionModes){
-           TransmissionModeChangeDetection(transmissionModes,rpm);
+           TransmissionModeChangeDetection(nextTransmissionMode,rpm);
         }
     }
 
