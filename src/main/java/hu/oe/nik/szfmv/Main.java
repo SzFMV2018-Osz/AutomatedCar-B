@@ -6,6 +6,9 @@ import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.xml.sax.SAXException;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 public class Main {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -21,19 +24,16 @@ public class Main {
      *
      * @param args command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
 
         // log the current debug mode in config
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
-
         // create the world
         World w = new World(worldWidth, worldHeight);
         // create an automated car
         AutomatedCar car = new AutomatedCar(carPosX, carPosY, "car_2_white.png");
         // add car to the world
-        w.addObjectToWorld(car);
-
-        // create gui
+    
         Gui gui = new Gui();
 
         // draw world to course display
@@ -48,6 +48,8 @@ public class Main {
                 LOGGER.error(e.getMessage());
             }
         }
+        // create gui
+
 
     }
 }

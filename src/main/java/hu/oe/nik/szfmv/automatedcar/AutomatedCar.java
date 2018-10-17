@@ -5,8 +5,9 @@ import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
 import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
 
-public class AutomatedCar extends WorldObject {
+public class AutomatedCar extends Car {
 
     private final PowertrainSystem powertrainSystem;
     private final SteeringSystem steeringSystem;

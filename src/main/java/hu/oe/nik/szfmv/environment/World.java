@@ -1,12 +1,14 @@
 package hu.oe.nik.szfmv.environment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class World {
-    private int width = 0;
-    private int height = 0;
+    private int width;
+    private int height;
     private List<WorldObject> worldObjects = new ArrayList<>();
+
 
     /**
      * Creates the virtual world with the given dimension.
@@ -17,6 +19,21 @@ public class World {
     public World(int width, int height) {
         this.width = width;
         this.height = height;
+        this.worldObjects = DataReader.getDataFromDocument(DataReader.xmlReader(
+                "src" + File.separator + "main" + File.separator + "resources" + File.separator + "test_world.xml"));
+    }
+
+    /**
+     * Add an object to the virtual world.
+     *
+     * @param o {@link WorldObject} to be added to the virtual world
+     */
+    public void addObjectToWorld(WorldObject o) {
+        worldObjects.add(o);
+    }
+
+    public List<WorldObject> getWorldObjects() {
+        return worldObjects;
     }
 
     public int getWidth() {
@@ -35,16 +52,5 @@ public class World {
         this.height = height;
     }
 
-    public List<WorldObject> getWorldObjects() {
-        return worldObjects;
-    }
 
-    /**
-     * Add an object to the virtual world.
-     *
-     * @param o {@link WorldObject} to be added to the virtual world
-     */
-    public void addObjectToWorld(WorldObject o) {
-        worldObjects.add(o);
-    }
 }
