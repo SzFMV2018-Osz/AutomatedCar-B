@@ -27,6 +27,22 @@ public class CourseDisplay extends JPanel {
      */
     public static final int TARGET_FPS = 24;
     /**
+     * Logger for exceptions.
+     */
+    private static final Logger LOGGER = LogManager.getLogger();
+    /**
+     * Double for get one cycle period during the run.
+     */
+    private static double cyclePeriodCONSTANST = 40;
+    /**
+     * Long for the started.
+     */
+    private static long cycleStart;
+    /**
+     * Long for the lenght of a cycle.
+     */
+    private static long cycleLength;
+    /**
      * Integer for objects start position (x).
      */
     private int xOffset = 0;
@@ -52,22 +68,6 @@ public class CourseDisplay extends JPanel {
      */
     private final int backgroundColor = 0xEEEEEE;
     /**
-     * Logger for exceptions.
-     */
-    private static final Logger LOGGER = LogManager.getLogger();
-    /**
-     * Double for get one cycle period during the run.
-     */
-    private static double cyclePeriodCONSTANST = 40;
-    /**
-     * Long for the started.
-     */
-    private static long cycleStart;
-    /**
-     * Long for the lenght of a cycle.
-     */
-    private static long cycleLength;
-    /**
      * Initialize the course display.
      */
     public CourseDisplay() {
@@ -83,7 +83,8 @@ public class CourseDisplay extends JPanel {
      * @param world {@link World} object that describes the virtual world
      */
 
-    public void drawWorld(final World world) {
+    public void drawWorld(
+            final World world) {
         Image offscreen = createImage(world.getWidth(), world.getHeight());
         Graphics screenBuffer = offscreen.getGraphics();
         Graphics g = getGraphics();

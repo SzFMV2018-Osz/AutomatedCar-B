@@ -32,7 +32,8 @@ public class ReferencePointsXMLReadClass {
      * @exception     IOException                      To catch this
      * @exception     SAXException                     To catch this
      */
-    private static void readXML4ReferencePoints()
+    private static void
+    readXML4ReferencePoints()
             throws ParserConfigurationException, IOException, SAXException {
 
         File inputFile = new File(ClassLoader
