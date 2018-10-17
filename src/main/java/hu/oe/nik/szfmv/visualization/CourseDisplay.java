@@ -23,6 +23,10 @@ import java.util.List;
 public class CourseDisplay extends JPanel {
 
     /**
+     * Integer for the fps.
+     */
+    public static final int TARGET_FPS = 24;
+    /**
      * Integer for objects start position (x).
      */
     private int xOffset = 0;
@@ -30,31 +34,11 @@ public class CourseDisplay extends JPanel {
      * Integer for objects start position (y).
      */
     private int yOffset = 0;
-
-    /**
-     * Integer for the fps.
-     */
-    public static final int TARGET_FPS = 24;
-    /**
-     * Double for get one cycle period during the run.
-     */
-    private static double cyclePeriodCONSTANST = 40;
-    /**
-     * Long for the started.
-     */
-    private static long cycleStart;
-    /**
-     * Long for the lenght of a cycle.
-     */
-    private static long cycleLength;
     /**
      * Calendar for the fps.
      */
     private Calendar cal;
-    /**
-     * Logger for exceptions.
-     */
-    private static final Logger LOGGER = LogManager.getLogger();
+
     /**
      * Integer for window width.
      */
@@ -68,10 +52,21 @@ public class CourseDisplay extends JPanel {
      */
     private final int backgroundColor = 0xEEEEEE;
     /**
-     * Double for set the scaling.
+     * Logger for exceptions.
      */
-    private static final double SCALING_FACTOR = 1;
-
+    private static final Logger LOGGER = LogManager.getLogger();
+    /**
+     * Double for get one cycle period during the run.
+     */
+    private static double cyclePeriodCONSTANST = 40;
+    /**
+     * Long for the started.
+     */
+    private static long cycleStart;
+    /**
+     * Long for the lenght of a cycle.
+     */
+    private static long cycleLength;
     /**
      * Initialize the course display.
      */
