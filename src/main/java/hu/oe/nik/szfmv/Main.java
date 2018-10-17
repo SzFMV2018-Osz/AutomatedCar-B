@@ -44,7 +44,6 @@ public class Main {
 
         // log the current debug mode in config
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
-
         // create the world
         World w = new World(800, 600);
 
@@ -62,8 +61,15 @@ public class Main {
         gui.getCourseDisplay().drawWorld(w);
 
         while (true) {
-            car.drive();
-
+            try {
+                car.drive();
+                gui.getCourseDisplay().drawWorld(w);
+                Thread.sleep(CYCLE_PERIOD);
+            } catch (InterruptedException e) {
+                LOGGER.error(e.getMessage());
+            }
+        }
+        // create gui
             gui.getCourseDisplay().drawWorld(w);
         }
     }

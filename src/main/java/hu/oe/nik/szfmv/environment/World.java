@@ -6,11 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class World {
-    private int width = 0;
-    private int height = 0;
+    private int width;
+    private int height;
     private List<WorldObject> worldObjects = new ArrayList<>();
-    private List<DynamicObject> dynamicObjects = new ArrayList<>();
-    private List<StaticObject> staticObjects = new ArrayList<>();
 
 
     private AutomatedCar automatedCar;
@@ -36,9 +34,9 @@ public class World {
     public World(int width, int height) {
         this.width = width;
         this.height = height;
+        this.worldObjects = DataReader.getDataFromDocument(DataReader.xmlReader(
+                "src" + File.separator + "main" + File.separator + "resources" + File.separator + "test_world.xml"));
     }
-
-
 
     /**
      * Add an object to the virtual world.
@@ -47,30 +45,6 @@ public class World {
      */
     public void addObjectToWorld(WorldObject o) {
         worldObjects.add(o);
-    }
-
-    /**
-     *
-     * @param o hozzáadandó objektum
-     */
-    public void addObjectToStatic(StaticObject o) {
-        staticObjects.add(o);
-    }
-
-    /**
-     *
-     * @param o hozzáadandó objektum
-     */
-    public void addObjectToDynamic(DynamicObject o) {
-        dynamicObjects.add(o);
-    }
-
-    public List<StaticObject> getStaticObjects() {
-        return staticObjects;
-    }
-
-    public List<DynamicObject> getDynamicObjects() {
-        return dynamicObjects;
     }
 
     public List<WorldObject> getWorldObjects() {
@@ -92,8 +66,6 @@ public class World {
     public void setHeight(int height) {
         this.height = height;
     }
-
-
 
 
 }
