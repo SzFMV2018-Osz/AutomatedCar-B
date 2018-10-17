@@ -3,7 +3,6 @@ package hu.oe.nik.szfmv.automatedcar.engine;
 public class CarAxisParamsImpl implements CarAxisParams {
 
 
-
     final int pixelToMeter = 50;
     final int carWidthPixel = 90;
     final int axisLengthPixel = 130;

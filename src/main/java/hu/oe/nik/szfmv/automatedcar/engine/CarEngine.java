@@ -6,6 +6,7 @@ import java.util.List;
 public class CarEngine {
     private final int gearRatioMultiplyer = 60;
     private final int throttlePositionDivider = 100;
+    private final int closestLookupPointDivider = 1000;
 
     private CarEngineType engineType;
     private int rpm;
@@ -28,6 +29,7 @@ public class CarEngine {
 
     /**
      * @param currentGear the current gear
+     * @param speed       current spped of car
      */
     public void updateRpm(int speed, final int currentGear) {
         rpm = (int) ((getWheelrotationRate(speed) * engineType.getGearRatios()[currentGear]
@@ -60,7 +62,7 @@ public class CarEngine {
     }
 
     private int getClosestLookupPoint() {
-        int closestLookupPoint = (rpm / 1000) - 1;
+        int closestLookupPoint = (rpm / closestLookupPointDivider) - 1;
         if (closestLookupPoint >= engineType.getTorqueCurve().length) {
             closestLookupPoint = engineType.getTorqueCurve().length - 1;
         }
@@ -155,7 +157,7 @@ public class CarEngine {
 //            sumForce += calcVectorLength(force);
 //        }
 //        return sumForce;
-        double[] summedForces = new double[] { 0, 0 };
+        double[] summedForces = new double[]{0, 0};
         for (double[] force : forces) {
             summedForces[0] += force[0];
             summedForces[1] += force[1];

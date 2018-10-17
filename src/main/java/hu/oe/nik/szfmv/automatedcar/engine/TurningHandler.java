@@ -35,10 +35,19 @@ public class TurningHandler {
                 / carAxisParams.getPixelToMeter();
     }
 
+    /**
+     * Calculate car oriente vector
+     *
+     * @param currentAngularVector current angular vector
+     * @param angularVelocity      current angular speed
+     * @return new oriente vector
+     */
     public double[] angularVector(double[] currentAngularVector, double angularVelocity) {
-        double[] newAngularVector=new double[2];
-        newAngularVector[0] = currentAngularVector[0] * Math.cos(angularVelocity)-currentAngularVector[1] * Math.sin(angularVelocity);
-        newAngularVector[1] = currentAngularVector[0] * Math.sin(angularVelocity)+currentAngularVector[1] * Math.cos(angularVelocity);
+        double[] newAngularVector = new double[2];
+        newAngularVector[0] = currentAngularVector[0] *
+                Math.cos(angularVelocity) - currentAngularVector[1] * Math.sin(angularVelocity);
+        newAngularVector[1] = currentAngularVector[0] *
+                Math.sin(angularVelocity) + currentAngularVector[1] * Math.cos(angularVelocity);
         return newAngularVector;
     }
 

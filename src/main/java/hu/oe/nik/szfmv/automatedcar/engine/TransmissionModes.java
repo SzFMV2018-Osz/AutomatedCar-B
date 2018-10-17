@@ -7,6 +7,7 @@ public enum TransmissionModes {
 
     /**
      * transsmission mode constructor
+     *
      * @param canItMove you accelerate if it is true
      */
     TransmissionModes(final boolean canItMove) {

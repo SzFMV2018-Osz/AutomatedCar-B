@@ -11,6 +11,10 @@ public class PowerTrainPacketImpl implements ReadonlyPowertrainPacket {
     int brakePadelPosition;
     int throttlePosition;
 
+
+    /**
+     * constructor of power train packet
+     */
     public PowerTrainPacketImpl() {
         rpm = 0;
         gear = 1;

@@ -24,7 +24,7 @@ public class AutomatedCar extends WorldObject {
         super(x, y, imageFileName);
 
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
-        steeringSystem =new SteeringSystem(virtualFunctionBus);
+        steeringSystem = new SteeringSystem(virtualFunctionBus);
         new Driver(virtualFunctionBus);
     }
 

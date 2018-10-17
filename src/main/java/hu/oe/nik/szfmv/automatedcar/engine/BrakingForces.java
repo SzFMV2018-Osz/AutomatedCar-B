@@ -39,7 +39,7 @@ public class BrakingForces {
         if ((brakePedal != 0) && ((vx != 0.0) || (vy != 0.0))) {
             // get the unit of the vector
             final double len = Math.sqrt((vx * vx) + (vy * vy));
-            final double[] vUnit = { vx / len, vy / len };
+            final double[] vUnit = {vx / len, vy / len};
 
             final double percentage = brakePedal * breakPedalPercentageMultiplyer;
 

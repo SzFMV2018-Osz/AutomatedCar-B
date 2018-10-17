@@ -10,8 +10,8 @@ public class TractionForce {
      * @return array of traction force vector components
      */
     public static double[] calculateTractionForce(final double[] orientationVector, final double driveTorque,
-            final double wheelRadius) {
+                                                  final double wheelRadius) {
         final double tractionForceScalar = driveTorque / wheelRadius;
-        return new double[] { orientationVector[0] * tractionForceScalar, orientationVector[1] * tractionForceScalar };
+        return new double[]{orientationVector[0] * tractionForceScalar, orientationVector[1] * tractionForceScalar};
     }
 }

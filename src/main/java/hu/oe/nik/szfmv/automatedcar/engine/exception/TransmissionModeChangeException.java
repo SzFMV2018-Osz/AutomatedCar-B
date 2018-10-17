@@ -6,6 +6,7 @@ public class TransmissionModeChangeException extends Exception {
 
     private TransmissionModes current;
     private TransmissionModes next;
+
     /**
      * Transmission mode change exception when you cant changed mode
      *

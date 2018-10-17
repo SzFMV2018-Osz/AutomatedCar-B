@@ -50,47 +50,44 @@ public class PowertrainSystem extends SystemComponent {
         updateEngine();
         // UPDATE OUT PACKET
         updateBusProperties();
-
-        System.out.println("speed:" + powertrainPacket.getSpeed());
-        System.out.println("rpm:" + powertrainPacket.getRpm());
-        System.out.println("Vector X:" + virtualFunctionBus.steeringPacket.getAngularVector()[0] + " Vector Y:" + virtualFunctionBus.steeringPacket.getAngularVector()[1]);
     }
 
-    private void updateEngine()
-    {
+    private void updateEngine() {
         if (virtualFunctionBus.powertrainPacket.getTransmissionMode().getCanItMove()) {
             //TODO FRAME KI MOCKOLVA
-           detectMoveDirection();
+            detectMoveDirection();
         }
         engine.updateRpm((int) Math.round(powertrainPacket.getSpeed()), gearBox.getCurrentGear());
         gearBox.updateGear(engine.getRpm());
     }
 
-    private void detectMoveDirection(){
-        if (powertrainPacket.getTransmissionMode()==TransmissionModes.Drive)
-            powertrainPacket.setSpeed(engine.calculationVelocity(0.42, virtualFunctionBus.steeringPacket.getAngularVector(), powertrainPacket.getGear(), powertrainPacket.getSpeed(),
+    private void detectMoveDirection() {
+        if (powertrainPacket.getTransmissionMode() == TransmissionModes.Drive) {
+            powertrainPacket.setSpeed(engine.calculationVelocity(0.42,
+                    virtualFunctionBus.steeringPacket.getAngularVector(),
+                    powertrainPacket.getGear(), powertrainPacket.getSpeed(),
                     powertrainPacket.getBrakePadelPosition(), powertrainPacket.getThrottlePosition()));
-        else if (powertrainPacket.getTransmissionMode()==TransmissionModes.Reverse) {
-            powertrainPacket.setSpeed(-engine.calculationVelocity(0.42, virtualFunctionBus.steeringPacket.getAngularVector(), powertrainPacket.getGear(), powertrainPacket.getSpeed(),
+        } else if (powertrainPacket.getTransmissionMode() == TransmissionModes.Reverse) {
+            powertrainPacket.setSpeed(-engine.calculationVelocity(0.42,
+                    virtualFunctionBus.steeringPacket.getAngularVector(),
+                    powertrainPacket.getGear(), powertrainPacket.getSpeed(),
                     powertrainPacket.getBrakePadelPosition(), powertrainPacket.getThrottlePosition()));
         }
     }
 
-    private void transmissionChange()
-    {
+    private void transmissionChange() {
         try {
             gearBox.changeTransmissionMode(powertrainPacket.getTransmissionMode(), powertrainPacket.getRpm());
         } catch (TransmissionModeChangeException e) {
             //TODO Input team handle this
-        }finally {
-            if (gearBox.getTransmissionModes()!=powertrainPacket.getTransmissionMode()) {
+        } finally {
+            if (gearBox.getTransmissionModes() != powertrainPacket.getTransmissionMode()) {
                 powertrainPacket.setTransmissionMode(gearBox.getTransmissionModes());
             }
         }
     }
 
-    private void updateBusProperties()
-    {
+    private void updateBusProperties() {
         powertrainPacket.setRpm(getRpm());
         powertrainPacket.setGear(getCurrentGear());
     }
