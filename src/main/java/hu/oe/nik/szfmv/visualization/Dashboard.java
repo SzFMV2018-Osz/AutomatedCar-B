@@ -20,6 +20,7 @@ public class Dashboard extends JPanel {
      * Integer for dashboard color.
      */
     private final int backgroundColor = 0x888888;
+    private final int xBound = 770;
 
     /**
      * Initialize the dashboard.
@@ -28,7 +29,7 @@ public class Dashboard extends JPanel {
         // Not using any layout manager, but fixed coordinates
         setLayout(null);
         setBackground(new Color(backgroundColor));
-        setBounds(770, 0, width, height);
+        setBounds(xBound, 0, width, height);
 
     }
 
