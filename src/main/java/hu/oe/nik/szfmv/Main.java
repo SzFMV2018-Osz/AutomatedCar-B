@@ -35,9 +35,10 @@ public class Main {
 
     /**
      * Main entrypoint of the software.
+     *
      * @param args command line arguments
-     * @throws IOException exception
-     * @throws SAXException exception
+     * @throws IOException                  exception
+     * @throws SAXException                 exception
      * @throws ParserConfigurationException exception
      */
     public static void main(final String[] args) throws IOException, SAXException, ParserConfigurationException {
@@ -61,15 +62,8 @@ public class Main {
         gui.getCourseDisplay().drawWorld(w);
 
         while (true) {
-            try {
-                car.drive();
-                gui.getCourseDisplay().drawWorld(w);
-                Thread.sleep(CYCLE_PERIOD);
-            } catch (InterruptedException e) {
-                LOGGER.error(e.getMessage());
-            }
-        }
-        // create gui
+            car.drive();
+            // create gui
             gui.getCourseDisplay().drawWorld(w);
         }
     }
