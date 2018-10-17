@@ -4,21 +4,31 @@ import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
 import hu.oe.nik.szfmv.common.ConfigProvider;
+import hu.oe.nik.szfmv.common.Utils;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 public class Main {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final int CYCLE_PERIOD = 40;
+
+    private static int worldWidth = 800;
+    private static int worldHeight = 600;
+    private static int carPosX = 20;
+    private static int carPosY = 20;
 
     /**
      * Main entrypoint of the software
      *
      * @param args command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
 
         // log the current debug mode in config
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
@@ -26,9 +36,9 @@ public class Main {
         boolean dashboardDebugIsEnabled = ConfigProvider.provide().getBoolean("dashboard.debug");
 
         // create the world
-        World w = new World(800, 600);
+        World w = new World(worldWidth, worldHeight);
         // create an automated car
-        AutomatedCar car = new AutomatedCar(20, 20, "car_2_white.png");
+        AutomatedCar car = new AutomatedCar(carPosX, carPosY, "car_2_white.png");
         // add car to the world
         w.addObjectToWorld(car);
 

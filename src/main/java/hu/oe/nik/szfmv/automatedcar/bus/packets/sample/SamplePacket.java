@@ -3,6 +3,9 @@ package hu.oe.nik.szfmv.automatedcar.bus.packets.sample;
 public class SamplePacket implements ReadOnlySamplePacket {
     private int gaspedalPosition = 0;
 
+    /**
+     * Constructor
+     */
     public SamplePacket() {
     }
 
@@ -13,6 +16,4 @@ public class SamplePacket implements ReadOnlySamplePacket {
     public void setGaspedalPosition(int gaspedalPosition) {
         this.gaspedalPosition = gaspedalPosition;
     }
-
-    // TODO implement all of the HMI signals
 }
