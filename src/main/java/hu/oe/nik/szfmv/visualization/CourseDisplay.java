@@ -23,52 +23,52 @@ import java.util.List;
 public class CourseDisplay extends JPanel {
 
     /**
-     * Integer.
+     * Integer for objects start position (x).
      */
     private int xOffset = 0;
     /**
-     * Integer.
+     * Integer for objects start position (y).
      */
     private int yOffset = 0;
 
     /**
-     * Integer.
+     * Integer for the fps.
      */
     public static final int TARGET_FPS = 24;
     /**
-     * Integer.
+     * Double for get one cycle period during the run.
      */
     private static double CYCLE_PERIOD = 40;
     /**
-     * Integer.
+     * Long for the started.
      */
     private static long cycle_start;
     /**
-     * Integer.
+     * Long for the lenght of a cycle.
      */
     private static long cycle_length;
     /**
-     * Calendar.
+     * Calendar for the fps.
      */
     private Calendar cal;
     /**
-     * Logger.
+     * Logger for exceptions.
      */
     private static final Logger LOGGER = LogManager.getLogger();
     /**
-     * Integer.
+     * Integer for window width.
      */
     private final int width = 770;
     /**
-     * Integer.
+     * Integer for window height.
      */
     private final int height = 700;
     /**
-     * Integer.
+     * Integer for windows color.
      */
     private final int backgroundColor = 0xEEEEEE;
     /**
-     * double.
+     * Double for set the scaling.
      */
     private final double SCALING_FACTOR = 1;
 
@@ -109,10 +109,8 @@ public class CourseDisplay extends JPanel {
              * and when everything is painted, we draw this screen onto the main graphic element
              * to avoid the vibration-effect of the objects
              */
-            // TODO: Get a staticObjectList, but we do not have it yet, so at here we load all the worldObjects
             renderStaticObjects(world.getWorldObjects(), screenBuffer);
 
-            // TODO: Get a dynamicObjectList, but we do not have it yet
             //renderDynamicObjects(world.getDynamicObjects(), screenBuffer);
 
             renderCar(world.getAutomatedCar(), screenBuffer);
@@ -133,22 +131,35 @@ public class CourseDisplay extends JPanel {
         }
     }
 
-    // Draw static objects
-    private void renderStaticObjects(java.util.List<WorldObject> staticObjects, Graphics screenBuffer) {
+    /**
+     * Draw static objects.
+     * @param staticObjects static object list
+     * @param screenBuffer for stop vibration
+     */
+    private void renderStaticObjects(final java.util.List<WorldObject> staticObjects, final Graphics screenBuffer) {
         for (WorldObject object : staticObjects) {
             paintComponent(screenBuffer, object);
         }
     }
 
-    // Draw dynamic objects, but it's not used yet since we do not have the proper input for that
-    private void renderDynamicObjects(List<WorldObject> dynamicObjects, Graphics screenBuffer) {
+    /**
+     * Draw dynamic objects, but it's not used yet
+     * since we do not have the proper input for that.
+     * @param dynamicObjects dynamic object list
+     * @param screenBuffer for stop vibration
+     */
+    private void renderDynamicObjects(final List<WorldObject> dynamicObjects, final Graphics screenBuffer) {
         for (WorldObject object : dynamicObjects) {
             paintComponent(screenBuffer, object);
         }
     }
 
-    // Draw the main car
-    private void renderCar(AutomatedCar car, Graphics screenBuffer) {
+    /**
+     * Draw the main car.
+     * @param car main car
+     * @param screenBuffer for stop vibration
+     */
+    private void renderCar(final AutomatedCar car, final Graphics screenBuffer) {
         BufferedImage image;
         try {
             image = ImageIO.read(new File(ClassLoader.getSystemResource(car.getImageFileName()).getFile()));
@@ -167,7 +178,12 @@ public class CourseDisplay extends JPanel {
         }
     }
 
-    // TODO: Create the separated render methods based on this one
+    /**
+     * Draw the objects on the right position
+     * with the right translate and rotate.
+     * @param g the grafic for draw
+     * @param object Every object witch have to appear on the screen
+     */
     protected void paintComponent(Graphics g, WorldObject object) {
         // draw objects
         BufferedImage image = object.getImage();
@@ -186,17 +202,30 @@ public class CourseDisplay extends JPanel {
         g2d.drawImage(image, at, null);
     }
 
-    //Scale object with a scaling magic number.
+    /**
+     * Scale object with a scaling magic number.
+     * @param unit scale number
+     * @return the new scale number after modify
+     */
+    //
     private int scaleObject(int unit) {
         return (int) (unit * modifyScaleFactorFor(unit));
     }
 
+    /**
+     * Calculate new scale number for objects.
+     * @param current the current scale number
+     * @return the calculated new scale number
+     */
     private double modifyScaleFactorFor(int current) {
         double roundedScale = Math.round(current * SCALING_FACTOR);
         double modifiedScaleFactor = roundedScale / current;
         return modifiedScaleFactor;
     }
 
+    /**
+     * For refresh the screen.
+     */
     public void refreshFrame() {
         invalidate();
         validate();
