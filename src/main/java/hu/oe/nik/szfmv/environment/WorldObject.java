@@ -1,7 +1,5 @@
 package hu.oe.nik.szfmv.environment;
 
-import hu.oe.nik.szfmv.common.Utils;
-
 public class WorldObject {
     protected int x;
     protected int y;

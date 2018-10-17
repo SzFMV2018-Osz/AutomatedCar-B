@@ -2,12 +2,19 @@ package hu.oe.nik.szfmv.environment;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.Utils;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.*;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Human;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Road;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Tree;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Crosswalk;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Bicycle;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.ParkingSpot;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,6 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataReader {
+
+    static final String imageExtension = ".png";
+
     /**
      *
      * @param path The path of the xml file
@@ -97,31 +107,31 @@ public class DataReader {
         }
         switch (type) {
             case "car":
-                worldObject = new AutomatedCar(x, y, originalType + ".png");
+                worldObject = new AutomatedCar(x, y, originalType + imageExtension);
                 break;
             case "man":
-                worldObject = new Human(x, y, originalType + ".png");
+                worldObject = new Human(x, y, originalType + imageExtension);
                 break;
             case "woman":
-                worldObject = new Human(x, y, originalType + ".png");
+                worldObject = new Human(x, y, originalType + imageExtension);
                 break;
             case "tree":
-                worldObject = new Tree(x, y, originalType + ".png");
+                worldObject = new Tree(x, y, originalType + imageExtension);
                 break;
             case "roadsign":
-                worldObject = new RoadSign(x, y, originalType + ".png");
+                worldObject = new RoadSign(x, y, originalType + imageExtension);
                 break;
             case "road":
-                worldObject = new Road(x, y, originalType + ".png");
+                worldObject = new Road(x, y, originalType + imageExtension);
                 break;
             case "parking":
-                worldObject = new ParkingSpot(x, y, originalType + ".png");
+                worldObject = new ParkingSpot(x, y, originalType + imageExtension);
                 break;
             case "crosswalk":
-                worldObject = new Crosswalk(x, y, originalType + ".png");
+                worldObject = new Crosswalk(x, y, originalType + imageExtension);
                 break;
             case "bicycle":
-                worldObject = new Crosswalk(x, y, originalType + ".png");
+                worldObject = new Bicycle(x, y, originalType + imageExtension);
                 break;
             default:
                 worldObject = null;

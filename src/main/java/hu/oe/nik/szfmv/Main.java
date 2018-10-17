@@ -2,20 +2,13 @@ package hu.oe.nik.szfmv;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.ConfigProvider;
-import hu.oe.nik.szfmv.common.Utils;
-import hu.oe.nik.szfmv.environment.DataReader;
 import hu.oe.nik.szfmv.environment.World;
-import hu.oe.nik.szfmv.environment.WorldObject;
-import hu.oe.nik.szfmv.environment.XmlObject;
 import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
-
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class Main {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -40,12 +33,7 @@ public class Main {
         // create an automated car
         AutomatedCar car = new AutomatedCar(carPosX, carPosY, "car_2_white.png");
         // add car to the world
-
-
-        List<XmlObject> xmlObjectList = DataReader.getDataFromXmlDocument(DataReader.xmlReader(
-                "src" + File.separator + "main" + File.separator + "resources" + File.separator + "test_world.xml"));
-
-
+    
         Gui gui = new Gui();
 
         // draw world to course display
