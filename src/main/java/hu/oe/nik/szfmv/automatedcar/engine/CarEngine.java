@@ -86,16 +86,36 @@ public class CarEngine {
                 * engineType.getTransmissionEffiency();
     }
 
+    /**
+     * calculation  next velocity
+     *
+     * @param time              frequency of calculation
+     * @param orientationVector car head orientation
+     * @param gear              current gear of car
+     * @param actualSpeed       previous speed
+     * @param breakPedal        brake pedal position
+     * @param throttlePosition  throttle position
+     * @return next speed
+     */
     public double calculationVelocity(double time, double[] orientationVector, int gear, double actualSpeed,
-            int breakPedal, int throttlePosition) {
+                                      int breakPedal, int throttlePosition) {
         double[] speedVector = calcSpeedVector(orientationVector, actualSpeed);
         double sumForce = calculateSummedForce(orientationVector, gear, breakPedal, throttlePosition, speedVector);
         // TODO need weight this is mock now (1500kg)!!!! unit(KG)
-        return actualSpeed + ((time * sumForce) / 1500);
+        return detectMinusSpeed(actualSpeed, time, sumForce, 1500);
+    }
+
+    private double detectMinusSpeed(double actualSpeed, double time, double sumForce, int weight) {
+        double nextSpeed = actualSpeed + ((time * sumForce) / weight);
+        if (nextSpeed < 0) {
+            return 0;
+        } else {
+            return nextSpeed;
+        }
     }
 
     private double calculateSummedForce(double[] orientationVector, int gear, int breakPedal, int throttlePosition,
-            double[] speedVector) {
+                                        double[] speedVector) {
         double[] tractionForce = TractionForce.calculateTractionForce(orientationVector,
                 calculateDriveTorque(throttlePosition, gear), engineType.getWheelRadius());
         double tractionForceLength = calcVectorLength(tractionForce);
