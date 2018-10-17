@@ -49,14 +49,11 @@ public class Main {
         World w = new World(800, 600);
 
         // create an automated car
-        AutomatedCar car = new AutomatedCar(0, 0, "car_2_white.png");
+        AutomatedCar car = new AutomatedCar(carPosX, carPosY, "car_2_white.png");
         w.setAutomatedCar(car);
 
-        //loadRoads();
-        //w.setWorldObjects(roads);
         w.setHeight(3000);
         w.setWidth(5120);
-
 
         // create gui
         Gui gui = new Gui();
