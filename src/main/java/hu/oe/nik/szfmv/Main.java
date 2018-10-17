@@ -41,11 +41,11 @@ public class Main {
         World w = new World(800, 600);
 
         // create an automated car
-        AutomatedCar car = new AutomatedCar(70, 200, "car_2_white.png");
+        AutomatedCar car = new AutomatedCar(0, 0, "car_2_white.png");
         w.setAutomatedCar(car);
 
-        loadRoads();
-        w.setWorldObjects(roads);
+        //loadRoads();
+        //w.setWorldObjects(roads);
         w.setHeight(3000);
         w.setWidth(5120);
 
@@ -60,58 +60,5 @@ public class Main {
 
             gui.getCourseDisplay().drawWorld(w);
         }
-    }
-    private static ArrayList<WorldObject> roads = new ArrayList<WorldObject>();
-
-    private static void loadRoads(){
-        String filePath = "src\\main\\resources\\test_world.xml";
-        File xmlFile = new File(filePath);
-
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder;
-        try {
-            dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(xmlFile);
-            doc.getDocumentElement().normalize();
-            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-            NodeList nodeList = doc.getElementsByTagName("Object");
-
-            for ( int i = 0; i< nodeList.getLength(); i++) {
-                roads.add(getObject(nodeList.item(i)));
-            }
-
-        }  catch (SAXException | ParserConfigurationException | IOException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    private static WorldObject getObject(Node node){
-        if(node.getNodeType() == Node.ELEMENT_NODE) {
-            Element element = (Element) node;
-
-            int x = Integer.parseInt(((Element)(element.getElementsByTagName("Position")
-                    .item(0))).getAttribute("x")) ;
-
-            int y = Integer.parseInt(((Element)(element.getElementsByTagName("Position")
-                    .item(0))).getAttribute("y")) ;
-
-            WorldObject obj = new WorldObject(x, y, element.getAttribute("type")+".png");
-
-            double m11 = Double.parseDouble(((Element)(element.getElementsByTagName("Transform")
-                    .item(0))).getAttribute("m11"));
-            double m12 = Double.parseDouble(((Element)(element.getElementsByTagName("Transform")
-                    .item(0))).getAttribute("m12"));
-            double m21 = Double.parseDouble(((Element)(element.getElementsByTagName("Transform")
-                    .item(0))).getAttribute("m21"));
-            double m22 = Double.parseDouble(((Element)(element.getElementsByTagName("Transform")
-                    .item(0))).getAttribute("m22"));
-            obj.setRotation((float)Math.toDegrees(Utils.convertMatrixToRadians(m11,m12,m21,m22)));
-            obj.setRotation((float)Math.toRadians(-obj.getRotation()));
-
-            Point asd = ReferencePointsXMLReadClass.checkIsReferenceOrNot(obj.getImageFileName());
-
-            return obj;
-        }
-        return null;
     }
 }
