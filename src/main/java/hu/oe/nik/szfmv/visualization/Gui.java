@@ -5,24 +5,24 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * class.
+ * Class for GUI.
  */
 public class Gui extends JFrame {
     /**
-     * Integer.
+     * Integer for window width.
      */
     private final int windowWidth = 1020;
     /**
-     * Integer.
+     * Integer for window height.
      */
     private final int windowHeight = 700;
 
     /**
-     * CourseDisplay.
+     * CourseDisplay for window (objects).
      */
     private CourseDisplay courseDisplay;
     /**
-     * Dashboard.
+     * Dashboard for window (datas).
      */
     private Dashboard dashboard;
     /**
@@ -55,14 +55,14 @@ public class Gui extends JFrame {
         setVisible(true);
     }
     /**
-     * Method.
+     * Method for get all object in position.
      * @return CourseDisplay
      */
     public CourseDisplay getCourseDisplay() {
         return courseDisplay;
     }
     /**
-     * Method.
+     * Method for get all datas on the dashboard.
      * @return Dashboard
      */
     public Dashboard getDashboard() {

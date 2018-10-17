@@ -4,7 +4,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
- * Class.
+ * Class for Gui.
  */
 public class GuiAdapter extends WindowAdapter {
 

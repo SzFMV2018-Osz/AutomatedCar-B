@@ -1,23 +1,23 @@
 package hu.oe.nik.szfmv.visualization;
 
 /**
- * Class.
+ * Class for reference points.
  */
 public class ReferencePointClass {
     /**
-     * Name string.
+     * Reference point name string.
      */
     private String name;
     /**
-     * Name string.
+     * Reference point x integer.
      */
     private int x;
     /**
-     * Name string.
+     * Reference point y integer.
      */
     private int y;
     /**
-     * Name string.
+     * Get name prop.
      * @return name
      * @see String
      * */
@@ -25,7 +25,7 @@ public class ReferencePointClass {
         return name;
     }
     /**
-     * Name string.
+     * Set name prop.
      * @param nameParam name
      * @see String
      * */
@@ -33,7 +33,7 @@ public class ReferencePointClass {
         name = nameParam;
     }
     /**
-     * Name string.
+     * Get x prop.
      * @return x
      * @see String
      * */
@@ -41,7 +41,7 @@ public class ReferencePointClass {
         return x;
     }
     /**
-     * Name string.
+     * Set x prop.
      * @param xParam x
      * @see String
      * */
@@ -49,7 +49,7 @@ public class ReferencePointClass {
         this.x = xParam;
     }
     /**
-     * Name string.
+     * Get y prop.
      * @return name
      * @see String
      * */
@@ -57,7 +57,7 @@ public class ReferencePointClass {
         return y;
     }
     /**
-     * Name string.
+     * Set y prop.
      * @param yParam y
      * @see String
      * */

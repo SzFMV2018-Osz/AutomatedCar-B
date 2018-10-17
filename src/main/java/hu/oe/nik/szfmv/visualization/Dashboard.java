@@ -9,15 +9,15 @@ import java.awt.*;
 public class Dashboard extends JPanel {
 
     /**
-     * Integer.
+     * Integer for dashboard width.
      */
     private final int width = 250;
     /**
-     * Integer.
+     * Integer for dashboard height.
      */
     private final int height = 700;
     /**
-     * Integer.
+     * Integer for dashboard color.
      */
     private final int backgroundColor = 0x888888;
 

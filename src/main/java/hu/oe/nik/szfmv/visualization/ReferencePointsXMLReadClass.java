@@ -17,16 +17,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**List.
+/**Class for read reference point xml.
  */
 public class ReferencePointsXMLReadClass {
-/**List.
+/**List for reference points.
      */
     private static List<ReferencePointClass> referencesList = new ArrayList<>();
-    /**List.
+    /**Logger for exceptions.
      */
     private static final Logger LOGGER = LogManager.getLogger();
-    /**Method.
+    /**Constructor for class
+     * for read reference point xml.
      * @exception     ParserConfigurationException     To catch this
      * @exception     IOException                      To catch this
      * @exception     SAXException                     To catch this
@@ -61,7 +62,7 @@ public class ReferencePointsXMLReadClass {
             }
         }
     }
-    /**Method.
+    /**Method for check for pictures, theres is a reference point or 0,0.
      * @param pictureName picturename
      * @return Point that needed
      * @see Point
