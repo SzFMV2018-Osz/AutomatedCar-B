@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.environment;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
