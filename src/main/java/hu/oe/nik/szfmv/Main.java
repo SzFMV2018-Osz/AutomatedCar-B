@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -41,9 +42,8 @@ public class Main {
         // add car to the world
 
 
-
-
-        List<XmlObject> xmlObjectList = DataReader.getDataFromXmlDocument(DataReader.xmlReader("src/main/resources/test_world.xml"));
+        List<XmlObject> xmlObjectList = DataReader.getDataFromXmlDocument(DataReader.xmlReader(
+                "src" + File.separator + "main" + File.separator + "resources" + File.separator + "test_world.xml"));
 
 
         Gui gui = new Gui();
