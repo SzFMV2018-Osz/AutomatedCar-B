@@ -1,5 +1,10 @@
 package hu.oe.nik.szfmv.environment;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 public class WorldObject {
     protected int x;
     protected int y;
@@ -7,6 +12,7 @@ public class WorldObject {
     protected int height;
     protected float rotation = 0f;
     protected String imageFileName;
+    //protected BufferedImage image;
 
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
@@ -19,6 +25,15 @@ public class WorldObject {
         this.x = x;
         this.y = y;
         this.imageFileName = imageFileName;
+
+        // read file from resources
+        /*
+        try {
+            image = ImageIO.read(new File(ClassLoader.getSystemResource(imageFileName).getFile()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
     }
 
     public int getX() {
@@ -68,4 +83,8 @@ public class WorldObject {
     public void setImageFileName(String imageFileName) {
         this.imageFileName = imageFileName;
     }
+
+    //public BufferedImage getImage() {
+    //    return image;
+    //}
 }
