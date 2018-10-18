@@ -11,10 +11,24 @@ import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import hu.oe.nik.szfmv.common.Utils;
+import hu.oe.nik.szfmv.visualization.ReferencePointsXMLReadClass;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.awt.*;
+import java.io.File;
+import java.util.ArrayList;
 
+/**
+ * Main Class.
+ */
 public class Main {
+
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final int CYCLE_PERIOD = 40;
 
     private static int worldWidth = 800;
     private static int worldHeight = 600;
@@ -22,11 +36,14 @@ public class Main {
     private static int carPosY = 20;
 
     /**
-     * Main entrypoint of the software
+     * Main entrypoint of the software.
      *
      * @param args command line arguments
+     * @throws IOException                  exception
+     * @throws SAXException                 exception
+     * @throws ParserConfigurationException exception
      */
-    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
+    public static void main(final String[] args) throws IOException, SAXException, ParserConfigurationException {
 
         // log the current debug mode in config
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
@@ -35,11 +52,16 @@ public class Main {
         boolean dashboardDebugIsEnabled = ConfigProvider.provide().getBoolean("dashboard.debug");
 
         // create the world
-        World w = new World(worldWidth, worldHeight);
+        World w = new World(800, 600);
+
         // create an automated car
         AutomatedCar car = new AutomatedCar(carPosX, carPosY, "car_2_white.png");
-        // add car to the world
-    
+        w.setAutomatedCar(car);
+
+        w.setHeight(3000);
+        w.setWidth(5120);
+
+        // create gui
         Gui gui = new Gui();
         gui.addKeyListener(UserInputProvider.getUserInput(InputType.Keyboard));
 
@@ -58,8 +80,5 @@ public class Main {
                 LOGGER.error(e.getMessage());
             }
         }
-        // create gui
-
-
     }
 }

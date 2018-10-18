@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.environment;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +11,20 @@ public class World {
     private int height;
     private List<WorldObject> worldObjects = new ArrayList<>();
 
+
+    private AutomatedCar automatedCar;
+
+    public void setWorldObjects(List<WorldObject> worldObjects) {
+        this.worldObjects = worldObjects;
+    }
+
+    public AutomatedCar getAutomatedCar() {
+        return automatedCar;
+    }
+
+    public void setAutomatedCar(AutomatedCar automatedCar) {
+        this.automatedCar = automatedCar;
+    }
 
     /**
      * Creates the virtual world with the given dimension.

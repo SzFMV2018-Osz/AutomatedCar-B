@@ -17,8 +17,15 @@ public class Dashboard extends JPanel {
     public int speed;
     public int rpm;
 
+    /**
+     * Integer for dashboard width.
+     */
     private final int width = 250;
+    /**
+     * Integer for dashboard height.
+     */
     private final int height = 700;
+
     private final int boundsX = 770;
     private final int boundsY = 0;
     private final int backgroundColor = 0x888888;
@@ -57,7 +64,7 @@ public class Dashboard extends JPanel {
     private JLabel positionLabel = debugSection.initialisePositionLabel();
 
     /**
-     * Initialize the dashboard
+     * Initialize the dashboard.
      */
     Dashboard() {
         // Not using any layout manager, but fixed coordinates
