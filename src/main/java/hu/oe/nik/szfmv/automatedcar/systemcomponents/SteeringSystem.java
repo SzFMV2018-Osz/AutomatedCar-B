@@ -2,14 +2,17 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.SteeringPacket;
-import hu.oe.nik.szfmv.automatedcar.engine.TurningHandler;
+import hu.oe.nik.szfmv.automatedcar.engine.CarAxisParams;
+import hu.oe.nik.szfmv.automatedcar.engine.CarAxisParamsImpl;
 
 /**
  * Steering system is responsible for the turning of the car.
  */
 public class SteeringSystem extends SystemComponent {
-    private TurningHandler turningHandler;
     private SteeringPacket steeringPacket;
+    private VirtualFunctionBus virtualFunctionBus;
+    private CarAxisParams carAxisParams;
+    private float angularSpeed;
 
     /**
      * Creates a steering system that connects the Virtual Function Bus
@@ -21,16 +24,16 @@ public class SteeringSystem extends SystemComponent {
         super(virtualFunctionBus);
         steeringPacket = new SteeringPacket();
         virtualFunctionBus.steeringPacket = steeringPacket;
-        turningHandler = new TurningHandler();
+        this.virtualFunctionBus = virtualFunctionBus;
+        carAxisParams = new CarAxisParamsImpl();
     }
 
     @Override
     public void loop() {
-        steeringPacket.setAngularSpeed(turningHandler.angularVelocityCalculation(steeringPacket.getSteeringWheelState(),
-                virtualFunctionBus.velocityPacket.getSpeed()));
-        System.out.println("Angular speed: " + steeringPacket.getAngularSpeed());
-        steeringPacket.setAngularVector(
-                turningHandler.angularVector(steeringPacket.getAngularVector(), steeringPacket.getAngularSpeed()));
+        float circleRadius = (float) (carAxisParams.getAxisLengthPixel()
+                / Math.sin(Math.toRadians(virtualFunctionBus.steeringWheelPacket.getSteeringWheelPosition())));
+        angularSpeed = (float) ((virtualFunctionBus.velocityPacket.getSpeed() * 50) / circleRadius);
+        steeringPacket.setAngularSpeed(angularSpeed);
     }
 
 }

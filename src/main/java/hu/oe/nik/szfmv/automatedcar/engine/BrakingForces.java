@@ -4,7 +4,7 @@ package hu.oe.nik.szfmv.automatedcar.engine;
  * Contains functions and constants to calculate physical forces
  */
 public class BrakingForces {
-    private static double aeroDrag = 3;
+    private static double aeroDrag = 10;
     private static double maxBrakeForce = 500000;
     private static double breakPedalPercentageMultiplyer = 0.01;
     private static double frictionFactor = 30 * aeroDrag;

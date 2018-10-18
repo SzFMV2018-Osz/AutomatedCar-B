@@ -1,18 +1,15 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
-import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyGearPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyIndicationPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyPedalPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlySteeringPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.ReadOnlySamplePacket;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.ReadonlyPowertrainPacket;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.ReadonlySteeringPacket;
 import java.util.ArrayList;
 import java.util.List;
 
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlySteeringPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlyVelocityPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyGearPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyIndicationPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyPedalPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlySteeringPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.ReadOnlySamplePacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 
@@ -33,7 +30,6 @@ public class VirtualFunctionBus {
 
     public ReadonlyPowertrainPacket powertrainPacket;
     public ReadonlySteeringPacket steeringPacket;
-    public ReadOnlySamplePacket samplePacket;
     public ReadonlyVelocityPacket velocityPacket;
 
     private List<SystemComponent> components = new ArrayList<>();

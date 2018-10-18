@@ -177,7 +177,7 @@ public class AutomatedCarTests {
 
     private void setUpSteeringPacket(int steeringWheelState) {
         Mockito.when(steeringPacket.getAngularSpeed()).thenCallRealMethod();
-        Mockito.when(steeringPacket.getAngularVector()).thenCallRealMethod();
-        Mockito.when(steeringPacket.getSteeringWheelState()).thenReturn(steeringWheelState);
+        // Mockito.when(steeringPacket.getAngularVector()).thenCallRealMethod();
+        // Mockito.when(steeringPacket.getSteeringWheelState()).thenReturn(steeringWheelState);
     }
 }
