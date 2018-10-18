@@ -20,12 +20,13 @@ public class PedalPacket implements IReadonlyPedalPacket, IPedalEventHandler {
     private int speedInMilliseconds;
 
     /**
-     *
      * @param graduallyChangeable represents the gradually changeable value of the pedal.
-     * @param input InputManager.
-     * @param pedalType Type of the pedal.
+     * @param input               InputManager.
+     * @param pedalType           Type of the pedal.
+     * @param speedInMilliseconds is necessary to reach the 100% position from 0 and backwards
      */
-    public PedalPacket(IGraduallyChangeable graduallyChangeable, IUserInput input, PedalType pedalType, int speedInMilliseconds) {
+    public PedalPacket(IGraduallyChangeable graduallyChangeable, IUserInput input,
+                       PedalType pedalType, int speedInMilliseconds) {
         this.input = input;
         this.input.subscribePedalEvents(this, pedalType);
         this.pedalPosition = graduallyChangeable;
@@ -56,12 +57,13 @@ public class PedalPacket implements IReadonlyPedalPacket, IPedalEventHandler {
     /**
      * Refresh the pedal state and ensure that its value will be the same until the next call of this function
      */
-    public void createSnapshot(){
+    public void createSnapshot() {
         this.pedalPositionSnapshot = this.pedalPosition.getCurrentValue();
     }
 
     private int requiredMilliseconds(int from, int to) {
-        return (int) ((distanceBetween(from, to) / (float) distanceBetween(PEDAL_MIN_POSITION, PEDAL_MAX_POSITION)) * this.speedInMilliseconds);
+        return (int) ((distanceBetween(from, to) / (float) distanceBetween(PEDAL_MIN_POSITION, PEDAL_MAX_POSITION))
+                * this.speedInMilliseconds);
     }
 
     private int distanceBetween(int a, int b) {
