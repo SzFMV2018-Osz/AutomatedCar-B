@@ -4,13 +4,11 @@ import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
 import hu.oe.nik.szfmv.common.ConfigProvider;
-import hu.oe.nik.szfmv.common.Utils;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
-
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
@@ -32,6 +30,7 @@ public class Main {
 
         // log the current debug mode in config
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
+
         // debug section display toggle
         boolean dashboardDebugIsEnabled = ConfigProvider.provide().getBoolean("dashboard.debug");
 
@@ -40,9 +39,7 @@ public class Main {
         // create an automated car
         AutomatedCar car = new AutomatedCar(carPosX, carPosY, "car_2_white.png");
         // add car to the world
-        w.addObjectToWorld(car);
-
-        // create gui
+    
         Gui gui = new Gui();
         gui.addKeyListener(UserInputProvider.getUserInput(InputType.Keyboard));
 
@@ -61,6 +58,8 @@ public class Main {
                 LOGGER.error(e.getMessage());
             }
         }
+        // create gui
+
 
     }
 }
