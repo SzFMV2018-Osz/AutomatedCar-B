@@ -1,17 +1,23 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.DashboardManager;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
 
 public class AutomatedCar extends Car {
 
-    private final PowertrainSystem powertrainSystem;
-    private final SteeringSystem steeringSystem;
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
+    private InputManager inputManager;
+    private PowertrainSystem powertrainSystem;
+    private SteeringSystem steeringSystem;
+    private DashboardManager dashboardManager;
+
     private final double speedMetersPerSeconds;
 
     private final double wheelRadius = 0.33;
@@ -27,8 +33,11 @@ public class AutomatedCar extends Car {
     public AutomatedCar(final int x, final int y, final String imageFileName) {
         super(x, y, imageFileName);
 
+        inputManager = new InputManager(virtualFunctionBus);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
+        dashboardManager = new DashboardManager(virtualFunctionBus);
+
         speedMetersPerSeconds = 0;
 
         new Driver(virtualFunctionBus);
@@ -38,10 +47,20 @@ public class AutomatedCar extends Car {
      * Provides a sample method for modifying the position of the car.
      */
     public void drive() {
+        dashboardManager.actualisePosition(x, y);
         final double wheelRotationRate = speedMetersPerSeconds / wheelRadius;
         powertrainSystem.updateEngine(wheelRotationRate);
         virtualFunctionBus.loop();
         calculatePositionAndOrientation();
+    }
+
+    /**
+     * Return dashboard data to caller
+     *
+     * @return - returns the packet containing the necessary information
+     */
+    public IReadOnlyDashboardPacket getDashboardInfo() {
+        return dashboardManager.getDashboardPacket();
     }
 
     /**

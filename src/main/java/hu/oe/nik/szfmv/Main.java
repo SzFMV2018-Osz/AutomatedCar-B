@@ -1,6 +1,8 @@
 package hu.oe.nik.szfmv;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
 import hu.oe.nik.szfmv.common.ConfigProvider;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.visualization.Gui;
@@ -45,6 +47,10 @@ public class Main {
 
         // log the current debug mode in config
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
+
+        // debug section display toggle
+        boolean dashboardDebugIsEnabled = ConfigProvider.provide().getBoolean("dashboard.debug");
+
         // create the world
         World w = new World(800, 600);
 
@@ -57,14 +63,22 @@ public class Main {
 
         // create gui
         Gui gui = new Gui();
+        gui.addKeyListener(UserInputProvider.getUserInput(InputType.Keyboard));
 
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w);
 
         while (true) {
-            car.drive();
-            // create gui
-            gui.getCourseDisplay().drawWorld(w);
+            try {
+                car.drive();
+
+                gui.getCourseDisplay().drawWorld(w);
+                gui.getDashboard().display(car.getDashboardInfo(), dashboardDebugIsEnabled);
+
+                Thread.sleep(CYCLE_PERIOD);
+            } catch (InterruptedException e) {
+                LOGGER.error(e.getMessage());
+            }
         }
     }
 }
