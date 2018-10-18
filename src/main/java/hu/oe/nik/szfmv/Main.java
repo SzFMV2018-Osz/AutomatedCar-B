@@ -9,19 +9,9 @@ import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
+
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import hu.oe.nik.szfmv.common.Utils;
-import hu.oe.nik.szfmv.visualization.ReferencePointsXMLReadClass;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.awt.*;
-import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Main Class.
@@ -29,7 +19,7 @@ import java.util.ArrayList;
 public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger();
-
+    private static final int CYCLE_PERIOD = 40;
     private static int worldWidth = 800;
     private static int worldHeight = 600;
     private static int carPosX = 20;
