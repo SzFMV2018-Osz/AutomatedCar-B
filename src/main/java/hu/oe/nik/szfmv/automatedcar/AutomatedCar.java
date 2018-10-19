@@ -7,20 +7,17 @@ import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
-import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
 
 public class AutomatedCar extends Car {
 
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
+    private final double speedMetersPerSeconds;
+    private final double wheelRadius = 0.33;
     private InputManager inputManager;
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
     private DashboardManager dashboardManager;
-
-    private final double speedMetersPerSeconds;
-
-    private final double wheelRadius = 0.33;
 
     /**
      * Constructor of the AutomatedCar class
