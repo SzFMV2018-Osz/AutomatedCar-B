@@ -7,6 +7,13 @@ import hu.oe.nik.szfmv.visualization.Dashboard;
 public class CircleCalculator extends JPanel {
     private static final int DIAMETER = 110;
     private static final int VIEWVALUE_DEFAULT_RPM = 200;
+    private static final int VIEWVALUE_MULTIPLIER_RPM_SPECIFIC = 50;
+    private static final int VIEWVALUE_MULTIPLIER_SPEED_SPECIFIC = 140;
+    private static final int VIEWVALUE_MULTIPLIER_SCALE = 10;
+    private static final int SCALE_THRESHOLD = 14;
+    private static final int SCALE_BASE = 115;
+    private static final int SCALE_MULTIPLIER_RPM_SPECIFIC = 26;
+    private static final int SCALE_MULTIPLIER_SPEED_SPECIFIC = 10;
 
     private int viewValue;
     private int value;
@@ -16,9 +23,10 @@ public class CircleCalculator extends JPanel {
 
     /**
      * Constructor for the meter
+     *
      * @param dashboard parent dashboard
-     * @param type meter type, rpm or speed
-     * @param position position on dashboard
+     * @param type      meter type, rpm or speed
+     * @param position  position on dashboard
      */
     public CircleCalculator(Dashboard dashboard, Dashboard.MeterTypes type, Point position) {
         if (type == Dashboard.MeterTypes.RPM) {
@@ -44,42 +52,53 @@ public class CircleCalculator extends JPanel {
 
     /**
      * Sets the meter's value, error if its lower than 0 or higher than 280 km/h or 9800 rpm
+     *
      * @param value speed or rpm
      */
     public void setValue(int value) {
-        if(meterType == Dashboard.MeterTypes.RPM) {
-            if (value <= viewValue * 50 && value  >= 0) {
-                double scale = value / (viewValue * 10);
-                double fractional = value % (viewValue * 10);
-                int remnant = (int) (fractional / viewValue);
-                if (scale == 14) {
-                    this.value = 115 + (int) (scale * 26 - 26) + remnant;
-                } else {
-                    this.value = 115 + (int) (scale * 26) + remnant;
-                }
-                repaint();
-            } else {
-                throw new IllegalArgumentException();
-            }
+        if (meterType == Dashboard.MeterTypes.RPM) {
+            helperMethodSetValueRPM(value);
         } else {
-            if (value <= viewValue * 140 && value  >= 0) {
-                double scale = value / (viewValue * 10);
-                double fractional = value % (viewValue * 10);
-                int remnant = (int) (fractional / viewValue);
-                if (scale == 14) {
-                    this.value = 115 + (int) (scale * 10 -10) + remnant;
-                } else {
-                    this.value = 115 + (int) (scale * 10) + remnant;
-                }
-                repaint();
+            helpetMethodSetValueSPEED(value);
+        }
+    }
+
+    private void helperMethodSetValueRPM(int value) {
+        if (value <= viewValue * VIEWVALUE_MULTIPLIER_RPM_SPECIFIC && value >= 0) {
+            double scale = value / (viewValue * VIEWVALUE_MULTIPLIER_SCALE);
+            double fractional = value % (viewValue * VIEWVALUE_MULTIPLIER_SCALE);
+            int remnant = (int) (fractional / viewValue);
+            if (scale == SCALE_THRESHOLD) {
+                int tempCalc = (int) (scale * SCALE_MULTIPLIER_RPM_SPECIFIC - SCALE_MULTIPLIER_RPM_SPECIFIC);
+                this.value = SCALE_BASE + tempCalc + remnant;
             } else {
-                throw new IllegalArgumentException();
+                this.value = SCALE_BASE + (int) (scale * SCALE_MULTIPLIER_RPM_SPECIFIC) + remnant;
             }
+            repaint();
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
+    private void helpetMethodSetValueSPEED(int value) {
+        if (value <= viewValue * VIEWVALUE_MULTIPLIER_SPEED_SPECIFIC && value >= 0) {
+            double scale = value / (viewValue * VIEWVALUE_MULTIPLIER_SCALE);
+            double fractional = value % (viewValue * VIEWVALUE_MULTIPLIER_SCALE);
+            int remnant = (int) (fractional / viewValue);
+            if (scale == SCALE_THRESHOLD) {
+                int tempCalc = (int) (scale * SCALE_MULTIPLIER_SPEED_SPECIFIC - SCALE_MULTIPLIER_SPEED_SPECIFIC);
+                this.value = SCALE_BASE + tempCalc + remnant;
+            } else {
+                this.value = SCALE_BASE + (int) (scale * SCALE_MULTIPLIER_SPEED_SPECIFIC) + remnant;
+            }
+            repaint();
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 
     /**
      * Magic, paints on the dashboard
+     *
      * @param g random java thing
      */
     @Override
@@ -147,4 +166,3 @@ public class CircleCalculator extends JPanel {
         }
     }
 }
-
