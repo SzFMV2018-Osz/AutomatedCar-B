@@ -59,10 +59,10 @@ public class Main {
         gui.getCourseDisplay().drawWorld(w);
 
         while (true) {
-                car.drive();
+            car.drive();
 
-                gui.getCourseDisplay().drawWorld(w);
-                gui.getDashboard().display(car.getDashboardInfo(), dashboardDebugIsEnabled);
+            gui.getCourseDisplay().drawWorld(w);
+            gui.getDashboard().display(car.getDashboardInfo(), dashboardDebugIsEnabled);
         }
     }
 }
