@@ -19,7 +19,7 @@ import java.io.IOException;
 public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final int CYCLE_PERIOD = 40;
+
     private static int worldWidth = 800;
     private static int worldHeight = 600;
     private static int carPosX = 20;
@@ -59,16 +59,10 @@ public class Main {
         gui.getCourseDisplay().drawWorld(w);
 
         while (true) {
-            try {
                 car.drive();
 
                 gui.getCourseDisplay().drawWorld(w);
                 gui.getDashboard().display(car.getDashboardInfo(), dashboardDebugIsEnabled);
-
-                Thread.sleep(CYCLE_PERIOD);
-            } catch (InterruptedException e) {
-                LOGGER.error(e.getMessage());
-            }
         }
     }
 }
