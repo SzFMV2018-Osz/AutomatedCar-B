@@ -7,6 +7,7 @@ import hu.oe.nik.szfmv.visualization.Dashboard;
 public class CircleCalculator extends JPanel {
     private static final int DIAMETER = 110;
     private static final int VIEWVALUE_DEFAULT_RPM = 200;
+
     private static final int VIEWVALUE_MULTIPLIER_RPM_SPECIFIC = 50;
     private static final int VIEWVALUE_MULTIPLIER_SPEED_SPECIFIC = 140;
     private static final int VIEWVALUE_MULTIPLIER_SCALE = 10;
@@ -14,6 +15,13 @@ public class CircleCalculator extends JPanel {
     private static final int SCALE_BASE = 115;
     private static final int SCALE_MULTIPLIER_RPM_SPECIFIC = 26;
     private static final int SCALE_MULTIPLIER_SPEED_SPECIFIC = 10;
+
+    private static final Color COLOR_MAIN = new Color(0x888888);
+    private static final int RECTANGLE_FILL_DIMENSION = 115;
+    private static final int OVAL_OUTER_FILL_XY = 3;
+    private static final int OVAL_INNER_FILL_XY = 6;
+    private static final int OVAL_INNER_POINT_DIMENSION = 5;
+    private static final int OVAL_FONT_SIZE = 9;
 
     private int viewValue;
     private int value;
@@ -115,24 +123,26 @@ public class CircleCalculator extends JPanel {
     }
     private void paintComponentPreProcessing(Graphics g) {
         //fill the background
-        g.setColor(new Color(0x888888));
-        g.fillRect(0, 0, 115, 115);
+        g.setColor(COLOR_MAIN);
+        g.fillRect(0, 0, RECTANGLE_FILL_DIMENSION, RECTANGLE_FILL_DIMENSION);
 
         //black circle
         g.setColor(Color.BLACK);
-        g.fillOval(3, 3, DIAMETER, DIAMETER); // 125,125
+        g.fillOval(OVAL_OUTER_FILL_XY, OVAL_OUTER_FILL_XY, DIAMETER, DIAMETER);
 
         //inner white circle
         g.setColor(Color.WHITE);
-        g.fillOval(6, 6, DIAMETER - 6, DIAMETER - 6);
+        int tempDimension = DIAMETER - OVAL_INNER_FILL_XY;
+        g.fillOval(OVAL_INNER_FILL_XY, OVAL_INNER_FILL_XY, tempDimension, tempDimension);
 
         //black point on the middle
         g.setColor(Color.BLACK);
-        g.fillOval(DIAMETER / 2 + 3, DIAMETER / 2 + 3, 5, 5);
+        tempDimension = DIAMETER / 2 + OVAL_OUTER_FILL_XY;
+        g.fillOval(tempDimension, tempDimension, OVAL_INNER_POINT_DIMENSION, OVAL_INNER_POINT_DIMENSION);
 
         //values on the DIAMETER
         g.setColor(Color.BLACK);
-        g.setFont(g.getFont().deriveFont(Font.BOLD, 9));
+        g.setFont(g.getFont().deriveFont(Font.BOLD, OVAL_FONT_SIZE));
     }
     private void paintComponentMainIfRPM(Graphics g) {
         int number = 0;
