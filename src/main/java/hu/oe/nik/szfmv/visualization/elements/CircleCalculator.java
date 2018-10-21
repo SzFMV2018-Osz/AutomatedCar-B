@@ -103,6 +103,17 @@ public class CircleCalculator extends JPanel {
      */
     @Override
     protected void paintComponent(Graphics g) {
+        paintComponentPreProcessing(g);
+
+        if (meterType == Dashboard.MeterTypes.RPM) {
+            paintComponentMainIfRPM(g);
+        } else {
+            paintComponentMainIfSPEED(g);
+        }
+
+        paintCOmponentPostProcessing(g);
+    }
+    private void paintComponentPreProcessing(Graphics g) {
         //fill the background
         g.setColor(new Color(0x888888));
         g.fillRect(0, 0, 115, 115);
@@ -122,26 +133,28 @@ public class CircleCalculator extends JPanel {
         //values on the DIAMETER
         g.setColor(Color.BLACK);
         g.setFont(g.getFont().deriveFont(Font.BOLD, 9));
-        if (meterType == Dashboard.MeterTypes.RPM) {
-            int number = 0;
-            for (int i = 110; i <= 250; i = i + 14) {
-                int x = 55 + (int) (43 * Math.sin(i * Math.PI / 90));
-                int y = 60 - (int) (43 * Math.cos(i * Math.PI / 90));
-                if ((i - 110) % 28 == 0) {
-                    g.drawString(Integer.toString(number), x, y);
-                    number += 2;
-                }
-            }
-        } else {
-            for (int i = 110; i <= 250; i++) {
-                int x = 50 + (int) (43 * Math.sin(i * Math.PI / 90));
-                int y = 60 - (int) (43 * Math.cos(i * Math.PI / 90));
-                if ((i - 110) % 10 == 0) {
-                    g.drawString(Integer.toString((i - 110) * viewValue), x, y);
-                }
+    }
+    private void paintComponentMainIfRPM(Graphics g) {
+        int number = 0;
+        for (int i = 110; i <= 250; i = i + 14) {
+            int x = 55 + (int) (43 * Math.sin(i * Math.PI / 90));
+            int y = 60 - (int) (43 * Math.cos(i * Math.PI / 90));
+            if ((i - 110) % 28 == 0) {
+                g.drawString(Integer.toString(number), x, y);
+                number += 2;
             }
         }
-
+    }
+    private void paintComponentMainIfSPEED(Graphics g) {
+        for (int i = 110; i <= 250; i++) {
+            int x = 50 + (int) (43 * Math.sin(i * Math.PI / 90));
+            int y = 60 - (int) (43 * Math.cos(i * Math.PI / 90));
+            if ((i - 110) % 10 == 0) {
+                g.drawString(Integer.toString((i - 110) * viewValue), x, y);
+            }
+        }
+    }
+    private void paintCOmponentPostProcessing(Graphics g) {
         //gets the speed or rpm
         if (meterType == Dashboard.MeterTypes.RPM) {
             setValue(dashboard.rpm);
