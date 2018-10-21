@@ -12,6 +12,8 @@ public class DashboardPacket implements IReadOnlyDashboardPacket {
     private int indicatorDirection;
     private int gasPedalPosition;
     private int brakePedalPosition;
+    private int rpm;
+    private int speed;
 
     @Override
     public int getAutomatedCarX() {
@@ -70,6 +72,24 @@ public class DashboardPacket implements IReadOnlyDashboardPacket {
     @Override
     public int getBrakePedalPosition() {
         return brakePedalPosition;
+    }
+
+    @Override
+    public int getRpm() {
+        return rpm;
+    }
+
+    public void setRpm(int rpm) {
+        this.rpm = rpm;
+    }
+
+    @Override
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public void setBrakePedalPosition(int brakePedalPosition) {
