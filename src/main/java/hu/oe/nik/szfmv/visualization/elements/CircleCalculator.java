@@ -23,6 +23,28 @@ public class CircleCalculator extends JPanel {
     private static final int OVAL_INNER_POINT_DIMENSION = 5;
     private static final int OVAL_FONT_SIZE = 9;
 
+    private static final int PAINTER_STARTING_VALUE = 110;
+    private static final int PAINTER_ENDING_VALUE = 250;
+    private static final int PAINTER_INCREMENTER_RPM = 14;
+    private static final int PAINTER_X_BASE = 50;
+    private static final int PAINTER_Y_BASE = 60;
+    private static final int PAINTER_COORDINATE_MULTIPLIER = 43;
+    private static final int PAINTER_COORDINATE_DIVIDER = 90;
+    private static final int PAINTER_CONDITIONAL_VALUE = 110;
+    private static final int PAINTER_MOD_RPM = 28;
+    private static final int PAINTER_MOD_SPEED = 10;
+
+    private static final int PAINTER_LINE_X_BASE = 55;
+    private static final int PAINTER_LINE_Y_BASE = 65;
+    private static final int PAINTER_LINE_MULTIPLIER = 45;
+    private static final int PAINTER_LINE_DRAW_CONSTANT = 5;
+
+    private static final int PAINTER_TYPE_FONT_SIZE = 12;
+    private static final int PAINTER_TYPE_X_OFFSET = 8;
+    private static final int PAINTER_TYPE_Y_OFFSET = 5;
+    private static final int PAINTER_STEP_X_OFFSET = 16;
+    private static final int PAINTER_STEP_Y_OFFSET = 20;
+
     private int viewValue;
     private int value;
     private Point position;
@@ -67,7 +89,7 @@ public class CircleCalculator extends JPanel {
         if (meterType == Dashboard.MeterTypes.RPM) {
             helperMethodSetValueRPM(value);
         } else {
-            helpetMethodSetValueSPEED(value);
+            helperMethodSetValueSPEED(value);
         }
     }
 
@@ -87,7 +109,7 @@ public class CircleCalculator extends JPanel {
             throw new IllegalArgumentException();
         }
     }
-    private void helpetMethodSetValueSPEED(int value) {
+    private void helperMethodSetValueSPEED(int value) {
         if (value <= viewValue * VIEWVALUE_MULTIPLIER_SPEED_SPECIFIC && value >= 0) {
             double scale = value / (viewValue * VIEWVALUE_MULTIPLIER_SCALE);
             double fractional = value % (viewValue * VIEWVALUE_MULTIPLIER_SCALE);
@@ -119,7 +141,8 @@ public class CircleCalculator extends JPanel {
             paintComponentMainIfSPEED(g);
         }
 
-        paintCOmponentPostProcessing(g);
+        paintComponentPostProcessingFirst(g);
+        paintComponentPostProcessingSecond(g);
     }
     private void paintComponentPreProcessing(Graphics g) {
         //fill the background
@@ -146,25 +169,29 @@ public class CircleCalculator extends JPanel {
     }
     private void paintComponentMainIfRPM(Graphics g) {
         int number = 0;
-        for (int i = 110; i <= 250; i = i + 14) {
-            int x = 55 + (int) (43 * Math.sin(i * Math.PI / 90));
-            int y = 60 - (int) (43 * Math.cos(i * Math.PI / 90));
-            if ((i - 110) % 28 == 0) {
+        for (int i = PAINTER_STARTING_VALUE; i <= PAINTER_ENDING_VALUE; i += PAINTER_INCREMENTER_RPM) {
+            int tempCalcX = (int) (PAINTER_COORDINATE_MULTIPLIER * Math.sin(i * Math.PI / PAINTER_COORDINATE_DIVIDER));
+            int tempCalcY = (int) (PAINTER_COORDINATE_MULTIPLIER * Math.cos(i * Math.PI / PAINTER_COORDINATE_DIVIDER));
+            int x = PAINTER_X_BASE + tempCalcX;
+            int y = PAINTER_Y_BASE - tempCalcY;
+            if ((i - PAINTER_CONDITIONAL_VALUE) % PAINTER_MOD_RPM == 0) {
                 g.drawString(Integer.toString(number), x, y);
                 number += 2;
             }
         }
     }
     private void paintComponentMainIfSPEED(Graphics g) {
-        for (int i = 110; i <= 250; i++) {
-            int x = 50 + (int) (43 * Math.sin(i * Math.PI / 90));
-            int y = 60 - (int) (43 * Math.cos(i * Math.PI / 90));
-            if ((i - 110) % 10 == 0) {
-                g.drawString(Integer.toString((i - 110) * viewValue), x, y);
+        for (int i = PAINTER_STARTING_VALUE; i <= PAINTER_ENDING_VALUE; i++) {
+            int tempCalcX = (int) (PAINTER_COORDINATE_MULTIPLIER * Math.sin(i * Math.PI / PAINTER_COORDINATE_DIVIDER));
+            int tempCalcY = (int) (PAINTER_COORDINATE_MULTIPLIER * Math.cos(i * Math.PI / PAINTER_COORDINATE_DIVIDER));
+            int x = PAINTER_X_BASE + tempCalcX;
+            int y = PAINTER_Y_BASE - tempCalcY;
+            if ((i - PAINTER_CONDITIONAL_VALUE) % PAINTER_MOD_SPEED == 0) {
+                g.drawString(Integer.toString((i - PAINTER_CONDITIONAL_VALUE) * viewValue), x, y);
             }
         }
     }
-    private void paintCOmponentPostProcessing(Graphics g) {
+    private void paintComponentPostProcessingFirst(Graphics g) {
         //gets the speed or rpm
         if (meterType == Dashboard.MeterTypes.RPM) {
             setValue(dashboard.rpm);
@@ -173,19 +200,22 @@ public class CircleCalculator extends JPanel {
         }
 
         //black line from the middle
-        int initX = 55 + (int) (45 * Math.sin(value * Math.PI / 90));
-        int initY = 65 - (int) (45 * Math.cos(value * Math.PI / 90));
+        int tempCalcX = (int) (PAINTER_LINE_MULTIPLIER * Math.sin(value * Math.PI / PAINTER_COORDINATE_DIVIDER));
+        int tempCalcY = (int) (PAINTER_LINE_MULTIPLIER * Math.cos(value * Math.PI / PAINTER_COORDINATE_DIVIDER));
+        int initX = PAINTER_LINE_X_BASE + tempCalcX;
+        int initY = PAINTER_LINE_Y_BASE - tempCalcY;
         g.setColor(Color.BLACK);
-        g.drawLine(DIAMETER / 2 + 5, DIAMETER / 2 + 5, initX, initY);
-
+        g.drawLine(DIAMETER / 2 + PAINTER_LINE_DRAW_CONSTANT, DIAMETER / 2 + PAINTER_LINE_DRAW_CONSTANT, initX, initY);
+    }
+    private void paintComponentPostProcessingSecond(Graphics g) {
         //rpm or km/h at the bottom
         g.setColor(Color.BLACK);
-        g.setFont(g.getFont().deriveFont(Font.BOLD, 12));
+        g.setFont(g.getFont().deriveFont(Font.BOLD, PAINTER_TYPE_FONT_SIZE));
         if (meterType == Dashboard.MeterTypes.RPM) {
-            g.drawString("rpm", DIAMETER / 2 -8, DIAMETER - 5);
-            g.drawString("x1000", DIAMETER / 2 -12, DIAMETER - 20);
+            g.drawString("rpm", DIAMETER / 2 - PAINTER_TYPE_X_OFFSET, DIAMETER - PAINTER_TYPE_Y_OFFSET);
+            g.drawString("x1000", DIAMETER / 2 - PAINTER_STEP_X_OFFSET, DIAMETER - PAINTER_STEP_Y_OFFSET);
         } else {
-            g.drawString("km/h", DIAMETER / 2 -8, DIAMETER - 5);
+            g.drawString("km/h", DIAMETER / 2 - PAINTER_TYPE_X_OFFSET, DIAMETER - PAINTER_TYPE_Y_OFFSET);
         }
     }
 }
