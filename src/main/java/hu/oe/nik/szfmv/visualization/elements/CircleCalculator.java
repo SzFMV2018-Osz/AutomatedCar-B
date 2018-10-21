@@ -95,7 +95,7 @@ public class CircleCalculator extends JPanel {
 
     private void helperMethodSetValueRPM(int value) {
         if (value <= viewValue * VIEWVALUE_MULTIPLIER_RPM_SPECIFIC && value >= 0) {
-            double scale = value / (viewValue * VIEWVALUE_MULTIPLIER_SCALE);
+            double scale = (double) value / (viewValue * VIEWVALUE_MULTIPLIER_SCALE);
             double fractional = value % (viewValue * VIEWVALUE_MULTIPLIER_SCALE);
             int remnant = (int) (fractional / viewValue);
             if (scale == SCALE_THRESHOLD) {
@@ -111,7 +111,7 @@ public class CircleCalculator extends JPanel {
     }
     private void helperMethodSetValueSPEED(int value) {
         if (value <= viewValue * VIEWVALUE_MULTIPLIER_SPEED_SPECIFIC && value >= 0) {
-            double scale = value / (viewValue * VIEWVALUE_MULTIPLIER_SCALE);
+            double scale = (double) value / (viewValue * VIEWVALUE_MULTIPLIER_SCALE);
             double fractional = value % (viewValue * VIEWVALUE_MULTIPLIER_SCALE);
             int remnant = (int) (fractional / viewValue);
             if (scale == SCALE_THRESHOLD) {
