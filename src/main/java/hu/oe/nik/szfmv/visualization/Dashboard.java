@@ -14,9 +14,6 @@ import java.awt.*;
  * Dashboard shows the state of the ego car, thus helps in debugging.
  */
 public class Dashboard extends JPanel {
-    public int speed;
-    public int rpm;
-
     /**
      * Integer for dashboard width.
      */
@@ -25,11 +22,9 @@ public class Dashboard extends JPanel {
      * Integer for dashboard height.
      */
     private final int height = 700;
-
     private final int boundsX = 770;
     private final int boundsY = 0;
     private final int backgroundColor = 0x888888;
-
     private final int gearLabelPosX = 100;
     private final int gearLabelPosY = 130;
     private final int gearLabelWidth = 70;
@@ -38,9 +33,10 @@ public class Dashboard extends JPanel {
     private final int circleMeterHeight = 115;
     private final int indexWidth = 51;
     private final int indexHeight = 31;
-
     private final Point brakePedal = new Point(40, 290);
     private final Point gasPedal = new Point(40, 260);
+    public int speed;
+    public int rpm;
 
     private PedalBar bPB = new PedalBar();
     private JLabel brakePedalLabel = bPB.getPedalProgressBarLabel(brakePedal.x, brakePedal.y, "Brake pedal");
@@ -93,7 +89,7 @@ public class Dashboard extends JPanel {
     /**
      * Method gets called 'every tick' to display the dashboard portion of the application
      *
-     * @param dbPacket - object containing readable info for the dashboard
+     * @param dbPacket           - object containing readable info for the dashboard
      * @param debugInfoIsEnabled - toggle for the debug section's display
      */
     public void display(IReadOnlyDashboardPacket dbPacket, boolean debugInfoIsEnabled) {
@@ -101,6 +97,7 @@ public class Dashboard extends JPanel {
         bPB.setProgress(brakePedalBar, dbPacket.getBrakePedalPosition());
         setGearLabelText(dbPacket.getCurrentGear());
         indicateTo(dbPacket.getIndicatorDirection());
+        rpm = dbPacket.getRpm();
 
         checkDebugSectionVisibility(debugInfoIsEnabled);
         if (debugInfoIsEnabled) {
