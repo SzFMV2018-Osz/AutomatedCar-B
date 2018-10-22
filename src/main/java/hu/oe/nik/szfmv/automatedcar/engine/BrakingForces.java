@@ -5,7 +5,7 @@ package hu.oe.nik.szfmv.automatedcar.engine;
  */
 public class BrakingForces {
     private static double aeroDrag = 10;
-    private static double maxBrakeForce = 500000;
+    private static double maxBrakeForce = 5000;
     private static double breakPedalPercentageMultiplyer = 0.01;
     private static double frictionFactor = 30 * aeroDrag;
 
@@ -38,14 +38,12 @@ public class BrakingForces {
 
         if ((brakePedal != 0) && ((vx != 0.0) || (vy != 0.0))) {
             // get the unit of the vector
-            final double len = Math.sqrt((vx * vx) + (vy * vy));
-            final double[] vUnit = { vx / len, vy / len };
 
             final double percentage = brakePedal * breakPedalPercentageMultiplyer;
 
             // calc break force
-            brakeForce[0] = (-1 * vUnit[0]) * maxBrakeForce * percentage;
-            brakeForce[1] = (-1 * vUnit[1]) * maxBrakeForce * percentage;
+            brakeForce[0] = (-1 * vx) * maxBrakeForce * percentage;
+            brakeForce[1] = (-1 * vy) * maxBrakeForce * percentage;
 
             // if break force is larger than the heading eq it.
             // final double breakLen = Math.sqrt((brakeForce[0] * brakeForce[0]) +
