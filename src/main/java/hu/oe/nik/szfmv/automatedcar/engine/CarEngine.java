@@ -24,7 +24,9 @@ public class CarEngine {
     }
 
     /**
-     * @param currentGear the current gear
+     * update rpm
+     * @param speed current speed
+     * @param currentGear current gear
      */
     public void updateRpm(int speed, final int currentGear) {
         rpm = (int) ((getWheelrotationRate(speed) * engineType.getGearRatios()[currentGear]
