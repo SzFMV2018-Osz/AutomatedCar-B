@@ -25,7 +25,8 @@ public class CarEngine {
 
     /**
      * update rpm
-     * @param speed current speed
+     *
+     * @param speed       current speed
      * @param currentGear current gear
      */
     public void updateRpm(int speed, final int currentGear) {
