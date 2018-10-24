@@ -2,11 +2,7 @@ package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.PowerTrainPacketImpl;
-import hu.oe.nik.szfmv.automatedcar.engine.CarEngine;
-import hu.oe.nik.szfmv.automatedcar.engine.CarEngineType;
-import hu.oe.nik.szfmv.automatedcar.engine.GearBox;
-import hu.oe.nik.szfmv.automatedcar.engine.StandardCarEngineType;
-import hu.oe.nik.szfmv.automatedcar.engine.TractionForce;
+import hu.oe.nik.szfmv.automatedcar.engine.*;
 import hu.oe.nik.szfmv.automatedcar.engine.exception.TransmissionModeChangeException;
 import hu.oe.nik.szfmv.common.enums.Gear;
 
@@ -92,9 +88,9 @@ public class PowertrainSystem extends SystemComponent {
             return calculateTractionForceFomGear(gearBox.getCurrentGear(), orientationVector);
         } else if (virtualFunctionBus.gearPacket.getCurrentGear().equals(Gear.R)) {
             double[] tractionForce = calculateTractionForceFomGear(0, orientationVector);
-            return new double[] { tractionForce[0] * -1, tractionForce[1] * -1 };
+            return new double[]{tractionForce[0] * -1, tractionForce[1] * -1};
         } else {
-            return new double[] { 0, 0 };
+            return new double[]{0, 0};
         }
     }
 

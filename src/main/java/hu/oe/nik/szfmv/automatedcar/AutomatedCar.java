@@ -10,9 +10,11 @@ import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class AutomatedCar extends Car {
 
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
+    private final double wheelRadius = 0.33;
     private double timeFrame = 0.041666667;
     private VelocityPacket velocityPacket = new VelocityPacket();
     private InputManager inputManager;

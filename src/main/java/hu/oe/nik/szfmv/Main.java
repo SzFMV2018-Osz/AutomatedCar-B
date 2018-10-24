@@ -1,19 +1,18 @@
 package hu.oe.nik.szfmv;
 
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.xml.sax.SAXException;
-
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
 import hu.oe.nik.szfmv.common.ConfigProvider;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.visualization.Gui;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+
 
 /**
  * Main Class.
@@ -21,7 +20,7 @@ import hu.oe.nik.szfmv.visualization.Gui;
 public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger();
-
+    private static final int CYCLE_PERIOD = 40;
     private static int worldWidth = 800;
     private static int worldHeight = 600;
     private static int carPosX = 20;
