@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.engine;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.engine.TurningHandler;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -9,21 +10,35 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.text.DecimalFormat;
+
 @RunWith(JUnitParamsRunner.class)
 public class TurningHandlerTest {
 
-    private SteeringSystem underTest;
+    private TurningHandler underTest;
 
     @Before
     public void setUp() {
-        underTest = new SteeringSystem(new VirtualFunctionBus());
+        underTest = new TurningHandler();
     }
 
     @Test
     @Parameters({ "30|15|2", "60|50|15", "45|70|16", "0|10|0" })
     public void angularVelocityCalculationTest(final int steeringWheelState,int speed,long angularVelocityResult)
     {
-        underTest.updateAngularSpeed(steeringWheelState,speed);
-        Assert.assertEquals(Math.round(underTest.getAngularSpeed()),angularVelocityResult);
+        Assert.assertEquals(Math.round(underTest.angularVelocityCalculation(steeringWheelState,speed)),angularVelocityResult);
+    }
+
+    @Test
+    @Parameters({ "1|2|10|0.249|-2.22","2|3|5|3.44|-1.07","5|0|2|-2.08|4.55"   })
+    public void angularVelocityCalculationTest(double angularVectorX,double angularVectorY ,int angularSpeed,double angularVectorResultX,double angularVectorResultY)
+    {
+        double[] vector=new double[2];
+        vector[0]=angularVectorX;
+        vector[1]=angularVectorY;
+        double[] result=underTest.angularVector(vector,angularSpeed);
+        Assert.assertEquals(result[1],angularVectorResultY,2);
+        Assert.assertEquals(result[0],angularVectorResultX,2);
+
     }
 }
