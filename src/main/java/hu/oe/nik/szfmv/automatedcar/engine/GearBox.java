@@ -38,13 +38,20 @@ public class GearBox {
 
     /**
      * Change transmission mode if it is possible
-     * 
+     *
      * @param nextTransmissionMode nex transnmission mode
      * @param rpm                  actual rmp
      * @throws TransmissionModeChangeException if you want to change mode but it is
      *                                         impossible
      */
     public void changeTransmissionMode(TransmissionModes nextTransmissionMode, final int rpm)
+            throws TransmissionModeChangeException {
+        if (nextTransmissionMode != transmissionModes) {
+            transmissionModeChangeDetection(nextTransmissionMode, rpm);
+        }
+    }
+
+    private void transmissionModeChangeDetection(TransmissionModes nextTransmissionMode, final int rpm)
             throws TransmissionModeChangeException {
         if (nextTransmissionMode == TransmissionModes.Neutral) {
             this.transmissionModes = nextTransmissionMode;

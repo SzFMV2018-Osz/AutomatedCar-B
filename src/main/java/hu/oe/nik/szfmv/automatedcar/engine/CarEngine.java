@@ -7,7 +7,6 @@ public class CarEngine {
     private CarEngineType engineType;
     private int rpm;
 
-
     /**
      * @param engineType the type of the engine
      */
@@ -20,12 +19,18 @@ public class CarEngine {
         return rpm;
     }
 
+    private double getWheelrotationRate(int speed) {
+        return speed / engineType.getWheelRadius();
+    }
+
     /**
-     * @param wheelRotationRate the rotation rate of the wheel
-     * @param currentGear       the current gear
+     * update rpm
+     *
+     * @param speed       current speed
+     * @param currentGear current gear
      */
-    public void updateRpm(final double wheelRotationRate, final int currentGear) {
-        rpm = (int) ((wheelRotationRate * engineType.getGearRatios()[currentGear]
+    public void updateRpm(int speed, final int currentGear) {
+        rpm = (int) ((getWheelrotationRate(speed) * engineType.getGearRatios()[currentGear]
                 * engineType.getGearDifferentialRatio() * gearRatioMultiplyer) / (2 * Math.PI));
     }
 
@@ -46,12 +51,20 @@ public class CarEngine {
     }
 
     private double calculateMaxTorque() {
-        final int closestLookupPoint = (rpm / 1000) - 1;
+        int closestLookupPoint = getClosestLookupPoint();
         if (closestLookupPoint != (engineType.getTorqueCurve().length - 1)) {
             return linearInterpolarMaxTorque(closestLookupPoint);
         } else {
             return engineType.getTorqueCurve()[closestLookupPoint];
         }
+    }
+
+    private int getClosestLookupPoint() {
+        int closestLookupPoint = (rpm / 1000) - 1;
+        if (closestLookupPoint >= engineType.getTorqueCurve().length) {
+            closestLookupPoint = engineType.getTorqueCurve().length - 1;
+        }
+        return closestLookupPoint;
     }
 
     private double linearInterpolarMaxTorque(final int closestLookupPoint) {
