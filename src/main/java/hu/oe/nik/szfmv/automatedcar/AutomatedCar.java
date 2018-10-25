@@ -10,6 +10,8 @@ import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
 
+import java.util.List;
+
 public class AutomatedCar extends Car {
 
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
@@ -64,9 +66,9 @@ public class AutomatedCar extends Car {
     /**
      * Return information of the sensors current status
      *
-     * @return the necessary data to display visual field of the sensor
+     * @return the necessary data to display visual fields of the sensors
      */
-    public IReadonlyDisplayableSensorPacket getDisplayableSensors() {
+    public List<IReadonlyDisplayableSensorPacket> getDisplayableSensors() {
         throw new RuntimeException("Missing implementation");
     }
 
