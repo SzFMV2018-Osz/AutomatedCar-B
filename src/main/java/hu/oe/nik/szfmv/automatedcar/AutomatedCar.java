@@ -2,12 +2,15 @@ package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyDisplayableSensorPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.DashboardManager;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
+
+import java.util.List;
 
 public class AutomatedCar extends Car {
 
@@ -58,6 +61,15 @@ public class AutomatedCar extends Car {
      */
     public IReadOnlyDashboardPacket getDashboardInfo() {
         return dashboardManager.getDashboardPacket();
+    }
+
+    /**
+     * Return information of the sensors current status
+     *
+     * @return the necessary data to display visual fields of the sensors
+     */
+    public List<IReadonlyDisplayableSensorPacket> getDisplayableSensors() {
+        throw new RuntimeException("Missing implementation");
     }
 
     /**
