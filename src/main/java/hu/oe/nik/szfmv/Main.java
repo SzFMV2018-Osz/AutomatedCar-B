@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
+
 /**
  * Main Class.
  */
@@ -59,16 +60,10 @@ public class Main {
         gui.getCourseDisplay().drawWorld(w);
 
         while (true) {
-            try {
-                car.drive();
+            car.drive();
 
-                gui.getCourseDisplay().drawWorld(w);
-                gui.getDashboard().display(car.getDashboardInfo(), dashboardDebugIsEnabled);
-
-                Thread.sleep(CYCLE_PERIOD);
-            } catch (InterruptedException e) {
-                LOGGER.error(e.getMessage());
-            }
+            gui.getCourseDisplay().drawWorld(w);
+            gui.getDashboard().display(car.getDashboardInfo(), dashboardDebugIsEnabled);
         }
     }
 }

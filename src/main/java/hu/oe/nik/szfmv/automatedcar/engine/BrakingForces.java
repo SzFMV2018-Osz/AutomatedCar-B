@@ -1,11 +1,11 @@
-package hu.oe.nik.szfmv.automatedcar;
+package hu.oe.nik.szfmv.automatedcar.engine;
 
 /**
  * Contains functions and constants to calculate physical forces
  */
 public class BrakingForces {
-    private static double aeroDrag = 0.05;
-    private static double maxBrakeForce = 0.5;
+    private static double aeroDrag = 10;
+    private static double maxBrakeForce = 5000;
     private static double breakPedalPercentageMultiplyer = 0.01;
     private static double frictionFactor = 30 * aeroDrag;
 
@@ -38,40 +38,39 @@ public class BrakingForces {
 
         if ((brakePedal != 0) && ((vx != 0.0) || (vy != 0.0))) {
             // get the unit of the vector
-            final double len = Math.sqrt((vx * vx) + (vy * vy));
-            final double[] vUnit = { vx / len, vy / len };
 
             final double percentage = brakePedal * breakPedalPercentageMultiplyer;
 
             // calc break force
-            brakeForce[0] = (-1 * vUnit[0]) * maxBrakeForce * percentage;
-            brakeForce[1] = (-1 * vUnit[1]) * maxBrakeForce * percentage;
+            brakeForce[0] = (-1 * vx) * maxBrakeForce * percentage;
+            brakeForce[1] = (-1 * vy) * maxBrakeForce * percentage;
 
             // if break force is larger than the heading eq it.
-            final double breakLen = Math.sqrt((brakeForce[0] * brakeForce[0]) + (brakeForce[1] * brakeForce[1]));
+            // final double breakLen = Math.sqrt((brakeForce[0] * brakeForce[0]) +
+            // (brakeForce[1] * brakeForce[1]));
 
-            if (breakLen > len) {
-                brakeForce[0] = -vx;
-                brakeForce[1] = -vy;
-            }
+//            if (breakLen > len) {
+//                brakeForce[0] = -vx;
+//                brakeForce[1] = -vy;
+//            }
         }
 
         return brakeForce;
     }
-    
+
     /**
      * @param vx the x component of the velocity vector
      * @param vy the y component of the velocity vector
      * @return array of rolling resistance vector component values
      */
-    public  static double[] calcRollingResistanceVector(double vx, double vy) {
-        double [] rResistance = new double[2];
+    public static double[] calcRollingResistanceVector(double vx, double vy) {
+        double[] rResistance = new double[2];
 
-        if (vx != 0.0 || vy != 0.0) {
+        if ((vx != 0.0) || (vy != 0.0)) {
             rResistance[0] = vx * (-frictionFactor);
             rResistance[1] = vy * (-frictionFactor);
         }
 
-        return  rResistance;
+        return rResistance;
     }
 }
