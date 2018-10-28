@@ -29,7 +29,7 @@ public class CourseDisplay extends JPanel {
     /**
      * Integer for the scaling.
      */
-    public static final int SCALING_FACTOR = 1;
+    public static final double SCALING_FACTOR = 0.4;
     /**
      * Logger for exceptions.
      */
@@ -182,7 +182,7 @@ public class CourseDisplay extends JPanel {
             AffineTransform at = new AffineTransform();
             at.setToTranslation(width / 2 - imageWidth / 2,
                     height / 2 - imageHeight / 2);
-            at.rotate(car.getRotation(), 0, 0);
+            at.rotate(-car.getRotation(), 0, 0);
             at.scale(SCALING_FACTOR, SCALING_FACTOR);
             Graphics2D g2d = (Graphics2D) screenBuffer;
             g2d.drawImage(image, at, null);
@@ -215,7 +215,7 @@ public class CourseDisplay extends JPanel {
             at.translate(-refPoint.x * SCALING_FACTOR,
                     -refPoint.y * SCALING_FACTOR);
 
-            at.rotate(object.getRotation(), SCALING_FACTOR * refPoint.x,
+            at.rotate(-object.getRotation(), SCALING_FACTOR * refPoint.x,
                     SCALING_FACTOR * refPoint.y);
 
             at.scale(modifyScaleFactorFor(image.getWidth()),
