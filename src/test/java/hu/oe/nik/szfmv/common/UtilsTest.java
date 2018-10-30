@@ -1,8 +1,12 @@
 package hu.oe.nik.szfmv.common;
-
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+
 
 public class UtilsTest {
 
@@ -27,5 +31,4 @@ public class UtilsTest {
     public void testRadianToDegree() {
         assertEquals(45, Utils.radianToDegree(0.7853981633974484), THRESHOLD);
     }
-
 }

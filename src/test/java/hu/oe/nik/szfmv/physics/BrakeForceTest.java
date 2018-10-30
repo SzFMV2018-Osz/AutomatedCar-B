@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.physics;
 
-import hu.oe.nik.szfmv.automatedcar.BrakingForces;
+import hu.oe.nik.szfmv.automatedcar.engine.BrakingForces;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Assert;
@@ -12,7 +12,7 @@ public class BrakeForceTest {
     @Test
     @Parameters({"1.0|0.0", "1.0|1.0", "0.0|1.0", "-1.0|1.0",
             "-1.0, 0.0", "-1.0, -1.0", "0.0| -1.0", "1.0, -1.0"})
-    public void BrakeForceIsOppositeToHeading(final double vx, final double vy){
+    public void BrakeForceIsOppositeToHeading(final double vx, final double vy) {
         //GIVEN
         //WHEN
 
@@ -22,7 +22,7 @@ public class BrakeForceTest {
         double breakLen = Math.sqrt(brakeForce[0] * brakeForce[0] + brakeForce[1] * brakeForce[1]);
         double veloLen = Math.sqrt(vx * vx + vy * vy);
 
-        double cosAngle = dot / ( breakLen * veloLen );
+        double cosAngle = dot / (breakLen * veloLen);
 
         double angle = Math.toDegrees(Math.acos(cosAngle));
 
@@ -31,7 +31,7 @@ public class BrakeForceTest {
     }
 
     @Test
-    public void NoBreakWhenNotMoving(){
+    public void NoBreakWhenNotMoving() {
         //GIVEN
         //WHEN
         double[] brakeForce = BrakingForces.calcBrakeForceVector(0.0, 0.0, 10);
@@ -43,27 +43,28 @@ public class BrakeForceTest {
     }
 
     @Test
-    @Parameters({"0.1|0.1|100", "0.2|0.2|100"})
-    public void BreakLengthEqualsVelocityLengthWhenLonger(final double vx, final double vy, final int pedal){
+    @Parameters({"0.1|0.1|0|0|0", "0.2|0.2|100|-1000|-1000"})
+    public void BreakLengthEqualsVelocityLengthWhenLonger(final double vx, final double vy, final int pedal, final double resultvx, final double resultvy) {
         //GIVEN
         //WHEN
         double[] brakeForce = BrakingForces.calcBrakeForceVector(vx, vy, pedal);
         //THEN
 
-        Assert.assertEquals(brakeForce[0], -vx, 0.01);
-        Assert.assertEquals(brakeForce[1], -vy, 0.01);
+        Assert.assertEquals(brakeForce[0], resultvx, 0.01);
+        Assert.assertEquals(brakeForce[1], resultvy, 0.01);
     }
+
     @Test
-    @Parameters({"0.2|0.1", "0.256|0.143"})
-    public void RollingResistanceTest(final double vx, final double vy){
+    @Parameters({"0.2|0.1|60|30", "0.256|0.143|76.8|42.9"})
+    public void RollingResistanceTest(final double vx, final double vy, final double resultvx, final double resultvy) {
         //GIVEN
-        double [] rResistance_tst=BrakingForces.calcRollingResistanceVector(vx,vy);
+        double[] rResistance_tst = BrakingForces.calcRollingResistanceVector(vx, vy);
 
         //WHEN
         //THEN
-        Assert.assertEquals(rResistance_tst[0], -vx, 0.2);
-        Assert.assertEquals(rResistance_tst[1], -vy, 0.2);
+        Assert.assertEquals(rResistance_tst[0], -resultvx, 0.2);
+        Assert.assertEquals(rResistance_tst[1], -resultvy, 0.2);
 
     }
-    
+
 }
