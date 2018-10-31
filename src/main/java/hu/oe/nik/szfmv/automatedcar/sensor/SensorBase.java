@@ -7,12 +7,12 @@ import hu.oe.nik.szfmv.environment.WorldObject;
 import java.awt.*;
 import java.util.List;
 
-public abstract class SensorBase {
+public class SensorBase {
     private List<WorldObject> worldObjects;
     private Point coordinate;
     private SensorType sensorType;
 
-    private SensorBase(List<WorldObject> worldObjects, Point coordinate, SensorType sensorType) {
+    public SensorBase(List<WorldObject> worldObjects, Point coordinate, SensorType sensorType) {
         this.worldObjects = worldObjects;
         this.coordinate = coordinate;
         this.sensorType = sensorType;
@@ -23,7 +23,7 @@ public abstract class SensorBase {
     }
 
     public Point getPosition() {
-        return coordinate;
+        return this.coordinate;
     }
 
     public List<WorldObject> getWorldObjects(){
