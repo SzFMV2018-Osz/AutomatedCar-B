@@ -31,4 +31,11 @@ public class Coordinate {
     public void setY(int y) {
         this.y = y;
     }
+
+    public double distanceTo(Coordinate c) {
+        int dX = this.x - c.x;
+        int dY = this.y - c.y;
+
+        return Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));
+    }
 }
