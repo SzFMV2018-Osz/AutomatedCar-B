@@ -6,6 +6,11 @@ import java.util.List;
 
 public class Camera implements ISensor {
 
+    private final static int VISUAL_RANGE = 80;
+    private final static int METER_PIXEL_RATIO = 50;
+    // 60°
+    private final static double ANGLE_OF_VIEW = 60f;
+    private static double TRIANGULAR_STEM;
     // camera position
     private double x;
     private double y;
@@ -14,14 +19,9 @@ public class Camera implements ISensor {
     private double[] triangleAPoint;
     private double[] triangleBPoint;
 
-    private static double TRIANGULAR_STEM;
-    private final static int VISUAL_RANGE = 80;
-    private final static int METER_PIXEL_RATIO = 50;
-    // 60°
-    private final static double ANGLE_OF_VIEW = 60f;
     private double[] facingDirection;
 
-    public Camera(int x, int y, double[] facingDirection){
+    public Camera(int x, int y, double[] facingDirection) {
         this.x = x;
         this.y = y;
         this.facingDirection = facingDirection;
@@ -61,7 +61,7 @@ public class Camera implements ISensor {
         calculateTriangleOfView();
     }
 
-    private void calculateTriangleOfView(){
+    private void calculateTriangleOfView() {
         double[] shiftVector = calculatedDirectionVectorWithRotationMatrix(ANGLE_OF_VIEW / 2);
         shiftVector[0] = (shiftVector[0] * TRIANGULAR_STEM + x) / METER_PIXEL_RATIO;
         shiftVector[1] = (shiftVector[1] * TRIANGULAR_STEM + y) / METER_PIXEL_RATIO;
@@ -73,12 +73,12 @@ public class Camera implements ISensor {
         triangleBPoint = shiftVector;
     }
 
-    private double[] calculatedDirectionVectorWithRotationMatrix(double angle){
+    private double[] calculatedDirectionVectorWithRotationMatrix(double angle) {
         angle = angle % 360;
         // transformation matrix
         return new double[]{
-          facingDirection[0] * Math.cos(angle) + facingDirection[1] * (Math.sin(angle)),
-          facingDirection[0] * (-Math.sin(angle)) + facingDirection[1] * Math.cos(angle)
+                facingDirection[0] * Math.cos(angle) + facingDirection[1] * (Math.sin(angle)),
+                facingDirection[0] * (-Math.sin(angle)) + facingDirection[1] * Math.cos(angle)
         };
     }
 
