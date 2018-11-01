@@ -6,10 +6,11 @@ import java.util.List;
 
 public class Camera implements ISensor {
 
-    private final static int VISUAL_RANGE = 80;
-    private final static int METER_PIXEL_RATIO = 50;
+    private static final int VISUAL_RANGE = 80;
+    private static final int HAROMSZAZHATVAN = 80;
+    private static final int METER_PIXEL_RATIO = 50;
     // 60°
-    private final static double ANGLE_OF_VIEW = 60f;
+    private static final double ANGLE_OF_VIEW = 60f;
     private static double TRIANGULAR_STEM;
     // camera position
     private double x;
@@ -21,6 +22,11 @@ public class Camera implements ISensor {
 
     private double[] facingDirection;
 
+    /**
+     * @param x               x coordinate
+     * @param y               y coordinate
+     * @param facingDirection faceing direction
+     */
     public Camera(int x, int y, double[] facingDirection) {
         this.x = x;
         this.y = y;
@@ -53,6 +59,10 @@ public class Camera implements ISensor {
         return triangleBPoint;
     }
 
+    /**
+     * @param position        position
+     * @param facingDirection facingDirection
+     */
     public void updatePosition(double[] position, double[] facingDirection) {
         // get the new position and calculate the new triangle
         this.facingDirection = facingDirection;
@@ -67,14 +77,14 @@ public class Camera implements ISensor {
         shiftVector[1] = (shiftVector[1] * TRIANGULAR_STEM + y) / METER_PIXEL_RATIO;
         triangleAPoint = shiftVector;
 
-        shiftVector = calculatedDirectionVectorWithRotationMatrix(360 - ANGLE_OF_VIEW / 2);
+        shiftVector = calculatedDirectionVectorWithRotationMatrix(HAROMSZAZHATVAN - ANGLE_OF_VIEW / 2);
         shiftVector[0] = (shiftVector[0] * TRIANGULAR_STEM + x) / METER_PIXEL_RATIO;
         shiftVector[1] = (shiftVector[1] * TRIANGULAR_STEM + y) / METER_PIXEL_RATIO;
         triangleBPoint = shiftVector;
     }
 
     private double[] calculatedDirectionVectorWithRotationMatrix(double angle) {
-        angle = angle % 360;
+        angle = angle % HAROMSZAZHATVAN;
         // transformation matrix
         return new double[]{
                 facingDirection[0] * Math.cos(angle) + facingDirection[1] * (Math.sin(angle)),
