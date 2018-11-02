@@ -37,7 +37,7 @@ public class Camera implements ISensor {
 
         double m = VISUAL_RANGE;
         double a = m * (
-                Math.toRadians(Math.sin(ANGLE_OF_VIEW / 2)) / Math.toRadians(Math.sin(ANGLE_OF_VIEW)));
+                Math.sin(Math.toRadians(ANGLE_OF_VIEW / 2)) / (Math.sin(Math.toRadians(ANGLE_OF_VIEW))));
         TRIANGULAR_STEM = Math.sqrt(Math.pow(a, 2) + Math.pow(m, 2));
 
         calculateTriangleOfView();
