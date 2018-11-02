@@ -92,7 +92,9 @@ public class Triangle {
      * @return true if element is in the triangle
      */
     public boolean isInTheTriangle(double p0x, double p0y) {
-        boolean d1, d2, d3;
+        boolean d1;
+        boolean d2;
+        boolean d3;
 
         d1 = sign(p0x, p0y, a0x, a0y, a1x, a1y) <= 0d;
         d2 = sign(p0x, p0y, a1x, a1y, a2x, a2y) <= 0d;
@@ -102,7 +104,7 @@ public class Triangle {
     }
 
 
-    double sign(double p0x, double p0y, double p1x, double p1y, double p2x, double p2y) {
+    private double sign(double p0x, double p0y, double p1x, double p1y, double p2x, double p2y) {
         return (p0x - p2x) * (p1y - p2y) - (p1x - p2x) * (p0y - p2y);
     }
 
@@ -122,10 +124,12 @@ public class Triangle {
         a2x = p0x + distanceFromA0InPixel;
         a2y = p0y - distanceFromMidPointInPixel;
 
-        a1x = Utils.rotationPointToOtherPoint(rotation, a0x, a0y, a1x, a1y)[0];
-        a1y = Utils.rotationPointToOtherPoint(rotation, a0x, a0y, a1x, a1y)[1];
-        a2x = Utils.rotationPointToOtherPoint(rotation, a0x, a0y, a2x, a2y)[0];
-        a2y = Utils.rotationPointToOtherPoint(rotation, a0x, a0y, a2x, a2y)[1];
+        double[] point = Utils.rotationPointToOtherPoint(rotation, a0x, a0y, a1x, a1y);
+        a1x = point[0];
+        a1y = point[1];
+        point = Utils.rotationPointToOtherPoint(rotation, a0x, a0y, a2x, a2y);
+        a2x = point[0];
+        a2y = point[1];
     }
 
 
