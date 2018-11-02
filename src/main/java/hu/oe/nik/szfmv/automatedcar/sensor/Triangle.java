@@ -29,6 +29,7 @@ public class Triangle {
         this.a0x = a0x;
         this.a0y = a0y;
         this.distanceFromMidPointInPixel = calcDistanceFromMidPoint(a0Angle, distanceFromA0InPixel);
+        this.calculateNextPosition(0, a0x, a0y);
     }
 
     private double calcDistanceFromMidPoint(double a0Angle, double distanceFromA0InPixel) {
@@ -91,12 +92,18 @@ public class Triangle {
      * @return true if element is in the triangle
      */
     public boolean isInTheTriangle(double p0x, double p0y) {
-        double a = 1 / 2 * (-a1y * a2x + a0y * (-a1x + a2x) + a0x * (a1y - a2y) + a1x * a2y);
-        var sign = a < 0 ? -1 : 1;
-        var s = (a0y * a2x - a0x * a2y + (a2y - a0y) * p0x + (a0x - a2x) * p0y) * sign;
-        var t = (a0x * a1y - a0y * a1x + (a0y - a1y) * p0x + (a1x - a0x) * p0y) * sign;
+        boolean d1, d2, d3;
 
-        return s > 0 && t > 0 && (s + t) < 2 * a * sign;
+        d1 = sign(p0x, p0y, a0x, a0y, a1x, a1y) <= 0d;
+        d2 = sign(p0x, p0y, a1x, a1y, a2x, a2y) <= 0d;
+        d3 = sign(p0x, p0y, a2x, a2y, a0x, a0y) <= 0d;
+
+        return ((d1 == d2) && (d2 == d3));
+    }
+
+
+    double sign(double p0x, double p0y, double p1x, double p1y, double p2x, double p2y) {
+        return (p0x - p2x) * (p1y - p2y) - (p1x - p2x) * (p0y - p2y);
     }
 
     /**
