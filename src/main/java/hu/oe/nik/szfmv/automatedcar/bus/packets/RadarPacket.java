@@ -62,6 +62,6 @@ public class RadarPacket implements IRadarPacket {
     }
 
     @Override
-    public void setTwoCloserLane(int[] actualRoadLane) {
-        this.twoCloserLane = actualRoadLane; }
+    public void setTwoCloserLane(int[] raodLanes) {
+        this.twoCloserLane = raodLanes; }
 }
