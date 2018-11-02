@@ -7,7 +7,7 @@ import java.util.List;
 public class Camera implements ISensor {
 
     private static final int VISUAL_RANGE = 80;
-    private static final int HAROMSZAZHATVAN = 80;
+    private static final int HAROMSZAZHATVAN = 360;
     private static final int METER_PIXEL_RATIO = 50;
     // 60°
     private static final double ANGLE_OF_VIEW = 60f;
