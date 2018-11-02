@@ -43,18 +43,30 @@ public class Camera implements ISensor {
         calculateTriangleOfView();
     }
 
+    /**
+     * @return returns the x coordinate of the camera position
+     */
     public double getX() {
         return x;
     }
 
+    /**
+     * @return returns the y coordinate of the camera position
+     */
     public double getY() {
         return y;
     }
 
+    /**
+     * @return returns one point of the camera view triangle
+     */
     public double[] getTriangleAPoint() {
         return triangleAPoint;
     }
 
+    /**
+     * @return returns the other point of the camera view triangle
+     */
     public double[] getTriangleBPoint() {
         return triangleBPoint;
     }
@@ -71,6 +83,9 @@ public class Camera implements ISensor {
         calculateTriangleOfView();
     }
 
+    /**
+     * Calculates the current view triangle of the camera
+     */
     private void calculateTriangleOfView() {
         double[] shiftVector = calculatedDirectionVectorWithRotationMatrix(ANGLE_OF_VIEW / 2);
         shiftVector[0] = (shiftVector[0] * TRIANGULAR_STEM + x) / METER_PIXEL_RATIO;
@@ -83,6 +98,10 @@ public class Camera implements ISensor {
         triangleBPoint = shiftVector;
     }
 
+    /**
+     * @param angle where the camera looks
+     * @return the direction vector
+     */
     private double[] calculatedDirectionVectorWithRotationMatrix(double angle) {
         angle = angle % HAROMSZAZHATVAN;
         // transformation matrix
