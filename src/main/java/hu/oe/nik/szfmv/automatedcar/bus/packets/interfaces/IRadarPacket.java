@@ -47,7 +47,7 @@ public interface IRadarPacket {
     int[] getTwoCloserLane();
 
     /**
-     * @param actualRoadLane Set Two closer lane number
+     * @param raodLanes Set Two closer lane number
      */
-    void setTwoCloserLane(int [] actualRoadLane);
+    void setTwoCloserLane(int [] raodLanes);
 }

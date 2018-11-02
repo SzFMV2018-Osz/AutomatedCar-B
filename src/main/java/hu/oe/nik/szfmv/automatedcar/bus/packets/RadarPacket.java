@@ -5,7 +5,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IRadarPacket;
 public class RadarPacket implements IRadarPacket {
 
     private int laneNumber;
-    private int rightClosesRoadLane;
+    private int rightClosesRoadLane; 
     private int leftClosesRoadLane;
     private int actualLane;
     private int [] twoCloserLane;
@@ -62,6 +62,6 @@ public class RadarPacket implements IRadarPacket {
     }
 
     @Override
-    public void setTwoCloserLane(int[] actualRoadLane) {
-        this.twoCloserLane = actualRoadLane; }
+    public void setTwoCloserLane(int[] raodLanes) {
+        this.twoCloserLane = raodLanes; }
 }
