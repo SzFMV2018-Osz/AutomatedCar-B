@@ -6,10 +6,15 @@ import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
 public class CameraPacket implements ICameraPacket {
 
     RoadSign closestRoadSign;
-    int leftDisctanceFromTheLaneEdge, rightDistanceFromTheLaneEdge;
+    int leftDisctanceFromTheLaneEdge;
+    int rightDistanceFromTheLaneEdge;
     int laneNumber;
     boolean[] whichLane;
 
+
+    /**
+     * add default value to variable
+     */
     public CameraPacket() {
         this.closestRoadSign = null;
         this.leftDisctanceFromTheLaneEdge = 0;
