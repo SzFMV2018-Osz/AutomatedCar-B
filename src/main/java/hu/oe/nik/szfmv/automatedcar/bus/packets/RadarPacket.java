@@ -16,7 +16,7 @@ public class RadarPacket implements IRadarPacket {
     public RadarPacket() {
         this.laneNumber = 0;
         this.rightClosesRoadLane = 0;
-        this.leftClosesRoadLane = 0; 
+        this.leftClosesRoadLane = 0;
         this.actualLane = 0;
         this.twoCloserLane = null;
     }
