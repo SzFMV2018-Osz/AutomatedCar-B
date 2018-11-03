@@ -34,6 +34,16 @@ public class CollisionDetector {
         }
     }
 
+    public static boolean checkCollisions() {
+        boolean crashed = false;
+
+        for (WorldObject object: obstacles) {
+            // TODO
+        }
+
+        return crashed;
+    }
+
     public static List<WorldObject> getObstacles() {
         return obstacles;
     }
