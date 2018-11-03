@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.automatedcar.sensor;
 
 import hu.oe.nik.szfmv.environment.WorldObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Camera implements ISensor {
@@ -25,7 +26,7 @@ public class Camera implements ISensor {
     /**
      * @param x               x coordinate
      * @param y               y coordinate
-     * @param facingDirection faceing direction
+     * @param facingDirection facing direction
      */
     public Camera(int x, int y, double[] facingDirection) {
         this.x = x;
@@ -109,6 +110,30 @@ public class Camera implements ISensor {
                 facingDirection[0] * Math.cos(angle) + facingDirection[1] * (Math.sin(angle)),
                 facingDirection[0] * (-Math.sin(angle)) + facingDirection[1] * Math.cos(angle)
         };
+    }
+
+    /**
+     * @param worldObjects list of world objects to sort though
+     * @return list of world objects that are inside the view of the camera
+     */
+    public List<WorldObject> findWorldObjectsInRadarTriangle(List<WorldObject> worldObjects) {
+        Triangle triangle = new Triangle(VISUAL_RANGE * METER_PIXEL_RATIO,
+                0 , x, y);
+
+        triangle.a0x = x;
+        triangle.a0y = y;
+        triangle.a1x = triangleAPoint[0];
+        triangle.a1y = triangleAPoint[1];
+        triangle.a2x = triangleBPoint[0];
+        triangle.a2y = triangleBPoint[1];
+
+        List<WorldObject> inTriangleList = new ArrayList<>();
+        for (WorldObject wordObject : worldObjects) {
+            if (triangle.isInTheTriangle(wordObject.getX(), wordObject.getY())) {
+                inTriangleList.add(wordObject);
+            }
+        }
+        return inTriangleList;
     }
 
     @Override
