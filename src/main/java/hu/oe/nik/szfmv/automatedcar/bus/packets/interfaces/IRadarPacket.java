@@ -19,7 +19,7 @@ public interface IRadarPacket {
     Collidable getRightClosesObject();
 
     /**
-     * * @return Left Lane closes object
+     *  @return Left Lane closes object
      */
     Collidable getLeftClosesObject();
 
