@@ -96,16 +96,16 @@ public class Triangle {
         boolean d2;
         boolean d3;
 
-        d1 = sign(p0x, p0y, a0x, a0y, a1x, a1y) <= 0d;
-        d2 = sign(p0x, p0y, a1x, a1y, a2x, a2y) <= 0d;
-        d3 = sign(p0x, p0y, a2x, a2y, a0x, a0y) <= 0d;
+        d1 = sign(new double[]{p0x, p0y}, new double[]{a0x, a0y}, new double[]{a1x, a1y}) <= 0d;
+        d2 = sign(new double[]{p0x, p0y}, new double[]{a1x, a1y}, new double[]{a2x, a2y}) <= 0d;
+        d3 = sign(new double[]{p0x, p0y}, new double[]{a2x, a2y}, new double[]{a0x, a0y}) <= 0d;
 
         return ((d1 == d2) && (d2 == d3));
     }
 
 
-    private double sign(double p0x, double p0y, double p1x, double p1y, double p2x, double p2y) {
-        return (p0x - p2x) * (p1y - p2y) - (p1x - p2x) * (p0y - p2y);
+    private double sign(double[] p0, double[] p1, double[] p2) {
+        return (p0[0] - p2[0]) * (p1[1] - p2[1]) - (p1[0] - p2[0]) * (p0[1] - p2[1]);
     }
 
     /**
