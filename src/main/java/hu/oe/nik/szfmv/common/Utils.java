@@ -76,5 +76,25 @@ public final class Utils {
     }
 
 
+    /**
+     * Calculation new point coordinate which rotate x(radiant)
+     *
+     * @param rotation in radiant
+     * @param p0x      rotation point
+     * @param p0y      rotation point
+     * @param p1x      rotated point
+     * @param p1y      rotated point
+     * @return rotated coordinate
+     */
+    public static double[] rotationPointToOtherPoint(double rotation, double p0x, double p0y, double p1x, double p1y) {
+        double[] rotatedPoint = new double[2];
+        p1x -= p0x;
+        p1y -= p0y;
+        rotatedPoint[0] = p1x * Math.cos(rotation) - p1y * Math.sin(rotation);
+        rotatedPoint[1] = p1y * Math.cos(rotation) + p1x * Math.sin(rotation);
+        rotatedPoint[0] += p0x;
+        rotatedPoint[1] += p0y;
+        return rotatedPoint;
+    }
 
 }
