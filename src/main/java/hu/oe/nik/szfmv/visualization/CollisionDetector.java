@@ -1,14 +1,37 @@
 package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.environment.WorldObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CollisionDetector {
-    
+
     private static CollisionDetector instance = null;
-    protected CollisionDetector() {
+    private List<ColliderModel> colliders;
+    private CollisionDetector() {
+        colliders = new ArrayList<>();
+        try
+        {
+            readXML4Colliders();
+        }
+        catch (IOException e) {
+
+        } catch (ParserConfigurationException e) {
+
+        } catch (SAXException e) {
+
+        }
         // Exists only to defeat instantiation.
     }
     public static CollisionDetector getInstance() {
@@ -36,5 +59,28 @@ public class CollisionDetector {
 
     public static List<WorldObject> getObstacles() {
         return obstacles;
+    }
+
+    private void readXML4Colliders()
+            throws ParserConfigurationException, IOException, SAXException {
+
+        File inputFile = new File(ClassLoader
+                .getSystemResource("collision.xml").getFile());
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(inputFile);
+        doc.getDocumentElement().normalize();
+        NodeList nList = doc.getElementsByTagName("Object");
+
+        for (int temp = 0; temp < nList.getLength(); temp++) {
+            Node nNode = nList.item(temp);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) nNode;
+                ColliderModel model = new ColliderModel(eElement.getAttribute("name"),  Integer.parseInt(eElement.getAttribute("x")),
+                        Integer.parseInt(eElement.getAttribute("y")), Integer.parseInt(eElement.getAttribute("w")), Integer.parseInt(eElement.getAttribute("h")),
+                        eElement.getAttribute("geometry"));
+                colliders.add(model);
+            }
+        }
     }
 }
