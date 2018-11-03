@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces;
 
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Collidable;
+
 public interface IRadarPacket {
     /**
      * @return number of lanes
@@ -12,42 +14,18 @@ public interface IRadarPacket {
     void setLaneNumber(int laneNumber);
 
     /**
-     * @return Right closes Lane
+     * @return Right Lane closes object
      */
-    int getRightClosesRoadLane();
+    Collidable getRightClosesObject();
 
     /**
-     * @param laneNumber Set Right closes lane number
+     * * @return Left Lane closes object
      */
-    void setRightClosesRoadLane(int laneNumber);
-
-    /**
-     * @return Left closes Lane
-     */
-    int getLeftClosesRoadLane();
-
-    /**
-     * @param laneNumber Set Right closes lane number
-     */
-    void setLeftClosesRoadLane(int laneNumber);
+    Collidable getLeftClosesObject();
 
     /**
      * @return Actual Road Lane number
      */
-    int getActualtRoadLane();
+    Collidable []  getActualLaneClosesObjects();
 
-    /**
-     * @param laneNumber Set Actual Lane number
-     */
-    void setActualtRoadLane(int laneNumber);
-
-    /**
-     * @return get two closer lanes
-     */
-    int[] getTwoCloserLane();
-
-    /**
-     * @param raodLanes Set Two closer lane number
-     */
-    void setTwoCloserLane(int [] raodLanes);
 }
