@@ -14,4 +14,5 @@
 	<Object name="car_1_white.png" geometry="rect" x="7" y="3" w="94" h="234"/>
 	<Object name="car_1_red.png" geometry="rect" x="7" y="3" w="94" h="234"/>
 	<Object name="car_1_blue.png" geometry="rect" x="7" y="3" w="94" h="234"/>
+	<Object name="roadsign_speed_40.png" geometry="ellipse" x="0" y="0" w="80" h="80"/>
 </Collision>

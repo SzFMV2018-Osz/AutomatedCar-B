@@ -61,11 +61,14 @@ public class Main {
 
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w);
+        CollisionDetector singleton = CollisionDetector.getInstance();
+        singleton.findObstacles(w.getWorldObjects());
 
         while (true) {
             car.drive();
             // create gui
             gui.getCourseDisplay().drawWorld(w);
+            singleton.checkCollisions(car);
         }
     }
 }
