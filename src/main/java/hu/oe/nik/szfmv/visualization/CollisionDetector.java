@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -48,7 +49,7 @@ public class CollisionDetector {
         return instance;
     }
 
-    private static List<WorldObject> obstacles = new ArrayList<>();
+    private List<WorldObject> obstacles = new ArrayList<>();
 
     /***
      * Az ütközhető objektumok megkeresése, listába gyűjtése
@@ -83,7 +84,7 @@ public class CollisionDetector {
                 if(collider.getName().equals(object.getImageFileName()))
                 {
                     Shape tempShape = createTransformedShapeForCollision(object,collider);
-                    crashed = carShape.intersects((Rectangle2D)tempShape);
+                    crashed = carShape.getBounds2D().intersects(tempShape.getBounds2D());
                     //TODO: Történjen valami itt valami.
                     break;
                 }
@@ -96,40 +97,17 @@ public class CollisionDetector {
     private Shape createTransformedShapeForCollision(WorldObject object, ColliderModel collider)
     {
         Shape finalShape = null;
-        try
-        {   //Szomorú hogy ezt még mindig így kell megcsinálnunk.....
-            //TODO: Törölni ezt innen amint a B1 végre megcsinálja a dolgokat.
-            BufferedImage image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
-            AffineTransform at = new AffineTransform();
-            at.setToTranslation(object.getX()+collider.getX(), object.getY()+collider.getY());
-            Point refPoint = ReferencePointsXMLReadClass.checkIsReferenceOrNot(object.getImageFileName());
-            at.translate(-refPoint.x, -refPoint.y);
-            at.rotate(-object.getRotation(), refPoint.x-collider.getX(), refPoint.y-collider.getY());
-            Shape baseShape = collider.getShape();
-            finalShape = at.createTransformedShape(baseShape);
-        }catch (IOException e) {}
+        AffineTransform at = new AffineTransform();
+        at.setToTranslation(object.getX() + collider.getX(), object.getY() + collider.getY());
+        Point refPoint = ReferencePointsXMLReadClass.checkIsReferenceOrNot(object.getImageFileName());
+        at.translate(-refPoint.x, -refPoint.y);
+        at.rotate(-object.getRotation(), refPoint.x - collider.getX(), refPoint.y - collider.getY());
+        Shape baseShape = collider.getShape();
+        finalShape = at.createTransformedShape(baseShape);
         return finalShape;
     }
 
-    private Shape createTransformedShapeForCollision(AutomatedCar object, ColliderModel collider)
-    {
-        Shape finalShape = null;
-        try
-        {   //Szomorú hogy ezt még mindig így kell megcsinálnunk.....
-            //TODO: Törölni ezt innen amint a B1 végre megcsinálja a dolgokat.
-            BufferedImage image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
-            AffineTransform at = new AffineTransform();
-            at.setToTranslation(object.getX()+collider.getX(), object.getY()+collider.getY());
-            Point refPoint = ReferencePointsXMLReadClass.checkIsReferenceOrNot(object.getImageFileName());
-            at.translate(-refPoint.x, -refPoint.y);
-            at.rotate(-object.getRotation(), refPoint.x-collider.getX(), refPoint.y-collider.getY());
-            Shape baseShape = collider.getShape();
-            finalShape = at.createTransformedShape(baseShape);
-        }catch (IOException e) {}
-        return finalShape;
-    }
-
-    public static List<WorldObject> getObstacles() {
+    public List<WorldObject> getObstacles() {
         return obstacles;
     }
 
