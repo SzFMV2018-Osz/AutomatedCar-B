@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.visualization;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,6 +23,8 @@ public class CollisionDetector {
 
     private static CollisionDetector instance = null;
     private List<ColliderModel> colliders;
+    private static AutomatedCar carObject;
+    private static List<WorldObject> obstacles = new ArrayList<>();
     private CollisionDetector() {
         colliders = new ArrayList<>();
         try
@@ -44,8 +47,6 @@ public class CollisionDetector {
         return instance;
     }
 
-    private static List<WorldObject> obstacles = new ArrayList<>();
-
     /***
      * Az ütközhető objektumok megkeresése, listába gyűjtése
      */
@@ -58,6 +59,10 @@ public class CollisionDetector {
                 obstacles.add(object);
             }
         }
+    }
+
+    public static void setCarObject(AutomatedCar car){
+        carObject = car;
     }
 
     public static boolean checkCollisions() {
