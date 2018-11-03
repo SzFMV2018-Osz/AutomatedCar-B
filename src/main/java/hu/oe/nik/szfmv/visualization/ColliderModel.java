@@ -8,6 +8,7 @@ public class ColliderModel {
     private String name;
     private int x;
     private int y;
+    private int hight;
     private int width;
     private RectangularShape shape;
 
@@ -34,8 +35,6 @@ public class ColliderModel {
     public String getName() {
         return name;
     }
-
-    private int hight;
 
     public int getX() {
         return x;

@@ -29,7 +29,7 @@ public class CourseDisplay extends JPanel {
     /**
      * Integer for the scaling.
      */
-    public static final double SCALING_FACTOR = 0.4;
+    public static final double SCALING_FACTOR = 0.2;
     /**
      * Logger for exceptions.
      */
