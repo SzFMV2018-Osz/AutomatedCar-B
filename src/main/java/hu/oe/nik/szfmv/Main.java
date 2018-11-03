@@ -55,14 +55,12 @@ public class Main {
         singleton.findObstacles(w.getWorldObjects());
 
         //setup the instance of collisiondetector
-        CollisionDetector.findObstacles(w.getWorldObjects());
-        CollisionDetector.setCarObject(car);
+        singleton.setCarObject(car);
 
-        while (!CollisionDetector.checkCollisions()) {
+        while (!singleton.checkCollisions()) {
             car.drive();
             // create gui
             gui.getCourseDisplay().drawWorld(w);
-            singleton.checkCollisions(car);
         }
     }
 }

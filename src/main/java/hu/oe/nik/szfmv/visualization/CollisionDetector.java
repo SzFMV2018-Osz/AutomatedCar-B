@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.visualization;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -12,9 +13,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,8 +25,7 @@ public class CollisionDetector {
 
     private static CollisionDetector instance = null;
     private List<ColliderModel> colliders;
-    private static AutomatedCar carObject;
-    private static List<WorldObject> obstacles = new ArrayList<>();
+    private AutomatedCar carObject;
     private CollisionDetector() {
         colliders = new ArrayList<>();
         try
@@ -57,8 +54,6 @@ public class CollisionDetector {
      * Az ütközhető objektumok megkeresése, listába gyűjtése
      */
     public void findObstacles(List<WorldObject> list){
-        // TODO: ehhez még kell az ütközős XML lista beolvasása
-
         for (WorldObject object: list) {
             for(ColliderModel collider: colliders) {
                 if(collider.getName().equals(object.getImageFileName()))
@@ -70,19 +65,18 @@ public class CollisionDetector {
         }
     }
 
-    public static void setCarObject(AutomatedCar car){
+    public void setCarObject(AutomatedCar car){
         carObject = car;
     }
 
-    public static boolean checkCollisions() {
-    public boolean checkCollisions(AutomatedCar car) {
+    public boolean checkCollisions() {
         boolean crashed = false;
         Shape carShape= null;
         for(ColliderModel collider: colliders)
         {
-            if(collider.getName().equals(car.getImageFileName()))
+            if(collider.getName().equals(carObject.getImageFileName()))
             {
-                carShape = createTransformedShapeForCollision(car,collider);
+                carShape = createTransformedShapeForCollision(carObject,collider);
             }
         }
         for (WorldObject object: obstacles) {
@@ -118,11 +112,11 @@ public class CollisionDetector {
         return obstacles;
     }
 
-    private static boolean critHitHappened(double speedOfObject1, double speedOfObject2) {
+    private boolean critHitHappened(double speedOfObject1, double speedOfObject2) {
         return Math.abs(speedOfObject1 - speedOfObject2) >= criticalHitSpeed;
     }
 
-    private static boolean acceptableHitHappened(double speedOfObject1, double speedOfObject2) {
+    private boolean acceptableHitHappened(double speedOfObject1, double speedOfObject2) {
         return Math.abs(speedOfObject1 - speedOfObject2) >= survivableHitSpeed;
     }
 
