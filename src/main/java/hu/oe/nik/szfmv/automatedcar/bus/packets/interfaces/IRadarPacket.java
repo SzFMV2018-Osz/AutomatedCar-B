@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Collidable;
 
 public interface IRadarPacket {
+    
     /**
      * @return number of lanes
      */

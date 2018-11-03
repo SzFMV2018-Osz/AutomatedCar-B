@@ -12,27 +12,22 @@ import static org.junit.Assert.*;
 public class IRadarPacketTest {
     @Ignore("Ignore")
     @Test
-    public int getLaneNumber() {
-        return 0;
+    public void getLaneNumber() {
     }
     @Ignore("Ignore")
     @Test
-    @Parameters({"111","1234"})
     public void setLaneNumber(int laneNumber) {
     }
     @Ignore("Ignore")
     @Test
-    public Collidable getRightClosesObject() {
-        return null;
+    public void getRightClosesObject() {
     }
     @Ignore("Ignore")
     @Test
-    public Collidable getLeftClosesObject() {
-        return null;
+    public void getLeftClosesObject() {
     }
     @Ignore("Ignore")
     @Test
-    public Collidable getActualLaneClosesObjects() {
-        return null;
+    public void getActualLaneClosesObjects() {
     }
 }
