@@ -1,10 +1,8 @@
 package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
-import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Collidable;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.Movable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -81,7 +79,7 @@ public class CollisionDetector {
         for (WorldObject object: obstacles) {
             for(ColliderModel collider: colliders)
             {
-                if(collider.getName().equals(object.getImageFileName()))
+                if(getPureImageName(collider.getName()).equals(getPureImageName(object.getImageFileName())))
                 {
                     Shape tempShape = createTransformedShapeForCollision(object,collider);
                     if(carShape.getBounds2D().intersects(tempShape.getBounds2D()))
@@ -115,20 +113,36 @@ public class CollisionDetector {
         return false;
     }
 
-    private void imageChanger()
-    {
+//    private void imageChanger()
+//    {
 //        for(WorldObject object : obstacles)
 //        {
-//            if(object.getDamage()>=60)
+//            if (object.getDamage() >= 60)
 //            {
-//                //change photo
+//                changeImage(object, 2);
 //            }
-//            else if(object.getDamage()>=30)
+//            else if (object.getDamage() >= 30)
 //            {
-//                //change photo
+//                changeImage(object, 1);
+//            }
+//            else if (object instanceof Car && object.getDamage() >= 0)
+//            {
+//                //since we have 3 state of cars, we should define another case
+//                changeImage(object, 0);
 //            }
 //        }
-    }
+//    }
+
+//    private void changeImage(WorldObject object, int status) {
+//        if (object instanceof Car)
+//        {
+//            object.setImageFileName(getPureImageName(object.getImageFileName()) + "_" + status + 1 + ".png");
+//        }
+//        else
+//        {
+//            object.setImageFileName(getPureImageName(object.getImageFileName()) + "_" + status + ".png");
+//        }
+//    }
 
     private Shape createTransformedShapeForCollision(WorldObject object, ColliderModel collider)
     {
@@ -158,6 +172,10 @@ public class CollisionDetector {
 
     private boolean acceptableHitHappened(double speedOfObject1, double speedOfObject2) {
         return Math.abs(speedOfObject1 - speedOfObject2) >= survivableHitSpeed;
+    }
+
+    private String getPureImageName(String imageName) {
+        return imageName.substring(0,imageName.lastIndexOf('_') - 1);
     }
 
     private void readXML4Colliders()
