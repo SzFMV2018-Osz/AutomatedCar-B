@@ -289,7 +289,7 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
         return steerRight;
     }
 
-    public int getIndicateLeft() {
+    public int getIndicateLeftKeyCode() {
         return indicateLeft;
     }
 

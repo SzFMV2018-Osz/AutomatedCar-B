@@ -71,4 +71,73 @@ public interface IUserInput extends KeyListener {
      */
     void unsubscribeIndicationEvents(IIndicationEventHandler handler);
 
+    /**
+     * Returns the numerical key-code of the given key
+     *
+     * @return returns the code as an int
+     */
+    int getGasKeyCode();
+
+    /**
+     * Returns the numerical key-code of the given key
+     *
+     * @return returns the code as an int
+     */
+    int getBrakeKeyCode();
+
+    /**
+     * Returns the numerical key-code of the given key
+     *
+     * @return returns the code as an int
+     */
+    int getSteerLeftKeyCode();
+
+    /**
+     * Returns the numerical key-code of the given key
+     *
+     * @return returns the code as an int
+     */
+    int getSteerRightKeyCode();
+
+    /**
+     * Returns the numerical key-code of the given key
+     *
+     * @return returns the code as an int
+     */
+    int getIndicateLeftKeyCode();
+
+    /**
+     * Returns the numerical key-code of the given key
+     *
+     * @return returns the code as an int
+     */
+    int getIndicateRightKeyCode();
+
+    /**
+     * Returns the numerical key-code of the given key
+     *
+     * @return returns the code as an int
+     */
+    int getGearRKeyCode();
+
+    /**
+     * Returns the numerical key-code of the given key
+     *
+     * @return returns the code as an int
+     */
+    int getGearPKeyCode();
+
+    /**
+     * Returns the numerical key-code of the given key
+     *
+     * @return returns the code as an int
+     */
+    int getGearNKeyCode();
+
+    /**
+     * Returns the numerical key-code of the given key
+     *
+     * @return returns the code as an int
+     */
+    int getGearDKeyCode();
 }

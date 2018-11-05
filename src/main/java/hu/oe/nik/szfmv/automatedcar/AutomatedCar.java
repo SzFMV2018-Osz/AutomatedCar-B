@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyControlsPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyDisplayableSensorPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.DashboardManager;
@@ -59,8 +60,17 @@ public class AutomatedCar extends Car {
      *
      * @return - returns the packet containing the necessary information
      */
-    public IReadOnlyDashboardPacket getDashboardInfo() {
-        return dashboardManager.getDashboardPacket();
+    public IReadOnlyDashboardPacket getDashboardPacket() {
+        return virtualFunctionBus.dashboardPacket;
+    }
+
+    /**
+     * Return controls data to caller
+     *
+     * @return - returns the packet containing the necessary information
+     */
+    public IReadOnlyControlsPacket getControlsPacket() {
+        return virtualFunctionBus.controlsPacket;
     }
 
     /**
@@ -77,10 +87,9 @@ public class AutomatedCar extends Car {
      * powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
-        final double speed = speedMetersPerSeconds;
         final double angularSpeed = steeringSystem.getAngularSpeed();
 
-        x += speed;
+        x += speedMetersPerSeconds;
         y = 0;
 
         rotation += angularSpeed;
