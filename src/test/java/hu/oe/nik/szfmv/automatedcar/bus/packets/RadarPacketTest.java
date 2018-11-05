@@ -1,18 +1,25 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets;
 
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IRadarPacket;
+import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
-
+@RunWith(JUnitParamsRunner.class)
 public class RadarPacketTest {
+   private IRadarPacket radarTest;
 
-    private IRadarPacket radarTest=new RadarPacket();
-
+   @Before
+   public  void Setup(){
+       radarTest=new RadarPacket();
+   }
     @Test
-    @Parameters({"100","50"})
+    @Parameters({ "100" })
     public void setLaneNumber(int laneNumber) {
+
         radarTest.setLaneNumber(laneNumber);
     }
 }
