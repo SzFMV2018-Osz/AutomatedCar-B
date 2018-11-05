@@ -248,4 +248,44 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
             this.onShifting(Gear.R);
         }
     }
+
+    public int getGasKeyCode() {
+        return gas;
+    }
+
+    public int getBrakeKeyCode() {
+        return brake;
+    }
+
+    public int getSteerLeftKeyCode() {
+        return steerLeft;
+    }
+
+    public int getSteerRightKeyCode() {
+        return steerRight;
+    }
+
+    public int getIndicateLeft() {
+        return indicateLeft;
+    }
+
+    public int getIndicateRightKeyCode() {
+        return indicateRight;
+    }
+
+    public int getGearRKeyCode() {
+        return gearR;
+    }
+
+    public int getGearPKeyCode() {
+        return gearP;
+    }
+
+    public int getGearNKeyCode() {
+        return gearN;
+    }
+
+    public int getGearDKeyCode() {
+        return gearD;
+    }
 }
