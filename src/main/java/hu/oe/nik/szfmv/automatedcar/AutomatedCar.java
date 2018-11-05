@@ -1,23 +1,31 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.VelocityPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyDisplayableSensorPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.DashboardManager;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
+import hu.oe.nik.szfmv.automatedcar.engine.BrakingForces;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class AutomatedCar extends Car {
 
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
-    private final double speedMetersPerSeconds;
     private final double wheelRadius = 0.33;
+    private double timeFrame = 0.041666667;
+    private VelocityPacket velocityPacket = new VelocityPacket();
     private InputManager inputManager;
+    private DashboardManager dashboardManager;
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
-    private DashboardManager dashboardManager;
 
     /**
      * Constructor of the AutomatedCar class
@@ -31,12 +39,10 @@ public class AutomatedCar extends Car {
         super(x, y, imageFileName);
 
         inputManager = new InputManager(virtualFunctionBus);
+        virtualFunctionBus.velocityPacket = velocityPacket;
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
-        steeringSystem = new SteeringSystem(virtualFunctionBus);
         dashboardManager = new DashboardManager(virtualFunctionBus);
-
-        speedMetersPerSeconds = 0;
-
+        steeringSystem = new SteeringSystem(virtualFunctionBus);
         new Driver(virtualFunctionBus);
     }
 
@@ -45,8 +51,6 @@ public class AutomatedCar extends Car {
      */
     public void drive() {
         dashboardManager.actualisePosition(x, y);
-        final double wheelRotationRate = speedMetersPerSeconds / wheelRadius;
-        powertrainSystem.updateEngine(wheelRotationRate);
         virtualFunctionBus.loop();
         calculatePositionAndOrientation();
     }
@@ -61,16 +65,61 @@ public class AutomatedCar extends Car {
     }
 
     /**
+     * Return information of the sensors current status
+     *
+     * @return the necessary data to display visual fields of the sensors
+     */
+    public List<IReadonlyDisplayableSensorPacket> getDisplayableSensors() {
+        throw new RuntimeException("Missing implementation");
+    }
+
+    /**
      * Calculates the new x and y coordinates of the {@link AutomatedCar} using the
      * powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
-        final double speed = speedMetersPerSeconds;
-        final double angularSpeed = steeringSystem.getAngularSpeed();
+        double[] sumForces = calculateSummedForces();
+        double[] acceleration = new double[]{sumForces[0] / 1500, sumForces[1] / 1500};
+        double[] velocity = new double[]{velocityPacket.getVelocity()[0] + (timeFrame * acceleration[0]),
+                velocityPacket.getVelocity()[1] + (timeFrame * acceleration[1])};
+        velocityPacket.setVelocity(velocity);
 
-        x += speed;
-        y = 0;
+        x += timeFrame * velocity[0] * 50;
+        y += timeFrame * velocity[1] * 50;
 
-        rotation += angularSpeed;
+        rotation += virtualFunctionBus.steeringPacket.getAngularSpeed();
+        System.out.println("rotation:" + rotation);
+    }
+
+    private double[] calculateSummedForces() {
+        double[] tractionForce = powertrainSystem.calculateTractionForce(calculateOrientationVector());
+        System.out.println("traction: " + tractionForce[0] + " " + tractionForce[1]);
+        double[] brakeForce = BrakingForces.calcBrakeForceVector(velocityPacket.getVelocity()[0],
+                velocityPacket.getVelocity()[1], virtualFunctionBus.brakePedalPacket.getPedalPosition());
+        double[] airResistance = BrakingForces.calcAirResistanceVector(velocityPacket.getVelocity()[0],
+                velocityPacket.getVelocity()[1]);
+        double[] rollingResistance = BrakingForces.calcRollingResistanceVector(velocityPacket.getVelocity()[0],
+                velocityPacket.getVelocity()[1]);
+        List<double[]> forces;
+        forces = Arrays.asList(tractionForce, brakeForce, airResistance, rollingResistance);
+        double[] sumForces = sumForceVectors(forces);
+        System.out.println("forces :" + sumForces[0] + ", " + sumForces[1]);
+        return sumForces;
+    }
+
+    private double[] calculateOrientationVector() {
+        double orientationX = Math.cos(Math.toRadians(rotation));
+        double orientationY = Math.sin(Math.toRadians(rotation));
+        System.out.println("orientation:" + orientationX + ", " + orientationY);
+        return new double[]{orientationX, orientationY};
+    }
+
+    private double[] sumForceVectors(List<double[]> forces) {
+        double[] summedForces = new double[]{0, 0};
+        for (double[] force : forces) {
+            summedForces[0] += force[0];
+            summedForces[1] += force[1];
+        }
+        return summedForces;
     }
 }
