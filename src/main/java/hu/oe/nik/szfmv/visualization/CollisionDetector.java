@@ -71,7 +71,7 @@ public class CollisionDetector {
         Shape carShape= null;
         for(ColliderModel collider: colliders)
         {
-            if(collider.getName().equals(carObject.getImageFileName()))
+            if(getPureImageName(collider.getName()).equals(getPureImageName(carObject.getImageFileName())))
             {
                 carShape = createTransformedShapeForCollision(carObject,collider);
             }
@@ -175,7 +175,13 @@ public class CollisionDetector {
     }
 
     private String getPureImageName(String imageName) {
-        return imageName.substring(0,imageName.lastIndexOf('_') - 1);
+        //if the imagename does not contain underscore, it's still the original image
+        if (imageName.contains("_")) {
+            return imageName.substring(0, imageName.lastIndexOf('_') - 1);
+        }
+        else {
+            return imageName.substring(0, imageName.lastIndexOf('.') - 1);
+        }
     }
 
     private void readXML4Colliders()
