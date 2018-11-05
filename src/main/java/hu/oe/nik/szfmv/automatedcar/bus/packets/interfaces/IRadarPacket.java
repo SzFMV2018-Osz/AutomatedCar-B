@@ -20,13 +20,28 @@ public interface IRadarPacket {
     Collidable getRightClosesObject();
 
     /**
+     * @param rightClosesObject set Right Lane closes object
+     */
+    void setRightClosesObject(Collidable rightClosesObject);
+
+    /**
      *  @return Left Lane closes object
      */
     Collidable getLeftClosesObject();
 
     /**
+     * @param leftClosesObject set Left Lane closes object
+     */
+    void setLeftClosesObject(Collidable leftClosesObject);
+
+    /**
      * @return Actual Road Lane number
      */
     Collidable []  getActualLaneClosesObjects();
+
+    /**
+     * @param actualLaneClosesObjects set center Lane closes object
+     */
+    void setActualLaneClosesObjects(Collidable [] actualLaneClosesObjects);
 
 }
