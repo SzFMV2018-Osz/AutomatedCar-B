@@ -17,7 +17,7 @@ public class RadarPacketTest {
        radarTest=new RadarPacket();
    }
     @Test
-    @Parameters({ "100" })
+    @Parameters({ "100","10","0" })
     public void setLaneNumber(int laneNumber) {
 
         radarTest.setLaneNumber(laneNumber);
