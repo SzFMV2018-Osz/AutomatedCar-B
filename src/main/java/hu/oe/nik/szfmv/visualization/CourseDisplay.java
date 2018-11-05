@@ -13,6 +13,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -71,6 +72,7 @@ public class CourseDisplay extends JPanel {
      * Integer for windows color.
      */
     private final int backgroundColor = 0xEEEEEE;
+
     /**
      * Initialize the course display.
      */
@@ -79,6 +81,35 @@ public class CourseDisplay extends JPanel {
         setBounds(0, 0, width, height);
         setBackground(new Color(backgroundColor));
         cal = Calendar.getInstance();
+        buffer = new ArrayList<>();
+        readImages();
+    }
+
+    private List<ImageBuffer> buffer;
+
+    private void readImages() {
+        File folder = new File(ClassLoader.getSystemResource(".").getFile());
+        File[] listOfFiles = folder.listFiles();
+        for (File file : listOfFiles) {
+            if (file.getName().contains(".png")) {
+                try {
+                    ImageBuffer ib = new ImageBuffer(file.getName(), ImageIO.read(file));
+                    buffer.add(ib);
+                } catch (IOException e) {
+                }
+            }
+        }
+        folder = new File(ClassLoader.getSystemResource("Kiegek").getFile());
+        listOfFiles = folder.listFiles();
+        for (File file : listOfFiles) {
+            if (file.getName().contains(".png")) {
+                try {
+                    ImageBuffer ib = new ImageBuffer(file.getName(), ImageIO.read(file));
+                    buffer.add(ib);
+                } catch (IOException e) {
+                }
+            }
+        }
     }
 
     /**
@@ -172,24 +203,18 @@ public class CourseDisplay extends JPanel {
      */
     private void renderCar(final AutomatedCar car,
                            final Graphics screenBuffer) {
-        BufferedImage image;
-        try {
-            image = ImageIO.read(new File(ClassLoader.
-                    getSystemResource(car.getImageFileName()).getFile()));
-            int imageWidth = scaleObject(image.getWidth());
-            int imageHeight = scaleObject(image.getHeight());
+        BufferedImage image = buffer.stream().filter((buffedimage) -> buffedimage.getName().equals(car.getImageFileName())).findFirst().orElse(null).getImage();
+        int imageWidth = scaleObject(image.getWidth());
+        int imageHeight = scaleObject(image.getHeight());
 
-            AffineTransform at = new AffineTransform();
-            at.setToTranslation(width / 2 - imageWidth / 2,
-                    height / 2 - imageHeight / 2);
-            at.rotate(-car.getRotation(), 0, 0);
-            at.scale(SCALING_FACTOR, SCALING_FACTOR);
-            Graphics2D g2d = (Graphics2D) screenBuffer;
-            g2d.drawImage(image, at, null);
+        AffineTransform at = new AffineTransform();
+        at.setToTranslation(width / 2 - imageWidth / 2,
+                height / 2 - imageHeight / 2);
+        at.rotate(-car.getRotation(), 0, 0);
+        at.scale(SCALING_FACTOR, SCALING_FACTOR);
+        Graphics2D g2d = (Graphics2D) screenBuffer;
+        g2d.drawImage(image, at, null);
 
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage());
-        }
     }
 
     /**
@@ -203,28 +228,24 @@ public class CourseDisplay extends JPanel {
         // draw objects
         // ezt fogjuk majd hasznalni, amint a TeamB1 megadja ezt a funkciot
         //BufferedImage image = object.getImage();
-        try {
-            BufferedImage image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
+        BufferedImage image = buffer.stream().filter((buffedimage) -> buffedimage.getName().equals(object.getImageFileName())).findFirst().orElse(null).getImage();
 
-            int imagePositionX = scaleObject(object.getX()) + xOffset;
-            int imagePositionY = scaleObject(object.getY()) + yOffset;
-            AffineTransform at = new AffineTransform();
-            at.setToTranslation(imagePositionX, imagePositionY);
-            Point refPoint = ReferencePointsXMLReadClass.
-                    checkIsReferenceOrNot(object.getImageFileName());
-            at.translate(-refPoint.x * SCALING_FACTOR,
-                    -refPoint.y * SCALING_FACTOR);
+        int imagePositionX = scaleObject(object.getX()) + xOffset;
+        int imagePositionY = scaleObject(object.getY()) + yOffset;
+        AffineTransform at = new AffineTransform();
+        at.setToTranslation(imagePositionX, imagePositionY);
+        Point refPoint = ReferencePointsXMLReadClass.
+                checkIsReferenceOrNot(object.getImageFileName());
+        at.translate(-refPoint.x * SCALING_FACTOR,
+                -refPoint.y * SCALING_FACTOR);
 
-            at.rotate(-object.getRotation(), SCALING_FACTOR * refPoint.x,
-                    SCALING_FACTOR * refPoint.y);
+        at.rotate(-object.getRotation(), SCALING_FACTOR * refPoint.x,
+                SCALING_FACTOR * refPoint.y);
 
-            at.scale(modifyScaleFactorFor(image.getWidth()),
-                    modifyScaleFactorFor(image.getHeight()));
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.drawImage(image, at, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        at.scale(modifyScaleFactorFor(image.getWidth()),
+                modifyScaleFactorFor(image.getHeight()));
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.drawImage(image, at, null);
     }
 
     /**

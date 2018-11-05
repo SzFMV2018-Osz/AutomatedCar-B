@@ -1,7 +1,10 @@
 package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Collidable;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Movable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -55,12 +58,9 @@ public class CollisionDetector {
      */
     public void findObstacles(List<WorldObject> list){
         for (WorldObject object: list) {
-            for(ColliderModel collider: colliders) {
-                if(collider.getName().equals(object.getImageFileName()))
-                {
-                    obstacles.add(object);
-                    break;
-                }
+            if(object instanceof Collidable)
+            {
+                obstacles.add(object);
             }
         }
     }
@@ -70,7 +70,6 @@ public class CollisionDetector {
     }
 
     public boolean checkCollisions() {
-        boolean crashed = false;
         Shape carShape= null;
         for(ColliderModel collider: colliders)
         {
@@ -85,14 +84,50 @@ public class CollisionDetector {
                 if(collider.getName().equals(object.getImageFileName()))
                 {
                     Shape tempShape = createTransformedShapeForCollision(object,collider);
-                    crashed = carShape.getBounds2D().intersects(tempShape.getBounds2D());
-                    //TODO: Történjen valami itt valami.
+                    if(carShape.getBounds2D().intersects(tempShape.getBounds2D()))
+                    {
+//                        if(!(object instanceof Movable) && critHitHappened(carObject.getSpeed() ,0))
+//                        {
+//                            return true;
+//                        }
+//                        else if((object instanceof Movable) && critHitHappened(carObject.getSpeed(),object.getSpeed()))
+//                        {
+//                            return true;
+//                        }
+//                        else
+//                        {
+//                            if(object instanceof Movable)
+//                            {
+//                                object.addDamage(calculateDamage(carObject.getSpeed(),object.getSpeed()));
+//                                carObject.addDamage(calculateDamage(carObject.getSpeed(),object.getSpeed()));
+//                            }
+//                            else
+//                            {
+//                                object.addDamage(calculateDamage(carObject.getSpeed(),0));
+//                                carObject.addDamage(calculateDamage(carObject.getSpeed(),0));
+//                            }
+//                        }
+                    }
                     break;
                 }
             }
         }
+        return false;
+    }
 
-        return crashed;
+    private void imageChanger()
+    {
+//        for(WorldObject object : obstacles)
+//        {
+//            if(object.getDamage()>=60)
+//            {
+//                //change photo
+//            }
+//            else if(object.getDamage()>=30)
+//            {
+//                //change photo
+//            }
+//        }
     }
 
     private Shape createTransformedShapeForCollision(WorldObject object, ColliderModel collider)
@@ -114,6 +149,11 @@ public class CollisionDetector {
 
     private boolean critHitHappened(double speedOfObject1, double speedOfObject2) {
         return Math.abs(speedOfObject1 - speedOfObject2) >= criticalHitSpeed;
+    }
+
+    private double calculateDamage(double speed1, double speed2)
+    {
+        return Math.abs(speed1 - speed2);
     }
 
     private boolean acceptableHitHappened(double speedOfObject1, double speedOfObject2) {
