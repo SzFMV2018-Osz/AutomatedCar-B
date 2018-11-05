@@ -33,6 +33,7 @@ public class DashboardManager extends SystemComponent {
         dashboardPacket.setIndicatorDirection(virtualFunctionBus.indicationPacket.getIndicatorDirection());
         dashboardPacket.setSteeringWheelValue(virtualFunctionBus.steeringWheelPacket.getSteeringWheelPosition());
         dashboardPacket.setRpm(virtualFunctionBus.powertrainPacket.getRpm());
+        dashboardPacket.setSpeed((int) virtualFunctionBus.velocityPacket.getSpeed());
     }
 
     /**

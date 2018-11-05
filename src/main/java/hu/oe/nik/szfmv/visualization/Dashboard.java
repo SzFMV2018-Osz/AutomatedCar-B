@@ -100,6 +100,7 @@ public class Dashboard extends JPanel {
         setGearLabelText(dbPacket.getCurrentGear());
         indicateTo(dbPacket.getIndicatorDirection());
         rpm = dbPacket.getRpm();
+        speed = dbPacket.getSpeed();
 
         checkDebugSectionVisibility(debugInfoIsEnabled);
         if (debugInfoIsEnabled) {
@@ -137,17 +138,17 @@ public class Dashboard extends JPanel {
 
     private void indicateTo(int direction) {
         switch (direction) {
-        case -1:
-            indicateLeft();
-            break;
-        case 0:
-            indicationStop();
-            break;
-        case 1:
-            indicateRight();
-            break;
-        default:
-            break;
+            case -1:
+                indicateLeft();
+                break;
+            case 0:
+                indicationStop();
+                break;
+            case 1:
+                indicateRight();
+                break;
+            default:
+                break;
         }
     }
 
