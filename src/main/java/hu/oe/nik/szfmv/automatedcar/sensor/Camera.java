@@ -1,9 +1,12 @@
 package hu.oe.nik.szfmv.automatedcar.sensor;
 
-import hu.oe.nik.szfmv.environment.WorldObject;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
 
 public class Camera implements ISensor {
 
@@ -37,8 +40,7 @@ public class Camera implements ISensor {
         triangleBPoint = new double[2];
 
         double m = VISUAL_RANGE;
-        double a = m * (
-                Math.sin(Math.toRadians(ANGLE_OF_VIEW / 2)) / (Math.sin(Math.toRadians(ANGLE_OF_VIEW))));
+        double a = m * (Math.sin(Math.toRadians(ANGLE_OF_VIEW / 2)) / (Math.sin(Math.toRadians(ANGLE_OF_VIEW))));
         TRIANGULAR_STEM = Math.sqrt(Math.pow(a, 2) + Math.pow(m, 2));
 
         calculateTriangleOfView();
@@ -89,13 +91,13 @@ public class Camera implements ISensor {
      */
     private void calculateTriangleOfView() {
         double[] shiftVector = calculatedDirectionVectorWithRotationMatrix(ANGLE_OF_VIEW / 2);
-        shiftVector[0] = (shiftVector[0] * TRIANGULAR_STEM + x) / METER_PIXEL_RATIO;
-        shiftVector[1] = (shiftVector[1] * TRIANGULAR_STEM + y) / METER_PIXEL_RATIO;
+        shiftVector[0] = ((shiftVector[0] * TRIANGULAR_STEM) + x) / METER_PIXEL_RATIO;
+        shiftVector[1] = ((shiftVector[1] * TRIANGULAR_STEM) + y) / METER_PIXEL_RATIO;
         triangleAPoint = shiftVector;
 
-        shiftVector = calculatedDirectionVectorWithRotationMatrix(HAROMSZAZHATVAN - ANGLE_OF_VIEW / 2);
-        shiftVector[0] = (shiftVector[0] * TRIANGULAR_STEM + x) / METER_PIXEL_RATIO;
-        shiftVector[1] = (shiftVector[1] * TRIANGULAR_STEM + y) / METER_PIXEL_RATIO;
+        shiftVector = calculatedDirectionVectorWithRotationMatrix(HAROMSZAZHATVAN - (ANGLE_OF_VIEW / 2));
+        shiftVector[0] = ((shiftVector[0] * TRIANGULAR_STEM) + x) / METER_PIXEL_RATIO;
+        shiftVector[1] = ((shiftVector[1] * TRIANGULAR_STEM) + y) / METER_PIXEL_RATIO;
         triangleBPoint = shiftVector;
     }
 
@@ -106,10 +108,8 @@ public class Camera implements ISensor {
     private double[] calculatedDirectionVectorWithRotationMatrix(double angle) {
         angle = angle % HAROMSZAZHATVAN;
         // transformation matrix
-        return new double[]{
-                facingDirection[0] * Math.cos(angle) + facingDirection[1] * (Math.sin(angle)),
-                facingDirection[0] * (-Math.sin(angle)) + facingDirection[1] * Math.cos(angle)
-        };
+        return new double[] { (facingDirection[0] * Math.cos(angle)) + (facingDirection[1] * (Math.sin(angle))),
+                (facingDirection[0] * (-Math.sin(angle))) + (facingDirection[1] * Math.cos(angle)) };
     }
 
     /**
@@ -117,8 +117,7 @@ public class Camera implements ISensor {
      * @return list of world objects that are inside the view of the camera
      */
     public List<WorldObject> findWorldObjectsInRadarTriangle(List<WorldObject> worldObjects) {
-        Triangle triangle = new Triangle(VISUAL_RANGE * METER_PIXEL_RATIO,
-                0 , x, y);
+        Triangle triangle = new Triangle(VISUAL_RANGE * METER_PIXEL_RATIO, 0, x, y);
 
         triangle.a0x = x;
         triangle.a0y = y;
@@ -134,6 +133,30 @@ public class Camera implements ISensor {
             }
         }
         return inTriangleList;
+    }
+
+    public Optional<WorldObject> findClosestRoadSign(List<WorldObject> objectsInRange) {
+        List<WorldObject> roadSigns = objectsInRange.stream().filter(object -> object.getClass().equals(RoadSign.class))
+                .collect(Collectors.toList());
+        WorldObject closestRoadSign = selectClosestRoadSign(roadSigns);
+        return Optional.ofNullable(closestRoadSign);
+    }
+
+    private WorldObject selectClosestRoadSign(List<WorldObject> roadSigns) {
+        double minDinstace = Double.MAX_VALUE;
+        WorldObject closestRoadSign = null;
+        for (WorldObject roadSign : roadSigns) {
+            double distance = calculateDistanceFromCamera(roadSign);
+            if (distance < minDinstace) {
+                closestRoadSign = roadSign;
+                minDinstace = distance;
+            }
+        }
+        return closestRoadSign;
+    }
+
+    private double calculateDistanceFromCamera(WorldObject object) {
+        return Math.sqrt(Math.pow(x - object.getX(), 2) + Math.pow(y - object.getY(), 2));
     }
 
     @Override
