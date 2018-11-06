@@ -86,7 +86,7 @@ public class CollisionDetector {
                     Shape tempShape = createTransformedShapeForCollision(object,collider);
                     if(carShape.getBounds2D().intersects(tempShape.getBounds2D()))
                     {
-                        if(object instanceof Human || object instanceof Bicycle) return false;
+                        if(object instanceof Human || object instanceof Bicycle) return true;
 //                        if(!(object instanceof Movable) && critHitHappened(carObject.getSpeed() ,0))
 //                        {
 //                            return true;
