@@ -1,5 +1,9 @@
 package hu.oe.nik.szfmv.common;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public final class Utils {
 
     private static final int METER_PIXEL_RATIO = 50;
@@ -75,6 +79,30 @@ public final class Utils {
         return Math.toDegrees(rad);
     }
 
+
+    public static float[][] readScript(String path)
+    {
+        String fileName= "src" + File.separator + "main" + File.separator + "resources" + File.separator + path;
+        File file= new File(fileName);
+        int i = 0;
+        float[][] script = new float[2500][3];
+        try{
+            Scanner inputStream= new Scanner(file);
+            while(inputStream.hasNext()){
+                String data= inputStream.next();
+                String[] values = data.split(";");
+                script[i][0] = Integer.parseInt(values[0]);
+                script[i][1] = Integer.parseInt(values[1]);
+                script[i][2] = Float.parseFloat(values[2]);
+                i++;
+            }
+            inputStream.close();
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return script;
+    }
 
 
 }

@@ -52,7 +52,7 @@ public class AutomatedCar extends Car {
         final double speed = speedMetersPerSeconds;
         final double angularSpeed = steeringSystem.getAngularSpeed();
 
-        x += speed;
+        x += 0;
         y = 0;
 
         rotation += angularSpeed;

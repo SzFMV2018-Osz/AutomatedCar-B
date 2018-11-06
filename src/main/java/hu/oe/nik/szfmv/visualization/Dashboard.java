@@ -8,13 +8,22 @@ import java.awt.*;
  */
 public class Dashboard extends JPanel {
 
+    /**
+     * Integer for dashboard width.
+     */
     private final int width = 250;
+    /**
+     * Integer for dashboard height.
+     */
     private final int height = 700;
+    /**
+     * Integer for dashboard color.
+     */
     private final int backgroundColor = 0x888888;
     private final int xBound = 770;
 
     /**
-     * Initialize the dashboard
+     * Initialize the dashboard.
      */
     public Dashboard() {
         // Not using any layout manager, but fixed coordinates
