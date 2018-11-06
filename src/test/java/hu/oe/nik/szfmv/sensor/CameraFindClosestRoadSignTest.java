@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.sensor.Camera;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Human;
@@ -20,7 +21,7 @@ public class CameraFindClosestRoadSignTest {
 
     @Before
     public void setUp() {
-        underTest = new Camera(0, 0, new double[] { 0, 0 });
+        underTest = new Camera(0, 0, new double[] { 0, 0 }, new VirtualFunctionBus());
     }
 
     @Test

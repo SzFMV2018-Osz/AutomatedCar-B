@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.CameraPacket;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
 
-public class Camera implements ISensor {
+public class Camera extends SystemComponent implements ISensor {
 
     private static final int VISUAL_RANGE = 80;
     private static final int HAROMSZAZHATVAN = 80;
@@ -26,12 +29,15 @@ public class Camera implements ISensor {
 
     private double[] facingDirection;
 
+    private CameraPacket cameraPacket;
+
     /**
      * @param x               x coordinate
      * @param y               y coordinate
      * @param facingDirection facing direction
      */
-    public Camera(int x, int y, double[] facingDirection) {
+    public Camera(int x, int y, double[] facingDirection, VirtualFunctionBus virtualFunctionBus) {
+        super(virtualFunctionBus);
         this.x = x;
         this.y = y;
         this.facingDirection = facingDirection;
@@ -44,6 +50,9 @@ public class Camera implements ISensor {
         TRIANGULAR_STEM = Math.sqrt(Math.pow(a, 2) + Math.pow(m, 2));
 
         calculateTriangleOfView();
+
+        cameraPacket = new CameraPacket();
+        virtualFunctionBus.cameraPacket = cameraPacket;
     }
 
     /**
@@ -167,5 +176,17 @@ public class Camera implements ISensor {
     @Override
     public List<WorldObject> getNonCollidableWorldObjectsFromArea(int x1, int x2, int x3) {
         return null;
+    }
+
+    @Override
+    public void loop() {
+        updatePosition(virtualFunctionBus.positionPacket.getPosition(),
+                virtualFunctionBus.positionPacket.getFacingDirection());
+        List<WorldObject> objectsInView = findWorldObjectsInRadarTriangle(new ArrayList<>()); // TODO: lekerni az osszes
+                                                                                              // worldobjectet
+        Optional<WorldObject> closestRoadSign = findClosestRoadSign(objectsInView);
+        if (closestRoadSign.isPresent()) {
+            cameraPacket.setClosestRoadSign((RoadSign) closestRoadSign.get());
+        }
     }
 }
