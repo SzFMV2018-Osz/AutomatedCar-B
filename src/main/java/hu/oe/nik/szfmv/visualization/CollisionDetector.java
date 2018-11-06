@@ -2,7 +2,9 @@ package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Bicycle;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Collidable;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Human;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -84,6 +86,7 @@ public class CollisionDetector {
                     Shape tempShape = createTransformedShapeForCollision(object,collider);
                     if(carShape.getBounds2D().intersects(tempShape.getBounds2D()))
                     {
+                        if(object instanceof Human || object instanceof Bicycle) return false;
 //                        if(!(object instanceof Movable) && critHitHappened(carObject.getSpeed() ,0))
 //                        {
 //                            return true;
@@ -136,6 +139,7 @@ public class CollisionDetector {
 //    private void changeImage(WorldObject object, int status) {
 //        if (object instanceof Car)
 //        {
+            // itt lehet hogy inkabb a BufferedImaget kellene atallitani, amit mar ugyis beolvasunk construktorban
 //            object.setImageFileName(getPureImageName(object.getImageFileName()) + "_" + status + 1 + ".png");
 //        }
 //        else

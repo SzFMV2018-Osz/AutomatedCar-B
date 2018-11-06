@@ -51,6 +51,8 @@ public class Main {
 
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w);
+
+        // Collision detection
         CollisionDetector singleton = CollisionDetector.getInstance();
         singleton.findObstacles(w.getWorldObjects());
 
