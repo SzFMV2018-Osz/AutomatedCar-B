@@ -4,6 +4,7 @@ import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.ConfigProvider;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Human;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.NpcCar;
 import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
@@ -49,6 +50,11 @@ public class Main {
         WorldObject npc = new NpcCar(3086,240,"car_1_red.png");
         w.addObjectToWorld(npc);
 
+        WorldObject human = new Human(1550, 2, "man.png");
+        w.addObjectToWorld(human);
+
+
+
         // create gui
         Gui gui = new Gui();
 
@@ -59,7 +65,9 @@ public class Main {
             car.drive();
             // create gui
             ((NpcCar)npc).move();
+            ((Human)human).move();
             gui.getCourseDisplay().drawWorld(w);
+
 
 
         }
