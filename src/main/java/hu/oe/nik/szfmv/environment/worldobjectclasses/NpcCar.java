@@ -22,10 +22,9 @@ public class NpcCar extends Car {
 
         super(x, y, imageFileName);
         this.script = Utils.readScript("npc_car_script.csv");
-        this.setRotation(1.55f);
     }
 
-    public void  move()
+    public void move()
     {
         if(globalI > 464)
         {
