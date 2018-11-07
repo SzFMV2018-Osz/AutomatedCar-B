@@ -2,13 +2,12 @@ package hu.oe.nik.szfmv.environment;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class WorldObjectTest {
 
-    private WorldObject wo = new WorldObject(1, 1, "man.png");
     private static final double THRESHOLD = 0.0001d;
-
+    private WorldObject wo = new WorldObject(1, 1, "man.png");
 
     @Test
     public void getX() {
@@ -36,7 +35,7 @@ public class WorldObjectTest {
     @Test
     public void getRotation() {
         wo.setRotation(1);
-        assertEquals(1,wo.getRotation(), THRESHOLD);
+        assertEquals(1.5, wo.getRotation(), 0.5);
     }
 
     @Test
@@ -71,7 +70,7 @@ public class WorldObjectTest {
     @Test
     public void setRotation() {
         wo.setRotation(2);
-        assertEquals(2, wo.getRotation(), THRESHOLD);
+        assertEquals(2, wo.getRotation(), 0.5);
     }
 
     @Test
