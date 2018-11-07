@@ -99,8 +99,7 @@ public class CourseDisplay extends JPanel {
                 try {
                     ImageBuffer ib = new ImageBuffer(file.getName(), ImageIO.read(file));
                     buffer.add(ib);
-                } catch (IOException e) {
-                }
+                } catch (IOException e) {}
             }
         }
         folder = new File(ClassLoader.getSystemResource("Kiegek").getFile());
@@ -110,8 +109,7 @@ public class CourseDisplay extends JPanel {
                 try {
                     ImageBuffer ib = new ImageBuffer(file.getName(), ImageIO.read(file));
                     buffer.add(ib);
-                } catch (IOException e) {
-                }
+                } catch (IOException e) {}
             }
         }
     }
@@ -205,7 +203,10 @@ public class CourseDisplay extends JPanel {
      */
     private void renderCar(final AutomatedCar car,
                            final Graphics screenBuffer) {
-        BufferedImage image = buffer.stream().filter((buffedimage) -> buffedimage.getName().equals(car.getImageFileName())).findFirst().orElse(null).getImage();
+        BufferedImage image = buffer.
+                stream().filter((buffedimage) -> buffedimage.getName().equals(
+                        car.getImageFileName())).findFirst().
+                orElse(null).getImage();
         int imageWidth = scaleObject(image.getWidth());
         int imageHeight = scaleObject(image.getHeight());
 
@@ -230,7 +231,10 @@ public class CourseDisplay extends JPanel {
         // draw objects
         // ezt fogjuk majd hasznalni, amint a TeamB1 megadja ezt a funkciot
         //BufferedImage image = object.getImage();
-        BufferedImage image = buffer.stream().filter((buffedimage) -> buffedimage.getName().equals(object.getImageFileName())).findFirst().orElse(null).getImage();
+        BufferedImage image = buffer.stream().
+                filter((buffedimage) -> buffedimage.getName().
+                        equals(object.getImageFileName())).
+                findFirst().orElse(null).getImage();
 
         int imagePositionX = scaleObject(object.getX()) + xOffset;
         int imagePositionY = scaleObject(object.getY()) + yOffset;

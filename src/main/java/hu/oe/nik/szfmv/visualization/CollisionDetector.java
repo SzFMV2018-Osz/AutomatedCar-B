@@ -2,7 +2,8 @@ package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.WorldObject;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.*;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Collidable;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -54,8 +55,7 @@ public class CollisionDetector {
      */
     private CollisionDetector() {
         colliders = new ArrayList<>();
-        try
-        {
+        try {
             readXML4Colliders();
         }
         catch (IOException e) {
@@ -79,11 +79,11 @@ public class CollisionDetector {
     }
     /**
      * Find and take in a list the collidable objects.
+     * @param list World object list.
      */
     public void findObstacles(List<WorldObject> list){
         for (WorldObject object: list) {
-            if(object instanceof Collidable)
-            {
+            if(object instanceof Collidable) {
                 obstacles.add(object);
             }
         }
@@ -103,41 +103,38 @@ public class CollisionDetector {
      */
     public boolean checkCollisions() {
         Shape carShape= null;
-        for(ColliderModel collider: colliders)
-        {
-            if(getPureImageName(collider.getName()).equals(getPureImageName(carObject.getImageFileName())))
-            {
+        for (ColliderModel collider: colliders) {
+            if (getPureImageName(collider.getName()).
+                    equals(getPureImageName(carObject.
+                            getImageFileName()))) {
                 carShape = createTransformedShapeForCollision(carObject,collider);
             }
         }
         for (WorldObject object: obstacles) {
-            for(ColliderModel collider: colliders)
-            {
-                if(getPureImageName(collider.getName()).equals(getPureImageName(object.getImageFileName())))
-                {
+            for (ColliderModel collider: colliders) {
+                if (getPureImageName(collider.getName()).equals(getPureImageName(object.getImageFileName()))) {
                     Shape tempShape = createTransformedShapeForCollision(object,collider);
-                    if(carShape.getBounds2D().intersects(tempShape.getBounds2D()))
-                    {
-//                        if(object instanceof Human || object instanceof Bicycle) return true;
-//                        if(!(object instanceof Movable) && critHitHappened(((Movable)carObject).getSpeed() ,0))
-//                        {
+                    if (carShape.getBounds2D().intersects(tempShape.getBounds2D())) {
+//                        if (object instanceof Human
+//                                  || object instanceof Bicycle) return true;
+//                        if (!(object instanceof Movable)
+//                              && critHitHappened(
+//                                  ((Movable)carObject).getSpeed() ,0)) {
 //                            imageChanger();
 //                            return true;
 //                        }
-//                        else if((object instanceof Movable) && critHitHappened(((Movable)carObject).getSpeed(),((Movable)object).getSpeed()))
-//                        {
+//                        else if ((object instanceof Movable)
+//                              && critHitHappened(((Movable)carObject).getSpeed(),
+//                                  ((Movable)object).getSpeed())) {
 //                            imageChanger();
 //                            return true;
 //                        }
-//                        else
-//                        {
-//                            if(object instanceof Movable)
-//                            {
+//                        else {
+//                            if (object instanceof Movable) {
 //                                object.addDamage(calculateDamage(((Movable)carObject).getSpeed(),((Movable)object).getSpeed()));
 //                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(),((Movable)object).getSpeed()));
 //                            }
-//                            else
-//                            {
+//                            else {
 //                                object.addDamage(calculateDamage(((Movable)carObject).getSpeed(),0));
 //                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(),0));
 //                            }
@@ -177,13 +174,13 @@ public class CollisionDetector {
      * @param status The status of the word object.
      */
     private void changeImage(WorldObject object, int status) {
-        if (object instanceof Car)
-        {
-            object.setImageFileName(getPureImageName(object.getImageFileName()) + "_" + (status + 1) + ".png");
+        if (object instanceof Car) {
+            object.setImageFileName(getPureImageName(object.
+                    getImageFileName()) + "_" + (status + 1) + ".png");
         }
-        else
-        {
-            object.setImageFileName(getPureImageName(object.getImageFileName()) + "_" + status + ".png");
+        else {
+            object.setImageFileName(getPureImageName(object.
+                    getImageFileName()) + "_" + status + ".png");
         }
     }
 
@@ -230,8 +227,7 @@ public class CollisionDetector {
      * @param speed2 2. object speed.
      * @return Double, witch contains the difference.
      */
-    private double calculateDamage(double speed1, double speed2)
-    {
+    private double calculateDamage(double speed1, double speed2) {
         return Math.abs(speed1 - speed2);
     }
 
@@ -253,8 +249,7 @@ public class CollisionDetector {
     private String getPureImageName(String imageName) {
         if (imageName.contains("_")) {
             int tempCount = imageName.length() - imageName.replace("_", "").length();
-            if(tempCount == 2)
-            {
+            if (tempCount == 2) {
                 return imageName.substring(0, imageName.lastIndexOf('.') - 1);
             }
             return imageName.substring(0, imageName.lastIndexOf('_') - 1);
