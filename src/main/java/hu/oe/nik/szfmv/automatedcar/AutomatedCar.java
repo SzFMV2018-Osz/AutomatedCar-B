@@ -78,8 +78,9 @@ public class AutomatedCar extends Car {
 
         x += timeFrame * velocity[0] * 50;
         y += timeFrame * velocity[1] * 50;
-        positionPacket.setPostion(new double[] { x, y });
         rotation += virtualFunctionBus.steeringPacket.getAngularSpeed();
+        positionPacket.setPostion(new double[] { x, y });
+        positionPacket.setRotation(rotation);
     }
 
     private double[] calculateSummedForces() {
@@ -102,7 +103,6 @@ public class AutomatedCar extends Car {
         double orientationX = Math.cos(Math.toRadians(rotation));
         double orientationY = Math.sin(Math.toRadians(rotation));
         double[] orientation = new double[] { orientationX, orientationY };
-        positionPacket.setFacingDirection(orientation);
         return orientation;
     }
 

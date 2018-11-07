@@ -9,7 +9,7 @@ import hu.oe.nik.szfmv.automatedcar.sensor.Camera;
 public class CameraTest {
     @Test
     public void CanCreateCameraObjectTest() {
-        Camera c = new Camera(1, 1, new double[] { 0, 1 }, new VirtualFunctionBus());
+        Camera c = new Camera(new VirtualFunctionBus());
 
         Assert.assertNotNull(c);
     }

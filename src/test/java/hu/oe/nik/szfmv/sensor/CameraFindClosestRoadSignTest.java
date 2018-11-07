@@ -21,7 +21,7 @@ public class CameraFindClosestRoadSignTest {
 
     @Before
     public void setUp() {
-        underTest = new Camera(0, 0, new double[] { 0, 0 }, new VirtualFunctionBus());
+        underTest = new Camera(new VirtualFunctionBus());
     }
 
     @Test

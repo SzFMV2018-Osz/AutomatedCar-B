@@ -4,5 +4,5 @@ public interface ReadOnlyPositionPacket {
 
     double[] getPosition();
 
-    double[] getFacingDirection();
+    double getRotation();
 }

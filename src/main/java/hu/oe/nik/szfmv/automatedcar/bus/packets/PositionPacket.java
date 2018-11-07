@@ -4,7 +4,7 @@ public class PositionPacket implements ReadOnlyPositionPacket {
 
     private double[] postion;
 
-    private double[] facingDirection;
+    private double rotation;
 
     @Override
     public double[] getPosition() {
@@ -12,16 +12,16 @@ public class PositionPacket implements ReadOnlyPositionPacket {
     }
 
     @Override
-    public double[] getFacingDirection() {
-        return facingDirection;
+    public double getRotation() {
+        return rotation;
     }
 
     public void setPostion(double[] postion) {
         this.postion = postion;
     }
 
-    public void setFacingDirection(double[] facingDirection) {
-        this.facingDirection = facingDirection;
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
     }
 
 }

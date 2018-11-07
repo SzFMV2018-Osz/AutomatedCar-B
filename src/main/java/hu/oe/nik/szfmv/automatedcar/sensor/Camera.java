@@ -14,20 +14,11 @@ import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
 public class Camera extends SystemComponent implements ISensor {
 
     private static final int VISUAL_RANGE = 80;
-    private static final int HAROMSZAZHATVAN = 80;
     private static final int METER_PIXEL_RATIO = 50;
     // 60°
     private static final double ANGLE_OF_VIEW = 60f;
-    private static double TRIANGULAR_STEM;
-    // camera position
-    private double x;
-    private double y;
 
-    // another 2 point of the triangle
-    private double[] triangleAPoint;
-    private double[] triangleBPoint;
-
-    private double[] facingDirection;
+    private Triangle viewArea;
 
     private CameraPacket cameraPacket;
 
@@ -36,89 +27,22 @@ public class Camera extends SystemComponent implements ISensor {
      * @param y               y coordinate
      * @param facingDirection facing direction
      */
-    public Camera(int x, int y, double[] facingDirection, VirtualFunctionBus virtualFunctionBus) {
+    public Camera(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
-        this.x = x;
-        this.y = y;
-        this.facingDirection = facingDirection;
 
-        triangleAPoint = new double[2];
-        triangleBPoint = new double[2];
-
-        double m = VISUAL_RANGE;
-        double a = m * (Math.sin(Math.toRadians(ANGLE_OF_VIEW / 2)) / (Math.sin(Math.toRadians(ANGLE_OF_VIEW))));
-        TRIANGULAR_STEM = Math.sqrt(Math.pow(a, 2) + Math.pow(m, 2));
-
-        calculateTriangleOfView();
+        viewArea = new Triangle(VISUAL_RANGE * METER_PIXEL_RATIO, ANGLE_OF_VIEW,
+                virtualFunctionBus.positionPacket.getPosition()[0], virtualFunctionBus.positionPacket.getPosition()[1]);
 
         cameraPacket = new CameraPacket();
         virtualFunctionBus.cameraPacket = cameraPacket;
     }
 
     /**
-     * @return returns the x coordinate of the camera position
-     */
-    public double getX() {
-        return x;
-    }
-
-    /**
-     * @return returns the y coordinate of the camera position
-     */
-    public double getY() {
-        return y;
-    }
-
-    /**
-     * @return returns one point of the camera view triangle
-     */
-    public double[] getTriangleAPoint() {
-        return triangleAPoint;
-    }
-
-    /**
-     * @return returns the other point of the camera view triangle
-     */
-    public double[] getTriangleBPoint() {
-        return triangleBPoint;
-    }
-
-    /**
      * @param position        position
      * @param facingDirection facingDirection
      */
-    public void updatePosition(double[] position, double[] facingDirection) {
-        // get the new position and calculate the new triangle
-        this.facingDirection = facingDirection;
-        x = position[0];
-        y = position[1];
-        calculateTriangleOfView();
-    }
-
-    /**
-     * Calculates the current view triangle of the camera
-     */
-    private void calculateTriangleOfView() {
-        double[] shiftVector = calculatedDirectionVectorWithRotationMatrix(ANGLE_OF_VIEW / 2);
-        shiftVector[0] = ((shiftVector[0] * TRIANGULAR_STEM) + x) / METER_PIXEL_RATIO;
-        shiftVector[1] = ((shiftVector[1] * TRIANGULAR_STEM) + y) / METER_PIXEL_RATIO;
-        triangleAPoint = shiftVector;
-
-        shiftVector = calculatedDirectionVectorWithRotationMatrix(HAROMSZAZHATVAN - (ANGLE_OF_VIEW / 2));
-        shiftVector[0] = ((shiftVector[0] * TRIANGULAR_STEM) + x) / METER_PIXEL_RATIO;
-        shiftVector[1] = ((shiftVector[1] * TRIANGULAR_STEM) + y) / METER_PIXEL_RATIO;
-        triangleBPoint = shiftVector;
-    }
-
-    /**
-     * @param angle where the camera looks
-     * @return the direction vector
-     */
-    private double[] calculatedDirectionVectorWithRotationMatrix(double angle) {
-        angle = angle % HAROMSZAZHATVAN;
-        // transformation matrix
-        return new double[] { (facingDirection[0] * Math.cos(angle)) + (facingDirection[1] * (Math.sin(angle))),
-                (facingDirection[0] * (-Math.sin(angle))) + (facingDirection[1] * Math.cos(angle)) };
+    public void updatePosition(double[] position, double rotation) {
+        viewArea.calculateNextPosition(rotation, position[0], position[1]);
     }
 
     /**
@@ -126,22 +50,9 @@ public class Camera extends SystemComponent implements ISensor {
      * @return list of world objects that are inside the view of the camera
      */
     public List<WorldObject> findWorldObjectsInRadarTriangle(List<WorldObject> worldObjects) {
-        Triangle triangle = new Triangle(VISUAL_RANGE * METER_PIXEL_RATIO, 0, x, y);
-
-        triangle.a0x = x;
-        triangle.a0y = y;
-        triangle.a1x = triangleAPoint[0];
-        triangle.a1y = triangleAPoint[1];
-        triangle.a2x = triangleBPoint[0];
-        triangle.a2y = triangleBPoint[1];
-
-        List<WorldObject> inTriangleList = new ArrayList<>();
-        for (WorldObject wordObject : worldObjects) {
-            if (triangle.isInTheTriangle(wordObject.getX(), wordObject.getY())) {
-                inTriangleList.add(wordObject);
-            }
-        }
-        return inTriangleList;
+        return worldObjects.stream()
+                .filter(worldObject -> viewArea.isInTheTriangle(worldObject.getX(), worldObject.getY()))
+                .collect(Collectors.toList());
     }
 
     public Optional<WorldObject> findClosestRoadSign(List<WorldObject> objectsInRange) {
@@ -165,7 +76,8 @@ public class Camera extends SystemComponent implements ISensor {
     }
 
     private double calculateDistanceFromCamera(WorldObject object) {
-        return Math.sqrt(Math.pow(x - object.getX(), 2) + Math.pow(y - object.getY(), 2));
+        return Math.sqrt(Math.pow(virtualFunctionBus.positionPacket.getPosition()[0] - object.getX(), 2)
+                + Math.pow(virtualFunctionBus.positionPacket.getPosition()[1] - object.getY(), 2));
     }
 
     @Override
@@ -181,7 +93,7 @@ public class Camera extends SystemComponent implements ISensor {
     @Override
     public void loop() {
         updatePosition(virtualFunctionBus.positionPacket.getPosition(),
-                virtualFunctionBus.positionPacket.getFacingDirection());
+                virtualFunctionBus.positionPacket.getRotation());
         List<WorldObject> objectsInView = findWorldObjectsInRadarTriangle(new ArrayList<>()); // TODO: lekerni az osszes
                                                                                               // worldobjectet
         Optional<WorldObject> closestRoadSign = findClosestRoadSign(objectsInView);
