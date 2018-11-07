@@ -1,23 +1,20 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.engine.CarEngine;
-import hu.oe.nik.szfmv.automatedcar.engine.CarEngineType;
-import hu.oe.nik.szfmv.automatedcar.engine.GearBox;
-import hu.oe.nik.szfmv.automatedcar.engine.StandardCarEngineType;
-import hu.oe.nik.szfmv.automatedcar.engine.TransmissionModes;
-
+import hu.oe.nik.szfmv.automatedcar.bus.packets.PowerTrainPacketImpl;
+import hu.oe.nik.szfmv.automatedcar.engine.*;
+import hu.oe.nik.szfmv.automatedcar.engine.exception.TransmissionModeChangeException;
+import hu.oe.nik.szfmv.common.enums.Gear;
 
 /**
  * Powertrain system is responsible for the movement of the car.
  */
 public class PowertrainSystem extends SystemComponent {
 
-    private PowertrainPacket powertrainPacket;
     private final CarEngineType engineType;
+    private PowerTrainPacketImpl powertrainPacket;
     private CarEngine engine;
     private GearBox gearBox;
-
 
     /**
      * Creates a powertrain system that connects the Virtual Function Bus
@@ -28,7 +25,7 @@ public class PowertrainSystem extends SystemComponent {
     public PowertrainSystem(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
 
-        powertrainPacket = new PowertrainPacket();
+        powertrainPacket = new PowerTrainPacketImpl();
         virtualFunctionBus.powertrainPacket = powertrainPacket;
 
         engineType = new StandardCarEngineType();
@@ -44,29 +41,62 @@ public class PowertrainSystem extends SystemComponent {
         return gearBox.getCurrentGear();
     }
 
-    public TransmissionModes getCurrentAutomaticTransmissionModes() {
-        return gearBox.getTransmissionModes();
+    public CarEngineType getEngineType() {
+        return engineType;
     }
 
     @Override
     public void loop() {
         // GET INPUT
-
+        transmissionChange();
         // PROCESS INPUT
-
+        updateEngine();
         // UPDATE OUT PACKET
+        updateBusProperties();
+
+        System.out.println("speed:" + virtualFunctionBus.velocityPacket.getSpeed());
+        System.out.println("rpm:" + powertrainPacket.getRpm());
+        // System.out.println("Vector X:" +
+        // virtualFunctionBus.steeringPacket.getAngularVector()[0] + " Vector Y:"
+        // + virtualFunctionBus.steeringPacket.getAngularVector()[1]);
+    }
+
+    private void updateEngine() {
+        engine.updateRpm((int) virtualFunctionBus.velocityPacket.getSpeed(), gearBox.getCurrentGear());
+        gearBox.updateGear(engine.getRpm());
+    }
+
+    private void transmissionChange() {
+        try {
+            gearBox.changeTransmissionMode(powertrainPacket.getTransmissionMode(), powertrainPacket.getRpm());
+        } catch (TransmissionModeChangeException e) {
+            // TODO Input team handle this
+        } finally {
+            if (gearBox.getTransmissionModes() != powertrainPacket.getTransmissionMode()) {
+                powertrainPacket.setTransmissionMode(gearBox.getTransmissionModes());
+            }
+        }
+    }
+
+    private void updateBusProperties() {
         powertrainPacket.setRpm(getRpm());
         powertrainPacket.setGear(getCurrentGear());
     }
 
-    /**
-     * @param wheelRotationRate the current wheel rotation rate
-     */
-    public void updateEngine(final double wheelRotationRate) {
-        if (wheelRotationRate >= 0 && gearBox.getTransmissionModes().getCanItMove()) {
-            engine.updateRpm(wheelRotationRate, gearBox.getCurrentGear());
-            gearBox.updateGear(engine.getRpm());
+    public double[] calculateTractionForce(double[] orientationVector) {
+        if (virtualFunctionBus.gearPacket.getCurrentGear().equals(Gear.D)) {
+            return calculateTractionForceFomGear(gearBox.getCurrentGear(), orientationVector);
+        } else if (virtualFunctionBus.gearPacket.getCurrentGear().equals(Gear.R)) {
+            double[] tractionForce = calculateTractionForceFomGear(0, orientationVector);
+            return new double[]{tractionForce[0] * -1, tractionForce[1] * -1};
+        } else {
+            return new double[]{0, 0};
         }
+    }
 
+    private double[] calculateTractionForceFomGear(int gear, double[] orientationVector) {
+        return TractionForce.calculateTractionForce(orientationVector,
+                engine.calculateDriveTorque(virtualFunctionBus.gasPedalPacket.getPedalPosition(), gear),
+                engineType.getWheelRadius());
     }
 }

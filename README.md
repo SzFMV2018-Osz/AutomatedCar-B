@@ -1,4 +1,5 @@
-﻿[![Build Status](https://travis-ci.org/SzFMV2018-Osz/AutomatedCar-B.svg?branch=master)](https://travis-ci.org/SzFMV2018-Osz/AutomatedCar-B)
+﻿[![CircleCI](https://circleci.com/gh/SzFMV2018-Osz/AutomatedCar-B.svg?style=svg)](https://circleci.com/gh/SzFMV2018-Osz/AutomatedCar-B)
+ [![Build Status](https://travis-ci.org/SzFMV2018-Osz/AutomatedCar-B.svg?branch=master)](https://travis-ci.org/SzFMV2018-Osz/AutomatedCar-B)
 [![CodeFactor](https://www.codefactor.io/repository/github/szfmv2018-osz/automatedcar-b/badge)](https://www.codefactor.io/repository/github/szfmv2018-osz/automatedcar-b)
 [![codecov](https://codecov.io/gh/SzFMV2018-Osz/AutomatedCar-B/branch/master/graph/badge.svg)](https://codecov.io/gh/SzFMV2018-Osz/AutomatedCar-B)
 [![API Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://szfmv2018-osz.github.io/AutomatedCar-B/javadoc/)
