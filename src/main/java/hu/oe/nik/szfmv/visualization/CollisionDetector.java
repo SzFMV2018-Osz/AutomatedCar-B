@@ -27,11 +27,11 @@ public class CollisionDetector {
     /**
      * Constans double, for the critical hit speed.
      */
-    private static final double criticalHitSpeed = 60;
+    private static final double CriticalHitSpeed = 60;
     /**
      * Constans double, for the survivable hit speed.
      */
-    private static final double survivableHitSpeed = 30;
+    private static final double SurvivableHitSpeed = 30;
     /**
      * The instance about the collision.
      */
@@ -72,7 +72,7 @@ public class CollisionDetector {
      * @return Instance about the collision.
      */
     public static CollisionDetector getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new CollisionDetector();
         }
         return instance;
@@ -81,9 +81,9 @@ public class CollisionDetector {
      * Find and take in a list the collidable objects.
      * @param list World object list.
      */
-    public void findObstacles(List<WorldObject> list){
+    public void findObstacles(List<WorldObject> list) {
         for (WorldObject object: list) {
-            if(object instanceof Collidable) {
+            if (object instanceof Collidable) {
                 obstacles.add(object);
             }
         }
@@ -93,7 +93,7 @@ public class CollisionDetector {
      * Set the automated car.
      * @param car The car object.
      */
-    public void setCarObject(AutomatedCar car){
+    public void setCarObject(AutomatedCar car) {
         carObject = car;
     }
 
@@ -102,24 +102,24 @@ public class CollisionDetector {
      * @return False (while we can not get a speed).
      */
     public boolean checkCollisions() {
-        Shape carShape= null;
+        Shape carShape = null;
         for (ColliderModel collider: colliders) {
             if (getPureImageName(collider.getName()).
                     equals(getPureImageName(carObject.
                             getImageFileName()))) {
-                carShape = createTransformedShapeForCollision(carObject,collider);
+                carShape = createTransformedShapeForCollision(carObject, collider);
             }
         }
         for (WorldObject object: obstacles) {
             for (ColliderModel collider: colliders) {
                 if (getPureImageName(collider.getName()).equals(getPureImageName(object.getImageFileName()))) {
-                    Shape tempShape = createTransformedShapeForCollision(object,collider);
+                    Shape tempShape = createTransformedShapeForCollision(object, collider);
                     if (carShape.getBounds2D().intersects(tempShape.getBounds2D())) {
 //                        if (object instanceof Human
 //                                  || object instanceof Bicycle) return true;
 //                        if (!(object instanceof Movable)
 //                              && critHitHappened(
-//                                  ((Movable)carObject).getSpeed() ,0)) {
+//                                  ((Movable)carObject).getSpeed(), 0)) {
 //                            imageChanger();
 //                            return true;
 //                        }
@@ -131,12 +131,12 @@ public class CollisionDetector {
 //                        }
 //                        else {
 //                            if (object instanceof Movable) {
-//                                object.addDamage(calculateDamage(((Movable)carObject).getSpeed(),((Movable)object).getSpeed()));
-//                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(),((Movable)object).getSpeed()));
+//                                object.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
+//                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
 //                            }
 //                            else {
-//                                object.addDamage(calculateDamage(((Movable)carObject).getSpeed(),0));
-//                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(),0));
+//                                object.addDamage(calculateDamage(((Movable)carObject).getSpeed(), 0));
+//                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), 0));
 //                            }
 //                            imageChanger();
 //                        }
@@ -218,7 +218,7 @@ public class CollisionDetector {
      * @return true/false (if the 1. is  faster than the 2.).
      */
     private boolean critHitHappened(double speedOfObject1, double speedOfObject2) {
-        return Math.abs(speedOfObject1 - speedOfObject2) >= criticalHitSpeed;
+        return Math.abs(speedOfObject1 - speedOfObject2) >= CriticalHitSpeed;
     }
 
     /**
@@ -238,7 +238,7 @@ public class CollisionDetector {
      * @return true/false (if the 1. is  faster than the 2.).
      */
     private boolean acceptableHitHappened(double speedOfObject1, double speedOfObject2) {
-        return Math.abs(speedOfObject1 - speedOfObject2) >= survivableHitSpeed;
+        return Math.abs(speedOfObject1 - speedOfObject2) >= SurvivableHitSpeed;
     }
 
     /**
@@ -280,8 +280,13 @@ public class CollisionDetector {
             Node nNode = nList.item(temp);
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) nNode;
-                ColliderModel model = new ColliderModel(eElement.getAttribute("name"),  Integer.parseInt(eElement.getAttribute("x")),
-                        Integer.parseInt(eElement.getAttribute("y")), Integer.parseInt(eElement.getAttribute("w")), Integer.parseInt(eElement.getAttribute("h")),
+                ColliderModel model = new ColliderModel(eElement.
+                        getAttribute("name"),
+                        Integer.parseInt(eElement.getAttribute("x")),
+                        Integer.parseInt(eElement
+                                .getAttribute("y")),
+                        Integer.parseInt(eElement.getAttribute("w")),
+                        Integer.parseInt(eElement.getAttribute("h")),
                         eElement.getAttribute("geometry"));
                 colliders.add(model);
             }
