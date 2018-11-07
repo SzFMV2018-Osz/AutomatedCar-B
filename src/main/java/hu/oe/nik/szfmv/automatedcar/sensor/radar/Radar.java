@@ -20,6 +20,9 @@ public class Radar extends SystemComponent {
 
     private RadarPacket radarPacket;
 
+    /**
+     * @param virtualFunctionBus
+     */
     public Radar(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
         triangle = new Triangle(VISUAL_RANGE * METER_PIXEL_RATIO, ANGLE_OF_VIEW,
