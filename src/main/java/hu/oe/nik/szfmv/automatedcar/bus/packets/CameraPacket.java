@@ -1,16 +1,18 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets;
 
+import java.util.Optional;
+
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.ICameraPacket;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
+import hu.oe.nik.szfmv.environment.WorldObject;
 
 public class CameraPacket implements ICameraPacket {
 
-    RoadSign closestRoadSign;
+    Optional<WorldObject> closestRoadSign;
+    double closestRoadSignDistance;
     int leftDisctanceFromTheLaneEdge;
     int rightDistanceFromTheLaneEdge;
     int laneNumber;
     boolean[] whichLane;
-
 
     /**
      * add default value to variable
@@ -24,12 +26,12 @@ public class CameraPacket implements ICameraPacket {
     }
 
     @Override
-    public RoadSign getClosestRoadSign() {
+    public Optional<WorldObject> getClosestRoadSign() {
         return closestRoadSign;
     }
 
     @Override
-    public void setClosestRoadSign(RoadSign closestRoadSign) {
+    public void setClosestRoadSign(Optional<WorldObject> closestRoadSign) {
         this.closestRoadSign = closestRoadSign;
     }
 
@@ -73,4 +75,12 @@ public class CameraPacket implements ICameraPacket {
         this.whichLane = whichLane;
     }
 
+    @Override
+    public double getClosestRoadSignDistance() {
+        return closestRoadSignDistance;
+    }
+
+    public void setClosestRoadSignDistance(double closestRoadSignDistance) {
+        this.closestRoadSignDistance = closestRoadSignDistance;
+    }
 }

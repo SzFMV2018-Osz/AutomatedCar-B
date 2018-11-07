@@ -1,18 +1,25 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces;
 
-import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
+import java.util.Optional;
+
+import hu.oe.nik.szfmv.environment.WorldObject;
 
 public interface ICameraPacket {
 
     /**
      * @return closest road sign
      */
-    RoadSign getClosestRoadSign();
+    Optional<WorldObject> getClosestRoadSign();
+
+    /**
+     * @return closest road sign distance
+     */
+    double getClosestRoadSignDistance();
 
     /**
      * @param roadSign closest road sign
      */
-    void setClosestRoadSign(RoadSign roadSign);
+    void setClosestRoadSign(Optional<WorldObject> roadSign);
 
     /**
      * @return left distance from the lane edge
