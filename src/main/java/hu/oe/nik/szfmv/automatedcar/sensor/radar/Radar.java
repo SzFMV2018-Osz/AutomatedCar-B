@@ -11,12 +11,12 @@ import hu.oe.nik.szfmv.environment.WorldObject;
 
 public class Radar extends SystemComponent {
 
-    private Triangle triangle;
-
     private static final int VISUAL_RANGE = 80;
     private static final int METER_PIXEL_RATIO = 50;
     // 60°
     private static final double ANGLE_OF_VIEW = 60f;
+
+    private Triangle triangle;
 
     private RadarPacket radarPacket;
 
