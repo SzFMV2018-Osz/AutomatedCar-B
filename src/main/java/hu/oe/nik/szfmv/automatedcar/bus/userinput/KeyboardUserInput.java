@@ -2,10 +2,7 @@ package hu.oe.nik.szfmv.automatedcar.bus.userinput;
 
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.Direction;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.PedalType;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IIndicationEventHandler;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IPedalEventHandler;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IShiftingEventHandler;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.ISteeringEventHandler;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.*;
 import hu.oe.nik.szfmv.common.ConfigProvider;
 import hu.oe.nik.szfmv.common.enums.Gear;
 
@@ -32,11 +29,14 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
     private final int gearN;
     private final int gearD;
 
+    private final int sensorDebug;
+
     private List<IPedalEventHandler> gasPedalEventHandlers;
     private List<IPedalEventHandler> brakePedalEventHandlers;
     private List<IShiftingEventHandler> shiftingEventHandlers;
     private List<ISteeringEventHandler> steeringEventHandlers;
     private List<IIndicationEventHandler> indicationEventHandlers;
+    ISensorDebugEventHandler sensorDebugEventHandler;
 
     private List<Integer> holdKeys;
 
@@ -54,6 +54,8 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
         this.gearP = ConfigProvider.provide().getLong("keyboard.gear_p").intValue();
         this.gearN = ConfigProvider.provide().getLong("keyboard.gear_n").intValue();
         this.gearD = ConfigProvider.provide().getLong("keyboard.gear_d").intValue();
+
+        this.sensorDebug = ConfigProvider.provide().getLong("keyboard.sensor_debug").intValue();
 
         this.gasPedalEventHandlers = new ArrayList<>();
         this.brakePedalEventHandlers = new ArrayList<>();
@@ -117,6 +119,11 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
     }
 
     @Override
+    public void setSensorDebugEvent(ISensorDebugEventHandler handler) {
+        this.sensorDebugEventHandler = handler;
+    }
+
+    @Override
     public void unsubscribePedalEvents(IPedalEventHandler handler, PedalType type) {
         argumentCheck(type);
         if (type == PedalType.Gas) {
@@ -140,6 +147,7 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
     public void unsubscribeIndicationEvents(IIndicationEventHandler handler) {
         this.indicationEventHandlers.remove(handler);
     }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -207,6 +215,10 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
         this.indicationEventHandlers.forEach(handler -> handler.onIndication(d));
     }
 
+    private void onSensorDebugToggle() {
+        this.sensorDebugEventHandler.onSensorDebugToggle();
+    }
+
     private void argumentCheck(Object o) {
         if (o == null) {
             throw new IllegalArgumentException("The given argument cannot be null!");
@@ -246,6 +258,8 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
             this.onShifting(Gear.D);
         } else if (e.getKeyCode() == gearR) {
             this.onShifting(Gear.R);
+        } else if (e.getKeyCode() == sensorDebug) {
+            this.onSensorDebugToggle();
         }
     }
 }

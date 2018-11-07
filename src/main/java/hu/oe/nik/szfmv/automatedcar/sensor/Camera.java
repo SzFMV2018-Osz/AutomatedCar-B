@@ -6,12 +6,16 @@ import java.util.stream.Collectors;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.CameraPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.IUserInput;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.ISensorDebugEventHandler;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
 
-public class Camera extends SystemComponent implements ISensor {
+public class Camera extends SystemComponent implements ISensor, ISensorDebugEventHandler {
 
     private static final int VISUAL_RANGE = 80;
     private static final int METER_PIXEL_RATIO = 50;
@@ -22,17 +26,23 @@ public class Camera extends SystemComponent implements ISensor {
 
     private CameraPacket cameraPacket;
 
+    private SensorDebug sensorDebugger;
+
     /**
      * @param virtualFunctionBus r
      */
     public Camera(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
 
-        viewArea = new Triangle(VISUAL_RANGE * METER_PIXEL_RATIO, ANGLE_OF_VIEW,
-                virtualFunctionBus.positionPacket.getPosition()[0], virtualFunctionBus.positionPacket.getPosition()[1]);
+        // a positionPacketben a position alapból null, ez így exceptiont dob
+        //viewArea = new Triangle(VISUAL_RANGE * METER_PIXEL_RATIO, ANGLE_OF_VIEW,
+        //       virtualFunctionBus.positionPacket.getPosition()[0], virtualFunctionBus.positionPacket.getPosition()[1]);
 
         cameraPacket = new CameraPacket();
         virtualFunctionBus.cameraPacket = cameraPacket;
+        sensorDebugger = new SensorDebug();
+
+        UserInputProvider.getUserInput(InputType.Keyboard).setSensorDebugEvent(sensorDebugger);
     }
 
     /**
@@ -101,5 +111,11 @@ public class Camera extends SystemComponent implements ISensor {
         cameraPacket.setClosestRoadSign(closestRoadSign);
         cameraPacket.setClosestRoadSignDistance(
                 closestRoadSign.isPresent() ? calculateDistanceFromCamera(closestRoadSign.get()) : -1);
+    }
+
+    @Override
+    public void onSensorDebugToggle() {
+        sensorDebugger.toggleActive();
+        System.out.println("Debug Callback is Working");
     }
 }

@@ -2,10 +2,7 @@ package hu.oe.nik.szfmv.automatedcar.bus.packets;
 
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.IUserInput;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.PedalType;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IIndicationEventHandler;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IPedalEventHandler;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IShiftingEventHandler;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.ISteeringEventHandler;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.*;
 
 import java.awt.event.KeyEvent;
 
@@ -27,6 +24,11 @@ public class UserInputDummy implements IUserInput {
 
     @Override
     public void subscribeIndicationEvents(IIndicationEventHandler handler) {
+
+    }
+
+    @Override
+    public void setSensorDebugEvent(ISensorDebugEventHandler handler) {
 
     }
 
