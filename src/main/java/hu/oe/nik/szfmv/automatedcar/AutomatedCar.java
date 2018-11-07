@@ -9,6 +9,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.VelocityPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
 import hu.oe.nik.szfmv.automatedcar.engine.BrakingForces;
 import hu.oe.nik.szfmv.automatedcar.sensor.Camera;
+import hu.oe.nik.szfmv.automatedcar.sensor.radar.Radar;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.DashboardManager;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
@@ -28,6 +29,7 @@ public class AutomatedCar extends Car {
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
     private Camera camera;
+    private Radar radar;
 
     /**
      * Constructor of the AutomatedCar class
@@ -49,6 +51,7 @@ public class AutomatedCar extends Car {
         dashboardManager = new DashboardManager(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         camera = new Camera(virtualFunctionBus);
+        radar = new Radar(virtualFunctionBus);
         new Driver(virtualFunctionBus);
     }
 
