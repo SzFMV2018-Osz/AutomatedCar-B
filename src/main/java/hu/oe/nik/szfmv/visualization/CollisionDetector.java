@@ -27,11 +27,11 @@ public class CollisionDetector {
     /**
      * Constans double, for the critical hit speed.
      */
-    private static final double CriticalHitSpeed = 60;
+    private static final double CRITICALHITSPEED = 60;
     /**
      * Constans double, for the survivable hit speed.
      */
-    private static final double SurvivableHitSpeed = 30;
+    private static final double SURVIVABLEHITSPEED = 30;
     /**
      * The instance about the collision.
      */
@@ -57,8 +57,7 @@ public class CollisionDetector {
         colliders = new ArrayList<>();
         try {
             readXML4Colliders();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
 
         } catch (ParserConfigurationException e) {
 
@@ -122,19 +121,18 @@ public class CollisionDetector {
 //                                  ((Movable)carObject).getSpeed(), 0)) {
 //                            imageChanger();
 //                            return true;
-//                        }
-//                        else if ((object instanceof Movable)
+//                        } else if ((object instanceof Movable)
 //                              && critHitHappened(((Movable)carObject).getSpeed(),
 //                                  ((Movable)object).getSpeed())) {
 //                            imageChanger();
 //                            return true;
-//                        }
-//                        else {
+//                        } else {
 //                            if (object instanceof Movable) {
-//                                object.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
+//                                object.addDamage(calculateDamage(((Movable)carObject).
+//                                      getSpeed(),
+//                                      ((Movable)object).getSpeed()));
 //                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
-//                            }
-//                            else {
+//                            } else {
 //                                object.addDamage(calculateDamage(((Movable)carObject).getSpeed(), 0));
 //                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), 0));
 //                            }
@@ -218,7 +216,7 @@ public class CollisionDetector {
      * @return true/false (if the 1. is  faster than the 2.).
      */
     private boolean critHitHappened(double speedOfObject1, double speedOfObject2) {
-        return Math.abs(speedOfObject1 - speedOfObject2) >= CriticalHitSpeed;
+        return Math.abs(speedOfObject1 - speedOfObject2) >= CRITICALHITSPEED;
     }
 
     /**
@@ -238,7 +236,7 @@ public class CollisionDetector {
      * @return true/false (if the 1. is  faster than the 2.).
      */
     private boolean acceptableHitHappened(double speedOfObject1, double speedOfObject2) {
-        return Math.abs(speedOfObject1 - speedOfObject2) >= SurvivableHitSpeed;
+        return Math.abs(speedOfObject1 - speedOfObject2) >= SURVIVABLEHITSPEED;
     }
 
     /**
@@ -253,8 +251,7 @@ public class CollisionDetector {
                 return imageName.substring(0, imageName.lastIndexOf('.') - 1);
             }
             return imageName.substring(0, imageName.lastIndexOf('_') - 1);
-        }
-        else {
+        } else {
             return imageName.substring(0, imageName.lastIndexOf('.') - 1);
         }
     }
