@@ -110,6 +110,12 @@ public class Camera extends SystemComponent implements ISensor, ISensorDebugEven
         cameraPacket.setClosestRoadSign(closestRoadSign);
         cameraPacket.setClosestRoadSignDistance(
                 closestRoadSign.isPresent() ? calculateDistanceFromCamera(closestRoadSign.get()) : -1);
+
+        if (sensorDebugger.isActive()) {
+            if (closestRoadSign.isPresent() == true ) {
+               sensorDebugger.tag(closestRoadSign.get());
+            }
+        }
     }
 
     @Override
