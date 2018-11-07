@@ -1,6 +1,5 @@
 package hu.oe.nik.szfmv.automatedcar.sensor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,6 +11,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.ISensorDebugEventHandler;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
+import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
 
@@ -106,12 +106,11 @@ public class Camera extends SystemComponent implements ISensor, ISensorDebugEven
     public void loop() {
         updatePosition(virtualFunctionBus.positionPacket.getPosition(),
                 virtualFunctionBus.positionPacket.getRotation());
-        List<WorldObject> objectsInView = findWorldObjectsInRadarTriangle(new ArrayList<>());
-
+        List<WorldObject> objectsInView = findWorldObjectsInRadarTriangle(World.objects);
         Optional<WorldObject> closestRoadSign = findClosestRoadSign(objectsInView);
-        if (closestRoadSign.isPresent()) {
-            cameraPacket.setClosestRoadSign((RoadSign) closestRoadSign.get());
-        }
+        cameraPacket.setClosestRoadSign(closestRoadSign);
+        cameraPacket.setClosestRoadSignDistance(
+                closestRoadSign.isPresent() ? calculateDistanceFromCamera(closestRoadSign.get()) : -1);
     }
 
     @Override

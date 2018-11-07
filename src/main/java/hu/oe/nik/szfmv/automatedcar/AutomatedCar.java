@@ -100,7 +100,6 @@ public class AutomatedCar extends Car {
         List<double[]> forces;
         forces = Arrays.asList(tractionForce, brakeForce, airResistance, rollingResistance);
         double[] sumForces = sumForceVectors(forces);
-        System.out.println("forces :" + sumForces[0] + ", " + sumForces[1]);
         return sumForces;
     }
 
