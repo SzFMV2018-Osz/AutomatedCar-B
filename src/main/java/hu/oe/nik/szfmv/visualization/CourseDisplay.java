@@ -72,7 +72,10 @@ public class CourseDisplay extends JPanel {
      * Integer for windows color.
      */
     private final int backgroundColor = 0xEEEEEE;
-
+    /**
+     * Private list for the images, to handle the FPS drop.
+     */
+    private List<ImageBuffer> buffer;
     /**
      * Initialize the course display.
      */
@@ -85,8 +88,9 @@ public class CourseDisplay extends JPanel {
         readImages();
     }
 
-    private List<ImageBuffer> buffer;
-
+    /**
+     * To get all image in the memory, and make it faster (because FPS drop).
+     */
     private void readImages() {
         File folder = new File(ClassLoader.getSystemResource(".").getFile());
         File[] listOfFiles = folder.listFiles();
@@ -135,7 +139,7 @@ public class CourseDisplay extends JPanel {
             yOffset = height / 2 - scaleObject(world.getAutomatedCar()
                     .getY() - world.getAutomatedCar().getHeight() / 2);
 
-            /**
+            /*
              * Let's create a secondary buffer on we
              * paint the objects each by each,
              * and when everything is painted,
@@ -184,7 +188,6 @@ public class CourseDisplay extends JPanel {
     /**
      * Draw dynamic objects, but it's not used yet
      * since we do not have the proper input for that.
-     *
      * @param dynamicObjects dynamic object list
      * @param screenBuffer   for stop vibration
      */
@@ -197,7 +200,6 @@ public class CourseDisplay extends JPanel {
 
     /**
      * Draw the main car.
-     *
      * @param car          main car
      * @param screenBuffer for stop vibration
      */
