@@ -46,4 +46,9 @@ public interface CarEngineType {
      * @return the transmission effience for the gearbox
      */
     double getTransmissionEffiency();
+
+    /**
+     * @return return with wheel radius
+     */
+    double getWheelRadius();
 }

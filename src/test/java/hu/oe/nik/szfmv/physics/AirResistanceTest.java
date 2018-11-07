@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.physics;
 
-import hu.oe.nik.szfmv.automatedcar.BrakingForces;
+import hu.oe.nik.szfmv.automatedcar.engine.BrakingForces;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Assert;

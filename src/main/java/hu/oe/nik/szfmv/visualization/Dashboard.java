@@ -1,6 +1,12 @@
 package hu.oe.nik.szfmv.visualization;
 
-import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyControlsPacket;
+import java.awt.Color;
+import java.awt.Point;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
 import hu.oe.nik.szfmv.common.enums.Gear;
 import hu.oe.nik.szfmv.visualization.elements.CircleCalculator;
@@ -8,9 +14,6 @@ import hu.oe.nik.szfmv.visualization.elements.ControlsSection;
 import hu.oe.nik.szfmv.visualization.elements.DebugSection;
 import hu.oe.nik.szfmv.visualization.elements.IndexArrow;
 import hu.oe.nik.szfmv.visualization.elements.PedalBar;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * Dashboard shows the state of the ego car, thus helps in debugging.
@@ -46,11 +49,8 @@ public class Dashboard extends JPanel {
 
     private PedalBar bPB = new PedalBar();
     private JLabel brakePedalLabel = bPB.getPedalProgressBarLabel(brakePedal.x, brakePedal.y, "Brake pedal");
-    private JProgressBar brakePedalBar = bPB.getPedalProgressBar(
-            brakePedal.x,
-            brakePedal.y,
-            brakePedalLabel.getHeight()
-    );
+    private JProgressBar brakePedalBar = bPB.getPedalProgressBar(brakePedal.x, brakePedal.y,
+            brakePedalLabel.getHeight());
     private JLabel gasPedalLabel = bPB.getPedalProgressBarLabel(gasPedal.x, gasPedal.y, "Gas pedal");
     private JProgressBar gasPedalBar = bPB.getPedalProgressBar(gasPedal.x, gasPedal.y, gasPedalLabel.getHeight());
     private JLabel gearLabel;
@@ -83,7 +83,7 @@ public class Dashboard extends JPanel {
         setBackground(new Color(backgroundColor));
         setBounds(boundsX, boundsY, width, height);
 
-        //Speed and RPM initialized with 0 rpm and km/h value
+        // Speed and RPM initialized with 0 rpm and km/h value
         rpm = 0;
         speed = 0;
         createCircleMeter(speedMeter);
@@ -109,7 +109,8 @@ public class Dashboard extends JPanel {
     }
 
     /**
-     * Method gets called 'every tick' to display the dashboard portion of the application
+     * Method gets called 'every tick' to display the dashboard portion of the
+     * application
      *
      * @param dbPacket - object containing stats
      * @param ctrlsPacket - object containing controls
@@ -182,17 +183,17 @@ public class Dashboard extends JPanel {
 
     private void indicateTo(int direction) {
         switch (direction) {
-            case -1:
-                indicateLeft();
-                break;
-            case 0:
-                indicationStop();
-                break;
-            case 1:
-                indicateRight();
-                break;
-            default:
-                break;
+        case -1:
+            indicateLeft();
+            break;
+        case 0:
+            indicationStop();
+            break;
+        case 1:
+            indicateRight();
+            break;
+        default:
+            break;
         }
     }
 
