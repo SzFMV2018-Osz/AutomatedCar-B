@@ -99,7 +99,7 @@ public class CourseDisplay extends JPanel {
                 try {
                     ImageBuffer ib = new ImageBuffer(file.getName(), ImageIO.read(file));
                     buffer.add(ib);
-                } catch (IOException e) {}
+                } catch (IOException e) { }
             }
         }
         folder = new File(ClassLoader.getSystemResource("Kiegek").getFile());
@@ -109,7 +109,7 @@ public class CourseDisplay extends JPanel {
                 try {
                     ImageBuffer ib = new ImageBuffer(file.getName(), ImageIO.read(file));
                     buffer.add(ib);
-                } catch (IOException e) {}
+                } catch (IOException e) { }
             }
         }
     }

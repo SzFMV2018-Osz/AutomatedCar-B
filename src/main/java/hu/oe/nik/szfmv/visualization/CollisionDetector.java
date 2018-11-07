@@ -2,8 +2,8 @@ package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.WorldObject;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.Collidable;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Collidable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
