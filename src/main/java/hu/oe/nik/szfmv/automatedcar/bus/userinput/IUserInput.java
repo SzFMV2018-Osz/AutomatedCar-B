@@ -1,10 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.bus.userinput;
 
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.PedalType;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IIndicationEventHandler;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IPedalEventHandler;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IShiftingEventHandler;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.ISteeringEventHandler;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.*;
 
 import java.awt.event.KeyListener;
 
@@ -70,5 +67,7 @@ public interface IUserInput extends KeyListener {
      * @param handler - - handler to unsubscribe
      */
     void unsubscribeIndicationEvents(IIndicationEventHandler handler);
+
+    void setSensorDebugEvent(ISensorDebugEventHandler handler);
 
 }
