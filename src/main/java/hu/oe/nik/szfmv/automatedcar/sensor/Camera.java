@@ -23,9 +23,7 @@ public class Camera extends SystemComponent implements ISensor {
     private CameraPacket cameraPacket;
 
     /**
-     * @param x               x coordinate
-     * @param y               y coordinate
-     * @param facingDirection facing direction
+     * @param virtualFunctionBus r
      */
     public Camera(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
@@ -38,8 +36,8 @@ public class Camera extends SystemComponent implements ISensor {
     }
 
     /**
-     * @param position        position
-     * @param facingDirection facingDirection
+     * @param position pos0
+     * @param rotation pos1
      */
     public void updatePosition(double[] position, double rotation) {
         viewArea.calculateNextPosition(rotation, position[0], position[1]);
@@ -55,6 +53,10 @@ public class Camera extends SystemComponent implements ISensor {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param objectsInRange insert
+     * @return roadSign
+     */
     public Optional<WorldObject> findClosestRoadSign(List<WorldObject> objectsInRange) {
         List<WorldObject> roadSigns = objectsInRange.stream().filter(object -> object.getClass().equals(RoadSign.class))
                 .collect(Collectors.toList());
@@ -94,8 +96,8 @@ public class Camera extends SystemComponent implements ISensor {
     public void loop() {
         updatePosition(virtualFunctionBus.positionPacket.getPosition(),
                 virtualFunctionBus.positionPacket.getRotation());
-        List<WorldObject> objectsInView = findWorldObjectsInRadarTriangle(new ArrayList<>()); // TODO: lekerni az osszes
-                                                                                              // worldobjectet
+        List<WorldObject> objectsInView = findWorldObjectsInRadarTriangle(new ArrayList<>());
+
         Optional<WorldObject> closestRoadSign = findClosestRoadSign(objectsInView);
         if (closestRoadSign.isPresent()) {
             cameraPacket.setClosestRoadSign((RoadSign) closestRoadSign.get());
