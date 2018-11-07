@@ -6,23 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
-import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.sensor.Camera;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Human;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
 
-public class CameraFindClosestRoadSignTest {
-
-    private Camera underTest;
-
-    @Before
-    public void setUp() {
-        underTest = new Camera(new VirtualFunctionBus());
-    }
+public class CameraFindClosestRoadSignTest extends CameraTestBase {
 
     @Test
     public void testFindClosestRoadSignShouldReturnEmptyWhenEmptyListIsInput() {
