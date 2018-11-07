@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyControlsPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
 import hu.oe.nik.szfmv.common.enums.Gear;
 import hu.oe.nik.szfmv.visualization.elements.CircleCalculator;
@@ -183,17 +184,17 @@ public class Dashboard extends JPanel {
 
     private void indicateTo(int direction) {
         switch (direction) {
-        case -1:
-            indicateLeft();
-            break;
-        case 0:
-            indicationStop();
-            break;
-        case 1:
-            indicateRight();
-            break;
-        default:
-            break;
+            case -1:
+                indicateLeft();
+                break;
+            case 0:
+                indicationStop();
+                break;
+            case 1:
+                indicateRight();
+                break;
+            default:
+                break;
         }
     }
 
