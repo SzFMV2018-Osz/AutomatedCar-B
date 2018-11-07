@@ -3,6 +3,8 @@ package hu.oe.nik.szfmv.visualization;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.*;
+import org.apache.logging.log4j.util.Strings;
+import org.hamcrest.core.StringContains;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -84,28 +86,31 @@ public class CollisionDetector {
                     Shape tempShape = createTransformedShapeForCollision(object,collider);
                     if(carShape.getBounds2D().intersects(tempShape.getBounds2D()))
                     {
-                        if(object instanceof Human || object instanceof Bicycle) return true;
-                        if(!(object instanceof Movable) && critHitHappened(carObject.getSpeed() ,0))
-                        {
-                            return true;
-                        }
-                        else if((object instanceof Movable) && critHitHappened(carObject.getSpeed(),object.getSpeed()))
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            if(object instanceof Movable)
-                            {
-                                object.addDamage(calculateDamage(carObject.getSpeed(),object.getSpeed()));
-                                carObject.addDamage(calculateDamage(carObject.getSpeed(),object.getSpeed()));
-                            }
-                            else
-                            {
-                                object.addDamage(calculateDamage(carObject.getSpeed(),0));
-                                carObject.addDamage(calculateDamage(carObject.getSpeed(),0));
-                            }
-                        }
+//                        if(object instanceof Human || object instanceof Bicycle) return true;
+//                        if(!(object instanceof Movable) && critHitHappened(((Movable)carObject).getSpeed() ,0))
+//                        {
+//                            imageChanger();
+//                            return true;
+//                        }
+//                        else if((object instanceof Movable) && critHitHappened(((Movable)carObject).getSpeed(),((Movable)object).getSpeed()))
+//                        {
+//                            imageChanger();
+//                            return true;
+//                        }
+//                        else
+//                        {
+//                            if(object instanceof Movable)
+//                            {
+//                                object.addDamage(calculateDamage(((Movable)carObject).getSpeed(),((Movable)object).getSpeed()));
+//                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(),((Movable)object).getSpeed()));
+//                            }
+//                            else
+//                            {
+//                                object.addDamage(calculateDamage(((Movable)carObject).getSpeed(),0));
+//                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(),0));
+//                            }
+//                            imageChanger();
+//                        }
                     }
                     break;
                 }
@@ -118,26 +123,25 @@ public class CollisionDetector {
     {
         for(WorldObject object : obstacles)
         {
-            if (object.getDamage() >= 60)
-            {
-                changeImage(object, 2);
-            }
-            else if (object.getDamage() >= 30)
-            {
-                changeImage(object, 1);
-            }
-            else if (object instanceof Car && object.getDamage() >= 0)
-            {
-                //since we have 3 state of cars, we should define another case
-                changeImage(object, 0);
-            }
+//            if (object.getDamage() >= 60)
+//            {
+//                changeImage(object, 2);
+//            }
+//            else if (object.getDamage() >= 30)
+//            {
+//                changeImage(object, 1);
+//            }
+//            else if (object instanceof Car && object.getDamage() >= 0)
+//            {
+//                //since we have 3 state of cars, we should define another case
+//                changeImage(object, 0);
+//            }
         }
     }
 
     private void changeImage(WorldObject object, int status) {
         if (object instanceof Car)
         {
-             //itt lehet hogy inkabb a BufferedImaget kellene atallitani, amit mar ugyis beolvasunk construktorban
             object.setImageFileName(getPureImageName(object.getImageFileName()) + "_" + (status + 1) + ".png");
         }
         else
@@ -177,8 +181,12 @@ public class CollisionDetector {
     }
 
     private String getPureImageName(String imageName) {
-        //if the imagename does not contain underscore, it's still the original image
         if (imageName.contains("_")) {
+            int tempCount = imageName.length() - imageName.replace("_", "").length();
+            if(tempCount == 2)
+            {
+                return imageName.substring(0, imageName.lastIndexOf('.') - 1);
+            }
             return imageName.substring(0, imageName.lastIndexOf('_') - 1);
         }
         else {
