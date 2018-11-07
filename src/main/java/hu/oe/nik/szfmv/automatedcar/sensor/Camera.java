@@ -34,9 +34,8 @@ public class Camera extends SystemComponent implements ISensor, ISensorDebugEven
     public Camera(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
 
-        // a positionPacketben a position alapból null, ez így exceptiont dob
-        //viewArea = new Triangle(VISUAL_RANGE * METER_PIXEL_RATIO, ANGLE_OF_VIEW,
-        //       virtualFunctionBus.positionPacket.getPosition()[0], virtualFunctionBus.positionPacket.getPosition()[1]);
+        viewArea = new Triangle(VISUAL_RANGE * METER_PIXEL_RATIO, ANGLE_OF_VIEW,
+               virtualFunctionBus.positionPacket.getPosition()[0], virtualFunctionBus.positionPacket.getPosition()[1]);
 
         cameraPacket = new CameraPacket();
         virtualFunctionBus.cameraPacket = cameraPacket;
