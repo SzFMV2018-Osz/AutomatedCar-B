@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Collision>
+	<Object name="bollard.png" geometry="rect" x="0" y="0" w="21" h="61"/>
+	<Object name="boundary.png" geometry="rect" x="0" y="0" w="51" h="86"/>
+	<Object name="bicycle.png" geometry="ellipse" x="7" y="6" w="67" h="134"/>
+	<Object name="tree.png" geometry="ellipse" x="71" y="84" w="42" h="42"/>
+	<Object name="garage.png" geometry="rect" x="0" y="0" w="336" h="294"/>
+	<Object name="man.png" geometry="rect" x="0" y="0" w="39" h="72"/>
+	<Object name="woman.png" geometry="rect" x="0" y="0" w="47" h="74"/>
+	<Object name="car_3_black.png" geometry="rect" x="12" y="0" w="96" h="289"/>
+	<Object name="car_2_white.png" geometry="rect" x="6" y="3" w="90" h="202"/>
+	<Object name="car_2_red.png" geometry="rect" x="6" y="3" w="90" h="202"/>
+	<Object name="car_2_blue.png" geometry="rect" x="6" y="3" w="90" h="202"/>
+	<Object name="car_1_white.png" geometry="rect" x="7" y="3" w="94" h="234"/>
+	<Object name="car_1_red.png" geometry="rect" x="7" y="3" w="94" h="234"/>
+	<Object name="car_1_blue.png" geometry="rect" x="7" y="3" w="94" h="234"/>
+	<Object name="roadsign_speed_40.png" geometry="ellipse" x="0" y="0" w="80" h="80"/>
+	<Object name="roadsign_speed_50.png" geometry="ellipse" x="0" y="0" w="80" h="80"/>
+	<Object name="roadsign_speed_60.png" geometry="ellipse" x="0" y="0" w="80" h="80"/>
+	<Object name="roadsign_parking_right.png" geometry="ellipse" x="0" y="0" w="80" h="80"/>
+	<Object name="roadsign_priority_stop.png" geometry="ellipse" x="0" y="0" w="80" h="80"/>
+</Collision>

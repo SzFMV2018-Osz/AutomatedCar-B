@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
 import hu.oe.nik.szfmv.common.ConfigProvider;
 import hu.oe.nik.szfmv.environment.World;
+import hu.oe.nik.szfmv.visualization.CollisionDetector;
 import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -59,7 +60,14 @@ public class Main {
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w);
 
-        while (true) {
+        // Collision detection
+        CollisionDetector singleton = CollisionDetector.getInstance();
+        singleton.findObstacles(w.getWorldObjects());
+
+        //setup the instance of collisiondetector
+        singleton.setCarObject(car);
+
+        while (!singleton.checkCollisions()) {
             car.drive();
 
             gui.getCourseDisplay().drawWorld(w);
