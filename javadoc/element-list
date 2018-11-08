@@ -10,6 +10,7 @@ hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers
 hu.oe.nik.szfmv.automatedcar.engine
 hu.oe.nik.szfmv.automatedcar.engine.exception
 hu.oe.nik.szfmv.automatedcar.sensor
+hu.oe.nik.szfmv.automatedcar.sensor.radar
 hu.oe.nik.szfmv.automatedcar.systemcomponents
 hu.oe.nik.szfmv.common
 hu.oe.nik.szfmv.common.enums

@@ -12,6 +12,7 @@ hu.oe.nik.szfmv.automatedcar.engine.exception
 hu.oe.nik.szfmv.automatedcar.systemcomponents
 hu.oe.nik.szfmv.automatedcar
 hu.oe.nik.szfmv.automatedcar.sensor
+hu.oe.nik.szfmv.automatedcar.sensor.radar
 hu.oe.nik.szfmv.visualization
 hu.oe.nik.szfmv.visualization.elements
 hu.oe.nik.szfmv.environment.worldobjectclasses
