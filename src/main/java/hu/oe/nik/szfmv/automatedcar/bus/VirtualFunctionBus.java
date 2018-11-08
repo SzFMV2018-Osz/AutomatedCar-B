@@ -6,6 +6,8 @@ import java.util.List;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlySteeringPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlyVelocityPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyControlsPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyGearPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyIndicationPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyPedalPacket;
@@ -28,9 +30,10 @@ public class VirtualFunctionBus {
     public IReadonlySteeringPacket steeringWheelPacket;
     public IReadonlyPedalPacket gasPedalPacket;
     public IReadonlyPedalPacket brakePedalPacket;
-
     public IReadonlySensorPacket sensorPacket;
     public ReadonlyPowertrainPacket powertrainPacket;
+    public IReadOnlyDashboardPacket dashboardPacket;
+    public IReadOnlyControlsPacket controlsPacket;
     public ReadonlySteeringPacket steeringPacket;
     public ReadonlyVelocityPacket velocityPacket;
 
