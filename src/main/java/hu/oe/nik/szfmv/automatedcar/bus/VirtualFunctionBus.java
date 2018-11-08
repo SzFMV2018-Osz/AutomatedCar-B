@@ -3,9 +3,12 @@ package hu.oe.nik.szfmv.automatedcar.bus;
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadOnlyPositionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlySteeringPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlyVelocityPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.ICameraPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IRadarPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyGearPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyIndicationPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyPedalPacket;
@@ -31,6 +34,9 @@ public class VirtualFunctionBus {
     public ReadonlyPowertrainPacket powertrainPacket;
     public ReadonlySteeringPacket steeringPacket;
     public ReadonlyVelocityPacket velocityPacket;
+    public ICameraPacket cameraPacket;
+    public IRadarPacket radarPacket;
+    public ReadOnlyPositionPacket positionPacket;
 
     private List<SystemComponent> components = new ArrayList<>();
 
