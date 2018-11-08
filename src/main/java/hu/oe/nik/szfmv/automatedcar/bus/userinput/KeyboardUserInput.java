@@ -43,7 +43,7 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
     /**
      * Constructor of KeyboardUserInput class.
      */
-    public KeyboardUserInput() {
+    KeyboardUserInput() {
         this.gas = ConfigProvider.provide().getLong("keyboard.gas").intValue();
         this.brake = ConfigProvider.provide().getLong("keyboard.brake").intValue();
         this.steerLeft = ConfigProvider.provide().getLong("keyboard.steer_left").intValue();
@@ -64,23 +64,22 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
         this.holdKeys = new ArrayList<>();
     }
 
-    public List<IPedalEventHandler> getGasPedalEventHandlers() {
-        return gasPedalEventHandlers;
-    }
+    List<IPedalEventHandler> getGasPedalEventHandlers() {
+        return gasPedalEventHandlers; }
 
-    public List<IPedalEventHandler> getBrakePedalEventHandlers() {
+    List<IPedalEventHandler> getBrakePedalEventHandlers() {
         return brakePedalEventHandlers;
     }
 
-    public List<IShiftingEventHandler> getShiftingEventHandlers() {
+    List<IShiftingEventHandler> getShiftingEventHandlers() {
         return shiftingEventHandlers;
     }
 
-    public List<ISteeringEventHandler> getSteeringEventHandlers() {
+    List<ISteeringEventHandler> getSteeringEventHandlers() {
         return steeringEventHandlers;
     }
 
-    public List<IIndicationEventHandler> getIndicationEventHandlers() {
+    List<IIndicationEventHandler> getIndicationEventHandlers() {
         return indicationEventHandlers;
     }
 
@@ -222,30 +221,95 @@ public class KeyboardUserInput implements IUserInput, KeyListener {
     }
 
     private void removeKey(int code) {
-        this.holdKeys.remove(this.holdKeys.indexOf(code));
+        holdKeys.remove(Integer.valueOf(code));
     }
 
     private void handleFilteredKeyEvent(KeyEvent e) {
+        if (e.getKeyCode() == gas || e.getKeyCode() == brake) {
+            handleFilteredKeyEventOnPedals(e);
+        } else if (e.getKeyCode() == steerLeft || e.getKeyCode() == steerRight) {
+            handleFilteredKeyEventOnSteeringWheel(e);
+        } else if (e.getKeyCode() == indicateLeft || e.getKeyCode() == indicateRight) {
+            handleFilteredKeyEventOnIndicator(e);
+        } else if (e.getKeyCode() == gearP || e.getKeyCode() == gearN) {
+            handleFilteredKeyEventOnGearWhenNotUsingEngine(e);
+        } else if (e.getKeyCode() == gearD || e.getKeyCode() == gearR) {
+            handleFilteredKeyEventOnGearWhenUsingEngine(e);
+        }
+    }
+    private void handleFilteredKeyEventOnPedals(KeyEvent e) {
         if (e.getKeyCode() == gas) {
             this.onPedalPush(PedalType.Gas);
         } else if (e.getKeyCode() == brake) {
             this.onPedalPush(PedalType.Brake);
-        } else if (e.getKeyCode() == steerLeft) {
+        }
+    }
+    private void handleFilteredKeyEventOnSteeringWheel(KeyEvent e) {
+        if (e.getKeyCode() == steerLeft) {
             this.onSteering(Direction.Left);
         } else if (e.getKeyCode() == steerRight) {
             this.onSteering(Direction.Right);
-        } else if (e.getKeyCode() == indicateLeft) {
+        }
+    }
+    private void handleFilteredKeyEventOnIndicator(KeyEvent e) {
+        if (e.getKeyCode() == indicateLeft) {
             this.onIndication(Direction.Left);
         } else if (e.getKeyCode() == indicateRight) {
             this.onIndication(Direction.Right);
-        } else if (e.getKeyCode() == gearP) {
+        }
+    }
+    private void handleFilteredKeyEventOnGearWhenNotUsingEngine(KeyEvent e) {
+        if (e.getKeyCode() == gearP) {
             this.onShifting(Gear.P);
         } else if (e.getKeyCode() == gearN) {
             this.onShifting(Gear.N);
-        } else if (e.getKeyCode() == gearD) {
+        }
+    }
+    private void handleFilteredKeyEventOnGearWhenUsingEngine(KeyEvent e) {
+        if (e.getKeyCode() == gearD) {
             this.onShifting(Gear.D);
         } else if (e.getKeyCode() == gearR) {
             this.onShifting(Gear.R);
         }
+    }
+
+    public int getGasKeyCode() {
+        return gas;
+    }
+
+    public int getBrakeKeyCode() {
+        return brake;
+    }
+
+    public int getSteerLeftKeyCode() {
+        return steerLeft;
+    }
+
+    public int getSteerRightKeyCode() {
+        return steerRight;
+    }
+
+    public int getIndicateLeftKeyCode() {
+        return indicateLeft;
+    }
+
+    public int getIndicateRightKeyCode() {
+        return indicateRight;
+    }
+
+    public int getGearRKeyCode() {
+        return gearR;
+    }
+
+    public int getGearPKeyCode() {
+        return gearP;
+    }
+
+    public int getGearNKeyCode() {
+        return gearN;
+    }
+
+    public int getGearDKeyCode() {
+        return gearD;
     }
 }

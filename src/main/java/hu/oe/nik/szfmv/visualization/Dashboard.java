@@ -7,9 +7,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyControlsPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
 import hu.oe.nik.szfmv.common.enums.Gear;
 import hu.oe.nik.szfmv.visualization.elements.CircleCalculator;
+import hu.oe.nik.szfmv.visualization.elements.ControlsSection;
 import hu.oe.nik.szfmv.visualization.elements.DebugSection;
 import hu.oe.nik.szfmv.visualization.elements.IndexArrow;
 import hu.oe.nik.szfmv.visualization.elements.PedalBar;
@@ -58,6 +60,15 @@ public class Dashboard extends JPanel {
     private IndexArrow leftTurnSignal = new IndexArrow(IndexTypes.LEFT, new Point(20, 130));
     private IndexArrow rightTurnSignal = new IndexArrow(IndexTypes.RIGHT, new Point(180, 130));
 
+    private boolean controlsSectionIsSetup = false;
+    private ControlsSection controlsSection = new ControlsSection();
+    private JLabel mainControlsLabel = controlsSection.initialiseMainControlsLabel();
+    private JLabel pedalControlsLabel = controlsSection.initialisePedalControlsLabel();
+    private JLabel steerControlsLabel = controlsSection.initialiseSteeringControlsLabel();
+    private JLabel indicateControlsLabel = controlsSection.initialiseIndicateControlsLabel();
+    private JLabel gearsFirstControlsLabel = controlsSection.initialiseGearsFirstControlsLabel();
+    private JLabel gearsSecondControlsLabel = controlsSection.initialiseGearsSecondControlsLabel();
+
     private boolean debugSectionIsVisible = true;
     private DebugSection debugSection = new DebugSection();
     private JLabel debugLabel = debugSection.initialiseDebugLabel();
@@ -86,6 +97,13 @@ public class Dashboard extends JPanel {
         add(gasPedalBar);
         initGearLabel();
 
+        add(mainControlsLabel);
+        add(pedalControlsLabel);
+        add(steerControlsLabel);
+        add(indicateControlsLabel);
+        add(gearsFirstControlsLabel);
+        add(gearsSecondControlsLabel);
+
         add(debugLabel);
         add(steeringWheelLabel);
         add(positionLabel);
@@ -95,35 +113,61 @@ public class Dashboard extends JPanel {
      * Method gets called 'every tick' to display the dashboard portion of the
      * application
      *
-     * @param dbPacket           - object containing readable info for the dashboard
-     * @param debugInfoIsEnabled - toggle for the debug section's display
+     * @param dbPacket - object containing stats
+     * @param ctrlsPacket - object containing controls
+     * @param inDebug - toggle for the debug section's display
      */
-    public void display(IReadOnlyDashboardPacket dbPacket, boolean debugInfoIsEnabled) {
+    public void display(IReadOnlyDashboardPacket dbPacket, IReadOnlyControlsPacket ctrlsPacket, boolean inDebug) {
         bPB.setProgress(gasPedalBar, dbPacket.getGasPedalPosition());
         bPB.setProgress(brakePedalBar, dbPacket.getBrakePedalPosition());
         setGearLabelText(dbPacket.getCurrentGear());
         indicateTo(dbPacket.getIndicatorDirection());
 
-        checkDebugSectionVisibility(debugInfoIsEnabled);
-        if (debugInfoIsEnabled) {
-            debugSection.setSteeringLabelText(steeringWheelLabel, dbPacket.getSteeringWheelValue());
-            debugSection.setPositionLabelText(positionLabel, dbPacket.getAutomatedCarX(), dbPacket.getAutomatedCarY());
+        checkControlsSectionState(ctrlsPacket);
+        checkDebugSectionVisibility(inDebug, dbPacket);
+    }
+
+    private void checkControlsSectionState(IReadOnlyControlsPacket ctrlsPacket) {
+        if (!controlsSectionIsSetup) {
+            String gasKey = ctrlsPacket.getGasKeyText();
+            String breakKey = ctrlsPacket.getBrakeKeyText();
+            String steerLeftKey = ctrlsPacket.getSteerLeftKeyText();
+            String steerRightKey = ctrlsPacket.getSteerRightKeyText();
+            String indicateLeftKey = ctrlsPacket.getIndicateLeftKeyText();
+            String indicateRightKey = ctrlsPacket.getIndicateRightKeyText();
+            String gearDKey = ctrlsPacket.getGearDKeyText();
+            String gearRKey = ctrlsPacket.getGearRKeyText();
+            String gearNKey = ctrlsPacket.getGearNKeyText();
+            String gearPKey = ctrlsPacket.getGearPKeyText();
+
+            controlsSection.refreshPedalLabel(pedalControlsLabel, gasKey, breakKey);
+            controlsSection.refreshSteerLabel(steerControlsLabel, steerLeftKey, steerRightKey);
+            controlsSection.refreshIndicateLabel(indicateControlsLabel, indicateLeftKey, indicateRightKey);
+            controlsSection.refreshGearsFirstLabel(gearsFirstControlsLabel, gearDKey, gearRKey);
+            controlsSection.refreshGearsSecondLabel(gearsSecondControlsLabel, gearNKey, gearPKey);
+
+            controlsSectionIsSetup = true;
         }
     }
 
-    private void checkDebugSectionVisibility(boolean debugInfoIsEnabled) {
-        if (!debugInfoIsEnabled && debugSectionIsVisible) {
+    private void checkDebugSectionVisibility(boolean inDebug, IReadOnlyDashboardPacket dbP) {
+        if (!inDebug && debugSectionIsVisible) {
             debugLabel.setVisible(false);
             steeringWheelLabel.setVisible(false);
             positionLabel.setVisible(false);
 
             debugSectionIsVisible = false;
-        } else if (debugInfoIsEnabled && !debugSectionIsVisible) {
+        } else if (inDebug && !debugSectionIsVisible) {
             debugLabel.setVisible(true);
             steeringWheelLabel.setVisible(true);
             positionLabel.setVisible(true);
 
             debugSectionIsVisible = true;
+        }
+
+        if (inDebug) {
+            debugSection.refreshSteeringLabelText(steeringWheelLabel, dbP.getSteeringWheelValue());
+            debugSection.refreshPositionLabelText(positionLabel, dbP.getAutomatedCarX(), dbP.getAutomatedCarY());
         }
     }
 
@@ -140,17 +184,17 @@ public class Dashboard extends JPanel {
 
     private void indicateTo(int direction) {
         switch (direction) {
-        case -1:
-            indicateLeft();
-            break;
-        case 0:
-            indicationStop();
-            break;
-        case 1:
-            indicateRight();
-            break;
-        default:
-            break;
+            case -1:
+                indicateLeft();
+                break;
+            case 0:
+                indicationStop();
+                break;
+            case 1:
+                indicateRight();
+                break;
+            default:
+                break;
         }
     }
 

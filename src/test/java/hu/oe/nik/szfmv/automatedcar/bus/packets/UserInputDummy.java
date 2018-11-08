@@ -64,4 +64,54 @@ public class UserInputDummy implements IUserInput {
     public void keyReleased(KeyEvent e) {
 
     }
+
+    @Override
+    public int getGasKeyCode() {
+        return 0;
+    }
+
+    @Override
+    public int getBrakeKeyCode() {
+        return 0;
+    }
+
+    @Override
+    public int getSteerLeftKeyCode() {
+        return 0;
+    }
+
+    @Override
+    public int getSteerRightKeyCode() {
+        return 0;
+    }
+
+    @Override
+    public int getIndicateLeftKeyCode() {
+        return 0;
+    }
+
+    @Override
+    public int getIndicateRightKeyCode() {
+        return 0;
+    }
+
+    @Override
+    public int getGearRKeyCode() {
+        return 0;
+    }
+
+    @Override
+    public int getGearPKeyCode() {
+        return 0;
+    }
+
+    @Override
+    public int getGearNKeyCode() {
+        return 0;
+    }
+
+    @Override
+    public int getGearDKeyCode() {
+        return 0;
+    }
 }
