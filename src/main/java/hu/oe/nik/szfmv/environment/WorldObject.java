@@ -47,9 +47,7 @@ public class WorldObject {
         return this.height;
     }
 
-    public float getRotation() {
-        return (float) Math.toRadians(rotation + 90);
-    }
+    public float getRotation() { return rotation; }
 
     public String getImageFileName() {
         return this.imageFileName;
