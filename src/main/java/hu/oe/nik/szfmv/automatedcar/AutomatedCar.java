@@ -17,11 +17,6 @@ import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.engine.BrakingForces;
 import hu.oe.nik.szfmv.automatedcar.sensor.Camera;
 import hu.oe.nik.szfmv.automatedcar.sensor.radar.Radar;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.DashboardManager;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
 
 public class AutomatedCar extends Car {
@@ -52,7 +47,7 @@ public class AutomatedCar extends Car {
         inputManager = new InputManager(virtualFunctionBus);
         virtualFunctionBus.velocityPacket = velocityPacket;
         virtualFunctionBus.positionPacket = positionPacket;
-        positionPacket.setPostion(new double[] { x, y });
+        positionPacket.setPostion(new double[]{x, y});
         positionPacket.setRotation(rotation);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         dashboardManager = new DashboardManager(virtualFunctionBus);
@@ -104,15 +99,15 @@ public class AutomatedCar extends Car {
      */
     private void calculatePositionAndOrientation() {
         double[] sumForces = calculateSummedForces();
-        double[] acceleration = new double[] { sumForces[0] / 1500, sumForces[1] / 1500 };
-        double[] velocity = new double[] { velocityPacket.getVelocity()[0] + (timeFrame * acceleration[0]),
-                velocityPacket.getVelocity()[1] + (timeFrame * acceleration[1]) };
+        double[] acceleration = new double[]{sumForces[0] / 1500, sumForces[1] / 1500};
+        double[] velocity = new double[]{velocityPacket.getVelocity()[0] + (timeFrame * acceleration[0]),
+                velocityPacket.getVelocity()[1] + (timeFrame * acceleration[1])};
         velocityPacket.setVelocity(velocity);
 
         x += timeFrame * velocity[0] * 50;
         y += timeFrame * velocity[1] * 50;
         rotation += virtualFunctionBus.steeringPacket.getAngularSpeed();
-        positionPacket.setPostion(new double[] { x, y });
+        positionPacket.setPostion(new double[]{x, y});
         positionPacket.setRotation(rotation);
     }
 
@@ -134,12 +129,12 @@ public class AutomatedCar extends Car {
     private double[] calculateOrientationVector() {
         double orientationX = Math.cos(Math.toRadians(rotation));
         double orientationY = Math.sin(Math.toRadians(rotation));
-        double[] orientation = new double[] { orientationX, orientationY };
+        double[] orientation = new double[]{orientationX, orientationY};
         return orientation;
     }
 
     private double[] sumForceVectors(List<double[]> forces) {
-        double[] summedForces = new double[] { 0, 0 };
+        double[] summedForces = new double[]{0, 0};
         for (double[] force : forces) {
             summedForces[0] += force[0];
             summedForces[1] += force[1];
