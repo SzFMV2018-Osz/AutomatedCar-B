@@ -1,7 +1,5 @@
 package hu.oe.nik.szfmv.automatedcar.sensor;
 
-import hu.oe.nik.szfmv.common.enums.Coordinate;
-import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 
 import java.awt.*;
@@ -12,13 +10,19 @@ public abstract class SensorBase {
     private Point coordinate;
     private SensorType sensorType;
 
+    /**
+     * Constructor for the SensorBase class
+     * @param worldObjects the list of the world objects needed for the sensors.
+     * @param coordinate the coordinate of the sensor
+     * @param sensorType the type of the sensor
+     */
     public SensorBase(List<WorldObject> worldObjects, Point coordinate, SensorType sensorType) {
         this.worldObjects = worldObjects;
         this.coordinate = coordinate;
         this.sensorType = sensorType;
     }
 
-    public void setPosition(Point coordinate){
+    public void setPosition(Point coordinate) {
         this.coordinate = coordinate;
     }
 
@@ -26,5 +30,7 @@ public abstract class SensorBase {
         return coordinate;
     }
 
-    public List<WorldObject> getWorldObjects(){ return worldObjects; }
+    public List<WorldObject> getWorldObjects() {
+        return worldObjects;
+    }
 }
