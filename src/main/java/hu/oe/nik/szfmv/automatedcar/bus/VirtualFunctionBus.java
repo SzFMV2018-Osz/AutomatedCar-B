@@ -1,17 +1,15 @@
 package hu.oe.nik.szfmv.automatedcar.bus;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadOnlyPositionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlyPowertrainPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlySteeringPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.ReadonlyVelocityPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyGearPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyIndicationPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyPedalPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlySteeringPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.*;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.sample.ReadOnlySamplePacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the class for the Virtual Function Bus. Components are only allowed
@@ -31,6 +29,9 @@ public class VirtualFunctionBus {
     public ReadonlyPowertrainPacket powertrainPacket;
     public ReadonlySteeringPacket steeringPacket;
     public ReadonlyVelocityPacket velocityPacket;
+    public ICameraPacket cameraPacket;
+    public IRadarPacket radarPacket;
+    public ReadOnlyPositionPacket positionPacket;
 
     private List<SystemComponent> components = new ArrayList<>();
 

@@ -1,15 +1,17 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.PositionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.VelocityPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
 import hu.oe.nik.szfmv.automatedcar.engine.BrakingForces;
+import hu.oe.nik.szfmv.automatedcar.sensor.Camera;
+import hu.oe.nik.szfmv.automatedcar.sensor.radar.Radar;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
 
 import java.util.Arrays;
 import java.util.List;
-
 
 public class AutomatedCar extends Car {
 
@@ -17,10 +19,13 @@ public class AutomatedCar extends Car {
     private final double wheelRadius = 0.33;
     private double timeFrame = 0.041666667;
     private VelocityPacket velocityPacket = new VelocityPacket();
+    private PositionPacket positionPacket = new PositionPacket();
     private InputManager inputManager;
     private DashboardManager dashboardManager;
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
+    private Camera camera;
+    private Radar radar;
 
     /**
      * Constructor of the AutomatedCar class
@@ -35,9 +40,14 @@ public class AutomatedCar extends Car {
 
         inputManager = new InputManager(virtualFunctionBus);
         virtualFunctionBus.velocityPacket = velocityPacket;
+        virtualFunctionBus.positionPacket = positionPacket;
+        positionPacket.setPostion(new double[] { x, y });
+        positionPacket.setRotation(rotation);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         dashboardManager = new DashboardManager(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
+        camera = new Camera(virtualFunctionBus);
+        radar = new Radar(virtualFunctionBus);
         new Driver(virtualFunctionBus);
     }
 
@@ -65,16 +75,16 @@ public class AutomatedCar extends Car {
      */
     private void calculatePositionAndOrientation() {
         double[] sumForces = calculateSummedForces();
-        double[] acceleration = new double[]{sumForces[0] / 1500, sumForces[1] / 1500};
-        double[] velocity = new double[]{velocityPacket.getVelocity()[0] + (timeFrame * acceleration[0]),
-                velocityPacket.getVelocity()[1] + (timeFrame * acceleration[1])};
+        double[] acceleration = new double[] { sumForces[0] / 1500, sumForces[1] / 1500 };
+        double[] velocity = new double[] { velocityPacket.getVelocity()[0] + (timeFrame * acceleration[0]),
+                velocityPacket.getVelocity()[1] + (timeFrame * acceleration[1]) };
         velocityPacket.setVelocity(velocity);
 
         x += timeFrame * velocity[0] * 50;
         y += timeFrame * velocity[1] * 50;
-
         rotation += virtualFunctionBus.steeringPacket.getAngularSpeed();
-        System.out.println("rotation:" + rotation);
+        positionPacket.setPostion(new double[] { x, y });
+        positionPacket.setRotation(rotation);
     }
 
     private double[] calculateSummedForces() {
@@ -89,19 +99,18 @@ public class AutomatedCar extends Car {
         List<double[]> forces;
         forces = Arrays.asList(tractionForce, brakeForce, airResistance, rollingResistance);
         double[] sumForces = sumForceVectors(forces);
-        System.out.println("forces :" + sumForces[0] + ", " + sumForces[1]);
         return sumForces;
     }
 
     private double[] calculateOrientationVector() {
         double orientationX = Math.cos(Math.toRadians(rotation));
         double orientationY = Math.sin(Math.toRadians(rotation));
-        System.out.println("orientation:" + orientationX + ", " + orientationY);
-        return new double[]{orientationX, orientationY};
+        double[] orientation = new double[] { orientationX, orientationY };
+        return orientation;
     }
 
     private double[] sumForceVectors(List<double[]> forces) {
-        double[] summedForces = new double[]{0, 0};
+        double[] summedForces = new double[] { 0, 0 };
         for (double[] force : forces) {
             summedForces[0] += force[0];
             summedForces[1] += force[1];
