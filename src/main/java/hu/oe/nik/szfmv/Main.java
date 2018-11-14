@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
 import hu.oe.nik.szfmv.common.ConfigProvider;
 import hu.oe.nik.szfmv.environment.World;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.NpcCar;
 import hu.oe.nik.szfmv.visualization.CollisionDetector;
 import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
@@ -44,10 +45,12 @@ public class Main {
         boolean dashboardDebugIsEnabled = ConfigProvider.provide().getBoolean("dashboard.debug");
 
         // create the world
-        World w = new World(800, 600);
+        World w = new World(worldWidth, worldHeight);
 
         // create an automated car
         AutomatedCar car = new AutomatedCar(carPosX, carPosY, "car_2_white.png");
+        NpcCar otherCar = new NpcCar(carPosX, carPosY,"car_2_red.png");
+        otherCar.move();
         w.setAutomatedCar(car);
 
         w.setHeight(3000);
@@ -59,7 +62,7 @@ public class Main {
 
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w);
-
+        w.addObjectToWorld(otherCar);
         // Collision detection
         CollisionDetector singleton = CollisionDetector.getInstance();
         singleton.findObstacles(w.getWorldObjects());

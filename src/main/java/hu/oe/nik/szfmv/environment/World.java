@@ -1,7 +1,6 @@
 package hu.oe.nik.szfmv.environment;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.NpcCar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import java.util.List;
 public class World {
     private int width;
     private int height;
+    public static List<WorldObject> objects = new ArrayList<>();
     private List<WorldObject> worldObjects = new ArrayList<>();
 
 
@@ -36,7 +36,7 @@ public class World {
     public World(int width, int height) {
         this.width = width;
         this.height = height;
-        this.worldObjects = DataReader.getDataFromDocument(DataReader.xmlReader(
+        objects = this.worldObjects = DataReader.getDataFromDocument(DataReader.xmlReader(
                 "src" + File.separator + "main" + File.separator + "resources" + File.separator + "test_world.xml"));
     }
 
