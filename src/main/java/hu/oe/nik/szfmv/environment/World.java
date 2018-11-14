@@ -7,11 +7,28 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+
 public class World {
+    public static List<WorldObject> objects;
+
     private int width;
     private int height;
     private List<WorldObject> worldObjects = new ArrayList<>();
 
+    private AutomatedCar automatedCar;
+
+    public void setWorldObjects(List<WorldObject> worldObjects) {
+        this.worldObjects = worldObjects;
+    }
+
+    public AutomatedCar getAutomatedCar() {
+        return automatedCar;
+    }
+
+    public void setAutomatedCar(AutomatedCar automatedCar) {
+        this.automatedCar = automatedCar;
+    }
 
     private AutomatedCar automatedCar;
 
@@ -38,6 +55,7 @@ public class World {
         this.height = height;
         this.worldObjects = DataReader.getDataFromDocument(DataReader.xmlReader(
                 "src" + File.separator + "main" + File.separator + "resources" + File.separator + "test_world.xml"));
+        World.objects = worldObjects;
     }
 
     /**
@@ -68,6 +86,5 @@ public class World {
     public void setHeight(int height) {
         this.height = height;
     }
-
 
 }

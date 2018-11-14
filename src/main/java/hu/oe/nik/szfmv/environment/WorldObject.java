@@ -15,17 +15,18 @@ public class WorldObject {
     protected BufferedImage image;
 
     /**
-     * Creates an object of the virtual world on the given coordinates with the given image.
+     * Creates an object of the virtual world on the given coordinates with the
+     * given image.
      *
      * @param x             the initial x coordinate of the object
      * @param y             the initial y coordinate of the object
-     * @param imageFileName the filename of the image representing the object in the virtual world
+     * @param imageFileName the filename of the image representing the object in the
+     *                      virtual world
      */
     public WorldObject(int x, int y, String imageFileName) {
         this.x = x;
         this.y = y;
         this.imageFileName = imageFileName;
-
 
         try {
             image = ImageIO.read(new File(ClassLoader.getSystemResource(imageFileName).getFile()));
@@ -33,6 +34,12 @@ public class WorldObject {
             e.printStackTrace();
         }
 
+        // read file from resources
+        /*
+         * try { image = ImageIO.read(new
+         * File(ClassLoader.getSystemResource(imageFileName).getFile())); } catch
+         * (IOException e) { e.printStackTrace(); }
+         */
     }
 
     public int getX() {
@@ -52,7 +59,7 @@ public class WorldObject {
     }
 
     public float getRotation() {
-        return this.rotation;
+        return (float) Math.toRadians(rotation + 90);
     }
 
     public String getImageFileName() {

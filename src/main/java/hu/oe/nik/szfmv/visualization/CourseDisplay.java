@@ -13,6 +13,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -71,6 +72,10 @@ public class CourseDisplay extends JPanel {
      * Integer for windows color.
      */
     private final int backgroundColor = 0xEEEEEE;
+    /**
+     * Private list for the images, to handle the FPS drop.
+     */
+    private List<ImageBuffer> buffer;
     /**
      * Initialize the course display.
      */
@@ -133,6 +138,33 @@ public class CourseDisplay extends JPanel {
             Thread.sleep(Math.round(cyclePeriodCONSTANST));
         } catch (InterruptedException e) {
             LOGGER.error(e.getMessage());
+        buffer = new ArrayList<>();
+        readImages();
+    }
+
+    /**
+     * To get all image in the memory, and make it faster (because FPS drop).
+     */
+    private void readImages() {
+        File folder = new File(ClassLoader.getSystemResource(".").getFile());
+        File[] listOfFiles = folder.listFiles();
+        for (File file : listOfFiles) {
+            if (file.getName().contains(".png")) {
+                try {
+                    ImageBuffer ib = new ImageBuffer(file.getName(), ImageIO.read(file));
+                    buffer.add(ib);
+                } catch (IOException e) { }
+            }
+        }
+        folder = new File(ClassLoader.getSystemResource("Kiegek").getFile());
+        listOfFiles = folder.listFiles();
+        for (File file : listOfFiles) {
+            if (file.getName().contains(".png")) {
+                try {
+                    ImageBuffer ib = new ImageBuffer(file.getName(), ImageIO.read(file));
+                    buffer.add(ib);
+                } catch (IOException e) { }
+            }
         }
     }
 
@@ -190,9 +222,6 @@ public class CourseDisplay extends JPanel {
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
-    }
-
-    /**
      * Draw the objects on the right position
      * with the right translate and rotate.
      *

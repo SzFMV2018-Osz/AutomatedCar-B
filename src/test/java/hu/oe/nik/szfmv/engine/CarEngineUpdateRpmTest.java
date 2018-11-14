@@ -17,78 +17,67 @@ public class CarEngineUpdateRpmTest {
 
     @Before
     public void setUp() {
-	underTest = new CarEngine(new StandardCarEngineType());
+        underTest = new CarEngine(new StandardCarEngineType());
     }
 
     @Test
-    @Parameters({ "0|0.33|0", "10|0.33|2257", "20|0.33|4514", "30|0.33|6771", "40|0.33|9028", "50|0.33|11285" })
-    public void testUpdateRpmInFirstGear(final double carSpeed, final double wheelRadius, final int expectedRpm) {
-	// GIVEN
-	final double wheelRotationRatio = carSpeed / wheelRadius;
-	// WHEN
-	underTest.updateRpm(wheelRotationRatio, 1);
-	// THEN
-	Assert.assertEquals(expectedRpm, underTest.getRpm());
+    @Parameters({ "0|0", "10|2257", "20|4514", "30|6771", "40|9028", "50|11285" })
+    public void testUpdateRpmInFirstGear(final int carSpeed, final int expectedRpm) {
+        // GIVEN
+        // WHEN
+        underTest.updateRpm(carSpeed, 1);
+        // THEN
+        Assert.assertEquals(expectedRpm, underTest.getRpm());
     }
 
     @Test
-    @Parameters({ "0|0.33|0", "10|0.33|1475", "20|0.33|2951", "30|0.33|4427", "40|0.33|5903", "50|0.33|7379" })
-    public void testUpdateRpmInSecondGear(final double carSpeed, final double wheelRadius, final int expectedRpm)
-	    throws Exception {
-	// GIVEN
-	final double wheelRotationRatio = carSpeed / wheelRadius;
-	// WHEN
-	underTest.updateRpm(wheelRotationRatio, 2);
-	// THEN
-	Assert.assertEquals(expectedRpm, underTest.getRpm());
+    @Parameters({ "0|0", "10|1475", "20|2951", "30|4427", "40|5903", "50|7379" })
+    public void testUpdateRpmInSecondGear(final int carSpeed, final int expectedRpm) throws Exception {
+        // GIVEN
+        // WHEN
+        underTest.updateRpm(carSpeed, 2);
+        // THEN
+        Assert.assertEquals(expectedRpm, underTest.getRpm());
     }
 
     @Test
-    @Parameters({ "0|0.33|0", "10|0.33|1128", "20|0.33|2257", "30|0.33|3385", "40|0.33|4514", "50|0.33|5642" })
-    public void testUpdateRpmInThirdGear(final double carSpeed, final double wheelRadius, final int expectedRpm)
-	    throws Exception {
-	// GIVEN
-	final double wheelRotationRatio = carSpeed / wheelRadius;
-	// WHEN
-	underTest.updateRpm(wheelRotationRatio, 3);
-	// THEN
-	Assert.assertEquals(expectedRpm, underTest.getRpm());
+    @Parameters({ "0|0", "10|1128", "20|2257", "30|3385", "40|4514", "50|5642" })
+    public void testUpdateRpmInThirdGear(final int carSpeed, final int expectedRpm) throws Exception {
+        // GIVEN
+        // WHEN
+        underTest.updateRpm(carSpeed, 3);
+        // THEN
+        Assert.assertEquals(expectedRpm, underTest.getRpm());
     }
 
     @Test
-    @Parameters({ "0|0.33|0", "10|0.33|868", "20|0.33|1736", "30|0.33|2604", "40|0.33|3472", "50|0.33|4340" })
-    public void testUpdateRpmInFourthGear(final double carSpeed, final double wheelRadius, final int expectedRpm)
-	    throws Exception {
-	// GIVEN
-	final double wheelRotationRatio = carSpeed / wheelRadius;
-	// WHEN
-	underTest.updateRpm(wheelRotationRatio, 4);
-	// THEN
-	Assert.assertEquals(expectedRpm, underTest.getRpm());
+    @Parameters({ "0|0", "10|868", "20|1736", "30|2604", "40|3472", "50|4340" })
+    public void testUpdateRpmInFourthGear(final int carSpeed, final int expectedRpm) throws Exception {
+        // GIVEN
+        // WHEN
+        underTest.updateRpm(carSpeed, 4);
+        // THEN
+        Assert.assertEquals(expectedRpm, underTest.getRpm());
     }
 
     @Test
-    @Parameters({ "0|0.33|0", "10|0.33|607", "20|0.33|1215", "30|0.33|1823", "40|0.33|2430", "50|0.33|3038" })
-    public void testUpdateRpmInFifthGear(final double carSpeed, final double wheelRadius, final int expectedRpm)
-	    throws Exception {
-	// GIVEN
-	final double wheelRotationRatio = carSpeed / wheelRadius;
-	// WHEN
-	underTest.updateRpm(wheelRotationRatio, 5);
-	// THEN
-	Assert.assertEquals(expectedRpm, underTest.getRpm());
+    @Parameters({ "0|0", "10|607", "20|1215", "30|1823", "40|2430", "50|3038" })
+    public void testUpdateRpmInFifthGear(final int carSpeed, final int expectedRpm) throws Exception {
+        // GIVEN
+        // WHEN
+        underTest.updateRpm(carSpeed, 5);
+        // THEN
+        Assert.assertEquals(expectedRpm, underTest.getRpm());
     }
 
     @Test
-    @Parameters({ "0|0.33|0", "10|0.33|434", "20|0.33|868", "30|0.33|1302", "40|0.33|1736", "50|0.33|2170" })
-    public void testUpdateRpmInSixthGear(final double carSpeed, final double wheelRadius, final int expectedRpm)
-	    throws Exception {
-	// GIVEN
-	final double wheelRotationRatio = carSpeed / wheelRadius;
-	// WHEN
-	underTest.updateRpm(wheelRotationRatio, 6);
-	// THEN
-	Assert.assertEquals(expectedRpm, underTest.getRpm());
+    @Parameters({ "0|0", "10|434", "20|868", "30|1302", "40|1736", "50|2170" })
+    public void testUpdateRpmInSixthGear(final int carSpeed, final int expectedRpm) throws Exception {
+        // GIVEN
+        // WHEN
+        underTest.updateRpm(carSpeed, 6);
+        // THEN
+        Assert.assertEquals(expectedRpm, underTest.getRpm());
     }
 
 }

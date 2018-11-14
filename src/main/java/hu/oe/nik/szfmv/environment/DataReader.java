@@ -2,13 +2,7 @@ package hu.oe.nik.szfmv.environment;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.Utils;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.Human;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.Road;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.Tree;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.Crosswalk;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.Bicycle;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.ParkingSpot;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,7 +22,6 @@ public class DataReader {
     static final String imageExtension = ".png";
 
     /**
-     *
      * @param path The path of the xml file
      * @return Document object that contains the whole content of the xml file.
      */

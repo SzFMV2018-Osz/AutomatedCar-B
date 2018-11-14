@@ -1,16 +1,20 @@
 package hu.oe.nik.szfmv;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
 import hu.oe.nik.szfmv.common.ConfigProvider;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Bicycle;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Human;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.NpcCar;
+import hu.oe.nik.szfmv.visualization.CollisionDetector;
 import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
+
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
@@ -20,7 +24,7 @@ import java.io.IOException;
 public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger();
-
+    private static final int CYCLE_PERIOD = 40;
     private static int worldWidth = 800;
     private static int worldHeight = 600;
     private static int carPosX = 20;
@@ -38,6 +42,10 @@ public class Main {
 
         // log the current debug mode in config
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
+
+        // debug section display toggle
+        boolean dashboardDebugIsEnabled = ConfigProvider.provide().getBoolean("dashboard.debug");
+
         // create the world
         World w = new World(800, 600);
 
@@ -47,7 +55,6 @@ public class Main {
 
         w.setHeight(3000);
         w.setWidth(5120);
-
         WorldObject npc = new NpcCar(3086,240,"car_1_red.png");
         w.addObjectToWorld(npc);
 
@@ -56,15 +63,12 @@ public class Main {
 
         WorldObject human = new Human(1550, 2, "man.png");
         w.addObjectToWorld(human);
-
-
-
         // create gui
         Gui gui = new Gui();
+        gui.addKeyListener(UserInputProvider.getUserInput(InputType.Keyboard));
 
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w);
-
         while (true) {
             car.drive();
             // create gui
@@ -72,9 +76,17 @@ public class Main {
             ((Human)human).move();
             ((Bicycle)bicycle).move();
             gui.getCourseDisplay().drawWorld(w);
+        // Collision detection
+        CollisionDetector singleton = CollisionDetector.getInstance();
+        singleton.findObstacles(w.getWorldObjects());
 
+        //setup the instance of collisiondetector
+        singleton.setCarObject(car);
 
-
+        while (!singleton.checkCollisions()) {
+            car.drive();
+            gui.getCourseDisplay().drawWorld(w);
+            gui.getDashboard().display(car.getDashboardInfo(), dashboardDebugIsEnabled);
         }
     }
 }
