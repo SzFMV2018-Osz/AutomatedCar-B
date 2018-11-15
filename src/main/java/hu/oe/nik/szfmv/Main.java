@@ -5,9 +5,14 @@ import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
 import hu.oe.nik.szfmv.common.ConfigProvider;
 import hu.oe.nik.szfmv.environment.World;
+import hu.oe.nik.szfmv.visualization.CollisionDetector;
 import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 
 /**
@@ -24,14 +29,15 @@ public class Main {
     private static int carPosX = 20;
     private static int carPosY = 20;
 
-    private static boolean simIsRunning = true;
-
     /**
      * Main entrypoint of the software.
      *
      * @param args command line arguments
+     * @throws IOException                  exception
+     * @throws SAXException                 exception
+     * @throws ParserConfigurationException exception
      */
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws IOException, SAXException, ParserConfigurationException {
 
         // log the current debug mode in config
         LOGGER.info(ConfigProvider.provide().getBoolean("general.debug"));
@@ -56,7 +62,14 @@ public class Main {
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w);
 
-        while (simIsRunning) {
+        // Collision detection
+        CollisionDetector singleton = CollisionDetector.getInstance();
+        singleton.findObstacles(w.getWorldObjects());
+
+        //setup the instance of collisiondetector
+        singleton.setCarObject(car);
+
+        while (!singleton.checkCollisions()) {
             car.drive();
 
             gui.getCourseDisplay().drawWorld(w);
