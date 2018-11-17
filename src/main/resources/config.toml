@@ -21,3 +21,4 @@
     gear_n = 78 #VK_N
     gear_p = 80 #VK_P
     gear_r = 82 #VK_R
+    sensor_debug = 114 #VK_F3
