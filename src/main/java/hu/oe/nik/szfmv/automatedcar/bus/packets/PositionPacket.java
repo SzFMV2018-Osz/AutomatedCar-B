@@ -6,6 +6,19 @@ public class PositionPacket implements ReadOnlyPositionPacket {
 
     private double rotation;
 
+    private double[] rotationPosition;
+
+
+    @Override
+    public double[] getRotationPosition() {
+        return rotationPosition;
+    }
+
+    public void setRotationPosition(double[] rotationPosition) {
+        this.rotationPosition = rotationPosition;
+    }
+
+
     @Override
     public double[] getPosition() {
         return postion;
@@ -16,12 +29,12 @@ public class PositionPacket implements ReadOnlyPositionPacket {
         return rotation;
     }
 
-    public void setPostion(double[] postion) {
-        this.postion = postion;
-    }
-
     public void setRotation(double rotation) {
         this.rotation = rotation;
+    }
+
+    public void setPostion(double[] postion) {
+        this.postion = postion;
     }
 
 }
