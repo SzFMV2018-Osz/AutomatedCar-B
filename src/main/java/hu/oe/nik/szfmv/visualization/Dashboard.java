@@ -21,6 +21,9 @@ import hu.oe.nik.szfmv.visualization.elements.PedalBar;
  */
 public class Dashboard extends JPanel {
 
+    public int speed;
+    public int rpm;
+
     /**
      * Integer for dashboard width.
      */
@@ -42,8 +45,7 @@ public class Dashboard extends JPanel {
     private final int indexHeight = 31;
     private final Point brakePedal = new Point(40, 290);
     private final Point gasPedal = new Point(40, 260);
-    public int speed;
-    public int rpm;
+
     private PedalBar bPB = new PedalBar();
     private JLabel brakePedalLabel = bPB.getPedalProgressBarLabel(brakePedal.x, brakePedal.y, "Brake pedal");
     private JProgressBar brakePedalBar = bPB.getPedalProgressBar(brakePedal.x, brakePedal.y,
