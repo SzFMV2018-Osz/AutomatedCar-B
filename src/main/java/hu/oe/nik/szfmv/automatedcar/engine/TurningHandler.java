@@ -24,8 +24,8 @@ public class TurningHandler {
             return 0;
         } else {
             double result = (speed / turningCircleCalculation(steeringWheelState));
-            System.out.println(result + "     speed: " + speed + "    steeringWheelState:" + steeringWheelState +
-                    "           turningCircleCalculation: " + turningCircleCalculation(steeringWheelState));
+//            System.out.println(result + "     speed: " + speed + "    steeringWheelState:" + steeringWheelState +
+//                    "           turningCircleCalculation: " + turningCircleCalculation(steeringWheelState));
             return result;
         }
     }
@@ -34,7 +34,7 @@ public class TurningHandler {
     private double turningCircleCalculation(final int steeringWheelState) {
         return (carAxisParams.getAxisLengthPixel()
                 / Math.tan(Math.toRadians(steeringWheelState))
-                + carAxisParams.getCarWidthPixel());
+                * 2);
     }
 
     public double[] angularVector(double[] currentAngularVector, double angularVelocity) {
