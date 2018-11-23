@@ -51,4 +51,18 @@ public interface IReadOnlyDashboardPacket {
      * @return the position of the brake pedal
      */
     int getBrakePedalPosition();
+
+    /**
+     * Gets the engine's RPM value
+     *
+     * @return the engine's RPM
+     */
+    int getRPM();
+
+    /**
+     * Gets the car's speed
+     *
+     * @return the car's speed
+     */
+    int getSpeed();
 }

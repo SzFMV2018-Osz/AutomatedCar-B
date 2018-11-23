@@ -20,6 +20,7 @@ import hu.oe.nik.szfmv.visualization.elements.PedalBar;
  * Dashboard shows the state of the ego car, thus helps in debugging.
  */
 public class Dashboard extends JPanel {
+
     public int speed;
     public int rpm;
 
@@ -31,11 +32,9 @@ public class Dashboard extends JPanel {
      * Integer for dashboard height.
      */
     private final int height = 700;
-
     private final int boundsX = 770;
     private final int boundsY = 0;
     private final int backgroundColor = 0x888888;
-
     private final int gearLabelPosX = 100;
     private final int gearLabelPosY = 130;
     private final int gearLabelWidth = 70;
@@ -44,7 +43,6 @@ public class Dashboard extends JPanel {
     private final int circleMeterHeight = 115;
     private final int indexWidth = 51;
     private final int indexHeight = 31;
-
     private final Point brakePedal = new Point(40, 290);
     private final Point gasPedal = new Point(40, 260);
 
@@ -59,7 +57,6 @@ public class Dashboard extends JPanel {
     private CircleCalculator rpmMeter = new CircleCalculator(this, MeterTypes.RPM, new Point(0, 0));
     private IndexArrow leftTurnSignal = new IndexArrow(IndexTypes.LEFT, new Point(20, 130));
     private IndexArrow rightTurnSignal = new IndexArrow(IndexTypes.RIGHT, new Point(180, 130));
-
     private boolean controlsSectionIsSetup = false;
     private ControlsSection controlsSection = new ControlsSection();
     private JLabel mainControlsLabel = controlsSection.initialiseMainControlsLabel();
@@ -68,7 +65,6 @@ public class Dashboard extends JPanel {
     private JLabel indicateControlsLabel = controlsSection.initialiseIndicateControlsLabel();
     private JLabel gearsFirstControlsLabel = controlsSection.initialiseGearsFirstControlsLabel();
     private JLabel gearsSecondControlsLabel = controlsSection.initialiseGearsSecondControlsLabel();
-
     private boolean debugSectionIsVisible = true;
     private DebugSection debugSection = new DebugSection();
     private JLabel debugLabel = debugSection.initialiseDebugLabel();
@@ -113,15 +109,17 @@ public class Dashboard extends JPanel {
      * Method gets called 'every tick' to display the dashboard portion of the
      * application
      *
-     * @param dbPacket - object containing stats
+     * @param dbPacket    - object containing stats
      * @param ctrlsPacket - object containing controls
-     * @param inDebug - toggle for the debug section's display
+     * @param inDebug     - toggle for the debug section's display
      */
     public void display(IReadOnlyDashboardPacket dbPacket, IReadOnlyControlsPacket ctrlsPacket, boolean inDebug) {
         bPB.setProgress(gasPedalBar, dbPacket.getGasPedalPosition());
         bPB.setProgress(brakePedalBar, dbPacket.getBrakePedalPosition());
         setGearLabelText(dbPacket.getCurrentGear());
         indicateTo(dbPacket.getIndicatorDirection());
+        rpm = dbPacket.getRPM();
+        speed = dbPacket.getSpeed();
 
         checkControlsSectionState(ctrlsPacket);
         checkDebugSectionVisibility(inDebug, dbPacket);
