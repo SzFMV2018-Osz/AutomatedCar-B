@@ -81,6 +81,9 @@ public class AutomatedCar extends Car {
      * powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
+        automat.handleBrakingState(
+            virtualFunctionBus.gasPedalPacket.getPedalPosition() > 0, false);
+        
         double[] sumForces = calculateSummedForces();
         double[] acceleration = new double[]{sumForces[0] / 1500, sumForces[1] / 1500};
         System.out.println("acceleration" + acceleration[0] + "   " + acceleration[1]);
