@@ -27,6 +27,7 @@ public class AutomatedCar extends Car {
     private SteeringSystem steeringSystem;
     private Camera camera;
     private Radar radar;
+    private ACC automat;
     private TurningHandler turningHandler;
     private double[] orientation;
 
@@ -51,6 +52,7 @@ public class AutomatedCar extends Car {
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         camera = new Camera(virtualFunctionBus);
         radar = new Radar(virtualFunctionBus);
+        automat = new ACC();
         turningHandler = new TurningHandler();
         new Driver(virtualFunctionBus);
 
