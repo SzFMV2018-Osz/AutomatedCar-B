@@ -4,6 +4,7 @@ import hu.oe.nik.szfmv.environment.WorldObject;
 
 public class ACC {
     private WorldObject targetCar;
+    private WorldObject roadsign;
     private boolean isActive;
     private float targetSpeed;
 
@@ -53,5 +54,12 @@ public class ACC {
         if (brake || emergencyBrake) {
             isActive = false;
         }
+    }
+
+    /**
+     * @param roadsign sets the current roadsign
+     */
+    public void setRoadsign(WorldObject roadsign) {
+        this.roadsign = roadsign;
     }
 }
