@@ -24,8 +24,8 @@ public class TurningHandler {
             return 0;
         } else {
             double result = (speed / turningCircleCalculation(steeringWheelState));
-//            System.out.println(result + "     speed: " + speed + "    steeringWheelState:" + steeringWheelState +
-//                    "           turningCircleCalculation: " + turningCircleCalculation(steeringWheelState));
+            System.out.println(result + "     speed: " + speed + "    steeringWheelState:" + steeringWheelState +
+                    "           turningCircleCalculation: " + turningCircleCalculation(steeringWheelState));
             return result;
         }
     }
