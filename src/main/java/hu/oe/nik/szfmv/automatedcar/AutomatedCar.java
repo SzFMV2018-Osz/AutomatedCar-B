@@ -9,7 +9,6 @@ import hu.oe.nik.szfmv.automatedcar.engine.TurningHandler;
 import hu.oe.nik.szfmv.automatedcar.sensor.Camera;
 import hu.oe.nik.szfmv.automatedcar.sensor.radar.Radar;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
-import hu.oe.nik.szfmv.common.Utils;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
 
 import java.util.Arrays;
@@ -31,6 +30,7 @@ public class AutomatedCar extends Car {
     private TurningHandler turningHandler;
     private double[] orientation;
     private int axisx, axisy;
+    private float axisrotation;
 
     /**
      * Constructor of the AutomatedCar class
@@ -46,8 +46,9 @@ public class AutomatedCar extends Car {
         inputManager = new InputManager(virtualFunctionBus);
         virtualFunctionBus.velocityPacket = velocityPacket;
         virtualFunctionBus.positionPacket = positionPacket;
-        axisx = x + 45;
-        axisy = y - 84;
+        axisx = x;
+        axisy = y;
+        axisrotation = 0;
         positionPacket.setPostion(new double[]{x, y});
         positionPacket.setRotation(rotation);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
@@ -83,6 +84,7 @@ public class AutomatedCar extends Car {
      * powertrain and the steering systems.
      */
     private void calculatePositionAndOrientation() {
+        axisrotation += virtualFunctionBus.steeringPacket.getAngularSpeed();
         // System.out.println("acceleration" + acceleration[0] + "   " + acceleration[1]);
         double[] velocity = calcVelocity();
         velocityPacket.setVelocity(velocity);
@@ -90,23 +92,17 @@ public class AutomatedCar extends Car {
         int plusy = (int) Math.round(timeFrame * velocity[1] * 50);
         axisx += plusx;
         axisy += plusy;
-        rotation += virtualFunctionBus.steeringPacket.getAngularSpeed();
         // System.out.println("rotation: " + rotation);
         calcXAndY(plusx, plusy);
-        System.out.println("help   " + axisy + "    " + axisx + "    x   " + x + "    y   " + y);
-        positionPacket.setRotation(rotation);
+        //System.out.println("axisy  " + axisy + "  axisx   " + axisx + "    x   " + x + "    y   " + y);
+        positionPacket.setRotation(axisrotation);
         positionPacket.setPostion(new double[]{axisx, axisy});
     }
 
     private void calcXAndY(int plusx, int plusy) {
-        if (virtualFunctionBus.steeringPacket.getAngularSpeed() != 0) {
-            double[] help = Utils.rotationPointToOtherPoint(-virtualFunctionBus.steeringPacket.getAngularSpeed(), axisx, axisy, x, y);
-            x = (int) Math.round(help[0]);
-            y = (int) Math.round(help[1]);
-        } else {
-            x += plusx;
-            y += plusy;
-        }
+        x = axisx - 45;
+        y = axisy + 84;
+        rotation -= virtualFunctionBus.steeringPacket.getAngularSpeed();
     }
 
     private double[] calcVelocity() {
