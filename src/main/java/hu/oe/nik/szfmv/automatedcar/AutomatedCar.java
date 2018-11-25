@@ -85,21 +85,19 @@ public class AutomatedCar extends Car {
      */
     private void calculatePositionAndOrientation() {
         axisrotation += virtualFunctionBus.steeringPacket.getAngularSpeed();
-        // System.out.println("acceleration" + acceleration[0] + "   " + acceleration[1]);
         double[] velocity = calcVelocity();
+        System.out.println("velocety" + velocity[0] + "     " + velocity[1]);
         velocityPacket.setVelocity(velocity);
-        int plusx = (int) Math.round(timeFrame * velocity[0] * 50);
-        int plusy = (int) Math.round(timeFrame * velocity[1] * 50);
+        int plusx = (int) Math.round(timeFrame * velocity[0] * 50 * orientation[0]);
+        int plusy = (int) Math.round(timeFrame * velocity[1] * 50 * orientation[1]);
         axisx += plusx;
         axisy += plusy;
-        // System.out.println("rotation: " + rotation);
-        calcXAndY(plusx, plusy);
-        //System.out.println("axisy  " + axisy + "  axisx   " + axisx + "    x   " + x + "    y   " + y);
+        calcXAndY();
         positionPacket.setRotation(axisrotation);
         positionPacket.setPostion(new double[]{axisx, axisy});
     }
 
-    private void calcXAndY(int plusx, int plusy) {
+    private void calcXAndY() {
         x = axisx - 45;
         y = axisy + 84;
         rotation -= virtualFunctionBus.steeringPacket.getAngularSpeed();
@@ -108,16 +106,14 @@ public class AutomatedCar extends Car {
     private double[] calcVelocity() {
         double[] sumForces = calculateSummedForces();
         double[] acceleration = new double[]{sumForces[0] / 1500, sumForces[1] / 1500};
-        return new double[]{velocityPacket.getVelocity()[0] + (timeFrame * acceleration[0]),
+        return new double[]{(velocityPacket.getVelocity()[0]) + (timeFrame * acceleration[0]),
                 velocityPacket.getVelocity()[1] + (timeFrame * acceleration[1])};
     }
 
 
     private double[] calculateSummedForces() {
         orientation = turningHandler.angularVector(orientation, virtualFunctionBus.steeringPacket.getAngularSpeed());
-        double[] tractionForce = powertrainSystem.calculateTractionForce(orientation);
-        // System.out.println("orientation" + orientation[0] + "    " + orientation[1]);
-        //  System.out.println("traction: " + tractionForce[0] + " " + tractionForce[1]);
+        double[] tractionForce = powertrainSystem.calculateTractionForce();
         double[] brakeForce = BrakingForces.calcBrakeForceVector(velocityPacket.getVelocity()[0],
                 velocityPacket.getVelocity()[1], virtualFunctionBus.brakePedalPacket.getPedalPosition());
         double[] airResistance = BrakingForces.calcAirResistanceVector(velocityPacket.getVelocity()[0],
