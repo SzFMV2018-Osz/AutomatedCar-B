@@ -135,7 +135,7 @@ public class SteeringWheelPacketTest {
 
         Assert.assertEquals(MAX_VALUE / 2, mock.from);
         Assert.assertEquals(CENTER, mock.to);
-        Assert.assertEquals(SPEED_IN_MILLISECONDS / 2, mock.milliseconds);
+        Assert.assertEquals(SPEED_IN_MILLISECONDS / 4, mock.milliseconds);
     }
 }
 

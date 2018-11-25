@@ -61,20 +61,19 @@ public class PowertrainSystem extends SystemComponent {
         powertrainPacket.setGear(getCurrentGear());
     }
 
-    public double[] calculateTractionForce(double[] orientationVector) {
+    public double[] calculateTractionForce() {
         if (virtualFunctionBus.gearPacket.getCurrentGear().equals(Gear.D)) {
-            return calculateTractionForceFomGear(gearBox.getCurrentGear(), orientationVector);
+            return calculateTractionForceFomGear(gearBox.getCurrentGear());
         } else if (virtualFunctionBus.gearPacket.getCurrentGear().equals(Gear.R)) {
-            double[] tractionForce = calculateTractionForceFomGear(0, orientationVector);
+            double[] tractionForce = calculateTractionForceFomGear(0);
             return new double[]{tractionForce[0] * -1, tractionForce[1] * -1};
         } else {
             return new double[]{0, 0};
         }
     }
 
-    private double[] calculateTractionForceFomGear(int gear, double[] orientationVector) {
-        return TractionForce.calculateTractionForce(orientationVector,
-                engine.calculateDriveTorque(virtualFunctionBus.gasPedalPacket.getPedalPosition(), gear),
+    private double[] calculateTractionForceFomGear(int gear) {
+        return TractionForce.calculateTractionForce(engine.calculateDriveTorque(virtualFunctionBus.gasPedalPacket.getPedalPosition(), gear),
                 engineType.getWheelRadius());
     }
 }

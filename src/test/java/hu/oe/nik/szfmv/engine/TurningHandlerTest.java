@@ -19,9 +19,9 @@ public class TurningHandlerTest {
     }
 
     @Test
-    @Parameters({"30|15|3", "60|50|17", "45|70|19", "0|10|0"})
-    public void angularVelocityCalculationTest(final int steeringWheelState, int speed, long angularVelocityResult) {
-        Assert.assertEquals(Math.round(underTest.angularVelocityCalculation(steeringWheelState, speed)), angularVelocityResult);
+    @Parameters({"30|15|0.03", "60|50|0.33", "45|70|0.26", "0|10|0"})
+    public void angularVelocityCalculationTest(final int steeringWheelState, int speed, float angularVelocityResult) {
+        Assert.assertEquals(underTest.angularVelocityCalculation(steeringWheelState, speed), angularVelocityResult, 0.2);
     }
 
     @Test
