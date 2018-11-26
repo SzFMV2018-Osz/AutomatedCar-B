@@ -188,7 +188,7 @@ public class CircleCalculator extends JPanel {
             int x = PAINTER_X_BASE + tempCalcX;
             int y = PAINTER_Y_BASE - tempCalcY;
             if ((i - PAINTER_CONDITIONAL_VALUE) % PAINTER_MOD_SPEED == 0) {
-                if(number % 2 == 0) {
+                if (number % 2 == 0) {
                     g.drawString(Integer.toString((i - PAINTER_CONDITIONAL_VALUE) * viewValue), x, y);
                 }
                 number++;
