@@ -19,6 +19,10 @@ public class DashboardManager extends SystemComponent {
         virtualFunctionBus.dashboardPacket = this.dashboardPacket;
     }
 
+    public DashboardPacket getDashboardPacket() {
+        return dashboardPacket;
+    }
+
     @Override
     public void loop() {
         dashboardPacket.setGasPedalPosition(virtualFunctionBus.gasPedalPacket.getPedalPosition());
