@@ -181,13 +181,17 @@ public class CircleCalculator extends JPanel {
         }
     }
     private void paintComponentMainIfSPEED(Graphics g) {
+        int number = 0;
         for (int i = PAINTER_STARTING_VALUE; i <= PAINTER_ENDING_VALUE; i++) {
             int tempCalcX = (int) (PAINTER_COORDINATE_MULTIPLIER * Math.sin(i * Math.PI / PAINTER_COORDINATE_DIVIDER));
             int tempCalcY = (int) (PAINTER_COORDINATE_MULTIPLIER * Math.cos(i * Math.PI / PAINTER_COORDINATE_DIVIDER));
             int x = PAINTER_X_BASE + tempCalcX;
             int y = PAINTER_Y_BASE - tempCalcY;
             if ((i - PAINTER_CONDITIONAL_VALUE) % PAINTER_MOD_SPEED == 0) {
-                g.drawString(Integer.toString((i - PAINTER_CONDITIONAL_VALUE) * viewValue), x, y);
+                if (number % 2 == 0) {
+                    g.drawString(Integer.toString((i - PAINTER_CONDITIONAL_VALUE) * viewValue), x, y);
+                }
+                number++;
             }
         }
     }
