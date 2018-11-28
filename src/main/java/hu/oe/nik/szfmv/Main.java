@@ -21,9 +21,11 @@ import java.io.IOException;
 public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final int CYCLE_PERIOD = 40;
+
     private static int worldWidth = 800;
     private static int worldHeight = 600;
+    private static int worldWidth2 = 5120;
+    private static int worldHeight2 = 3000;
     private static int carPosX = 20;
     private static int carPosY = 20;
 
@@ -44,14 +46,14 @@ public class Main {
         boolean dashboardDebugIsEnabled = ConfigProvider.provide().getBoolean("dashboard.debug");
 
         // create the world
-        World w = new World(800, 600);
+        World w = new World(worldWidth, worldHeight);
 
         // create an automated car
         AutomatedCar car = new AutomatedCar(carPosX, carPosY, "car_2_white.png");
         w.setAutomatedCar(car);
 
-        w.setHeight(3000);
-        w.setWidth(5120);
+        w.setWidth(worldWidth2);
+        w.setHeight(worldHeight2);
 
         // create gui
         Gui gui = new Gui();
@@ -71,7 +73,7 @@ public class Main {
             car.drive();
 
             gui.getCourseDisplay().drawWorld(w);
-            gui.getDashboard().display(car.getDashboardInfo(), dashboardDebugIsEnabled);
+            gui.getDashboard().display(car.getDashboardPacket(), car.getControlsPacket(), dashboardDebugIsEnabled);
         }
     }
 }

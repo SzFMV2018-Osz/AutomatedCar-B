@@ -16,11 +16,9 @@ public class DebugSection extends JPanel {
     private int getMainDebugOffset() {
         return sectionRowSize * mainDebugOffset;
     }
-
     private int getSteeringDebugOffset() {
         return sectionRowSize * steeringDebugOffset;
     }
-
     private int getPositionDebugOffset() {
         return sectionRowSize * positionDebugOffset;
     }
@@ -28,15 +26,12 @@ public class DebugSection extends JPanel {
     private String getMainDebugText() {
         return "debug:";
     }
-
     private String getSteeringDebugText() {
         return "steering wheel: ";
     }
-
     private String getPositionTextX() {
         return "x: ";
     }
-
     private String getPositionTextY() {
         return ", y: ";
     }
@@ -48,10 +43,10 @@ public class DebugSection extends JPanel {
      * @param rowOffset - determines the y coordinate for the label
      * @return - returns the created JLabel
      */
-    private JLabel getDebugSectionLabel(String text, int rowOffset) {
+    private JLabel createDebugSectionLabel(String text, int rowOffset) {
         JLabel debugLabel = new JLabel(text);
 
-        setupDebugSectionLabel(debugLabel, rowOffset);
+        actualiseDebugSectionLabel(debugLabel, rowOffset);
 
         return debugLabel;
     }
@@ -62,7 +57,7 @@ public class DebugSection extends JPanel {
      * @param label     - the modifiable JLabel's reference
      * @param rowOffset - determines the y coordinate for the label
      */
-    private void setupDebugSectionLabel(JLabel label, int rowOffset) {
+    private void actualiseDebugSectionLabel(JLabel label, int rowOffset) {
         Insets insets = getInsets();
         Dimension labelSize = label.getPreferredSize();
 
@@ -79,7 +74,7 @@ public class DebugSection extends JPanel {
      * @return - returns the configured label object
      */
     public JLabel initialiseDebugLabel() {
-        return getDebugSectionLabel(getMainDebugText(), getMainDebugOffset());
+        return createDebugSectionLabel(getMainDebugText(), getMainDebugOffset());
     }
 
     /**
@@ -88,7 +83,7 @@ public class DebugSection extends JPanel {
      * @return - returns the configured label object
      */
     public JLabel initialiseSteeringWheelLabel() {
-        return getDebugSectionLabel(getSteeringDebugText(), getSteeringDebugOffset());
+        return createDebugSectionLabel(getSteeringDebugText(), getSteeringDebugOffset());
     }
 
     /**
@@ -97,7 +92,7 @@ public class DebugSection extends JPanel {
      * @return - returns the configured label object
      */
     public JLabel initialisePositionLabel() {
-        return getDebugSectionLabel(getPositionTextX() + 0 + getPositionTextY() + 0, getPositionDebugOffset());
+        return createDebugSectionLabel(getPositionTextX() + 0 + getPositionTextY() + 0, getPositionDebugOffset());
     }
 
     /**
@@ -106,14 +101,14 @@ public class DebugSection extends JPanel {
      * @param steeringWheelLabel - the modifiable JLabel
      * @param value - the new steering wheel value
      */
-    public void setSteeringLabelText(JLabel steeringWheelLabel, int value) {
+    public void refreshSteeringLabelText(JLabel steeringWheelLabel, int value) {
         if (value > 0) {
             steeringWheelLabel.setText(getSteeringDebugText() + "+" + value);
         } else {
             steeringWheelLabel.setText(getSteeringDebugText() + value);
         }
 
-        setupDebugSectionLabel(steeringWheelLabel, getSteeringDebugOffset());
+        actualiseDebugSectionLabel(steeringWheelLabel, getSteeringDebugOffset());
     }
 
     /**
@@ -123,9 +118,9 @@ public class DebugSection extends JPanel {
      * @param x - the car's x position
      * @param y - the car's y position
      */
-    public void setPositionLabelText(JLabel positionLabel, int x, int y) {
+    public void refreshPositionLabelText(JLabel positionLabel, int x, int y) {
         positionLabel.setText(getPositionTextX() + x + getPositionTextY() + y);
 
-        setupDebugSectionLabel(positionLabel, getPositionDebugOffset());
+        actualiseDebugSectionLabel(positionLabel, getPositionDebugOffset());
     }
 }

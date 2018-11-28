@@ -5,6 +5,8 @@ import hu.oe.nik.szfmv.common.enums.Gear;
 
 public class DashboardPacket implements IReadOnlyDashboardPacket {
 
+    private static final double MS_IN_KMH = 3.6;
+
     private int automatedCarX;
     private int automatedCarY;
     private int steeringWheelValue;
@@ -12,6 +14,8 @@ public class DashboardPacket implements IReadOnlyDashboardPacket {
     private int indicatorDirection;
     private int gasPedalPosition;
     private int brakePedalPosition;
+    private int rpm;
+    private int speed;
 
     @Override
     public int getAutomatedCarX() {
@@ -74,5 +78,32 @@ public class DashboardPacket implements IReadOnlyDashboardPacket {
 
     public void setBrakePedalPosition(int brakePedalPosition) {
         this.brakePedalPosition = brakePedalPosition;
+    }
+
+    @Override
+    public int getRPM() {
+        return rpm;
+    }
+
+    public void setRpm(int rpm) {
+        this.rpm = rpm;
+    }
+
+    @Override
+    public int getSpeed() {
+        return speed;
+    }
+
+    /**
+     * Set the current speed of the car for displaying on the dashboard
+     *
+     * @param speed current speed of the car in m/s
+     */
+    public void setSpeed(double speed) {
+        this.speed = (int) ms2kmh(speed);
+    }
+
+    private double ms2kmh(double speed) {
+        return speed * MS_IN_KMH;
     }
 }

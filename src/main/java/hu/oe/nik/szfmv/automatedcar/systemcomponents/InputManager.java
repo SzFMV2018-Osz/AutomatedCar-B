@@ -1,7 +1,12 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.*;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.IndicationPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.GearPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.SteeringWheelPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.PedalPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.ControlsPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.GraduallyChangeable;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.IUserInput;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
@@ -13,7 +18,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.PedalType;
 public class InputManager extends SystemComponent {
 
     public static final int GAS_PEDAL_TIME_IN_MILLISECS = 1000;
-    public static final int BRAKE_PEDAL_TIME_IN_MILLISECS = 500;
+    private static final int BRAKE_PEDAL_TIME_IN_MILLISECS = 500;
 
     private final IUserInput userInput = UserInputProvider.getUserInput(InputType.Keyboard);
     private final IndicationPacket indicationPacket;
@@ -21,6 +26,7 @@ public class InputManager extends SystemComponent {
     private final SteeringWheelPacket steeringWheelPacket;
     private final PedalPacket gasPedalPacket;
     private final PedalPacket brakePedalPacket;
+    private final ControlsPacket controlsPacket;
 
     /**
      * Constructor of InputManager class.
@@ -37,12 +43,14 @@ public class InputManager extends SystemComponent {
                 GAS_PEDAL_TIME_IN_MILLISECS);
         this.brakePedalPacket = new PedalPacket(new GraduallyChangeable(), userInput, PedalType.Brake,
                 BRAKE_PEDAL_TIME_IN_MILLISECS);
+        this.controlsPacket = new ControlsPacket(userInput);
 
         virtualFunctionBus.indicationPacket = this.indicationPacket;
         virtualFunctionBus.gearPacket = this.gearPacket;
         virtualFunctionBus.steeringWheelPacket = this.steeringWheelPacket;
         virtualFunctionBus.gasPedalPacket = this.gasPedalPacket;
         virtualFunctionBus.brakePedalPacket = this.brakePedalPacket;
+        virtualFunctionBus.controlsPacket = this.controlsPacket;
     }
 
     @Override
