@@ -48,19 +48,6 @@ public class CourseDisplay extends JPanel {
      */
     private static long cycleLength;
     /**
-     * Integer for objects start position (x).
-     */
-    private int xOffset = 0;
-    /**
-     * Integer for objects start position (y).
-     */
-    private int yOffset = 0;
-    /**
-     * Calendar for the fps.
-     */
-    private Calendar cal;
-
-    /**
      * Integer for window width.
      */
     private final int width = 770;
@@ -73,9 +60,22 @@ public class CourseDisplay extends JPanel {
      */
     private final int backgroundColor = 0xEEEEEE;
     /**
+     * Integer for objects start position (x).
+     */
+    private int xOffset = 0;
+    /**
+     * Integer for objects start position (y).
+     */
+    private int yOffset = 0;
+    /**
+     * Calendar for the fps.
+     */
+    private Calendar cal;
+    /**
      * Private list for the images, to handle the FPS drop.
      */
     private List<ImageBuffer> buffer;
+
     /**
      * Initialize the course display.
      */
@@ -99,7 +99,8 @@ public class CourseDisplay extends JPanel {
                 try {
                     ImageBuffer ib = new ImageBuffer(file.getName(), ImageIO.read(file));
                     buffer.add(ib);
-                } catch (IOException e) { }
+                } catch (IOException e) {
+                }
             }
         }
         folder = new File(ClassLoader.getSystemResource("Kiegek").getFile());
@@ -109,7 +110,8 @@ public class CourseDisplay extends JPanel {
                 try {
                     ImageBuffer ib = new ImageBuffer(file.getName(), ImageIO.read(file));
                     buffer.add(ib);
-                } catch (IOException e) { }
+                } catch (IOException e) {
+                }
             }
         }
     }
@@ -160,8 +162,8 @@ public class CourseDisplay extends JPanel {
             if (cyclePeriodCONSTANST < 0) {
                 cyclePeriodCONSTANST = 0;
             }
-            System.out.printf("FPS/TARGET FPS: %.2f / %d \n",
-                    (1000 / cyclePeriodCONSTANST), TARGET_FPS);
+//            System.out.printf("FPS/TARGET FPS: %.2f / %d \n",
+//                    (1000 / cyclePeriodCONSTANST), TARGET_FPS);
 
             Thread.sleep(Math.round(cyclePeriodCONSTANST));
         } catch (InterruptedException e) {
@@ -186,6 +188,7 @@ public class CourseDisplay extends JPanel {
     /**
      * Draw dynamic objects, but it's not used yet
      * since we do not have the proper input for that.
+     *
      * @param dynamicObjects dynamic object list
      * @param screenBuffer   for stop vibration
      */
@@ -198,6 +201,7 @@ public class CourseDisplay extends JPanel {
 
     /**
      * Draw the main car.
+     *
      * @param car          main car
      * @param screenBuffer for stop vibration
      */
@@ -205,7 +209,7 @@ public class CourseDisplay extends JPanel {
                            final Graphics screenBuffer) {
         BufferedImage image = buffer.
                 stream().filter((buffedimage) -> buffedimage.getName().equals(
-                        car.getImageFileName())).findFirst().
+                car.getImageFileName())).findFirst().
                 orElse(null).getImage();
         int imageWidth = scaleObject(image.getWidth());
         int imageHeight = scaleObject(image.getHeight());

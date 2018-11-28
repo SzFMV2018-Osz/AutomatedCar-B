@@ -1,16 +1,12 @@
 package hu.oe.nik.szfmv.engine;
 
-import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.engine.TurningHandler;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.text.DecimalFormat;
 
 @RunWith(JUnitParamsRunner.class)
 public class TurningHandlerTest {
@@ -23,22 +19,20 @@ public class TurningHandlerTest {
     }
 
     @Test
-    @Parameters({ "30|15|2", "60|50|15", "45|70|16", "0|10|0" })
-    public void angularVelocityCalculationTest(final int steeringWheelState,int speed,long angularVelocityResult)
-    {
-        Assert.assertEquals(Math.round(underTest.angularVelocityCalculation(steeringWheelState,speed)),angularVelocityResult);
+    @Parameters({"30|15|0.03", "60|50|0.33", "45|70|0.26", "0|10|0"})
+    public void angularVelocityCalculationTest(final int steeringWheelState, int speed, float angularVelocityResult) {
+        Assert.assertEquals(underTest.angularVelocityCalculation(steeringWheelState, speed), angularVelocityResult, 0.2);
     }
 
     @Test
-    @Parameters({ "1|2|10|0.249|-2.22","2|3|5|3.44|-1.07","5|0|2|-2.08|4.55"   })
-    public void angularVelocityCalculationTest(double angularVectorX,double angularVectorY ,int angularSpeed,double angularVectorResultX,double angularVectorResultY)
-    {
-        double[] vector=new double[2];
-        vector[0]=angularVectorX;
-        vector[1]=angularVectorY;
-        double[] result=underTest.angularVector(vector,angularSpeed);
-        Assert.assertEquals(result[1],angularVectorResultY,2);
-        Assert.assertEquals(result[0],angularVectorResultX,2);
+    @Parameters({"1|2|10|0.249|-2.22", "2|3|5|3.44|-1.07", "5|0|2|-2.08|4.55"})
+    public void angularVelocityCalculationTest(double angularVectorX, double angularVectorY, int angularSpeed, double angularVectorResultX, double angularVectorResultY) {
+        double[] vector = new double[2];
+        vector[0] = angularVectorX;
+        vector[1] = angularVectorY;
+        double[] result = underTest.angularVector(vector, angularSpeed);
+        Assert.assertEquals(result[1], angularVectorResultY, 2);
+        Assert.assertEquals(result[0], angularVectorResultX, 2);
 
     }
 }

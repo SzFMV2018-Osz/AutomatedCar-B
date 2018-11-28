@@ -10,4 +10,9 @@ public interface ReadOnlyPositionPacket {
      * @return Rotation
      */
     double getRotation();
+
+    /**
+     * @return Rotation position
+     */
+    double[] getRotationPosition();
 }
