@@ -62,6 +62,7 @@ public class AutomatedCar extends Car {
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         dashboardManager = new DashboardManager(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
+        speedMetersPerSeconds = 0;
         camera = new Camera(virtualFunctionBus);
         radar = new Radar(virtualFunctionBus);
         turningHandler = new TurningHandler();

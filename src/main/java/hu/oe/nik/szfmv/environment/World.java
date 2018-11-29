@@ -30,20 +30,6 @@ public class World {
         this.automatedCar = automatedCar;
     }
 
-    private AutomatedCar automatedCar;
-
-    public void setWorldObjects(List<WorldObject> worldObjects) {
-        this.worldObjects = worldObjects;
-    }
-
-    public AutomatedCar getAutomatedCar() {
-        return automatedCar;
-    }
-
-    public void setAutomatedCar(AutomatedCar automatedCar) {
-        this.automatedCar = automatedCar;
-    }
-
     /**
      * Creates the virtual world with the given dimension.
      *
