@@ -18,11 +18,13 @@ import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
+import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
 
 public class AutomatedCar extends Car {
 
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
+    private final double speedMetersPerSeconds;
     private final double wheelRadius = 0.33;
     private double timeFrame = 0.041666667;
     private VelocityPacket velocityPacket = new VelocityPacket();
@@ -60,6 +62,7 @@ public class AutomatedCar extends Car {
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         dashboardManager = new DashboardManager(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
+        speedMetersPerSeconds = 0;
         camera = new Camera(virtualFunctionBus);
         radar = new Radar(virtualFunctionBus);
         turningHandler = new TurningHandler();

@@ -48,18 +48,6 @@ public class CourseDisplay extends JPanel {
      */
     private static long cycleLength;
     /**
-     * Integer for window width.
-     */
-    private final int width = 770;
-    /**
-     * Integer for window height.
-     */
-    private final int height = 700;
-    /**
-     * Integer for windows color.
-     */
-    private final int backgroundColor = 0xEEEEEE;
-    /**
      * Integer for objects start position (x).
      */
     private int xOffset = 0;
@@ -71,6 +59,19 @@ public class CourseDisplay extends JPanel {
      * Calendar for the fps.
      */
     private Calendar cal;
+
+    /**
+     * Integer for window width.
+     */
+    private final int width = 770;
+    /**
+     * Integer for window height.
+     */
+    private final int height = 700;
+    /**
+     * Integer for windows color.
+     */
+    private final int backgroundColor = 0xEEEEEE;
     /**
      * Private list for the images, to handle the FPS drop.
      */

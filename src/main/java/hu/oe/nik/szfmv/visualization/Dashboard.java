@@ -34,6 +34,9 @@ public class Dashboard extends JPanel {
     private final int height = 700;
     private final int boundsX = 770;
     private final int boundsY = 0;
+    /**
+     * Integer for dashboard color.
+     */
     private final int backgroundColor = 0x888888;
     private final int gearLabelPosX = 100;
     private final int gearLabelPosY = 130;
