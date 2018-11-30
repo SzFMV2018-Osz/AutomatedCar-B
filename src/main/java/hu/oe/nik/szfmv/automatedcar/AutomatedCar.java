@@ -1,38 +1,48 @@
 package hu.oe.nik.szfmv.automatedcar;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.PositionPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.SensorPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.VelocityPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyControlsPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyDisplayableSensorPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlySensorPacket;
 import hu.oe.nik.szfmv.automatedcar.engine.BrakingForces;
 import hu.oe.nik.szfmv.automatedcar.engine.TurningHandler;
 import hu.oe.nik.szfmv.automatedcar.sensor.Camera;
+import hu.oe.nik.szfmv.automatedcar.sensor.UltraSoundSensor;
 import hu.oe.nik.szfmv.automatedcar.sensor.radar.Radar;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.DashboardManager;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
+import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
+import hu.oe.nik.szfmv.visualization.CollisionDetector;
 
 public class AutomatedCar extends Car {
+
+    private final int ULTRASOUND_SENSOR_VIEWDISTANCE = 100;
 
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
     private final double wheelRadius = 0.33;
     private double timeFrame = 0.041666667;
     private VelocityPacket velocityPacket = new VelocityPacket();
     private PositionPacket positionPacket = new PositionPacket();
+    private SensorPacket sensorPacket = new SensorPacket();
     private InputManager inputManager;
     private DashboardManager dashboardManager;
     private PowertrainSystem powertrainSystem;
     private SteeringSystem steeringSystem;
     private Camera camera;
     private Radar radar;
+    private UltraSoundSensor ultraSoundSensor;
     private TurningHandler turningHandler;
     private double[] orientation;
     private int axisx, axisy;
@@ -52,6 +62,7 @@ public class AutomatedCar extends Car {
         inputManager = new InputManager(virtualFunctionBus);
         virtualFunctionBus.velocityPacket = velocityPacket;
         virtualFunctionBus.positionPacket = positionPacket;
+        virtualFunctionBus.sensorPacket = sensorPacket;
         axisx = x;
         axisy = y;
         axisrotation = 0;
@@ -62,6 +73,12 @@ public class AutomatedCar extends Car {
         steeringSystem = new SteeringSystem(virtualFunctionBus);
         camera = new Camera(virtualFunctionBus);
         radar = new Radar(virtualFunctionBus);
+        ultraSoundSensor = new UltraSoundSensor(
+                CollisionDetector.getInstance().getObstacles(),
+                new Point(x, y),
+                ULTRASOUND_SENSOR_VIEWDISTANCE,
+                60);
+        this.sensorPacket.getSensors().add(ultraSoundSensor);
         turningHandler = new TurningHandler();
         new Driver(virtualFunctionBus);
     }
@@ -92,6 +109,14 @@ public class AutomatedCar extends Car {
     public IReadOnlyControlsPacket getControlsPacket() {
         return virtualFunctionBus.controlsPacket;
     }
+
+
+    /**
+     * TODO: remove this temporary implementation
+     *
+     * @return
+     */
+    public IReadonlySensorPacket getSensorPacket() { return  virtualFunctionBus.sensorPacket; }
 
     /**
      * Return information of the sensors current status
@@ -127,6 +152,9 @@ public class AutomatedCar extends Car {
         calcXAndY();
         positionPacket.setRotation(axisrotation);
         positionPacket.setPostion(new double[]{axisx, axisy});
+        ultraSoundSensor.setRotation(axisrotation);
+        ultraSoundSensor.getTriangle().calculateNextPosition(axisrotation, axisx, axisy);
+        sensorPacket.setDetectedCollidableObjects(ultraSoundSensor.getCollidableWorldObjects());
     }
 
     private void calcXAndY() {

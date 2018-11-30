@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.sensor.UltraSoundSensor;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
@@ -152,6 +153,8 @@ public class CourseDisplay extends JPanel {
 
             renderCar(world.getAutomatedCar(), screenBuffer);
 
+            drawUltraSoundSensors(world.getAutomatedCar(), screenBuffer);
+
             // draw the buffer on the screen
             g.drawImage(offscreen, 0, 0, this);
 
@@ -222,6 +225,23 @@ public class CourseDisplay extends JPanel {
         Graphics2D g2d = (Graphics2D) screenBuffer;
         g2d.drawImage(image, at, null);
 
+    }
+
+    private void drawUltraSoundSensors(final AutomatedCar car, final Graphics screenBuffer){
+
+        List<UltraSoundSensor> ultraSoundSensors = car.getSensorPacket().getSensors();
+        if(ultraSoundSensors != null){
+            for (UltraSoundSensor ultraSoundSensor : ultraSoundSensors){
+
+                Graphics2D g2d = (Graphics2D) screenBuffer;
+                g2d.setColor(Color.GREEN);
+                Polygon p = new Polygon();
+                p.addPoint((int)ultraSoundSensor.getTriangle().getA0x(), (int)ultraSoundSensor.getTriangle().getA0y());
+                p.addPoint((int)ultraSoundSensor.getTriangle().getA1x(), (int)ultraSoundSensor.getTriangle().getA1y());
+                p.addPoint((int)ultraSoundSensor.getTriangle().getA2x(), (int)ultraSoundSensor.getTriangle().getA2y());
+                g2d.drawPolygon(p);
+            }
+        }
     }
 
     /**
