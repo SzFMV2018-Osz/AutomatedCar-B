@@ -1,23 +1,20 @@
-package hu.oe.nik.szfmv.automatedcar.sensor.radar;
+package hu.oe.nik.szfmv.automatedcar.sensor;
+
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.RadarPacket;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
+import hu.oe.nik.szfmv.environment.WorldObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.RadarPacket;
-import hu.oe.nik.szfmv.automatedcar.sensor.Triangle;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
-import hu.oe.nik.szfmv.environment.WorldObject;
-
 public class Radar extends SystemComponent {
 
-    private static final int VISUAL_RANGE = 80;
+    private static final int VISUAL_RANGE = 200;
     private static final int METER_PIXEL_RATIO = 50;
     // 60°
     private static final double ANGLE_OF_VIEW = 60f;
-
     private Triangle triangle;
-
     private RadarPacket radarPacket;
 
     /**
@@ -25,10 +22,14 @@ public class Radar extends SystemComponent {
      */
     public Radar(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
-        triangle = new Triangle(VISUAL_RANGE * METER_PIXEL_RATIO, ANGLE_OF_VIEW,
+        triangle = new Triangle(VISUAL_RANGE, ANGLE_OF_VIEW,
                 virtualFunctionBus.positionPacket.getPosition()[0], virtualFunctionBus.positionPacket.getPosition()[1]);
         radarPacket = new RadarPacket();
         virtualFunctionBus.radarPacket = radarPacket;
+    }
+
+    public Triangle getTriangle() {
+        return triangle;
     }
 
     /**
@@ -54,8 +55,10 @@ public class Radar extends SystemComponent {
      * @param p0x      car radar x coordinate
      * @param p0y      car radar y coordinate
      */
-    public void updateTriangle(double rotation, double p0x, double p0y) {
+    private void updateTriangle(double rotation, double p0x, double p0y) {
         triangle.calculateNextPosition(rotation, p0x, p0y);
+        System.out.println("Radar triangle: " + triangle.getA0x() + " " + triangle.getA0y() + " " + triangle.getA1x()
+                + " " + triangle.getA1y() + " " + triangle.getA2x() + " " + triangle.getA2x());
     }
 
     @Override
