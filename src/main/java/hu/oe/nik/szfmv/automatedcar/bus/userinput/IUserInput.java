@@ -1,10 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.bus.userinput;
 
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.PedalType;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IIndicationEventHandler;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IPedalEventHandler;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.IShiftingEventHandler;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.ISteeringEventHandler;
+import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.*;
 
 import java.awt.event.KeyListener;
 
@@ -71,6 +68,7 @@ public interface IUserInput extends KeyListener {
      */
     void unsubscribeIndicationEvents(IIndicationEventHandler handler);
 
+<<<<<<< HEAD
     /**
      * Returns the numerical key-code of the given key
      *
@@ -140,4 +138,8 @@ public interface IUserInput extends KeyListener {
      * @return returns the code as an int
      */
     int getGearDKeyCode();
+=======
+    void setSensorDebugEvent(ISensorDebugEventHandler handler);
+
+>>>>>>> origin/TeamB4
 }
