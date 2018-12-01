@@ -68,7 +68,6 @@ public interface IUserInput extends KeyListener {
      */
     void unsubscribeIndicationEvents(IIndicationEventHandler handler);
 
-<<<<<<< HEAD
     /**
      * Returns the numerical key-code of the given key
      *
@@ -138,8 +137,7 @@ public interface IUserInput extends KeyListener {
      * @return returns the code as an int
      */
     int getGearDKeyCode();
-=======
+
     void setSensorDebugEvent(ISensorDebugEventHandler handler);
 
->>>>>>> origin/TeamB4
 }
