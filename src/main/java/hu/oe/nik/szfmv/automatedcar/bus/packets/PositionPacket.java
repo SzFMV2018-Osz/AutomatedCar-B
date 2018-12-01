@@ -8,6 +8,24 @@ public class PositionPacket implements ReadOnlyPositionPacket {
 
     private double[] rotationPosition;
 
+    private double[] imagePosition;
+    private double[] orientation;
+
+    public double[] getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(double[] orientation) {
+        this.orientation = orientation;
+    }
+
+    public double[] getImagePosition() {
+        return imagePosition;
+    }
+
+    public void setImagePosition(double[] imagePosition) {
+        this.imagePosition = imagePosition;
+    }
 
     @Override
     public double[] getRotationPosition() {

@@ -23,13 +23,13 @@ public class Triangle {
      * @param a0x                   a0 x coordinate
      * @param a0y                   a0 y coordinate
      */
-    public Triangle(double distanceFromA0InPixel, double a0Angle, double a0x, double a0y) {
+    public Triangle(double distanceFromA0InPixel, double a0Angle, double a0x, double a0y, double[] orientation) {
         this.distanceFromA0InPixel = distanceFromA0InPixel;
         this.a0Angle = a0Angle;
         this.a0x = a0x;
         this.a0y = a0y;
         this.distanceFromMidPointInPixel = calcDistanceFromMidPoint(a0Angle, distanceFromA0InPixel);
-        this.calculateNextPosition(0, a0x, a0y);
+        this.calculateNextPosition(0, a0x, a0y, orientation);
     }
 
     private double calcDistanceFromMidPoint(double a0Angle, double distanceFromA0InPixel) {
@@ -115,9 +115,11 @@ public class Triangle {
      * @param p0x      a0 x point of triangle
      * @param p0y      a0 y point of triangle
      */
-    public void calculateNextPosition(double rotation, double p0x, double p0y) {
-        a0x = p0x;
-        a0y = p0y;
+    public void calculateNextPosition(double rotation, double p0x, double p0y, double[] orientation) {
+        a0x = p0x - (50 * (orientation[1] / Math.abs(orientation[1])));
+        a0y = p0y - ((104 + this.distanceFromA0InPixel) * (orientation[0] / Math.abs(orientation[0])));
+        System.out.println(orientation[1] / Math.abs(orientation[1]));
+
 
         a1x = p0x + distanceFromA0InPixel;
         a1y = p0y + distanceFromMidPointInPixel;

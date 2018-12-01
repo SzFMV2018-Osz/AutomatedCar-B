@@ -1,13 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.sensor;
 
-import java.awt.*;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.CameraPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.userinput.IUserInput;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.eventhandlers.ISensorDebugEventHandler;
@@ -15,6 +9,11 @@ import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
+
+import java.awt.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Camera extends SystemComponent implements ISensor, ISensorDebugEventHandler {
 
@@ -36,7 +35,8 @@ public class Camera extends SystemComponent implements ISensor, ISensorDebugEven
         super(virtualFunctionBus);
 
         viewArea = new Triangle(VISUAL_RANGE * METER_PIXEL_RATIO, ANGLE_OF_VIEW,
-               virtualFunctionBus.positionPacket.getPosition()[0], virtualFunctionBus.positionPacket.getPosition()[1]);
+                virtualFunctionBus.positionPacket.getImagePosition()[0],
+                virtualFunctionBus.positionPacket.getImagePosition()[1], virtualFunctionBus.positionPacket.getOrientation());
 
         cameraPacket = new CameraPacket();
         virtualFunctionBus.cameraPacket = cameraPacket;
@@ -45,12 +45,11 @@ public class Camera extends SystemComponent implements ISensor, ISensorDebugEven
         UserInputProvider.getUserInput(InputType.Keyboard).setSensorDebugEvent(sensorDebugger);
     }
 
-    /**
-     * @param position pos0
-     * @param rotation pos1
-     */
-    public void updatePosition(double[] position, double rotation) {
-        viewArea.calculateNextPosition(rotation, position[0], position[1]);
+    public void updatePosition() {
+        viewArea.calculateNextPosition(virtualFunctionBus.positionPacket.getRotation()
+                , virtualFunctionBus.positionPacket.getImagePosition()[0],
+                virtualFunctionBus.positionPacket.getImagePosition()[1],
+                virtualFunctionBus.positionPacket.getOrientation());
     }
 
     /**
@@ -95,8 +94,7 @@ public class Camera extends SystemComponent implements ISensor, ISensorDebugEven
 
     @Override
     public void loop() {
-        updatePosition(virtualFunctionBus.positionPacket.getPosition(),
-                virtualFunctionBus.positionPacket.getRotation());
+        updatePosition();
         List<WorldObject> objectsInView = findWorldObjectsInRadarTriangle(World.objects);
         Optional<WorldObject> closestRoadSign = findClosestRoadSign(objectsInView);
         cameraPacket.setClosestRoadSign(closestRoadSign);
@@ -104,8 +102,8 @@ public class Camera extends SystemComponent implements ISensor, ISensorDebugEven
                 closestRoadSign.isPresent() ? calculateDistanceFromCamera(closestRoadSign.get()) : -1);
 
         if (sensorDebugger.isActive()) {
-            if (closestRoadSign.isPresent() == true ) {
-               sensorDebugger.tag(closestRoadSign.get());
+            if (closestRoadSign.isPresent() == true) {
+                sensorDebugger.tag(closestRoadSign.get());
             }
         }
     }

@@ -23,7 +23,8 @@ public class Radar extends SystemComponent {
     public Radar(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
         triangle = new Triangle(VISUAL_RANGE, ANGLE_OF_VIEW,
-                virtualFunctionBus.positionPacket.getPosition()[0], virtualFunctionBus.positionPacket.getPosition()[1]);
+                virtualFunctionBus.positionPacket.getImagePosition()[0], virtualFunctionBus.positionPacket.getImagePosition()[1],
+                virtualFunctionBus.positionPacket.getOrientation());
         radarPacket = new RadarPacket();
         virtualFunctionBus.radarPacket = radarPacket;
     }
@@ -56,15 +57,14 @@ public class Radar extends SystemComponent {
      * @param p0y      car radar y coordinate
      */
     private void updateTriangle(double rotation, double p0x, double p0y) {
-        triangle.calculateNextPosition(rotation, p0x, p0y);
-        System.out.println("Radar triangle: " + triangle.getA0x() + " " + triangle.getA0y() + " " + triangle.getA1x()
-                + " " + triangle.getA1y() + " " + triangle.getA2x() + " " + triangle.getA2x());
+        triangle.calculateNextPosition(rotation, virtualFunctionBus.positionPacket.getImagePosition()[0],
+                virtualFunctionBus.positionPacket.getImagePosition()[1], virtualFunctionBus.positionPacket.getOrientation());
     }
 
     @Override
     public void loop() {
         updateTriangle(virtualFunctionBus.positionPacket.getRotation(),
-                virtualFunctionBus.positionPacket.getPosition()[0], virtualFunctionBus.positionPacket.getPosition()[1]);
+                virtualFunctionBus.positionPacket.getImagePosition()[0], virtualFunctionBus.positionPacket.getImagePosition()[1]);
     }
 
 }

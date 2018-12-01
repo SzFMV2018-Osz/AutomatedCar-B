@@ -52,11 +52,10 @@ public class AutomatedCar extends Car {
         axisx = x;
         axisy = y;
         axisrotation = 0;
-        positionPacket.setPostion(new double[]{x, y});
-        positionPacket.setRotation(rotation);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         dashboardManager = new DashboardManager(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
+        fillPositionPacket();
         speedMetersPerSeconds = 0;
         camera = new Camera(virtualFunctionBus);
         radar = new Radar(virtualFunctionBus);
@@ -127,8 +126,14 @@ public class AutomatedCar extends Car {
         axisx += plusx;
         axisy += plusy;
         calcXAndY();
+        fillPositionPacket();
+    }
+
+    private void fillPositionPacket() {
         positionPacket.setRotation(axisrotation);
         positionPacket.setPostion(new double[]{axisx, axisy});
+        positionPacket.setImagePosition(new double[]{x, y});
+        positionPacket.setOrientation(orientation);
     }
 
     private void calcXAndY() {

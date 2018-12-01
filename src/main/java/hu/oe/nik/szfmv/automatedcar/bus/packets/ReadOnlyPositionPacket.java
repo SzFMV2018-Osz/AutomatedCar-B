@@ -15,4 +15,10 @@ public interface ReadOnlyPositionPacket {
      * @return Rotation position
      */
     double[] getRotationPosition();
+
+
+    double[] getImagePosition();
+
+    double[] getOrientation();
+
 }

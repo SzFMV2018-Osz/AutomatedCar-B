@@ -68,7 +68,7 @@ public class Main {
         WorldObject human = new Human(1550, 2, "man.png");
         w.addObjectToWorld(human);
 
-        WorldObject radar = new Radar((int) car.getRadar().getTriangle().getA0x(), (int) car.getRadar().getTriangle().getA0y(), "radar.png");
+        WorldObject radar = new Radar((int) car.getRadar().getTriangle().getA1x(), (int) car.getRadar().getTriangle().getA1y(), "radar.png");
         w.addObjectToWorld(radar);
         // create gui
         Gui gui = new Gui();
