@@ -4,15 +4,15 @@ import hu.oe.nik.szfmv.common.Utils;
 
 public class Triangle {
 
-    double a0x;
-    double a1x;
-    double a2x;
-    double a0y;
-    double a1y;
-    double a2y;
-    double distanceFromA0InPixel;
-    double a0Angle;
-    double distanceFromMidPointInPixel;
+    private double a0x;
+    private double a1x;
+    private double a2x;
+    private double a0y;
+    private double a1y;
+    private double a2y;
+    private double distanceFromA0InPixel;
+    private double a0Angle;
+    private double distanceFromMidPointInPixel;
 
 
     /**
@@ -130,6 +130,8 @@ public class Triangle {
         point = Utils.rotationPointToOtherPoint(rotation, a0x, a0y, a2x, a2y);
         a2x = point[0];
         a2y = point[1];
+
+
     }
 
 
