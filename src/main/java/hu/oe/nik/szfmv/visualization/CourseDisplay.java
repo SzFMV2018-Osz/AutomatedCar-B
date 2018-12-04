@@ -237,7 +237,12 @@ public class CourseDisplay extends JPanel {
                 Point2D[] pos = getCentralizedSensorCoordinates(ultraSoundSensor, 0, 0);
 
                 Graphics2D g2d = (Graphics2D) screenBuffer;
-                g2d.setColor(Color.GREEN);
+
+                if(car.getSensorPacket().getDetectedCollidableObjects().size() > 0){
+                    g2d.setColor(Color.RED);
+                } else {
+                    g2d.setColor(Color.GREEN);
+                }
 
                 Polygon p = new Polygon();
                 p.addPoint((int) pos[0].getX(), (int) pos[0].getY());
