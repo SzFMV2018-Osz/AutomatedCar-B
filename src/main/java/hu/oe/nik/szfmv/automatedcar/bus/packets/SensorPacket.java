@@ -16,6 +16,8 @@ public class SensorPacket implements IReadonlySensorPacket {
 
     public SensorPacket() {
         this.sensors = new ArrayList<>();
+        this.collidable = new ArrayList<>();
+        this.nonCollidable = new ArrayList<>();
     }
 
     /**
