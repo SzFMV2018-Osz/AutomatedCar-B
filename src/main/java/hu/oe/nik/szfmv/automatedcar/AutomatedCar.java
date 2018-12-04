@@ -152,8 +152,8 @@ public class AutomatedCar extends Car {
         calcXAndY();
         positionPacket.setRotation(axisrotation);
         positionPacket.setPostion(new double[]{axisx, axisy});
-        ultraSoundSensor.setRotation(axisrotation);
-        ultraSoundSensor.getTriangle().calculateNextPosition(axisrotation, axisx, axisy);
+        ultraSoundSensor.setRotation(axisrotation - (float) Math.toRadians(90));
+        ultraSoundSensor.getTriangle().calculateNextPosition(axisrotation - Math.toRadians(90), axisx, axisy);
         sensorPacket.setDetectedCollidableObjects(ultraSoundSensor.getCollidableWorldObjects());
     }
 
