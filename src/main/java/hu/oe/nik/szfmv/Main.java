@@ -67,6 +67,12 @@ public class Main {
         WorldObject human = new Human(1550, 2, "man.png");
         w.addObjectToWorld(human);
 
+        WorldObject parkingCar1 = new NpcCar(475, 800, "car_1_blue.png");
+        w.addObjectToWorld(parkingCar1);
+
+        WorldObject parkingCar2 = new NpcCar(475, 1420, "car_1_white.png");
+        w.addObjectToWorld(parkingCar2);
+
         // create gui
         Gui gui = new Gui();
         gui.addKeyListener(UserInputProvider.getUserInput(InputType.Keyboard));
