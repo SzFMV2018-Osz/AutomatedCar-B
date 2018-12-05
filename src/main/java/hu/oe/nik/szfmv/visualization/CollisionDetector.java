@@ -47,14 +47,14 @@ public class CollisionDetector {
     /**
      * All world object.
      */
-    private List<WorldObject> obstacles = new ArrayList<>();
+    private List<WorldObject> obstacles = new ArrayList<WorldObject>();
 
 
     /**
      * Constructor for the class.
      */
     private CollisionDetector() {
-        colliders = new ArrayList<>();
+        colliders = new ArrayList<ColliderModel>();
         try {
             readXML4Colliders();
         } catch (IOException e) {
