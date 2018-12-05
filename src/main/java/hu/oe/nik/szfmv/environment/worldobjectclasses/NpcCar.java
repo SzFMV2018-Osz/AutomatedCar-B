@@ -30,6 +30,7 @@ public class NpcCar extends Car {
         {
             globalI = 0;
         }
+        updateLastPosition();
         this.x = (int)script[globalI][0];
         this.y = (int)script[globalI][1];
         this.setRotation(script[globalI][2]);

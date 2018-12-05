@@ -69,6 +69,12 @@ public class AutomatedCar extends Car {
         new Driver(virtualFunctionBus);
     }
 
+    @Override
+    public void move() {
+        updateLastPosition();
+        drive();
+    }
+
     /**
      * Provides a sample method for modifying the position of the car.
      */

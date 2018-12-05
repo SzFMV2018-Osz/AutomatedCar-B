@@ -15,7 +15,7 @@ public final class Utils {
      * @return the length in meters
      */
     public static double convertPixelToMeter(int pixel) {
-        return pixel / METER_PIXEL_RATIO;
+        return (double)pixel / (double)METER_PIXEL_RATIO;
     }
 
 

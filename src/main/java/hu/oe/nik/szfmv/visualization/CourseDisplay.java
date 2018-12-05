@@ -26,7 +26,7 @@ public class CourseDisplay extends JPanel {
     /**
      * Integer for the fps.
      */
-    public static final int TARGET_FPS = 24;
+    public static final int TARGET_FPS = 60;
     /**
      * Integer for the scaling.
      */
@@ -38,7 +38,7 @@ public class CourseDisplay extends JPanel {
     /**
      * Double for get one cycle period during the run.
      */
-    private static double cyclePeriodCONSTANST = 40;
+    public static double cyclePeriodCONSTANST = 40;
     /**
      * Long for the started.
      */
@@ -122,6 +122,27 @@ public class CourseDisplay extends JPanel {
      * @param world {@link World} object that describes the virtual world
      */
 
+    public void startCycle() {
+        cycleStart = cal.getTimeInMillis();
+    }
+
+    public void endCycle(){
+        // FIX FPS
+        cycleLength = cal.getTimeInMillis() - cycleStart;
+        // Calculate necessary delay time (elapsed time * TARGET FPS)
+        cyclePeriodCONSTANST = 1000 / TARGET_FPS - cycleLength;
+        if (cyclePeriodCONSTANST < 0) {
+            cyclePeriodCONSTANST = 0;
+        }
+//            System.out.printf("FPS/TARGET FPS: %.2f / %d \n",
+//                    (1000 / cyclePeriodCONSTANST), TARGET_FPS);
+        try {
+            Thread.sleep(Math.round(cyclePeriodCONSTANST));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void drawWorld(
             final World world) {
         Image offscreen = createImage(world.getWidth(), world.getHeight());
@@ -131,44 +152,26 @@ public class CourseDisplay extends JPanel {
         ((Graphics2D) screenBuffer).setBackground(new Color(backgroundColor));
         screenBuffer.clearRect(0, 0, world.getWidth(), world.getHeight());
 
-        try {
-            cycleStart = cal.getTimeInMillis();
+        xOffset = width / 2 - scaleObject(world.getAutomatedCar()
+                .getX() - world.getAutomatedCar().getWidth() / 2);
+        yOffset = height / 2 - scaleObject(world.getAutomatedCar()
+                .getY() - world.getAutomatedCar().getHeight() / 2);
 
-            xOffset = width / 2 - scaleObject(world.getAutomatedCar()
-                    .getX() - world.getAutomatedCar().getWidth() / 2);
-            yOffset = height / 2 - scaleObject(world.getAutomatedCar()
-                    .getY() - world.getAutomatedCar().getHeight() / 2);
+        /*
+         * Let's create a secondary buffer on we
+         * paint the objects each by each,
+         * and when everything is painted,
+         * we draw this screen onto the main graphic element
+         * to avoid the vibration-effect of the objects.
+         */
+        renderStaticObjects(world.getWorldObjects(), screenBuffer);
 
-            /*
-             * Let's create a secondary buffer on we
-             * paint the objects each by each,
-             * and when everything is painted,
-             * we draw this screen onto the main graphic element
-             * to avoid the vibration-effect of the objects.
-             */
-            renderStaticObjects(world.getWorldObjects(), screenBuffer);
+        //renderDynamicObjects(world.getDynamicObjects(), screenBuffer);
 
-            //renderDynamicObjects(world.getDynamicObjects(), screenBuffer);
+        renderCar(world.getAutomatedCar(), screenBuffer);
 
-            renderCar(world.getAutomatedCar(), screenBuffer);
-
-            // draw the buffer on the screen
-            g.drawImage(offscreen, 0, 0, this);
-
-            // FIX FPS
-            cycleLength = cal.getTimeInMillis() - cycleStart;
-            // Calculate necessary delay time (elapsed time * TARGET FPS)
-            cyclePeriodCONSTANST = 1000 / TARGET_FPS - cycleLength;
-            if (cyclePeriodCONSTANST < 0) {
-                cyclePeriodCONSTANST = 0;
-            }
-//            System.out.printf("FPS/TARGET FPS: %.2f / %d \n",
-//                    (1000 / cyclePeriodCONSTANST), TARGET_FPS);
-
-            Thread.sleep(Math.round(cyclePeriodCONSTANST));
-        } catch (InterruptedException e) {
-            LOGGER.error(e.getMessage());
-        }
+        // draw the buffer on the screen
+        g.drawImage(offscreen, 0, 0, this);
     }
 
     /**

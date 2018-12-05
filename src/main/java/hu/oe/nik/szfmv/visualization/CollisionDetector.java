@@ -2,14 +2,14 @@ package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.WorldObject;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.Collidable;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -114,32 +114,25 @@ public class CollisionDetector {
             for (ColliderModel collider: colliders) {
                 if (getPureImageName(collider.getName()).equals(getPureImageName(object.getImageFileName()))) {
                     Shape tempShape = createTransformedShapeForCollision(object, collider);
-                    /*if (carShape.getBounds2D().intersects(tempShape.getBounds2D())) {
-                        if (object instanceof Human
-                                  || object instanceof Bicycle) return true;
-                        if (!(object instanceof Movable)
-                              && critHitHappened(
-                                  ((Movable)carObject).getSpeed(), 0)) {
-                            imageChanger();
+                    if (carShape.getBounds2D().intersects(tempShape.getBounds2D())) {
+                        if (object instanceof Human || object instanceof Bicycle) {
+                            System.out.println("Gyalogost vagy bicajost gázoltál, játék vége!");
                             return true;
-                        } else if ((object instanceof Movable)
-                              && critHitHappened(((Movable)carObject).getSpeed(),
-                                  ((Movable)object).getSpeed())) {
-                            imageChanger();
-                            return true;
-                        } else {
-                            if (object instanceof Movable) {
-                                object.addDamage(calculateDamage(((Movable)carObject).
-                                      getSpeed(),
-                                      ((Movable)object).getSpeed()));
-                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
-                            } else {
-                                object.addDamage(calculateDamage(((Movable)carObject).getSpeed(), 0));
-                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), 0));
-                            }
-                            imageChanger();
                         }
-                    }*/
+                        else if (object instanceof Movable) {
+                            object.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
+                            carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
+                            imageChanger();
+                            if( critHitHappened(carObject.getSpeed(), ((Movable) object).getSpeed())) {
+                                System.out.println("Kritikus utkozes tortent, játék vége!");
+                                return true;
+                            }
+                            else {
+                                System.out.println("Utkozes tortent, de nem kritikus...");
+                                return false;
+                            }
+                        }
+                    }
                     break;
                 }
             }
