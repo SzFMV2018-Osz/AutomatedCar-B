@@ -1,6 +1,9 @@
 package hu.oe.nik.szfmv.automatedcar;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
@@ -18,8 +21,10 @@ import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
+import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.ParkingSpot;
 
 public class AutomatedCar extends Car {
 
@@ -39,7 +44,10 @@ public class AutomatedCar extends Car {
     private double[] orientation;
     private int axisx, axisy;
     private float axisrotation;
-
+    private List<WorldObject> worldObjects = new ArrayList<>();
+    private List<WorldObject> cameraObjects = new ArrayList<>();
+    private List<WorldObject> radarObjects = new ArrayList<>();
+    private List<Point> parkingspotss = new ArrayList<>();
     /**
      * Constructor of the AutomatedCar class
      *
@@ -67,6 +75,30 @@ public class AutomatedCar extends Car {
         radar = new Radar(virtualFunctionBus);
         turningHandler = new TurningHandler();
         new Driver(virtualFunctionBus);
+
+    }
+
+    public AutomatedCar(final int x, final int y, final String imageFileName, List<WorldObject> worldObjects) {
+        super(x, y, imageFileName);
+        orientation = new double[]{0, -1};
+        inputManager = new InputManager(virtualFunctionBus);
+        virtualFunctionBus.velocityPacket = velocityPacket;
+        virtualFunctionBus.positionPacket = positionPacket;
+        axisx = x;
+        axisy = y;
+        axisrotation = 0;
+        positionPacket.setPostion(new double[] { x, y });
+        positionPacket.setRotation(rotation);
+        powertrainSystem = new PowertrainSystem(virtualFunctionBus);
+        dashboardManager = new DashboardManager(virtualFunctionBus);
+        steeringSystem = new SteeringSystem(virtualFunctionBus);
+        speedMetersPerSeconds = 0;
+        camera = new Camera(virtualFunctionBus);
+        radar = new Radar(virtualFunctionBus);
+        turningHandler = new TurningHandler();
+        new Driver(virtualFunctionBus);
+        this.worldObjects = worldObjects;
+
     }
 
     /**
@@ -76,6 +108,51 @@ public class AutomatedCar extends Car {
         dashboardManager.actualisePosition(x, y);
         virtualFunctionBus.loop();
         calculatePositionAndOrientation();
+        if (virtualFunctionBus.indicationPacket.getIndicatorDirection() == 1)
+        {
+            this.cameraObjects = this.camera.findWorldObjectsInRadarTriangle(worldObjects);
+            this.radarObjects = this.radar.findWorldObjectsInRadarTriangle(worldObjects);
+
+            parkingspotss.add(new Point(535, 902));
+            parkingspotss.add(new Point(535, 1202));
+            parkingspotss.add(new Point(535, 1502));
+            parkingspotss.add(new Point(535, 1817));
+
+            for(int i=0; i< radarObjects.size(); i++)
+            {
+                System.out.print(radarObjects.get(i).getImageFileName());
+                if(radarObjects.get(i).getClass() == ParkingSpot.class) {
+                    System.out.print(this.radarObjects.get(i).getImageFileName());
+
+                }
+            }
+            if(!parkingspotss.isEmpty())
+            {
+                double[] velocity = new double[] { 0, 0 };
+                Point parkingspace = best_parking_spot(parkingspotss);
+                this.setX(parkingspace.x);
+                this.setY(parkingspace.y);
+                this.setRotation(6.30f);
+                this.velocityPacket.setVelocity(velocity);
+            }
+        }
+    }
+
+    public double distanceCalc(int x, int y)
+    {
+        return Math.sqrt(Math.pow(Math.abs(this.getX() - x), 2) + Math.pow(Math.abs(this.getY()-y), 2));
+    }
+
+    public Point best_parking_spot(List<Point> parkingspots){
+        List<Double> distances = new ArrayList<Double>();
+        for(int i = 0; i < parkingspots.size(); i++)
+        {
+            distances.add(distanceCalc(parkingspots.get(i).x, parkingspots.get(i).y));
+        }
+
+        int index = distances.indexOf(Collections.min(distances));
+
+        return parkingspots.get(index);
     }
 
     /**
