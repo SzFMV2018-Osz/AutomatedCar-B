@@ -47,7 +47,7 @@ public class SteeringWheelPacket implements IReadonlySteeringPacket, ISteeringEv
         int from = steeringWheelPositionSnapshot;
         int to = CENTER;
 
-        this.steeringWheelPosition.startNew(from, to, requiredMilliseconds(from, to));
+        this.steeringWheelPosition.startNew(from, to, requiredMilliseconds(from, to) / 2);
     }
 
     private int getTarget(Direction direction) {

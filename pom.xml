@@ -67,8 +67,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <source>10</source>
-                    <target>10</target>
+                    <source></source>
+                    <target></target>
                 </configuration>
             </plugin>
             <!-- cobertura for codecov -->

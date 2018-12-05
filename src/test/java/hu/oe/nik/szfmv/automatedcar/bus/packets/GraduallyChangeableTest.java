@@ -70,7 +70,7 @@ public class GraduallyChangeableTest {
             // ARRANGE
             ClockMock c = new ClockMock(pClockStart);
             GraduallyChangeable.setClock(c);
-            var gc = new GraduallyChangeable();
+            GraduallyChangeable gc = new GraduallyChangeable();
             gc.startNew(pFrom, pTo, pMilliseconds);
             c.millisToReturn = pCallTime;
             GraduallyChangeable.setClock(c);

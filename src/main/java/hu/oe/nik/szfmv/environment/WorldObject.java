@@ -6,6 +6,7 @@ public class WorldObject {
     protected int width;
     protected int height;
     protected float rotation = 0f;
+    protected double damage = 0d;
     protected String imageFileName;
     // protected BufferedImage image;
 
@@ -77,6 +78,9 @@ public class WorldObject {
         this.imageFileName = imageFileName;
     }
 
+    public double getDamage() { return this.damage; }
+
+    public void addDamage(double factor) { this.damage += factor; }
     // public BufferedImage getImage() {
     // return image;
     // }

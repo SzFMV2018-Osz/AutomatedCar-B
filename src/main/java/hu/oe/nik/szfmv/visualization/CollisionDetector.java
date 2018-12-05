@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -113,32 +114,32 @@ public class CollisionDetector {
             for (ColliderModel collider: colliders) {
                 if (getPureImageName(collider.getName()).equals(getPureImageName(object.getImageFileName()))) {
                     Shape tempShape = createTransformedShapeForCollision(object, collider);
-                    if (carShape.getBounds2D().intersects(tempShape.getBounds2D())) {
-//                        if (object instanceof Human
-//                                  || object instanceof Bicycle) return true;
-//                        if (!(object instanceof Movable)
-//                              && critHitHappened(
-//                                  ((Movable)carObject).getSpeed(), 0)) {
-//                            imageChanger();
-//                            return true;
-//                        } else if ((object instanceof Movable)
-//                              && critHitHappened(((Movable)carObject).getSpeed(),
-//                                  ((Movable)object).getSpeed())) {
-//                            imageChanger();
-//                            return true;
-//                        } else {
-//                            if (object instanceof Movable) {
-//                                object.addDamage(calculateDamage(((Movable)carObject).
-//                                      getSpeed(),
-//                                      ((Movable)object).getSpeed()));
-//                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
-//                            } else {
-//                                object.addDamage(calculateDamage(((Movable)carObject).getSpeed(), 0));
-//                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), 0));
-//                            }
-//                            imageChanger();
-//                        }
-                    }
+                    /*if (carShape.getBounds2D().intersects(tempShape.getBounds2D())) {
+                        if (object instanceof Human
+                                  || object instanceof Bicycle) return true;
+                        if (!(object instanceof Movable)
+                              && critHitHappened(
+                                  ((Movable)carObject).getSpeed(), 0)) {
+                            imageChanger();
+                            return true;
+                        } else if ((object instanceof Movable)
+                              && critHitHappened(((Movable)carObject).getSpeed(),
+                                  ((Movable)object).getSpeed())) {
+                            imageChanger();
+                            return true;
+                        } else {
+                            if (object instanceof Movable) {
+                                object.addDamage(calculateDamage(((Movable)carObject).
+                                      getSpeed(),
+                                      ((Movable)object).getSpeed()));
+                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
+                            } else {
+                                object.addDamage(calculateDamage(((Movable)carObject).getSpeed(), 0));
+                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), 0));
+                            }
+                            imageChanger();
+                        }
+                    }*/
                     break;
                 }
             }
@@ -146,25 +147,25 @@ public class CollisionDetector {
         return false;
     }
 
-//    private void imageChanger()
-//    {
-//        for(WorldObject object : obstacles)
-//        {
-//            if (object.getDamage() >= 60)
-//            {
-//                changeImage(object, 2);
-//            }
-//            else if (object.getDamage() >= 30)
-//            {
-//                changeImage(object, 1);
-//            }
-//            else if (object instanceof Car && object.getDamage() >= 0)
-//            {
-//                //since we have 3 state of cars, we should define another case
-//                changeImage(object, 0);
-//            }
-//        }
-//    }
+    private void imageChanger()
+    {
+        for(WorldObject object : obstacles)
+        {
+            if (object.getDamage() >= 60)
+            {
+                changeImage(object, 2);
+            }
+            else if (object.getDamage() >= 30)
+            {
+                changeImage(object, 1);
+            }
+            else if (object instanceof Car && object.getDamage() >= 0)
+            {
+                //since we have 3 state of cars, we should define another case
+                changeImage(object, 0);
+            }
+        }
+    }
 
     /**
      * ChangeImage, if its broken or destroyed.
