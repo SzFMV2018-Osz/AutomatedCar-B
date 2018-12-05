@@ -48,6 +48,10 @@ public class Main {
         // create the world
         World w = new World(worldWidth, worldHeight);
 
+        // Collision detection
+        CollisionDetector singleton = CollisionDetector.getInstance();
+        singleton.findObstacles(w.getWorldObjects());
+
         // create an automated car
         AutomatedCar car = new AutomatedCar(carPosX, carPosY, "car_2_white.png");
         w.setAutomatedCar(car);
@@ -61,10 +65,6 @@ public class Main {
 
         // draw world to course display
         gui.getCourseDisplay().drawWorld(w);
-
-        // Collision detection
-        CollisionDetector singleton = CollisionDetector.getInstance();
-        singleton.findObstacles(w.getWorldObjects());
 
         //setup the instance of collisiondetector
         singleton.setCarObject(car);

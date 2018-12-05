@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.sensor.UltraSoundSensor;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
@@ -10,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -152,6 +154,8 @@ public class CourseDisplay extends JPanel {
 
             renderCar(world.getAutomatedCar(), screenBuffer);
 
+            drawUltraSoundSensors(world.getAutomatedCar(), screenBuffer);
+
             // draw the buffer on the screen
             g.drawImage(offscreen, 0, 0, this);
 
@@ -224,6 +228,32 @@ public class CourseDisplay extends JPanel {
 
     }
 
+    private void drawUltraSoundSensors(final AutomatedCar car, final Graphics screenBuffer) {
+
+        List<UltraSoundSensor> ultraSoundSensors = car.getSensorPacket().getSensors();
+        if (ultraSoundSensors != null) {
+            for (UltraSoundSensor ultraSoundSensor : ultraSoundSensors) {
+
+                Point2D[] pos = getCentralizedSensorCoordinates(ultraSoundSensor, 0, 0);
+
+                Graphics2D g2d = (Graphics2D) screenBuffer;
+
+                if(car.getSensorPacket().getDetectedCollidableObjects().size() > 0){
+                    g2d.setColor(Color.RED);
+                } else {
+                    g2d.setColor(Color.GREEN);
+                }
+
+                Polygon p = new Polygon();
+                p.addPoint((int) pos[0].getX(), (int) pos[0].getY());
+                p.addPoint((int) pos[1].getX(), (int) pos[1].getY());
+                p.addPoint((int) pos[2].getX(), (int) pos[2].getY());
+
+                g2d.drawPolygon(p);
+            }
+        }
+    }
+
     /**
      * Draw the objects on the right position
      * with the right translate and rotate.
@@ -288,5 +318,33 @@ public class CourseDisplay extends JPanel {
         invalidate();
         validate();
         repaint();
+    }
+
+    /**
+     * Gets the
+     *
+     * @param ultraSoundSensor to visualize
+     * @param xOffset          distance from the center on the X axis
+     * @param yOffset          distance from the center on the Y axis
+     * @return the coordinates of the ready to draw triangle coordinates (order: A0, A1, A2)
+     */
+    private Point2D[] getCentralizedSensorCoordinates(UltraSoundSensor ultraSoundSensor, int xOffset, int yOffset) {
+        int a0X = (int) ultraSoundSensor.getTriangle().getA0x();
+        int a0Y = (int) ultraSoundSensor.getTriangle().getA0y();
+
+        Point p1 = new Point(xOffset, yOffset);
+        Point p2 = new Point((int) ultraSoundSensor.getTriangle().getA1x() - a0X,
+                (int) ultraSoundSensor.getTriangle().getA1y() - a0Y);
+        Point p3 = new Point((int) ultraSoundSensor.getTriangle().getA2x() - a0X,
+                (int) ultraSoundSensor.getTriangle().getA2y() - a0Y);
+
+        AffineTransform at = new AffineTransform();
+        at.setToTranslation(width / 2 + xOffset,
+                height / 2 - yOffset);
+        Point2D[] src = new Point2D[]{p1, p2, p3};
+        Point2D[] dst = new Point2D[src.length];
+        at.transform(src, 0, dst, 0, src.length);
+
+        return dst;
     }
 }
