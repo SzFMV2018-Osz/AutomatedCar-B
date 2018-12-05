@@ -12,6 +12,7 @@ import hu.oe.nik.szfmv.automatedcar.sensor.Camera;
 import hu.oe.nik.szfmv.automatedcar.sensor.radar.Radar;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
+import hu.oe.nik.szfmv.visualization.Dashboard;
 
 import java.util.Arrays;
 import java.util.List;
@@ -71,6 +72,13 @@ public class AutomatedCar extends Car {
         dashboardManager.actualisePosition(x, y);
         virtualFunctionBus.loop();
         calculatePositionAndOrientation();
+        
+        if (getDashboardPacket().getSpeed() > 50) {
+            Dashboard.setDriveFastVisibility(true);
+        }
+        else {
+            Dashboard.setDriveFastVisibility(false);
+        }
     }
 
     /**
