@@ -168,11 +168,11 @@ public class CollisionDetector {
             }
         }
         else{
-            if (object.getDamage() >= 30)
+            if (object.getDamage() >= 60)
             {
                 changeImage(object, 2);
             }
-            else if (object.getDamage() >= 10)
+            else if (object.getDamage() >= 30)
             {
                 changeImage(object, 1);
             }
