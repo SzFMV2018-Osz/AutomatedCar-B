@@ -86,6 +86,7 @@ public class AutomatedCar extends Car {
             Dashboard.setDriveFastVisibility(false);
         }
         radar.loop();
+
     }
 
     /**
@@ -181,5 +182,12 @@ public class AutomatedCar extends Car {
 
     public Radar getRadar() {
         return radar;
+    }
+
+    public void stop() {
+        //velocityPacket.setVelocity(new double[]{0,0});
+        double[] velo = calcVelocity();
+
+        velocityPacket.setVelocity(BrakingForces.calcBrakeForceVector(velo[0],velo[1],5000));
     }
 }
