@@ -1,8 +1,9 @@
 package hu.oe.nik.szfmv.visualization.elements;
 
+import hu.oe.nik.szfmv.visualization.Dashboard;
+
 import javax.swing.*;
 import java.awt.*;
-import hu.oe.nik.szfmv.visualization.Dashboard;
 
 public class CircleCalculator extends JPanel {
     private static final int DIAMETER = 110;

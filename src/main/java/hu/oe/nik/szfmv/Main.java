@@ -9,11 +9,11 @@ import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Bicycle;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Human;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.NpcCar;
+import hu.oe.nik.szfmv.visualization.CollisionDetector;
 import hu.oe.nik.szfmv.visualization.Gui;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
-import hu.oe.nik.szfmv.visualization.CollisionDetector;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
@@ -89,6 +89,8 @@ public class Main {
             ((Bicycle)bicycle).move();
             gui.getCourseDisplay().drawWorld(w);
             gui.getDashboard().display(car.getDashboardPacket(), car.getControlsPacket(), dashboardDebugIsEnabled);
+
         }
+
     }
 }

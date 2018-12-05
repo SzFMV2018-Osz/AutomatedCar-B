@@ -1,8 +1,5 @@
 package hu.oe.nik.szfmv.automatedcar;
 
-import java.util.Arrays;
-import java.util.List;
-
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.PositionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.VelocityPacket;
@@ -13,13 +10,11 @@ import hu.oe.nik.szfmv.automatedcar.engine.BrakingForces;
 import hu.oe.nik.szfmv.automatedcar.engine.TurningHandler;
 import hu.oe.nik.szfmv.automatedcar.sensor.Camera;
 import hu.oe.nik.szfmv.automatedcar.sensor.radar.Radar;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.DashboardManager;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
-import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class AutomatedCar extends Car {
 

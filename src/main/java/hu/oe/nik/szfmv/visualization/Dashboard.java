@@ -1,20 +1,12 @@
 package hu.oe.nik.szfmv.visualization;
 
-import java.awt.Color;
-import java.awt.Point;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyControlsPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
 import hu.oe.nik.szfmv.common.enums.Gear;
-import hu.oe.nik.szfmv.visualization.elements.CircleCalculator;
-import hu.oe.nik.szfmv.visualization.elements.ControlsSection;
-import hu.oe.nik.szfmv.visualization.elements.DebugSection;
-import hu.oe.nik.szfmv.visualization.elements.IndexArrow;
-import hu.oe.nik.szfmv.visualization.elements.PedalBar;
+import hu.oe.nik.szfmv.visualization.elements.*;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Dashboard shows the state of the ego car, thus helps in debugging.
@@ -73,7 +65,7 @@ public class Dashboard extends JPanel {
     private JLabel debugLabel = debugSection.initialiseDebugLabel();
     private JLabel steeringWheelLabel = debugSection.initialiseSteeringWheelLabel();
     private JLabel positionLabel = debugSection.initialisePositionLabel();
-
+    private static JLabel dangerZoneLabel = new JLabel("<html><font color='red' size=\"32\">DANGER ZONE</font></html>");
     /**
      * Initialize the dashboard.
      */
@@ -106,6 +98,10 @@ public class Dashboard extends JPanel {
         add(debugLabel);
         add(steeringWheelLabel);
         add(positionLabel);
+        dangerZoneLabel.setVisible(false);
+        dangerZoneLabel.setBounds(50, 225, 200, 300);
+        add(dangerZoneLabel);
+
     }
 
     /**
@@ -259,5 +255,13 @@ public class Dashboard extends JPanel {
      */
     public enum IndexTypes {
         LEFT, RIGHT
+    }
+
+    public static void setDangerZoneVisibility(boolean state){
+        dangerZoneLabel.setVisible(state);
+    }
+
+    public static boolean getDangerZoneVisibility(){
+        return dangerZoneLabel.isVisible();
     }
 }

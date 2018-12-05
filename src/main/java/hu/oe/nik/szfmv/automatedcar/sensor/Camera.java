@@ -1,16 +1,16 @@
 package hu.oe.nik.szfmv.automatedcar.sensor;
 
-import java.awt.*;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.CameraPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
+
+import java.awt.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Camera extends SystemComponent implements ISensor {
 

@@ -2,10 +2,6 @@ package hu.oe.nik.szfmv.environment.worldobjectclasses;
 
 import hu.oe.nik.szfmv.common.Utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
 public class NpcCar extends Car {
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
