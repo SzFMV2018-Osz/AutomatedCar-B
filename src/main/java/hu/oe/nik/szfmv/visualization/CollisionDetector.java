@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.visualization;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.*;
+import hu.oe.nik.szfmv.visualization.elements.DebugSection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -27,7 +28,7 @@ public class CollisionDetector {
     /**
      * Constans double, for the critical hit speed.
      */
-    private static final double CRITICALHITSPEED = 60;
+    private static final double CRITICALHITSPEED = 55;
     /**
      * Constans double, for the survivable hit speed.
      */
@@ -120,6 +121,7 @@ public class CollisionDetector {
                             return true;
                         }
                         else if (object instanceof Movable) {
+
                             object.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
                             carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
                             imageChanger(object);
@@ -131,6 +133,18 @@ public class CollisionDetector {
                             else {
                                 System.out.println("Utkozes tortent, de nem kritikus...");
                                 return false;
+                            }
+                        }
+                        else {
+                            System.out.println("Fanak mentel vaze??");
+                            double dmg = calculateDamage(((Movable)carObject).getSpeed(), 0);
+                            object.addDamage(dmg);
+                            carObject.addDamage(dmg);
+                            imageChanger(object);
+                            imageChanger(carObject);
+                            if( critHitHappened(carObject.getSpeed(), 0)) {
+                                System.out.println("Kritikus utkozes tortent, nekimentel egy fanak. Damage: " + dmg + " játék vége!");
+                                return true;
                             }
                         }
                     }
