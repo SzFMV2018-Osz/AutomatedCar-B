@@ -110,6 +110,7 @@ public class CollisionDetector {
                 carShape = createTransformedShapeForCollision(carObject, collider);
             }
         }
+        boolean thereIsSomethingInTheWay = false;
         for (WorldObject object: obstacles) {
             for (ColliderModel collider: colliders) {
                 if (getPureImageName(collider.getName()).equals(getPureImageName(object.getImageFileName()))) {
@@ -147,10 +148,16 @@ public class CollisionDetector {
                             }
                         }
                     }
+                    if (object instanceof Collidable && carObject.getRadar().isObjectInRadarTriangle(tempShape.getBounds2D().getX(), tempShape.getBounds2D().getY())) {
+                        thereIsSomethingInTheWay = true;
+                    }
                     break;
                 }
             }
         }
+
+        Dashboard.setDangerZoneVisibility(thereIsSomethingInTheWay);
+
         return false;
     }
 
