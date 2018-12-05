@@ -81,7 +81,9 @@ public class Main {
         //setup the instance of collisiondetector
         singleton.setCarObject(car);
 
-        while (!singleton.checkCollisions()) {
+        boolean gameOver = false;
+        do {
+            gameOver = singleton.checkCollisions();
             gui.getCourseDisplay().startCycle();
             car.move();
             // create gui
@@ -91,6 +93,6 @@ public class Main {
             gui.getCourseDisplay().drawWorld(w);
             gui.getDashboard().display(car.getDashboardPacket(), car.getControlsPacket(), dashboardDebugIsEnabled);
             gui.getCourseDisplay().endCycle();
-        }
+        } while(!gameOver);
     }
 }

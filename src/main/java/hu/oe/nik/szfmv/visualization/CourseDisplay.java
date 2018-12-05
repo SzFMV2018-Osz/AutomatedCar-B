@@ -26,7 +26,7 @@ public class CourseDisplay extends JPanel {
     /**
      * Integer for the fps.
      */
-    public static final int TARGET_FPS = 60;
+    public static final int TARGET_FPS = 100;
     /**
      * Integer for the scaling.
      */
