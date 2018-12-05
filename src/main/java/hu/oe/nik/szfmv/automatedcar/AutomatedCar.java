@@ -1,22 +1,30 @@
 package hu.oe.nik.szfmv.automatedcar;
 
+import java.util.Arrays;
+import java.util.List;
+
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.PositionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.VelocityPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyControlsPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadOnlyDashboardPacket;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.IReadonlyDisplayableSensorPacket;
 import hu.oe.nik.szfmv.automatedcar.engine.BrakingForces;
 import hu.oe.nik.szfmv.automatedcar.engine.TurningHandler;
 import hu.oe.nik.szfmv.automatedcar.sensor.Camera;
 import hu.oe.nik.szfmv.automatedcar.sensor.radar.Radar;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.DashboardManager;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
+import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class AutomatedCar extends Car {
 
     private final VirtualFunctionBus virtualFunctionBus = new VirtualFunctionBus();
+    private final double speedMetersPerSeconds;
     private final double wheelRadius = 0.33;
     private double timeFrame = 0.041666667;
     private VelocityPacket velocityPacket = new VelocityPacket();
@@ -49,16 +57,16 @@ public class AutomatedCar extends Car {
         axisx = x;
         axisy = y;
         axisrotation = 0;
-        positionPacket.setPostion(new double[]{x, y});
+        positionPacket.setPostion(new double[] { x, y });
         positionPacket.setRotation(rotation);
         powertrainSystem = new PowertrainSystem(virtualFunctionBus);
         dashboardManager = new DashboardManager(virtualFunctionBus);
         steeringSystem = new SteeringSystem(virtualFunctionBus);
+        speedMetersPerSeconds = 0;
         camera = new Camera(virtualFunctionBus);
         radar = new Radar(virtualFunctionBus);
         turningHandler = new TurningHandler();
         new Driver(virtualFunctionBus);
-
     }
 
     /**
@@ -68,6 +76,33 @@ public class AutomatedCar extends Car {
         dashboardManager.actualisePosition(x, y);
         virtualFunctionBus.loop();
         calculatePositionAndOrientation();
+    }
+
+    /**
+     * Return dashboard data to caller
+     *
+     * @return - returns the packet containing the necessary information
+     */
+    public IReadOnlyDashboardPacket getDashboardPacket() {
+        return virtualFunctionBus.dashboardPacket;
+    }
+
+    /**
+     * Return controls data to caller
+     *
+     * @return - returns the packet containing the necessary information
+     */
+    public IReadOnlyControlsPacket getControlsPacket() {
+        return virtualFunctionBus.controlsPacket;
+    }
+
+    /**
+     * Return information of the sensors current status
+     *
+     * @return the necessary data to display visual fields of the sensors
+     */
+    public List<IReadonlyDisplayableSensorPacket> getDisplayableSensors() {
+        throw new RuntimeException("Missing implementation");
     }
 
     /**
@@ -109,7 +144,6 @@ public class AutomatedCar extends Car {
         return new double[]{(velocityPacket.getVelocity()[0]) + (timeFrame * acceleration[0]),
                 velocityPacket.getVelocity()[1] + (timeFrame * acceleration[1])};
     }
-
 
     private double[] calculateSummedForces() {
         orientation = turningHandler.angularVector(orientation, virtualFunctionBus.steeringPacket.getAngularSpeed());

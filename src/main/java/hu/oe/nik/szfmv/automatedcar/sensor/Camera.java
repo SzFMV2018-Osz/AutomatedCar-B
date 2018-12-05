@@ -1,15 +1,16 @@
 package hu.oe.nik.szfmv.automatedcar.sensor;
 
+import java.awt.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.CameraPacket;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class Camera extends SystemComponent implements ISensor {
 
@@ -82,15 +83,6 @@ public class Camera extends SystemComponent implements ISensor {
                 + Math.pow(virtualFunctionBus.positionPacket.getPosition()[1] - object.getY(), 2));
     }
 
-    @Override
-    public List<WorldObject> getCollidableWorldObjectsFromArea(int x1, int x2, int x3) {
-        return null;
-    }
-
-    @Override
-    public List<WorldObject> getNonCollidableWorldObjectsFromArea(int x1, int x2, int x3) {
-        return null;
-    }
 
     @Override
     public void loop() {
@@ -101,5 +93,15 @@ public class Camera extends SystemComponent implements ISensor {
         cameraPacket.setClosestRoadSign(closestRoadSign);
         cameraPacket.setClosestRoadSignDistance(
                 closestRoadSign.isPresent() ? calculateDistanceFromCamera(closestRoadSign.get()) : -1);
+    }
+
+    @Override
+    public List<WorldObject> getCollidableWorldObjectsFromArea(Point x1, Point x2, Point x3) {
+        return null;
+    }
+
+    @Override
+    public List<WorldObject> getNonCollidableWorldObjectsFromArea(Point x1, Point x2, Point x3) {
+        return null;
     }
 }

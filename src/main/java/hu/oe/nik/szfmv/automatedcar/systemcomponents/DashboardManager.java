@@ -4,8 +4,6 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.DashboardPacket;
 
 public class DashboardManager extends SystemComponent {
-    private final VirtualFunctionBus virtualFunctionBus;
-
     private DashboardPacket dashboardPacket;
 
     /**
@@ -16,9 +14,9 @@ public class DashboardManager extends SystemComponent {
     public DashboardManager(VirtualFunctionBus virtualFunctionBus) {
         super(virtualFunctionBus);
 
-        this.virtualFunctionBus = virtualFunctionBus;
         dashboardPacket = new DashboardPacket();
 
+        virtualFunctionBus.dashboardPacket = this.dashboardPacket;
     }
 
     public DashboardPacket getDashboardPacket() {
@@ -32,6 +30,8 @@ public class DashboardManager extends SystemComponent {
         dashboardPacket.setCurrentGear(virtualFunctionBus.gearPacket.getCurrentGear());
         dashboardPacket.setIndicatorDirection(virtualFunctionBus.indicationPacket.getIndicatorDirection());
         dashboardPacket.setSteeringWheelValue(virtualFunctionBus.steeringWheelPacket.getSteeringWheelPosition());
+        dashboardPacket.setRpm(virtualFunctionBus.powertrainPacket.getRpm());
+        dashboardPacket.setSpeed(virtualFunctionBus.velocityPacket.getSpeed());
     }
 
     /**
