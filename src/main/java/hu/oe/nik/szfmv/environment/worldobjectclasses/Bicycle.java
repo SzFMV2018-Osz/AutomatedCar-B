@@ -1,7 +1,5 @@
 package hu.oe.nik.szfmv.environment.worldobjectclasses;
 
-import hu.oe.nik.szfmv.common.Utils;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;

@@ -1,12 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.systemcomponents;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.IndicationPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.GearPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.SteeringWheelPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.PedalPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.ControlsPacket;
-import hu.oe.nik.szfmv.automatedcar.bus.packets.GraduallyChangeable;
+import hu.oe.nik.szfmv.automatedcar.bus.packets.*;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.IUserInput;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.UserInputProvider;
 import hu.oe.nik.szfmv.automatedcar.bus.userinput.enums.InputType;
