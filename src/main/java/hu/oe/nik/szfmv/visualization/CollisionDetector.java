@@ -3,7 +3,6 @@ package hu.oe.nik.szfmv.visualization;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.*;
-import hu.oe.nik.szfmv.visualization.elements.DebugSection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -149,15 +148,16 @@ public class CollisionDetector {
                         }
                     }
                     if (object instanceof Collidable && carObject.getRadar().isObjectInRadarTriangle(tempShape.getBounds2D().getX(), tempShape.getBounds2D().getY())) {
+                        if(object instanceof Human && object instanceof Tree){
+                            carObject.stop();
+                        }
                         thereIsSomethingInTheWay = true;
                     }
                     break;
                 }
             }
         }
-
         Dashboard.setDangerZoneVisibility(thereIsSomethingInTheWay);
-
         return false;
     }
 
