@@ -9,7 +9,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -122,7 +121,8 @@ public class CollisionDetector {
                         else if (object instanceof Movable) {
                             object.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
                             carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
-                            imageChanger();
+                            imageChanger(object);
+                            imageChanger(carObject);
                             if( critHitHappened(carObject.getSpeed(), ((Movable) object).getSpeed())) {
                                 System.out.println("Kritikus utkozes tortent, játék vége!");
                                 return true;
@@ -140,10 +140,20 @@ public class CollisionDetector {
         return false;
     }
 
-    private void imageChanger()
+    private void imageChanger(WorldObject object)
     {
-        for(WorldObject object : obstacles)
-        {
+        if(object instanceof  Car) {
+            if (object.getDamage() >= 60) {
+                changeImage(object, 2);
+            }
+            else if (object.getDamage() >= 30) {
+                changeImage(object,1);
+            }
+            else if (object.getDamage() >= 5) {
+                changeImage(object,0);
+            }
+        }
+        else{
             if (object.getDamage() >= 60)
             {
                 changeImage(object, 2);
@@ -151,11 +161,6 @@ public class CollisionDetector {
             else if (object.getDamage() >= 30)
             {
                 changeImage(object, 1);
-            }
-            else if (object instanceof Car && object.getDamage() >= 0)
-            {
-                //since we have 3 state of cars, we should define another case
-                changeImage(object, 0);
             }
         }
     }
@@ -242,11 +247,11 @@ public class CollisionDetector {
         if (imageName.contains("_")) {
             int tempCount = imageName.length() - imageName.replace("_", "").length();
             if (tempCount == 2) {
-                return imageName.substring(0, imageName.lastIndexOf('.') - 1);
+                return imageName.substring(0, imageName.lastIndexOf('.'));
             }
-            return imageName.substring(0, imageName.lastIndexOf('_') - 1);
+            return imageName.substring(0, imageName.lastIndexOf('_'));
         } else {
-            return imageName.substring(0, imageName.lastIndexOf('.') - 1);
+            return imageName.substring(0, imageName.lastIndexOf('.'));
         }
     }
 

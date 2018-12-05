@@ -35,7 +35,6 @@ public abstract class Movable extends Collidable {
     }
 
     private double calculateSpeed(Movable movable) {
-
         System.out.print("lastX: " + lastX + ", LastY: " + lastY + ", X: " + x + ", Y: " + y + ", ");
         double distanceTraveled = Utils.convertPixelToMeter((int) Math.sqrt(Math.pow(x - lastX, 2) + Math.pow(y - lastY, 2)));
         System.out.print("Distance traveled in this frame: " + distanceTraveled + " m");

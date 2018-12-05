@@ -174,4 +174,5 @@ public class AutomatedCar extends Car {
         }
         return summedForces;
     }
+
 }
