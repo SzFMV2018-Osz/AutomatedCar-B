@@ -117,15 +117,15 @@ public class CourseDisplay extends JPanel {
     }
 
     /**
-     * Draws the world to the course display.
-     *
-     * @param world {@link World} object that describes the virtual world
+     * To start the cycle (FPS fix).
      */
-
     public void startCycle() {
         cycleStart = cal.getTimeInMillis();
     }
 
+    /**
+     * To end the cycle (FPS fix).
+     */
     public void endCycle(){
         // FIX FPS
         cycleLength = cal.getTimeInMillis() - cycleStart;
@@ -143,6 +143,10 @@ public class CourseDisplay extends JPanel {
         }
     }
 
+    /**
+     * Draw the hole world.
+     * @param world The world we see.
+     */
     public void drawWorld(
             final World world) {
         Image offscreen = createImage(world.getWidth(), world.getHeight());

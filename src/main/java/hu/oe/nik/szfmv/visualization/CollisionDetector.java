@@ -154,6 +154,10 @@ public class CollisionDetector {
         return false;
     }
 
+    /**
+     * Hit image change, depend on the hit rate.
+     * @param object wordl object
+     */
     private void imageChanger(WorldObject object)
     {
         if(object instanceof  Car) {

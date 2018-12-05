@@ -270,6 +270,10 @@ public class Dashboard extends JPanel {
         return dangerZoneLabel.isVisible();
     }
 
+    /**
+     * To see drive fast on dashboard.
+     * @param state ture or false.
+     */
     public static void setDriveFastVisibility(boolean state){
         driveFastLabel.setVisible(state);
     }
