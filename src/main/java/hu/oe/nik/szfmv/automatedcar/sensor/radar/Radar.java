@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.packets.RadarPacket;
 import hu.oe.nik.szfmv.automatedcar.sensor.Triangle;
 import hu.oe.nik.szfmv.automatedcar.systemcomponents.SystemComponent;
 import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Collidable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +40,16 @@ public class Radar extends SystemComponent {
      */
     public List<WorldObject> findWorldObjectsInRadarTriangle(List<WorldObject> worldObjects) {
         List<WorldObject> inTriangleList = new ArrayList<>();
-        for (WorldObject wordObject : worldObjects) {
-            if (triangle.isInTheTriangle(wordObject.getX(), wordObject.getY())) {
-                inTriangleList.add(wordObject);
+        for (WorldObject worldObject : worldObjects) {
+            if (worldObject instanceof Collidable && triangle.isInTheTriangle(worldObject.getX(), worldObject.getY())) {
+                inTriangleList.add(worldObject);
             }
         }
         return inTriangleList;
+    }
+
+    public boolean isObjectInRadarTriangle(double x, double y){
+        return triangle.isInTheTriangle(x, y);
     }
 
     /**

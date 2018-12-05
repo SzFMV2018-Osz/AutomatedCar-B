@@ -85,6 +85,7 @@ public class AutomatedCar extends Car {
         else {
             Dashboard.setDriveFastVisibility(false);
         }
+        radar.loop();
     }
 
     /**
@@ -178,4 +179,7 @@ public class AutomatedCar extends Car {
         return summedForces;
     }
 
+    public Radar getRadar() {
+        return radar;
+    }
 }
