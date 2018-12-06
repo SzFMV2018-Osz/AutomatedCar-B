@@ -48,7 +48,9 @@ public class WorldObject {
         return this.height;
     }
 
-    public float getRotation() { return rotation; }
+    public float getRotation() {
+        return rotation;
+    }
 
     public String getImageFileName() {
         return this.imageFileName;
@@ -78,10 +80,14 @@ public class WorldObject {
         this.imageFileName = imageFileName;
     }
 
-    public double getDamage() { return this.damage; }
+    public double getDamage() {
+        return this.damage;
+    }
 
-    public void addDamage(double factor) { this.damage += factor; }
-    // public BufferedImage getImage() {
-    // return image;
-    // }
+    public void addDamage(double factor) {
+        this.damage += factor;
+    }
+        // public BufferedImage getImage() {
+        // return image;
+        // }
 }
