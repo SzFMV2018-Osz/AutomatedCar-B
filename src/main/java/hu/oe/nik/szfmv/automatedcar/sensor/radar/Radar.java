@@ -39,7 +39,7 @@ public class Radar extends SystemComponent {
      * @return These are in triangle
      */
     public List<WorldObject> findWorldObjectsInRadarTriangle(List<WorldObject> worldObjects) {
-        List<WorldObject> inTriangleList = new ArrayList<>();
+        List<WorldObject> inTriangleList = new ArrayList<WorldObject>();
         for (WorldObject worldObject : worldObjects) {
             if (worldObject instanceof Collidable && triangle.isInTheTriangle(worldObject.getX(), worldObject.getY())) {
                 inTriangleList.add(worldObject);

@@ -126,7 +126,7 @@ public class CourseDisplay extends JPanel {
     /**
      * To end the cycle (FPS fix).
      */
-    public void endCycle(){
+    public void endCycle() {
         // FIX FPS
         cycleLength = cal.getTimeInMillis() - cycleStart;
         // Calculate necessary delay time (elapsed time * TARGET FPS)
@@ -284,8 +284,7 @@ public class CourseDisplay extends JPanel {
      */
     private double modifyScaleFactorFor(final int current) {
         double roundedScale = Math.round(current * SCALING_FACTOR);
-        double modifiedScaleFactor = roundedScale / current;
-        return modifiedScaleFactor;
+        return roundedScale / current;
     }
 
     /**

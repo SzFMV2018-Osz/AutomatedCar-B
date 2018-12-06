@@ -121,11 +121,15 @@ public class CollisionDetector {
                         }
                         else if (object instanceof Movable) {
 
-                            object.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
-                            carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
+                            object.addDamage(calculateDamage(
+                                    ((Movable)carObject).getSpeed(),
+                                    ((Movable)object).getSpeed()));
+                            carObject.addDamage(calculateDamage(
+                                    ((Movable)carObject).getSpeed(),
+                                    ((Movable)object).getSpeed()));
                             imageChanger(object);
                             imageChanger(carObject);
-                            if( critHitHappened(carObject.getSpeed(), ((Movable) object).getSpeed())) {
+                            if ( critHitHappened(carObject.getSpeed(), ((Movable) object).getSpeed())) {
                                 System.out.println("Kritikus utkozes tortent, játék vége!");
                                 return true;
                             }
@@ -141,14 +145,19 @@ public class CollisionDetector {
                             carObject.addDamage(dmg);
                             imageChanger(object);
                             imageChanger(carObject);
-                            if( critHitHappened(carObject.getSpeed(), 0)) {
-                                System.out.println("Kritikus utkozes tortent, nekimentel egy fanak. Damage: " + dmg + " játék vége!");
+                            if ( critHitHappened(carObject.getSpeed(), 0)) {
+                                System.out.println("Kritikus utkozes tortent" +
+                                        ", nekimentel egy fanak. Damage: "
+                                        + dmg + " játék vége!");
                                 return true;
                             }
                         }
                     }
-                    if (object instanceof Collidable && carObject.getRadar().isObjectInRadarTriangle(tempShape.getBounds2D().getX(), tempShape.getBounds2D().getY())) {
-                        if(object instanceof Human && object instanceof Tree){
+                    if (object instanceof Collidable
+                            && carObject.getRadar().isObjectInRadarTriangle(
+                                    tempShape.getBounds2D().getX(),
+                            tempShape.getBounds2D().getY())) {
+                        if (object instanceof Human && object instanceof Tree) {
                             carObject.stop();
                         }
                         thereIsSomethingInTheWay = true;
@@ -167,24 +176,22 @@ public class CollisionDetector {
      */
     private void imageChanger(WorldObject object)
     {
-        if(object instanceof  Car) {
+        if (object instanceof  Car) {
             if (object.getDamage() >= 60) {
                 changeImage(object, 2);
             }
             else if (object.getDamage() >= 30) {
-                changeImage(object,1);
+                changeImage(object, 1);
             }
             else if (object.getDamage() >= 5) {
-                changeImage(object,0);
+                changeImage(object, 0);
             }
         }
-        else{
-            if (object.getDamage() >= 60)
-            {
+        else {
+            if (object.getDamage() >= 60) {
                 changeImage(object, 2);
             }
-            else if (object.getDamage() >= 30)
-            {
+            else if (object.getDamage() >= 30) {
                 changeImage(object, 1);
             }
         }
