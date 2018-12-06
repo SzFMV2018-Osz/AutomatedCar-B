@@ -48,7 +48,14 @@ public class Radar extends SystemComponent {
         return inTriangleList;
     }
 
+    /**
+     * Check the hit.
+     * @param x X koordinate.
+     * @param y y koordinate
+     * @return true or false.
+     */
     public boolean isObjectInRadarTriangle(double x, double y){
+
         return triangle.isInTheTriangle(x, y);
     }
 
