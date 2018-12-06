@@ -262,22 +262,34 @@ public class Dashboard extends JPanel {
         LEFT, RIGHT
     }
 
-    public static void setDangerZoneVisibility(boolean state){
+    /**
+     * To set danger zone on dashboard.
+     * @param state
+     */
+    public static void setDangerZoneVisibility(boolean state) {
         dangerZoneLabel.setVisible(state);
     }
 
-    public static boolean getDangerZoneVisibility(){
+    /**
+     * To see danger zone on dashboard.
+     * @return
+     */
+    public static boolean getDangerZoneVisibility() {
         return dangerZoneLabel.isVisible();
     }
 
     /**
-     * To see drive fast on dashboard.
+     * To set drive fast on dashboard.
      * @param state ture or false.
      */
-    public static void setDriveFastVisibility(boolean state){
+    public static void setDriveFastVisibility(boolean state) {
         driveFastLabel.setVisible(state);
     }
 
+    /**
+     * To see drive fast on dashboard.
+     * @return ture or false.
+     */
     public static boolean getDriveFastVisibility(){
         return driveFastLabel.isVisible();
     }
