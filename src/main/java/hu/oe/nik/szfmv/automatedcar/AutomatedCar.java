@@ -184,10 +184,12 @@ public class AutomatedCar extends Car {
         return radar;
     }
 
+    /**
+     * To stop the car when hit is happened.
+     */
     public void stop() {
         //velocityPacket.setVelocity(new double[]{0,0});
         double[] velo = calcVelocity();
-
-        velocityPacket.setVelocity(BrakingForces.calcBrakeForceVector(velo[0],velo[1],5000));
+        velocityPacket.setVelocity(BrakingForces.calcBrakeForceVector(velo[0], velo[1], 5000));
     }
 }
