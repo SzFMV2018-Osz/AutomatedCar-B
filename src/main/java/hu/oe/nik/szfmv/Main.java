@@ -93,6 +93,6 @@ public class Main {
             gui.getCourseDisplay().drawWorld(w);
             gui.getDashboard().display(car.getDashboardPacket(), car.getControlsPacket(), dashboardDebugIsEnabled);
             gui.getCourseDisplay().endCycle();
-        } while(!gameOver);
+        } while (!gameOver);
     }
 }
