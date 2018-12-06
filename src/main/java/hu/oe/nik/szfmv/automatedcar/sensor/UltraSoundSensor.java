@@ -3,10 +3,10 @@ package hu.oe.nik.szfmv.automatedcar.sensor;
 import hu.oe.nik.szfmv.environment.WorldObject;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Collidable;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.awt.*;
 
 public class UltraSoundSensor extends SensorBase implements ISensor {
     /**

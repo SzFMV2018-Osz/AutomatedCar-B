@@ -81,14 +81,18 @@ public class Main {
         //setup the instance of collisiondetector
         singleton.setCarObject(car);
 
-        while (!singleton.checkCollisions()) {
-            car.drive();
+        boolean gameOver = false;
+        do {
+            gameOver = singleton.checkCollisions();
+            gui.getCourseDisplay().startCycle();
+            car.move();
             // create gui
             ((NpcCar)npc).move();
             ((Human)human).move();
             ((Bicycle)bicycle).move();
             gui.getCourseDisplay().drawWorld(w);
             gui.getDashboard().display(car.getDashboardPacket(), car.getControlsPacket(), dashboardDebugIsEnabled);
-        }
+            gui.getCourseDisplay().endCycle();
+        } while (!gameOver);
     }
 }

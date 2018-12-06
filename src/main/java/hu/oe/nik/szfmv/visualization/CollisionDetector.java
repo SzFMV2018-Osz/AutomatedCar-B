@@ -2,13 +2,13 @@ package hu.oe.nik.szfmv.visualization;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.WorldObject;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.Collidable;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,7 +27,7 @@ public class CollisionDetector {
     /**
      * Constans double, for the critical hit speed.
      */
-    private static final double CRITICALHITSPEED = 60;
+    private static final double CRITICALHITSPEED = 55;
     /**
      * Constans double, for the survivable hit speed.
      */
@@ -47,14 +47,14 @@ public class CollisionDetector {
     /**
      * All world object.
      */
-    private List<WorldObject> obstacles = new ArrayList<>();
+    private List<WorldObject> obstacles = new ArrayList<WorldObject>();
 
 
     /**
      * Constructor for the class.
      */
     private CollisionDetector() {
-        colliders = new ArrayList<>();
+        colliders = new ArrayList<ColliderModel>();
         try {
             readXML4Colliders();
         } catch (IOException e) {
@@ -109,62 +109,93 @@ public class CollisionDetector {
                 carShape = createTransformedShapeForCollision(carObject, collider);
             }
         }
+        boolean thereIsSomethingInTheWay = false;
         for (WorldObject object: obstacles) {
             for (ColliderModel collider: colliders) {
                 if (getPureImageName(collider.getName()).equals(getPureImageName(object.getImageFileName()))) {
                     Shape tempShape = createTransformedShapeForCollision(object, collider);
                     if (carShape.getBounds2D().intersects(tempShape.getBounds2D())) {
-//                        if (object instanceof Human
-//                                  || object instanceof Bicycle) return true;
-//                        if (!(object instanceof Movable)
-//                              && critHitHappened(
-//                                  ((Movable)carObject).getSpeed(), 0)) {
-//                            imageChanger();
-//                            return true;
-//                        } else if ((object instanceof Movable)
-//                              && critHitHappened(((Movable)carObject).getSpeed(),
-//                                  ((Movable)object).getSpeed())) {
-//                            imageChanger();
-//                            return true;
-//                        } else {
-//                            if (object instanceof Movable) {
-//                                object.addDamage(calculateDamage(((Movable)carObject).
-//                                      getSpeed(),
-//                                      ((Movable)object).getSpeed()));
-//                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), ((Movable)object).getSpeed()));
-//                            } else {
-//                                object.addDamage(calculateDamage(((Movable)carObject).getSpeed(), 0));
-//                                carObject.addDamage(calculateDamage(((Movable)carObject).getSpeed(), 0));
-//                            }
-//                            imageChanger();
-//                        }
+                        if (object instanceof Human || object instanceof Bicycle) {
+                            System.out.println("Gyalogost vagy bicajost gázoltál, játék vége!");
+                            return true;
+                        }
+                        else if (object instanceof Movable) {
+
+                            object.addDamage(calculateDamage(
+                                    ((Movable)carObject).getSpeed(),
+                                    ((Movable)object).getSpeed()));
+                            carObject.addDamage(calculateDamage(
+                                    ((Movable)carObject).getSpeed(),
+                                    ((Movable)object).getSpeed()));
+                            imageChanger(object);
+                            imageChanger(carObject);
+                            if ( critHitHappened(carObject.getSpeed(), ((Movable) object).getSpeed())) {
+                                System.out.println("Kritikus utkozes tortent, játék vége!");
+                                return true;
+                            }
+                            else {
+                                System.out.println("Utkozes tortent, de nem kritikus...");
+                                return false;
+                            }
+                        }
+                        else {
+                            System.out.println("Fanak mentel vaze??");
+                            double dmg = calculateDamage(((Movable)carObject).getSpeed(), 0);
+                            object.addDamage(dmg);
+                            carObject.addDamage(dmg);
+                            imageChanger(object);
+                            imageChanger(carObject);
+                            if ( critHitHappened(carObject.getSpeed(), 0)) {
+                                System.out.println("Kritikus utkozes tortent" +
+                                        ", nekimentel egy fanak. Damage: "
+                                        + dmg + " játék vége!");
+                                return true;
+                            }
+                        }
+                    }
+                    if (object instanceof Collidable
+                            && carObject.getRadar().isObjectInRadarTriangle(
+                                    tempShape.getBounds2D().getX(),
+                            tempShape.getBounds2D().getY())) {
+                        if (object instanceof Human && object instanceof Tree) {
+                            carObject.stop();
+                        }
+                        thereIsSomethingInTheWay = true;
                     }
                     break;
                 }
             }
         }
+        Dashboard.setDangerZoneVisibility(thereIsSomethingInTheWay);
         return false;
     }
 
-//    private void imageChanger()
-//    {
-//        for(WorldObject object : obstacles)
-//        {
-//            if (object.getDamage() >= 60)
-//            {
-//                changeImage(object, 2);
-//            }
-//            else if (object.getDamage() >= 30)
-//            {
-//                changeImage(object, 1);
-//            }
-//            else if (object instanceof Car && object.getDamage() >= 0)
-//            {
-//                //since we have 3 state of cars, we should define another case
-//                changeImage(object, 0);
-//            }
-//        }
-//    }
+    /**
+     * Hit image change, depend on the hit rate.
+     * @param object wordl object
+     */
+    private void imageChanger(WorldObject object)
+    {
+        if (object instanceof  Car) {
+            if (object.getDamage() >= 60) {
+                changeImage(object, 2);
+            }
+            else if (object.getDamage() >= 30) {
+                changeImage(object, 1);
+            }
+            else if (object.getDamage() >= 5) {
+                changeImage(object, 0);
+            }
+        }
+        else {
+            if (object.getDamage() >= 60) {
+                changeImage(object, 2);
+            }
+            else if (object.getDamage() >= 30) {
+                changeImage(object, 1);
+            }
+        }
+    }
 
     /**
      * ChangeImage, if its broken or destroyed.
@@ -248,11 +279,11 @@ public class CollisionDetector {
         if (imageName.contains("_")) {
             int tempCount = imageName.length() - imageName.replace("_", "").length();
             if (tempCount == 2) {
-                return imageName.substring(0, imageName.lastIndexOf('.') - 1);
+                return imageName.substring(0, imageName.lastIndexOf('.'));
             }
-            return imageName.substring(0, imageName.lastIndexOf('_') - 1);
+            return imageName.substring(0, imageName.lastIndexOf('_'));
         } else {
-            return imageName.substring(0, imageName.lastIndexOf('.') - 1);
+            return imageName.substring(0, imageName.lastIndexOf('.'));
         }
     }
 

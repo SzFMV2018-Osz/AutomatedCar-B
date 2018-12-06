@@ -1,8 +1,5 @@
 package hu.oe.nik.szfmv.automatedcar;
 
-import java.util.Arrays;
-import java.util.List;
-
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.PositionPacket;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.VelocityPacket;
@@ -13,13 +10,12 @@ import hu.oe.nik.szfmv.automatedcar.engine.BrakingForces;
 import hu.oe.nik.szfmv.automatedcar.engine.TurningHandler;
 import hu.oe.nik.szfmv.automatedcar.sensor.Camera;
 import hu.oe.nik.szfmv.automatedcar.sensor.radar.Radar;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.DashboardManager;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.Driver;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.InputManager;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.PowertrainSystem;
-import hu.oe.nik.szfmv.automatedcar.systemcomponents.SteeringSystem;
-import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.automatedcar.systemcomponents.*;
 import hu.oe.nik.szfmv.environment.worldobjectclasses.Car;
+import hu.oe.nik.szfmv.visualization.Dashboard;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class AutomatedCar extends Car {
 
@@ -69,6 +65,12 @@ public class AutomatedCar extends Car {
         new Driver(virtualFunctionBus);
     }
 
+    @Override
+    public void move() {
+        updateLastPosition();
+        drive();
+    }
+
     /**
      * Provides a sample method for modifying the position of the car.
      */
@@ -76,6 +78,15 @@ public class AutomatedCar extends Car {
         dashboardManager.actualisePosition(x, y);
         virtualFunctionBus.loop();
         calculatePositionAndOrientation();
+        
+        if (getDashboardPacket().getSpeed() > 50) {
+            Dashboard.setDriveFastVisibility(true);
+        }
+        else {
+            Dashboard.setDriveFastVisibility(false);
+        }
+        radar.loop();
+
     }
 
     /**
@@ -167,5 +178,18 @@ public class AutomatedCar extends Car {
             summedForces[1] += force[1];
         }
         return summedForces;
+    }
+
+    public Radar getRadar() {
+        return radar;
+    }
+
+    /**
+     * To stop the car when hit is happened.
+     */
+    public void stop() {
+        //velocityPacket.setVelocity(new double[]{0,0});
+        double[] velo = calcVelocity();
+        velocityPacket.setVelocity(BrakingForces.calcBrakeForceVector(velo[0], velo[1], 5000));
     }
 }

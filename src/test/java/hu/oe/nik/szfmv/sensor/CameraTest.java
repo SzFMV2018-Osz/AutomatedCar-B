@@ -1,12 +1,11 @@
 package hu.oe.nik.szfmv.sensor;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.bus.packets.PositionPacket;
 import hu.oe.nik.szfmv.automatedcar.sensor.Camera;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 public class CameraTest {
 

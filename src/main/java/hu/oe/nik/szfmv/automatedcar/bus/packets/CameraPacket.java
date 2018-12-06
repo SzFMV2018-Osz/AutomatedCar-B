@@ -1,9 +1,9 @@
 package hu.oe.nik.szfmv.automatedcar.bus.packets;
 
-import java.util.Optional;
-
 import hu.oe.nik.szfmv.automatedcar.bus.packets.interfaces.ICameraPacket;
 import hu.oe.nik.szfmv.environment.WorldObject;
+
+import java.util.Optional;
 
 public class CameraPacket implements ICameraPacket {
 

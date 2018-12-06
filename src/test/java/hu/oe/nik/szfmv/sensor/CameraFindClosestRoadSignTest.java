@@ -1,16 +1,15 @@
 package hu.oe.nik.szfmv.sensor;
 
+import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.Human;
+import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import org.junit.Assert;
-import org.junit.Test;
-
-import hu.oe.nik.szfmv.environment.WorldObject;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.Human;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.RoadSign;
 
 public class CameraFindClosestRoadSignTest extends CameraTestBase {
 

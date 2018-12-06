@@ -1,7 +1,5 @@
 package hu.oe.nik.szfmv.environment.worldobjectclasses;
 
-import hu.oe.nik.szfmv.common.Utils;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -31,6 +29,7 @@ public class Bicycle extends Movable {
             Gi = 0;
         }
         if (coordinates != null) {
+            updateLastPosition();
             this.x = (int)(coordinates[Gi][0]);
             this.y = (int)(coordinates[Gi][1]);
             this.setRotation(coordinates[Gi][2]);

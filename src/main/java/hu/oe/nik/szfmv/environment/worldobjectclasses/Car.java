@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.environment.worldobjectclasses;
 
-public abstract class Car extends Movable {
+public abstract class Car extends Movable  {
     /**
      * Creates an object of the virtual world on the given coordinates with the given image.
      *

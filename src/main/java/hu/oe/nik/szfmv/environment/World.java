@@ -1,13 +1,10 @@
 package hu.oe.nik.szfmv.environment;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
-import hu.oe.nik.szfmv.environment.worldobjectclasses.NpcCar;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 
 public class World {
     public static List<WorldObject> objects;
